@@ -34,8 +34,18 @@ model User {
   email String  @unique
   password  String
   role  Role  @default(CUSTOMER)
-
 }
 
+model Restaurant {
+  id  String  @id @default(uuid())
+  ownerId String
+  name  String
+  location  String
+  verified  Boolean
+
+  owner User  @relation(fields: [ownerId],references: [id])
+
+
+}
 
 
