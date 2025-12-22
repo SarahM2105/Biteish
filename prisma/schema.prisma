@@ -44,8 +44,15 @@ model Restaurant {
   verified  Boolean
 
   owner User  @relation(fields: [ownerId],references: [id])
-
-
+  zones Zone[]
 }
 
+model Zone {
+  id  String  @id @default(uuid())
+  restaurantId  String
+  name  String
+  description String?
+
+  restaurant  Restaurant @relation(fields: [restaurantId], references: [id])
+}
 
