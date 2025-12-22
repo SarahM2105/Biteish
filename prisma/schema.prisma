@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
@@ -29,30 +29,45 @@ enum ReservationStatus {
 }
 
 model User {
-  id  String @id @default(uuid())
-  name  String
-  email String  @unique
-  password  String
-  role  Role  @default(CUSTOMER)
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+  role     Role   @default(CUSTOMER)
+
+  restaurants Restaurant[]
 }
 
 model Restaurant {
-  id  String  @id @default(uuid())
-  ownerId String
-  name  String
-  location  String
-  verified  Boolean
+  id       String  @id @default(uuid())
+  ownerId  String
+  name     String
+  location String
+  verified Boolean @default(false)
 
-  owner User  @relation(fields: [ownerId],references: [id])
-  zones Zone[]
+  owner  User    @relation(fields: [ownerId], references: [id])
+  zones  Zone[]
+  tables Table[]
 }
 
 model Zone {
-  id  String  @id @default(uuid())
-  restaurantId  String
-  name  String
-  description String?
+  id           String  @id @default(uuid())
+  restaurantId String
+  name         String
+  description  String?
 
-  restaurant  Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
+  tables     Table[]
 }
 
+model Table {
+  id           String  @id @default(uuid())
+  zoneId       String
+  restaurantId String
+  capacity     Int
+  reserveable  Boolean @default(true)
+  active       Boolean @default(true)
+
+  zone       Zone       @relation(fields: [zoneId], references: [id])
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
+}
