@@ -35,8 +35,9 @@ model User {
   password String
   role     Role   @default(CUSTOMER)
 
-  restaurants  Restaurant[]
-  reservations Reservation[]
+  restaurants   Restaurant[]
+  reservations  Reservation[]
+  notifications Notification[]
 }
 
 model Restaurant {
@@ -111,4 +112,17 @@ model QrToken {
   expiresAt     DateTime
   used          Boolean     @default(false)
   reservation   Reservation @relation(fields: [reservationId], references: [id])
+}
+
+model Notification {
+  id            String   @id @default(uuid())
+  userId        String
+  reservationId String?
+  type          String
+  title         String
+  message       String
+  isRead        Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
 }
