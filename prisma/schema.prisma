@@ -101,4 +101,14 @@ model Reservation {
   user       User       @relation(fields: [userId], references: [id])
   restaurant Restaurant @relation(fields: [restaurantId], references: [id])
   table      Table      @relation(fields: [tableId], references: [id])
+  qrToken QrToken?
+}
+
+model QrToken {
+  id  String @id @default(uuid())
+  reservationId String
+  token String  @unique
+  expiresAt DateTime
+  used  Boolean
+  reservation Reservation @relation(fields: [reservationId], references: [id])
 }
