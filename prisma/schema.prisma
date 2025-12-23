@@ -28,6 +28,16 @@ enum ReservationStatus {
   NO_SHOW
 }
 
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
 model User {
   id       String @id @default(uuid())
   name     String
@@ -55,6 +65,7 @@ model Restaurant {
   reservations Reservation[]
   review       Review[]
   favorites    Favorite[]
+  openingHours OpeningHour[]
 }
 
 model Zone {
@@ -149,5 +160,16 @@ model Favorite {
   createdAt    DateTime @default(now())
 
   user       User       @relation(fields: [userId], references: [id])
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
+}
+
+model OpeningHour {
+  id           String    @id @default(uuid())
+  restaurantId String
+  day          DayOfWeek
+  opensAt      String
+  closesAt     String
+  closed       Boolean   @default(false)
+
   restaurant Restaurant @relation(fields: [restaurantId], references: [id])
 }
