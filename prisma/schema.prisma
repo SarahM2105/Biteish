@@ -13,6 +13,16 @@ datasource db {
   provider = "postgresql"
 }
 
+enum AuditEntity {
+  USER
+  RESTAURANT
+  RESERVATION
+  REVIEW
+  TABLE
+  BOOKING_RULE
+  OPENING_HOUR
+}
+
 enum Role {
   CUSTOMER
   OWNER
@@ -50,6 +60,7 @@ model User {
   notifications Notification[]
   reviews       Review[]
   favorites     Favorite[]
+  auditLogs     AuditLog[]
 }
 
 model Restaurant {
@@ -63,10 +74,10 @@ model Restaurant {
   zones         Zone[]
   tables        Table[]
   reservations  Reservation[]
-  review        Review[]
+  reviews       Review[]
   favorites     Favorite[]
   openingHours  OpeningHour[]
-  bookingRule   BookingRule[]
+  bookingRule   BookingRule?
   tags          RestaurantTag[]
   accessibility RestaurantAccessibility[]
 }
@@ -86,7 +97,7 @@ model Table {
   zoneId       String
   restaurantId String
   capacity     Int
-  reserveable  Boolean @default(true)
+  reservable   Boolean @default(true)
   active       Boolean @default(true)
 
   zone           Zone                  @relation(fields: [zoneId], references: [id])
@@ -117,10 +128,11 @@ model Reservation {
   status       ReservationStatus @default(PENDING)
   createdAt    DateTime          @default(now())
 
-  user       User       @relation(fields: [userId], references: [id])
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
-  table      Table      @relation(fields: [tableId], references: [id])
-  qrToken    QrToken?
+  user          User           @relation(fields: [userId], references: [id])
+  restaurant    Restaurant     @relation(fields: [restaurantId], references: [id])
+  table         Table          @relation(fields: [tableId], references: [id])
+  qrToken       QrToken?
+  notifications Notification[]
 }
 
 model QrToken {
@@ -142,7 +154,8 @@ model Notification {
   isRead        Boolean  @default(false)
   createdAt     DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id])
+  reservation Reservation? @relation(fields: [reservationId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
 }
 
 model Review {
@@ -158,12 +171,15 @@ model Review {
 }
 
 model Favorite {
-  userId       String   @id @default(uuid())
+  id           String   @id @default(uuid())
+  userId       String
   restaurantId String
   createdAt    DateTime @default(now())
 
   user       User       @relation(fields: [userId], references: [id])
   restaurant Restaurant @relation(fields: [restaurantId], references: [id])
+
+  @@unique([userId, restaurantId])
 }
 
 model OpeningHour {
@@ -172,7 +188,7 @@ model OpeningHour {
   day          DayOfWeek
   opensAt      String
   closesAt     String
-  createdAt    DateTime
+  createdAt    DateTime  @default(now())
 
   restaurant Restaurant @relation(fields: [restaurantId], references: [id])
 }
@@ -201,7 +217,7 @@ model Tag {
   categoryId String
   name       String @unique
 
-  Category    TagCategory     @relation(fields: [categoryId], references: [id])
+  category    TagCategory     @relation(fields: [categoryId], references: [id])
   restaurants RestaurantTag[]
 }
 
@@ -233,4 +249,16 @@ model RestaurantAccessibility {
   option     AccessibilityOption @relation(fields: [optionId], references: [id])
 
   @@unique([restaurantId, optionId])
+}
+
+model AuditLog {
+  id          String      @id @default(uuid())
+  userId      String?
+  occurredAt  DateTime    @default(now())
+  action      String
+  entity      AuditEntity
+  entityId    String?
+  description String
+
+  user User? @relation(fields: [userId], references: [id])
 }
