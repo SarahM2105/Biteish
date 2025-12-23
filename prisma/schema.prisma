@@ -169,6 +169,7 @@ model OpeningHour {
   day          DayOfWeek
   opensAt      String
   closesAt     String
+  createdAt    DateTime
 
   restaurant Restaurant @relation(fields: [restaurantId], references: [id])
 }
