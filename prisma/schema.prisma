@@ -39,6 +39,7 @@ model User {
   reservations  Reservation[]
   notifications Notification[]
   reviews       Review[]
+  favorites     Favorite[]
 }
 
 model Restaurant {
@@ -53,6 +54,7 @@ model Restaurant {
   tables       Table[]
   reservations Reservation[]
   review       Review[]
+  favorites    Favorite[]
 }
 
 model Zone {
@@ -135,6 +137,15 @@ model Review {
   restaurantId String
   rating       Int
   comment      String?
+  createdAt    DateTime @default(now())
+
+  user       User       @relation(fields: [userId], references: [id])
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
+}
+
+model Favorite {
+  userId       String   @id @default(uuid())
+  restaurantId String
   createdAt    DateTime @default(now())
 
   user       User       @relation(fields: [userId], references: [id])
