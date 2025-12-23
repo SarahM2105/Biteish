@@ -59,7 +59,7 @@ model Restaurant {
   location String
   verified Boolean @default(false)
 
-  owner        User          @relation(fields: [ownerId], references: [id])
+  owner        User            @relation(fields: [ownerId], references: [id])
   zones        Zone[]
   tables       Table[]
   reservations Reservation[]
@@ -67,6 +67,7 @@ model Restaurant {
   favorites    Favorite[]
   openingHours OpeningHour[]
   bookingRule  BookingRule[]
+  tags         RestaurantTag[]
 }
 
 model Zone {
@@ -184,4 +185,31 @@ model BookingRule {
   cancellationCutoffMinutes Int
 
   restaurant Restaurant @relation(fields: [restaurantId], references: [id])
+}
+
+model TagCategory {
+  id          String @id @default(uuid())
+  name        String @unique
+  description String
+
+  tags Tag[]
+}
+
+model Tag {
+  id         String @id @default(uuid())
+  categoryId String
+  name       String @unique
+
+  Category    TagCategory     @relation(fields: [categoryId], references: [id])
+  restaurants RestaurantTag[]
+}
+
+model RestaurantTag {
+  tagId        String
+  restaurantId String
+
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
+  tag        Tag        @relation(fields: [tagId], references: [id])
+
+  @@id([tagId, restaurantId])
 }
