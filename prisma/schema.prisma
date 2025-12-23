@@ -66,6 +66,7 @@ model Restaurant {
   review       Review[]
   favorites    Favorite[]
   openingHours OpeningHour[]
+  bookingRule  BookingRule[]
 }
 
 model Zone {
@@ -170,6 +171,17 @@ model OpeningHour {
   opensAt      String
   closesAt     String
   createdAt    DateTime
+
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
+}
+
+model BookingRule {
+  id                        String @id @default(uuid())
+  restaurantId              String @unique
+  maxPartySize              Int
+  daysAhead                 Int
+  slotMinutes               Int
+  cancellationCutoffMinutes Int
 
   restaurant Restaurant @relation(fields: [restaurantId], references: [id])
 }
