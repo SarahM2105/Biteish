@@ -6,13 +6,16 @@ async function register(req, res) {
     try{
         const {name, email, password, role} = req.body;
 
-        if (!name || !email || !password) {
+        if (!name){
+            return res.status(400).json({error:"name is required"});
+        }
+        if (!email || !password) {
             return res.status(400).send({error: 'Please enter a valid email/password'});
         }
 
         const existingUser = await prisma.user.findUnique({where: {email}});
         if (existingUser) {
-            return res.status(409).send({error: 'email already in use (ask if user wnats to log in or something)'});
+            return res.status(409).send({error: 'email already in use. You can use this email to login.'});
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await prisma.user.create({

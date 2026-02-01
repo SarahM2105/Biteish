@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -11,7 +5,208 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  //url = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  password      String
+  role          Role           @default(CUSTOMER)
+  name          String
+  auditLogs     AuditLog[]
+  favorites     Favorite[]
+  notifications Notification[]
+  reservations  Reservation[]
+  restaurants   Restaurant[]
+  reviews       Review[]
+}
+
+model Restaurant {
+  id            String                    @id @default(uuid())
+  ownerId       String
+  name          String
+  location      String
+  verified      Boolean                   @default(false)
+  bookingRule   BookingRule?
+  favorites     Favorite[]
+  openingHours  OpeningHour[]
+  reservations  Reservation[]
+  owner         User                      @relation(fields: [ownerId], references: [id])
+  accessibility RestaurantAccessibility[]
+  tags          RestaurantTag[]
+  reviews       Review[]
+  tables        Table[]
+  zones         Zone[]
+}
+
+model Zone {
+  id           String     @id @default(uuid())
+  restaurantId String
+  name         String
+  description  String?
+  tables       Table[]
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+}
+
+model Table {
+  id             String                @id @default(uuid())
+  zoneId         String
+  restaurantId   String
+  capacity       Int
+  active         Boolean               @default(true)
+  name           String
+  reservable     Boolean               @default(true)
+  reservations   Reservation[]
+  restaurant     Restaurant            @relation(fields: [restaurantId], references: [id])
+  zone           Zone                  @relation(fields: [zoneId], references: [id])
+  unavailability TableUnavailability[]
+
+  @@unique([restaurantId, name])
+}
+
+model TableUnavailability {
+  id       String   @id @default(uuid())
+  tableId  String
+  startsAt DateTime
+  endsAt   DateTime
+  reason   String
+  table    Table    @relation(fields: [tableId], references: [id])
+}
+
+model Reservation {
+  id            String            @id @default(uuid())
+  restaurantId  String
+  userId        String
+  tableId       String
+  startsAt      DateTime
+  endsAt        DateTime
+  partySize     Int
+  notes         String?
+  status        ReservationStatus @default(PENDING)
+  createdAt     DateTime          @default(now())
+  notifications Notification[]
+  qrToken       QrToken?
+  restaurant    Restaurant        @relation(fields: [restaurantId], references: [id])
+  table         Table             @relation(fields: [tableId], references: [id])
+  user          User              @relation(fields: [userId], references: [id])
+}
+
+model QrToken {
+  id            String      @id @default(uuid())
+  reservationId String      @unique
+  token         String      @unique
+  expiresAt     DateTime
+  used          Boolean     @default(false)
+  reservation   Reservation @relation(fields: [reservationId], references: [id])
+}
+
+model Notification {
+  id            String       @id @default(uuid())
+  userId        String
+  reservationId String?
+  type          String
+  title         String
+  message       String
+  isRead        Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  reservation   Reservation? @relation(fields: [reservationId], references: [id])
+  user          User         @relation(fields: [userId], references: [id])
+}
+
+model Review {
+  id           String     @id @default(uuid())
+  userId       String
+  restaurantId String
+  rating       Int
+  comment      String?
+  createdAt    DateTime   @default(now())
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
+}
+
+model Favorite {
+  userId       String
+  restaurantId String
+  createdAt    DateTime   @default(now())
+  id           String     @id @default(uuid())
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
+
+  @@unique([userId, restaurantId])
+}
+
+model OpeningHour {
+  id           String     @id @default(uuid())
+  restaurantId String
+  day          DayOfWeek
+  opensAt      String
+  closesAt     String
+  createdAt    DateTime   @default(now())
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+}
+
+model BookingRule {
+  id                        String     @id @default(uuid())
+  restaurantId              String     @unique
+  maxPartySize              Int
+  daysAhead                 Int
+  slotMinutes               Int
+  cancellationCutoffMinutes Int
+  restaurant                Restaurant @relation(fields: [restaurantId], references: [id])
+}
+
+model TagCategory {
+  id          String @id @default(uuid())
+  name        String @unique
+  description String
+  tags        Tag[]
+}
+
+model Tag {
+  id          String          @id @default(uuid())
+  categoryId  String
+  name        String          @unique
+  restaurants RestaurantTag[]
+  category    TagCategory     @relation(fields: [categoryId], references: [id])
+}
+
+model RestaurantTag {
+  id           String     @id @default(uuid())
+  tagId        String
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  tag          Tag        @relation(fields: [tagId], references: [id])
+
+  @@unique([restaurantId, tagId])
+}
+
+model AccessibilityOption {
+  id                        String                    @id @default(uuid())
+  optionName                String                    @unique
+  icon                      String?
+  description               String
+  restaurantAccessibilities RestaurantAccessibility[]
+}
+
+model RestaurantAccessibility {
+  id           String              @id @default(uuid())
+  restaurantId String
+  optionId     String
+  option       AccessibilityOption @relation(fields: [optionId], references: [id])
+  restaurant   Restaurant          @relation(fields: [restaurantId], references: [id])
+
+  @@unique([restaurantId, optionId])
+}
+
+model AuditLog {
+  id          String      @id @default(uuid())
+  userId      String?
+  occurredAt  DateTime    @default(now())
+  action      String
+  entity      AuditEntity
+  entityId    String?
+  description String
+  user        User?       @relation(fields: [userId], references: [id])
 }
 
 enum AuditEntity {
@@ -47,219 +242,4 @@ enum DayOfWeek {
   FRIDAY
   SATURDAY
   SUNDAY
-}
-
-model User {
-  id       String @id @default(uuid())
-  name     String
-  email    String @unique
-  password String
-  role     Role   @default(CUSTOMER)
-
-  restaurants   Restaurant[]
-  reservations  Reservation[]
-  notifications Notification[]
-  reviews       Review[]
-  favorites     Favorite[]
-  auditLogs     AuditLog[]
-}
-
-model Restaurant {
-  id       String  @id @default(uuid())
-  ownerId  String
-  name     String
-  location String
-  verified Boolean @default(false)
-
-  owner         User                      @relation(fields: [ownerId], references: [id])
-  zones         Zone[]
-  tables        Table[]
-  reservations  Reservation[]
-  reviews       Review[]
-  favorites     Favorite[]
-  openingHours  OpeningHour[]
-  bookingRule   BookingRule?
-  tags          RestaurantTag[]
-  accessibility RestaurantAccessibility[]
-}
-
-model Zone {
-  id           String  @id @default(uuid())
-  restaurantId String
-  name         String
-  description  String?
-
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
-  tables     Table[]
-}
-
-model Table {
-  id           String  @id @default(uuid())
-  zoneId       String
-  restaurantId String
-  capacity     Int
-  reservable   Boolean @default(true)
-  active       Boolean @default(true)
-
-  zone           Zone                  @relation(fields: [zoneId], references: [id])
-  restaurant     Restaurant            @relation(fields: [restaurantId], references: [id])
-  unavailability TableUnavailability[]
-  reservations   Reservation[]
-}
-
-model TableUnavailability {
-  id       String   @id @default(uuid())
-  tableId  String
-  startsAt DateTime
-  endsAt   DateTime
-  reason   String
-
-  table Table @relation(fields: [tableId], references: [id])
-}
-
-model Reservation {
-  id           String            @id @default(uuid())
-  restaurantId String
-  userId       String
-  tableId      String
-  startsAt     DateTime
-  endsAt       DateTime
-  partySize    Int
-  notes        String?
-  status       ReservationStatus @default(PENDING)
-  createdAt    DateTime          @default(now())
-
-  user          User           @relation(fields: [userId], references: [id])
-  restaurant    Restaurant     @relation(fields: [restaurantId], references: [id])
-  table         Table          @relation(fields: [tableId], references: [id])
-  qrToken       QrToken?
-  notifications Notification[]
-}
-
-model QrToken {
-  id            String      @id @default(uuid())
-  reservationId String      @unique
-  token         String      @unique
-  expiresAt     DateTime
-  used          Boolean     @default(false)
-  reservation   Reservation @relation(fields: [reservationId], references: [id])
-}
-
-model Notification {
-  id            String   @id @default(uuid())
-  userId        String
-  reservationId String?
-  type          String
-  title         String
-  message       String
-  isRead        Boolean  @default(false)
-  createdAt     DateTime @default(now())
-
-  reservation Reservation? @relation(fields: [reservationId], references: [id])
-  user        User         @relation(fields: [userId], references: [id])
-}
-
-model Review {
-  id           String   @id @default(uuid())
-  userId       String
-  restaurantId String
-  rating       Int
-  comment      String?
-  createdAt    DateTime @default(now())
-
-  user       User       @relation(fields: [userId], references: [id])
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
-}
-
-model Favorite {
-  id           String   @id @default(uuid())
-  userId       String
-  restaurantId String
-  createdAt    DateTime @default(now())
-
-  user       User       @relation(fields: [userId], references: [id])
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
-
-  @@unique([userId, restaurantId])
-}
-
-model OpeningHour {
-  id           String    @id @default(uuid())
-  restaurantId String
-  day          DayOfWeek
-  opensAt      String
-  closesAt     String
-  createdAt    DateTime  @default(now())
-
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
-}
-
-model BookingRule {
-  id                        String @id @default(uuid())
-  restaurantId              String @unique
-  maxPartySize              Int
-  daysAhead                 Int
-  slotMinutes               Int
-  cancellationCutoffMinutes Int
-
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
-}
-
-model TagCategory {
-  id          String @id @default(uuid())
-  name        String @unique
-  description String
-
-  tags Tag[]
-}
-
-model Tag {
-  id         String @id @default(uuid())
-  categoryId String
-  name       String @unique
-
-  category    TagCategory     @relation(fields: [categoryId], references: [id])
-  restaurants RestaurantTag[]
-}
-
-model RestaurantTag {
-  id           String @id @default(uuid())
-  tagId        String
-  restaurantId String
-
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
-  tag        Tag        @relation(fields: [tagId], references: [id])
-
-  @@unique([restaurantId, tagId])
-}
-
-model AccessibilityOption {
-  id                        String                    @id @default(uuid())
-  optionName                String                    @unique
-  icon                      String?
-  description               String
-  restaurantAccessibilities RestaurantAccessibility[]
-}
-
-model RestaurantAccessibility {
-  id           String @id @default(uuid())
-  restaurantId String
-  optionId     String
-
-  restaurant Restaurant          @relation(fields: [restaurantId], references: [id])
-  option     AccessibilityOption @relation(fields: [optionId], references: [id])
-
-  @@unique([restaurantId, optionId])
-}
-
-model AuditLog {
-  id          String      @id @default(uuid())
-  userId      String?
-  occurredAt  DateTime    @default(now())
-  action      String
-  entity      AuditEntity
-  entityId    String?
-  description String
-
-  user User? @relation(fields: [userId], references: [id])
 }

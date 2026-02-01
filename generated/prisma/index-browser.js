@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.2.0
- * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
+ * Prisma Client JS version: 7.3.0
+ * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
  */
 Prisma.prismaVersion = {
-  client: "7.2.0",
-  engine: "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3"
+  client: "7.3.0",
+  engine: "9d6ad21cbbceab97458517b147a6a09ff43aa735"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -122,10 +122,10 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  name: 'name',
   email: 'email',
   password: 'password',
-  role: 'role'
+  role: 'role',
+  name: 'name'
 };
 
 exports.Prisma.RestaurantScalarFieldEnum = {
@@ -148,8 +148,9 @@ exports.Prisma.TableScalarFieldEnum = {
   zoneId: 'zoneId',
   restaurantId: 'restaurantId',
   capacity: 'capacity',
-  reservable: 'reservable',
-  active: 'active'
+  active: 'active',
+  name: 'name',
+  reservable: 'reservable'
 };
 
 exports.Prisma.TableUnavailabilityScalarFieldEnum = {
@@ -202,10 +203,10 @@ exports.Prisma.ReviewScalarFieldEnum = {
 };
 
 exports.Prisma.FavoriteScalarFieldEnum = {
-  id: 'id',
   userId: 'userId',
   restaurantId: 'restaurantId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  id: 'id'
 };
 
 exports.Prisma.OpeningHourScalarFieldEnum = {
