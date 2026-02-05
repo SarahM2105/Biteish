@@ -44,6 +44,11 @@ export type TableUnavailability = $Result.DefaultSelection<Prisma.$TableUnavaila
  */
 export type Reservation = $Result.DefaultSelection<Prisma.$ReservationPayload>
 /**
+ * Model ReservationChangeRequest
+ * 
+ */
+export type ReservationChangeRequest = $Result.DefaultSelection<Prisma.$ReservationChangeRequestPayload>
+/**
  * Model QrToken
  * 
  */
@@ -154,6 +159,15 @@ export const DayOfWeek: {
 
 export type DayOfWeek = (typeof DayOfWeek)[keyof typeof DayOfWeek]
 
+
+export const ChangeStatus: {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  DECLINED: 'DECLINED'
+};
+
+export type ChangeStatus = (typeof ChangeStatus)[keyof typeof ChangeStatus]
+
 }
 
 export type AuditEntity = $Enums.AuditEntity
@@ -171,6 +185,10 @@ export const ReservationStatus: typeof $Enums.ReservationStatus
 export type DayOfWeek = $Enums.DayOfWeek
 
 export const DayOfWeek: typeof $Enums.DayOfWeek
+
+export type ChangeStatus = $Enums.ChangeStatus
+
+export const ChangeStatus: typeof $Enums.ChangeStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -348,6 +366,16 @@ export class PrismaClient<
     * ```
     */
   get reservation(): Prisma.ReservationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.reservationChangeRequest`: Exposes CRUD operations for the **ReservationChangeRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReservationChangeRequests
+    * const reservationChangeRequests = await prisma.reservationChangeRequest.findMany()
+    * ```
+    */
+  get reservationChangeRequest(): Prisma.ReservationChangeRequestDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.qrToken`: Exposes CRUD operations for the **QrToken** model.
@@ -908,6 +936,7 @@ export namespace Prisma {
     Table: 'Table',
     TableUnavailability: 'TableUnavailability',
     Reservation: 'Reservation',
+    ReservationChangeRequest: 'ReservationChangeRequest',
     QrToken: 'QrToken',
     Notification: 'Notification',
     Review: 'Review',
@@ -935,7 +964,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "restaurant" | "zone" | "table" | "tableUnavailability" | "reservation" | "qrToken" | "notification" | "review" | "favorite" | "openingHour" | "bookingRule" | "tagCategory" | "tag" | "restaurantTag" | "accessibilityOption" | "restaurantAccessibility" | "auditLog"
+      modelProps: "user" | "restaurant" | "zone" | "table" | "tableUnavailability" | "reservation" | "reservationChangeRequest" | "qrToken" | "notification" | "review" | "favorite" | "openingHour" | "bookingRule" | "tagCategory" | "tag" | "restaurantTag" | "accessibilityOption" | "restaurantAccessibility" | "auditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1380,6 +1409,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ReservationCountArgs<ExtArgs>
             result: $Utils.Optional<ReservationCountAggregateOutputType> | number
+          }
+        }
+      }
+      ReservationChangeRequest: {
+        payload: Prisma.$ReservationChangeRequestPayload<ExtArgs>
+        fields: Prisma.ReservationChangeRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReservationChangeRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationChangeRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReservationChangeRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationChangeRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.ReservationChangeRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationChangeRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReservationChangeRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationChangeRequestPayload>
+          }
+          findMany: {
+            args: Prisma.ReservationChangeRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationChangeRequestPayload>[]
+          }
+          create: {
+            args: Prisma.ReservationChangeRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationChangeRequestPayload>
+          }
+          createMany: {
+            args: Prisma.ReservationChangeRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReservationChangeRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationChangeRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.ReservationChangeRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationChangeRequestPayload>
+          }
+          update: {
+            args: Prisma.ReservationChangeRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationChangeRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReservationChangeRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReservationChangeRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ReservationChangeRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationChangeRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.ReservationChangeRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationChangeRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.ReservationChangeRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReservationChangeRequest>
+          }
+          groupBy: {
+            args: Prisma.ReservationChangeRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReservationChangeRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReservationChangeRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<ReservationChangeRequestCountAggregateOutputType> | number
           }
         }
       }
@@ -2385,6 +2488,7 @@ export namespace Prisma {
     table?: TableOmit
     tableUnavailability?: TableUnavailabilityOmit
     reservation?: ReservationOmit
+    reservationChangeRequest?: ReservationChangeRequestOmit
     qrToken?: QrTokenOmit
     notification?: NotificationOmit
     review?: ReviewOmit
@@ -2483,6 +2587,7 @@ export namespace Prisma {
     reservations: number
     restaurants: number
     reviews: number
+    ReservationChangeRequest: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2492,6 +2597,7 @@ export namespace Prisma {
     reservations?: boolean | UserCountOutputTypeCountReservationsArgs
     restaurants?: boolean | UserCountOutputTypeCountRestaurantsArgs
     reviews?: boolean | UserCountOutputTypeCountReviewsArgs
+    ReservationChangeRequest?: boolean | UserCountOutputTypeCountReservationChangeRequestArgs
   }
 
   // Custom InputTypes
@@ -2545,6 +2651,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReviewWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountReservationChangeRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservationChangeRequestWhereInput
   }
 
 
@@ -2719,10 +2832,12 @@ export namespace Prisma {
 
   export type ReservationCountOutputType = {
     notifications: number
+    ReservationChangeRequest: number
   }
 
   export type ReservationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     notifications?: boolean | ReservationCountOutputTypeCountNotificationsArgs
+    ReservationChangeRequest?: boolean | ReservationCountOutputTypeCountReservationChangeRequestArgs
   }
 
   // Custom InputTypes
@@ -2741,6 +2856,13 @@ export namespace Prisma {
    */
   export type ReservationCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
+  }
+
+  /**
+   * ReservationCountOutputType without action
+   */
+  export type ReservationCountOutputTypeCountReservationChangeRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservationChangeRequestWhereInput
   }
 
 
@@ -3011,6 +3133,7 @@ export namespace Prisma {
     reservations?: boolean | User$reservationsArgs<ExtArgs>
     restaurants?: boolean | User$restaurantsArgs<ExtArgs>
     reviews?: boolean | User$reviewsArgs<ExtArgs>
+    ReservationChangeRequest?: boolean | User$ReservationChangeRequestArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3046,6 +3169,7 @@ export namespace Prisma {
     reservations?: boolean | User$reservationsArgs<ExtArgs>
     restaurants?: boolean | User$restaurantsArgs<ExtArgs>
     reviews?: boolean | User$reviewsArgs<ExtArgs>
+    ReservationChangeRequest?: boolean | User$ReservationChangeRequestArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3060,6 +3184,7 @@ export namespace Prisma {
       reservations: Prisma.$ReservationPayload<ExtArgs>[]
       restaurants: Prisma.$RestaurantPayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
+      ReservationChangeRequest: Prisma.$ReservationChangeRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3467,6 +3592,7 @@ export namespace Prisma {
     reservations<T extends User$reservationsArgs<ExtArgs> = {}>(args?: Subset<T, User$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     restaurants<T extends User$restaurantsArgs<ExtArgs> = {}>(args?: Subset<T, User$restaurantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RestaurantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends User$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ReservationChangeRequest<T extends User$ReservationChangeRequestArgs<ExtArgs> = {}>(args?: Subset<T, User$ReservationChangeRequestArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4030,6 +4156,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * User.ReservationChangeRequest
+   */
+  export type User$ReservationChangeRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
+    where?: ReservationChangeRequestWhereInput
+    orderBy?: ReservationChangeRequestOrderByWithRelationInput | ReservationChangeRequestOrderByWithRelationInput[]
+    cursor?: ReservationChangeRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReservationChangeRequestScalarFieldEnum | ReservationChangeRequestScalarFieldEnum[]
   }
 
   /**
@@ -8918,6 +9068,7 @@ export namespace Prisma {
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     table?: boolean | TableDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    ReservationChangeRequest?: boolean | Reservation$ReservationChangeRequestArgs<ExtArgs>
     _count?: boolean | ReservationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
 
@@ -8973,6 +9124,7 @@ export namespace Prisma {
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     table?: boolean | TableDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    ReservationChangeRequest?: boolean | Reservation$ReservationChangeRequestArgs<ExtArgs>
     _count?: boolean | ReservationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ReservationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8994,6 +9146,7 @@ export namespace Prisma {
       restaurant: Prisma.$RestaurantPayload<ExtArgs>
       table: Prisma.$TablePayload<ExtArgs>
       user: Prisma.$UserPayload<ExtArgs>
+      ReservationChangeRequest: Prisma.$ReservationChangeRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9405,6 +9558,7 @@ export namespace Prisma {
     restaurant<T extends RestaurantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RestaurantDefaultArgs<ExtArgs>>): Prisma__RestaurantClient<$Result.GetResult<Prisma.$RestaurantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     table<T extends TableDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TableDefaultArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    ReservationChangeRequest<T extends Reservation$ReservationChangeRequestArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$ReservationChangeRequestArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9883,6 +10037,30 @@ export namespace Prisma {
   }
 
   /**
+   * Reservation.ReservationChangeRequest
+   */
+  export type Reservation$ReservationChangeRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
+    where?: ReservationChangeRequestWhereInput
+    orderBy?: ReservationChangeRequestOrderByWithRelationInput | ReservationChangeRequestOrderByWithRelationInput[]
+    cursor?: ReservationChangeRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReservationChangeRequestScalarFieldEnum | ReservationChangeRequestScalarFieldEnum[]
+  }
+
+  /**
    * Reservation without action
    */
   export type ReservationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9898,6 +10076,1171 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ReservationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ReservationChangeRequest
+   */
+
+  export type AggregateReservationChangeRequest = {
+    _count: ReservationChangeRequestCountAggregateOutputType | null
+    _avg: ReservationChangeRequestAvgAggregateOutputType | null
+    _sum: ReservationChangeRequestSumAggregateOutputType | null
+    _min: ReservationChangeRequestMinAggregateOutputType | null
+    _max: ReservationChangeRequestMaxAggregateOutputType | null
+  }
+
+  export type ReservationChangeRequestAvgAggregateOutputType = {
+    newPartySize: number | null
+  }
+
+  export type ReservationChangeRequestSumAggregateOutputType = {
+    newPartySize: number | null
+  }
+
+  export type ReservationChangeRequestMinAggregateOutputType = {
+    id: string | null
+    reservationId: string | null
+    requestedById: string | null
+    status: $Enums.ChangeStatus | null
+    newStartsAt: Date | null
+    newEndsAt: Date | null
+    newPartySize: number | null
+    newNotes: string | null
+    createdAt: Date | null
+    reviewedAt: Date | null
+  }
+
+  export type ReservationChangeRequestMaxAggregateOutputType = {
+    id: string | null
+    reservationId: string | null
+    requestedById: string | null
+    status: $Enums.ChangeStatus | null
+    newStartsAt: Date | null
+    newEndsAt: Date | null
+    newPartySize: number | null
+    newNotes: string | null
+    createdAt: Date | null
+    reviewedAt: Date | null
+  }
+
+  export type ReservationChangeRequestCountAggregateOutputType = {
+    id: number
+    reservationId: number
+    requestedById: number
+    status: number
+    newStartsAt: number
+    newEndsAt: number
+    newPartySize: number
+    newNotes: number
+    createdAt: number
+    reviewedAt: number
+    _all: number
+  }
+
+
+  export type ReservationChangeRequestAvgAggregateInputType = {
+    newPartySize?: true
+  }
+
+  export type ReservationChangeRequestSumAggregateInputType = {
+    newPartySize?: true
+  }
+
+  export type ReservationChangeRequestMinAggregateInputType = {
+    id?: true
+    reservationId?: true
+    requestedById?: true
+    status?: true
+    newStartsAt?: true
+    newEndsAt?: true
+    newPartySize?: true
+    newNotes?: true
+    createdAt?: true
+    reviewedAt?: true
+  }
+
+  export type ReservationChangeRequestMaxAggregateInputType = {
+    id?: true
+    reservationId?: true
+    requestedById?: true
+    status?: true
+    newStartsAt?: true
+    newEndsAt?: true
+    newPartySize?: true
+    newNotes?: true
+    createdAt?: true
+    reviewedAt?: true
+  }
+
+  export type ReservationChangeRequestCountAggregateInputType = {
+    id?: true
+    reservationId?: true
+    requestedById?: true
+    status?: true
+    newStartsAt?: true
+    newEndsAt?: true
+    newPartySize?: true
+    newNotes?: true
+    createdAt?: true
+    reviewedAt?: true
+    _all?: true
+  }
+
+  export type ReservationChangeRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReservationChangeRequest to aggregate.
+     */
+    where?: ReservationChangeRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReservationChangeRequests to fetch.
+     */
+    orderBy?: ReservationChangeRequestOrderByWithRelationInput | ReservationChangeRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReservationChangeRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReservationChangeRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReservationChangeRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ReservationChangeRequests
+    **/
+    _count?: true | ReservationChangeRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ReservationChangeRequestAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReservationChangeRequestSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReservationChangeRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReservationChangeRequestMaxAggregateInputType
+  }
+
+  export type GetReservationChangeRequestAggregateType<T extends ReservationChangeRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateReservationChangeRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReservationChangeRequest[P]>
+      : GetScalarType<T[P], AggregateReservationChangeRequest[P]>
+  }
+
+
+
+
+  export type ReservationChangeRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservationChangeRequestWhereInput
+    orderBy?: ReservationChangeRequestOrderByWithAggregationInput | ReservationChangeRequestOrderByWithAggregationInput[]
+    by: ReservationChangeRequestScalarFieldEnum[] | ReservationChangeRequestScalarFieldEnum
+    having?: ReservationChangeRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReservationChangeRequestCountAggregateInputType | true
+    _avg?: ReservationChangeRequestAvgAggregateInputType
+    _sum?: ReservationChangeRequestSumAggregateInputType
+    _min?: ReservationChangeRequestMinAggregateInputType
+    _max?: ReservationChangeRequestMaxAggregateInputType
+  }
+
+  export type ReservationChangeRequestGroupByOutputType = {
+    id: string
+    reservationId: string
+    requestedById: string
+    status: $Enums.ChangeStatus
+    newStartsAt: Date | null
+    newEndsAt: Date | null
+    newPartySize: number | null
+    newNotes: string | null
+    createdAt: Date
+    reviewedAt: Date | null
+    _count: ReservationChangeRequestCountAggregateOutputType | null
+    _avg: ReservationChangeRequestAvgAggregateOutputType | null
+    _sum: ReservationChangeRequestSumAggregateOutputType | null
+    _min: ReservationChangeRequestMinAggregateOutputType | null
+    _max: ReservationChangeRequestMaxAggregateOutputType | null
+  }
+
+  type GetReservationChangeRequestGroupByPayload<T extends ReservationChangeRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReservationChangeRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReservationChangeRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReservationChangeRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], ReservationChangeRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReservationChangeRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reservationId?: boolean
+    requestedById?: boolean
+    status?: boolean
+    newStartsAt?: boolean
+    newEndsAt?: boolean
+    newPartySize?: boolean
+    newNotes?: boolean
+    createdAt?: boolean
+    reviewedAt?: boolean
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reservationChangeRequest"]>
+
+  export type ReservationChangeRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reservationId?: boolean
+    requestedById?: boolean
+    status?: boolean
+    newStartsAt?: boolean
+    newEndsAt?: boolean
+    newPartySize?: boolean
+    newNotes?: boolean
+    createdAt?: boolean
+    reviewedAt?: boolean
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reservationChangeRequest"]>
+
+  export type ReservationChangeRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reservationId?: boolean
+    requestedById?: boolean
+    status?: boolean
+    newStartsAt?: boolean
+    newEndsAt?: boolean
+    newPartySize?: boolean
+    newNotes?: boolean
+    createdAt?: boolean
+    reviewedAt?: boolean
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reservationChangeRequest"]>
+
+  export type ReservationChangeRequestSelectScalar = {
+    id?: boolean
+    reservationId?: boolean
+    requestedById?: boolean
+    status?: boolean
+    newStartsAt?: boolean
+    newEndsAt?: boolean
+    newPartySize?: boolean
+    newNotes?: boolean
+    createdAt?: boolean
+    reviewedAt?: boolean
+  }
+
+  export type ReservationChangeRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reservationId" | "requestedById" | "status" | "newStartsAt" | "newEndsAt" | "newPartySize" | "newNotes" | "createdAt" | "reviewedAt", ExtArgs["result"]["reservationChangeRequest"]>
+  export type ReservationChangeRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ReservationChangeRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ReservationChangeRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ReservationChangeRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ReservationChangeRequest"
+    objects: {
+      reservation: Prisma.$ReservationPayload<ExtArgs>
+      requestedBy: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      reservationId: string
+      requestedById: string
+      status: $Enums.ChangeStatus
+      newStartsAt: Date | null
+      newEndsAt: Date | null
+      newPartySize: number | null
+      newNotes: string | null
+      createdAt: Date
+      reviewedAt: Date | null
+    }, ExtArgs["result"]["reservationChangeRequest"]>
+    composites: {}
+  }
+
+  type ReservationChangeRequestGetPayload<S extends boolean | null | undefined | ReservationChangeRequestDefaultArgs> = $Result.GetResult<Prisma.$ReservationChangeRequestPayload, S>
+
+  type ReservationChangeRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReservationChangeRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReservationChangeRequestCountAggregateInputType | true
+    }
+
+  export interface ReservationChangeRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ReservationChangeRequest'], meta: { name: 'ReservationChangeRequest' } }
+    /**
+     * Find zero or one ReservationChangeRequest that matches the filter.
+     * @param {ReservationChangeRequestFindUniqueArgs} args - Arguments to find a ReservationChangeRequest
+     * @example
+     * // Get one ReservationChangeRequest
+     * const reservationChangeRequest = await prisma.reservationChangeRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReservationChangeRequestFindUniqueArgs>(args: SelectSubset<T, ReservationChangeRequestFindUniqueArgs<ExtArgs>>): Prisma__ReservationChangeRequestClient<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ReservationChangeRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReservationChangeRequestFindUniqueOrThrowArgs} args - Arguments to find a ReservationChangeRequest
+     * @example
+     * // Get one ReservationChangeRequest
+     * const reservationChangeRequest = await prisma.reservationChangeRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReservationChangeRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, ReservationChangeRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReservationChangeRequestClient<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReservationChangeRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationChangeRequestFindFirstArgs} args - Arguments to find a ReservationChangeRequest
+     * @example
+     * // Get one ReservationChangeRequest
+     * const reservationChangeRequest = await prisma.reservationChangeRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReservationChangeRequestFindFirstArgs>(args?: SelectSubset<T, ReservationChangeRequestFindFirstArgs<ExtArgs>>): Prisma__ReservationChangeRequestClient<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReservationChangeRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationChangeRequestFindFirstOrThrowArgs} args - Arguments to find a ReservationChangeRequest
+     * @example
+     * // Get one ReservationChangeRequest
+     * const reservationChangeRequest = await prisma.reservationChangeRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReservationChangeRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, ReservationChangeRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReservationChangeRequestClient<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ReservationChangeRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationChangeRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ReservationChangeRequests
+     * const reservationChangeRequests = await prisma.reservationChangeRequest.findMany()
+     * 
+     * // Get first 10 ReservationChangeRequests
+     * const reservationChangeRequests = await prisma.reservationChangeRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reservationChangeRequestWithIdOnly = await prisma.reservationChangeRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReservationChangeRequestFindManyArgs>(args?: SelectSubset<T, ReservationChangeRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ReservationChangeRequest.
+     * @param {ReservationChangeRequestCreateArgs} args - Arguments to create a ReservationChangeRequest.
+     * @example
+     * // Create one ReservationChangeRequest
+     * const ReservationChangeRequest = await prisma.reservationChangeRequest.create({
+     *   data: {
+     *     // ... data to create a ReservationChangeRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReservationChangeRequestCreateArgs>(args: SelectSubset<T, ReservationChangeRequestCreateArgs<ExtArgs>>): Prisma__ReservationChangeRequestClient<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ReservationChangeRequests.
+     * @param {ReservationChangeRequestCreateManyArgs} args - Arguments to create many ReservationChangeRequests.
+     * @example
+     * // Create many ReservationChangeRequests
+     * const reservationChangeRequest = await prisma.reservationChangeRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReservationChangeRequestCreateManyArgs>(args?: SelectSubset<T, ReservationChangeRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ReservationChangeRequests and returns the data saved in the database.
+     * @param {ReservationChangeRequestCreateManyAndReturnArgs} args - Arguments to create many ReservationChangeRequests.
+     * @example
+     * // Create many ReservationChangeRequests
+     * const reservationChangeRequest = await prisma.reservationChangeRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ReservationChangeRequests and only return the `id`
+     * const reservationChangeRequestWithIdOnly = await prisma.reservationChangeRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReservationChangeRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, ReservationChangeRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ReservationChangeRequest.
+     * @param {ReservationChangeRequestDeleteArgs} args - Arguments to delete one ReservationChangeRequest.
+     * @example
+     * // Delete one ReservationChangeRequest
+     * const ReservationChangeRequest = await prisma.reservationChangeRequest.delete({
+     *   where: {
+     *     // ... filter to delete one ReservationChangeRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReservationChangeRequestDeleteArgs>(args: SelectSubset<T, ReservationChangeRequestDeleteArgs<ExtArgs>>): Prisma__ReservationChangeRequestClient<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ReservationChangeRequest.
+     * @param {ReservationChangeRequestUpdateArgs} args - Arguments to update one ReservationChangeRequest.
+     * @example
+     * // Update one ReservationChangeRequest
+     * const reservationChangeRequest = await prisma.reservationChangeRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReservationChangeRequestUpdateArgs>(args: SelectSubset<T, ReservationChangeRequestUpdateArgs<ExtArgs>>): Prisma__ReservationChangeRequestClient<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ReservationChangeRequests.
+     * @param {ReservationChangeRequestDeleteManyArgs} args - Arguments to filter ReservationChangeRequests to delete.
+     * @example
+     * // Delete a few ReservationChangeRequests
+     * const { count } = await prisma.reservationChangeRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReservationChangeRequestDeleteManyArgs>(args?: SelectSubset<T, ReservationChangeRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReservationChangeRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationChangeRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ReservationChangeRequests
+     * const reservationChangeRequest = await prisma.reservationChangeRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReservationChangeRequestUpdateManyArgs>(args: SelectSubset<T, ReservationChangeRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReservationChangeRequests and returns the data updated in the database.
+     * @param {ReservationChangeRequestUpdateManyAndReturnArgs} args - Arguments to update many ReservationChangeRequests.
+     * @example
+     * // Update many ReservationChangeRequests
+     * const reservationChangeRequest = await prisma.reservationChangeRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ReservationChangeRequests and only return the `id`
+     * const reservationChangeRequestWithIdOnly = await prisma.reservationChangeRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ReservationChangeRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, ReservationChangeRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ReservationChangeRequest.
+     * @param {ReservationChangeRequestUpsertArgs} args - Arguments to update or create a ReservationChangeRequest.
+     * @example
+     * // Update or create a ReservationChangeRequest
+     * const reservationChangeRequest = await prisma.reservationChangeRequest.upsert({
+     *   create: {
+     *     // ... data to create a ReservationChangeRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ReservationChangeRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReservationChangeRequestUpsertArgs>(args: SelectSubset<T, ReservationChangeRequestUpsertArgs<ExtArgs>>): Prisma__ReservationChangeRequestClient<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ReservationChangeRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationChangeRequestCountArgs} args - Arguments to filter ReservationChangeRequests to count.
+     * @example
+     * // Count the number of ReservationChangeRequests
+     * const count = await prisma.reservationChangeRequest.count({
+     *   where: {
+     *     // ... the filter for the ReservationChangeRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReservationChangeRequestCountArgs>(
+      args?: Subset<T, ReservationChangeRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReservationChangeRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ReservationChangeRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationChangeRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReservationChangeRequestAggregateArgs>(args: Subset<T, ReservationChangeRequestAggregateArgs>): Prisma.PrismaPromise<GetReservationChangeRequestAggregateType<T>>
+
+    /**
+     * Group by ReservationChangeRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationChangeRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReservationChangeRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReservationChangeRequestGroupByArgs['orderBy'] }
+        : { orderBy?: ReservationChangeRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReservationChangeRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReservationChangeRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ReservationChangeRequest model
+   */
+  readonly fields: ReservationChangeRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ReservationChangeRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReservationChangeRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    reservation<T extends ReservationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ReservationDefaultArgs<ExtArgs>>): Prisma__ReservationClient<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    requestedBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ReservationChangeRequest model
+   */
+  interface ReservationChangeRequestFieldRefs {
+    readonly id: FieldRef<"ReservationChangeRequest", 'String'>
+    readonly reservationId: FieldRef<"ReservationChangeRequest", 'String'>
+    readonly requestedById: FieldRef<"ReservationChangeRequest", 'String'>
+    readonly status: FieldRef<"ReservationChangeRequest", 'ChangeStatus'>
+    readonly newStartsAt: FieldRef<"ReservationChangeRequest", 'DateTime'>
+    readonly newEndsAt: FieldRef<"ReservationChangeRequest", 'DateTime'>
+    readonly newPartySize: FieldRef<"ReservationChangeRequest", 'Int'>
+    readonly newNotes: FieldRef<"ReservationChangeRequest", 'String'>
+    readonly createdAt: FieldRef<"ReservationChangeRequest", 'DateTime'>
+    readonly reviewedAt: FieldRef<"ReservationChangeRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ReservationChangeRequest findUnique
+   */
+  export type ReservationChangeRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ReservationChangeRequest to fetch.
+     */
+    where: ReservationChangeRequestWhereUniqueInput
+  }
+
+  /**
+   * ReservationChangeRequest findUniqueOrThrow
+   */
+  export type ReservationChangeRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ReservationChangeRequest to fetch.
+     */
+    where: ReservationChangeRequestWhereUniqueInput
+  }
+
+  /**
+   * ReservationChangeRequest findFirst
+   */
+  export type ReservationChangeRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ReservationChangeRequest to fetch.
+     */
+    where?: ReservationChangeRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReservationChangeRequests to fetch.
+     */
+    orderBy?: ReservationChangeRequestOrderByWithRelationInput | ReservationChangeRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReservationChangeRequests.
+     */
+    cursor?: ReservationChangeRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReservationChangeRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReservationChangeRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReservationChangeRequests.
+     */
+    distinct?: ReservationChangeRequestScalarFieldEnum | ReservationChangeRequestScalarFieldEnum[]
+  }
+
+  /**
+   * ReservationChangeRequest findFirstOrThrow
+   */
+  export type ReservationChangeRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ReservationChangeRequest to fetch.
+     */
+    where?: ReservationChangeRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReservationChangeRequests to fetch.
+     */
+    orderBy?: ReservationChangeRequestOrderByWithRelationInput | ReservationChangeRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReservationChangeRequests.
+     */
+    cursor?: ReservationChangeRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReservationChangeRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReservationChangeRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReservationChangeRequests.
+     */
+    distinct?: ReservationChangeRequestScalarFieldEnum | ReservationChangeRequestScalarFieldEnum[]
+  }
+
+  /**
+   * ReservationChangeRequest findMany
+   */
+  export type ReservationChangeRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ReservationChangeRequests to fetch.
+     */
+    where?: ReservationChangeRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReservationChangeRequests to fetch.
+     */
+    orderBy?: ReservationChangeRequestOrderByWithRelationInput | ReservationChangeRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ReservationChangeRequests.
+     */
+    cursor?: ReservationChangeRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReservationChangeRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReservationChangeRequests.
+     */
+    skip?: number
+    distinct?: ReservationChangeRequestScalarFieldEnum | ReservationChangeRequestScalarFieldEnum[]
+  }
+
+  /**
+   * ReservationChangeRequest create
+   */
+  export type ReservationChangeRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ReservationChangeRequest.
+     */
+    data: XOR<ReservationChangeRequestCreateInput, ReservationChangeRequestUncheckedCreateInput>
+  }
+
+  /**
+   * ReservationChangeRequest createMany
+   */
+  export type ReservationChangeRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ReservationChangeRequests.
+     */
+    data: ReservationChangeRequestCreateManyInput | ReservationChangeRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReservationChangeRequest createManyAndReturn
+   */
+  export type ReservationChangeRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many ReservationChangeRequests.
+     */
+    data: ReservationChangeRequestCreateManyInput | ReservationChangeRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReservationChangeRequest update
+   */
+  export type ReservationChangeRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ReservationChangeRequest.
+     */
+    data: XOR<ReservationChangeRequestUpdateInput, ReservationChangeRequestUncheckedUpdateInput>
+    /**
+     * Choose, which ReservationChangeRequest to update.
+     */
+    where: ReservationChangeRequestWhereUniqueInput
+  }
+
+  /**
+   * ReservationChangeRequest updateMany
+   */
+  export type ReservationChangeRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ReservationChangeRequests.
+     */
+    data: XOR<ReservationChangeRequestUpdateManyMutationInput, ReservationChangeRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which ReservationChangeRequests to update
+     */
+    where?: ReservationChangeRequestWhereInput
+    /**
+     * Limit how many ReservationChangeRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReservationChangeRequest updateManyAndReturn
+   */
+  export type ReservationChangeRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update ReservationChangeRequests.
+     */
+    data: XOR<ReservationChangeRequestUpdateManyMutationInput, ReservationChangeRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which ReservationChangeRequests to update
+     */
+    where?: ReservationChangeRequestWhereInput
+    /**
+     * Limit how many ReservationChangeRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReservationChangeRequest upsert
+   */
+  export type ReservationChangeRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ReservationChangeRequest to update in case it exists.
+     */
+    where: ReservationChangeRequestWhereUniqueInput
+    /**
+     * In case the ReservationChangeRequest found by the `where` argument doesn't exist, create a new ReservationChangeRequest with this data.
+     */
+    create: XOR<ReservationChangeRequestCreateInput, ReservationChangeRequestUncheckedCreateInput>
+    /**
+     * In case the ReservationChangeRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReservationChangeRequestUpdateInput, ReservationChangeRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * ReservationChangeRequest delete
+   */
+  export type ReservationChangeRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
+    /**
+     * Filter which ReservationChangeRequest to delete.
+     */
+    where: ReservationChangeRequestWhereUniqueInput
+  }
+
+  /**
+   * ReservationChangeRequest deleteMany
+   */
+  export type ReservationChangeRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReservationChangeRequests to delete
+     */
+    where?: ReservationChangeRequestWhereInput
+    /**
+     * Limit how many ReservationChangeRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReservationChangeRequest without action
+   */
+  export type ReservationChangeRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
   }
 
 
@@ -22869,6 +24212,22 @@ export namespace Prisma {
   export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
 
 
+  export const ReservationChangeRequestScalarFieldEnum: {
+    id: 'id',
+    reservationId: 'reservationId',
+    requestedById: 'requestedById',
+    status: 'status',
+    newStartsAt: 'newStartsAt',
+    newEndsAt: 'newEndsAt',
+    newPartySize: 'newPartySize',
+    newNotes: 'newNotes',
+    createdAt: 'createdAt',
+    reviewedAt: 'reviewedAt'
+  };
+
+  export type ReservationChangeRequestScalarFieldEnum = (typeof ReservationChangeRequestScalarFieldEnum)[keyof typeof ReservationChangeRequestScalarFieldEnum]
+
+
   export const QrTokenScalarFieldEnum: {
     id: 'id',
     reservationId: 'reservationId',
@@ -23106,6 +24465,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ChangeStatus'
+   */
+  export type EnumChangeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChangeStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ChangeStatus[]'
+   */
+  export type ListEnumChangeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChangeStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DayOfWeek'
    */
   export type EnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek'>
@@ -23165,6 +24538,7 @@ export namespace Prisma {
     reservations?: ReservationListRelationFilter
     restaurants?: RestaurantListRelationFilter
     reviews?: ReviewListRelationFilter
+    ReservationChangeRequest?: ReservationChangeRequestListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -23179,6 +24553,7 @@ export namespace Prisma {
     reservations?: ReservationOrderByRelationAggregateInput
     restaurants?: RestaurantOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
+    ReservationChangeRequest?: ReservationChangeRequestOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -23196,6 +24571,7 @@ export namespace Prisma {
     reservations?: ReservationListRelationFilter
     restaurants?: RestaurantListRelationFilter
     reviews?: ReviewListRelationFilter
+    ReservationChangeRequest?: ReservationChangeRequestListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -23506,6 +24882,7 @@ export namespace Prisma {
     restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
     table?: XOR<TableScalarRelationFilter, TableWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    ReservationChangeRequest?: ReservationChangeRequestListRelationFilter
   }
 
   export type ReservationOrderByWithRelationInput = {
@@ -23524,6 +24901,7 @@ export namespace Prisma {
     restaurant?: RestaurantOrderByWithRelationInput
     table?: TableOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
+    ReservationChangeRequest?: ReservationChangeRequestOrderByRelationAggregateInput
   }
 
   export type ReservationWhereUniqueInput = Prisma.AtLeast<{
@@ -23545,6 +24923,7 @@ export namespace Prisma {
     restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
     table?: XOR<TableScalarRelationFilter, TableWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    ReservationChangeRequest?: ReservationChangeRequestListRelationFilter
   }, "id">
 
   export type ReservationOrderByWithAggregationInput = {
@@ -23579,6 +24958,91 @@ export namespace Prisma {
     notes?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
     status?: EnumReservationStatusWithAggregatesFilter<"Reservation"> | $Enums.ReservationStatus
     createdAt?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
+  }
+
+  export type ReservationChangeRequestWhereInput = {
+    AND?: ReservationChangeRequestWhereInput | ReservationChangeRequestWhereInput[]
+    OR?: ReservationChangeRequestWhereInput[]
+    NOT?: ReservationChangeRequestWhereInput | ReservationChangeRequestWhereInput[]
+    id?: StringFilter<"ReservationChangeRequest"> | string
+    reservationId?: StringFilter<"ReservationChangeRequest"> | string
+    requestedById?: StringFilter<"ReservationChangeRequest"> | string
+    status?: EnumChangeStatusFilter<"ReservationChangeRequest"> | $Enums.ChangeStatus
+    newStartsAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
+    newEndsAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
+    newPartySize?: IntNullableFilter<"ReservationChangeRequest"> | number | null
+    newNotes?: StringNullableFilter<"ReservationChangeRequest"> | string | null
+    createdAt?: DateTimeFilter<"ReservationChangeRequest"> | Date | string
+    reviewedAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
+    reservation?: XOR<ReservationScalarRelationFilter, ReservationWhereInput>
+    requestedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ReservationChangeRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    requestedById?: SortOrder
+    status?: SortOrder
+    newStartsAt?: SortOrderInput | SortOrder
+    newEndsAt?: SortOrderInput | SortOrder
+    newPartySize?: SortOrderInput | SortOrder
+    newNotes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    reviewedAt?: SortOrderInput | SortOrder
+    reservation?: ReservationOrderByWithRelationInput
+    requestedBy?: UserOrderByWithRelationInput
+  }
+
+  export type ReservationChangeRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ReservationChangeRequestWhereInput | ReservationChangeRequestWhereInput[]
+    OR?: ReservationChangeRequestWhereInput[]
+    NOT?: ReservationChangeRequestWhereInput | ReservationChangeRequestWhereInput[]
+    reservationId?: StringFilter<"ReservationChangeRequest"> | string
+    requestedById?: StringFilter<"ReservationChangeRequest"> | string
+    status?: EnumChangeStatusFilter<"ReservationChangeRequest"> | $Enums.ChangeStatus
+    newStartsAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
+    newEndsAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
+    newPartySize?: IntNullableFilter<"ReservationChangeRequest"> | number | null
+    newNotes?: StringNullableFilter<"ReservationChangeRequest"> | string | null
+    createdAt?: DateTimeFilter<"ReservationChangeRequest"> | Date | string
+    reviewedAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
+    reservation?: XOR<ReservationScalarRelationFilter, ReservationWhereInput>
+    requestedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ReservationChangeRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    requestedById?: SortOrder
+    status?: SortOrder
+    newStartsAt?: SortOrderInput | SortOrder
+    newEndsAt?: SortOrderInput | SortOrder
+    newPartySize?: SortOrderInput | SortOrder
+    newNotes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    reviewedAt?: SortOrderInput | SortOrder
+    _count?: ReservationChangeRequestCountOrderByAggregateInput
+    _avg?: ReservationChangeRequestAvgOrderByAggregateInput
+    _max?: ReservationChangeRequestMaxOrderByAggregateInput
+    _min?: ReservationChangeRequestMinOrderByAggregateInput
+    _sum?: ReservationChangeRequestSumOrderByAggregateInput
+  }
+
+  export type ReservationChangeRequestScalarWhereWithAggregatesInput = {
+    AND?: ReservationChangeRequestScalarWhereWithAggregatesInput | ReservationChangeRequestScalarWhereWithAggregatesInput[]
+    OR?: ReservationChangeRequestScalarWhereWithAggregatesInput[]
+    NOT?: ReservationChangeRequestScalarWhereWithAggregatesInput | ReservationChangeRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ReservationChangeRequest"> | string
+    reservationId?: StringWithAggregatesFilter<"ReservationChangeRequest"> | string
+    requestedById?: StringWithAggregatesFilter<"ReservationChangeRequest"> | string
+    status?: EnumChangeStatusWithAggregatesFilter<"ReservationChangeRequest"> | $Enums.ChangeStatus
+    newStartsAt?: DateTimeNullableWithAggregatesFilter<"ReservationChangeRequest"> | Date | string | null
+    newEndsAt?: DateTimeNullableWithAggregatesFilter<"ReservationChangeRequest"> | Date | string | null
+    newPartySize?: IntNullableWithAggregatesFilter<"ReservationChangeRequest"> | number | null
+    newNotes?: StringNullableWithAggregatesFilter<"ReservationChangeRequest"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ReservationChangeRequest"> | Date | string
+    reviewedAt?: DateTimeNullableWithAggregatesFilter<"ReservationChangeRequest"> | Date | string | null
   }
 
   export type QrTokenWhereInput = {
@@ -24268,6 +25732,7 @@ export namespace Prisma {
     reservations?: ReservationCreateNestedManyWithoutUserInput
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -24282,6 +25747,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedCreateNestedManyWithoutUserInput
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUpdateInput = {
@@ -24296,6 +25762,7 @@ export namespace Prisma {
     reservations?: ReservationUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -24310,6 +25777,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -24623,6 +26091,7 @@ export namespace Prisma {
     restaurant: RestaurantCreateNestedOneWithoutReservationsInput
     table: TableCreateNestedOneWithoutReservationsInput
     user: UserCreateNestedOneWithoutReservationsInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateInput = {
@@ -24638,6 +26107,7 @@ export namespace Prisma {
     createdAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutReservationInput
     qrToken?: QrTokenUncheckedCreateNestedOneWithoutReservationInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUpdateInput = {
@@ -24653,6 +26123,7 @@ export namespace Prisma {
     restaurant?: RestaurantUpdateOneRequiredWithoutReservationsNestedInput
     table?: TableUpdateOneRequiredWithoutReservationsNestedInput
     user?: UserUpdateOneRequiredWithoutReservationsNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateInput = {
@@ -24668,6 +26139,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutReservationNestedInput
     qrToken?: QrTokenUncheckedUpdateOneWithoutReservationNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationCreateManyInput = {
@@ -24704,6 +26176,95 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReservationChangeRequestCreateInput = {
+    id?: string
+    status?: $Enums.ChangeStatus
+    newStartsAt?: Date | string | null
+    newEndsAt?: Date | string | null
+    newPartySize?: number | null
+    newNotes?: string | null
+    createdAt?: Date | string
+    reviewedAt?: Date | string | null
+    reservation: ReservationCreateNestedOneWithoutReservationChangeRequestInput
+    requestedBy: UserCreateNestedOneWithoutReservationChangeRequestInput
+  }
+
+  export type ReservationChangeRequestUncheckedCreateInput = {
+    id?: string
+    reservationId: string
+    requestedById: string
+    status?: $Enums.ChangeStatus
+    newStartsAt?: Date | string | null
+    newEndsAt?: Date | string | null
+    newPartySize?: number | null
+    newNotes?: string | null
+    createdAt?: Date | string
+    reviewedAt?: Date | string | null
+  }
+
+  export type ReservationChangeRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reservation?: ReservationUpdateOneRequiredWithoutReservationChangeRequestNestedInput
+    requestedBy?: UserUpdateOneRequiredWithoutReservationChangeRequestNestedInput
+  }
+
+  export type ReservationChangeRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
+    requestedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReservationChangeRequestCreateManyInput = {
+    id?: string
+    reservationId: string
+    requestedById: string
+    status?: $Enums.ChangeStatus
+    newStartsAt?: Date | string | null
+    newEndsAt?: Date | string | null
+    newPartySize?: number | null
+    newNotes?: string | null
+    createdAt?: Date | string
+    reviewedAt?: Date | string | null
+  }
+
+  export type ReservationChangeRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReservationChangeRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
+    requestedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type QrTokenCreateInput = {
@@ -25419,6 +26980,12 @@ export namespace Prisma {
     none?: ReviewWhereInput
   }
 
+  export type ReservationChangeRequestListRelationFilter = {
+    every?: ReservationChangeRequestWhereInput
+    some?: ReservationChangeRequestWhereInput
+    none?: ReservationChangeRequestWhereInput
+  }
+
   export type AuditLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -25440,6 +27007,10 @@ export namespace Prisma {
   }
 
   export type ReviewOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReservationChangeRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -25864,9 +27435,125 @@ export namespace Prisma {
     _max?: NestedEnumReservationStatusFilter<$PrismaModel>
   }
 
+  export type EnumChangeStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ChangeStatus | EnumChangeStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ChangeStatus[] | ListEnumChangeStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ChangeStatus[] | ListEnumChangeStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumChangeStatusFilter<$PrismaModel> | $Enums.ChangeStatus
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ReservationScalarRelationFilter = {
     is?: ReservationWhereInput
     isNot?: ReservationWhereInput
+  }
+
+  export type ReservationChangeRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    requestedById?: SortOrder
+    status?: SortOrder
+    newStartsAt?: SortOrder
+    newEndsAt?: SortOrder
+    newPartySize?: SortOrder
+    newNotes?: SortOrder
+    createdAt?: SortOrder
+    reviewedAt?: SortOrder
+  }
+
+  export type ReservationChangeRequestAvgOrderByAggregateInput = {
+    newPartySize?: SortOrder
+  }
+
+  export type ReservationChangeRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    requestedById?: SortOrder
+    status?: SortOrder
+    newStartsAt?: SortOrder
+    newEndsAt?: SortOrder
+    newPartySize?: SortOrder
+    newNotes?: SortOrder
+    createdAt?: SortOrder
+    reviewedAt?: SortOrder
+  }
+
+  export type ReservationChangeRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    requestedById?: SortOrder
+    status?: SortOrder
+    newStartsAt?: SortOrder
+    newEndsAt?: SortOrder
+    newPartySize?: SortOrder
+    newNotes?: SortOrder
+    createdAt?: SortOrder
+    reviewedAt?: SortOrder
+  }
+
+  export type ReservationChangeRequestSumOrderByAggregateInput = {
+    newPartySize?: SortOrder
+  }
+
+  export type EnumChangeStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ChangeStatus | EnumChangeStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ChangeStatus[] | ListEnumChangeStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ChangeStatus[] | ListEnumChangeStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumChangeStatusWithAggregatesFilter<$PrismaModel> | $Enums.ChangeStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumChangeStatusFilter<$PrismaModel>
+    _max?: NestedEnumChangeStatusFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type QrTokenCountOrderByAggregateInput = {
@@ -26299,6 +27986,13 @@ export namespace Prisma {
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
   }
 
+  export type ReservationChangeRequestCreateNestedManyWithoutRequestedByInput = {
+    create?: XOR<ReservationChangeRequestCreateWithoutRequestedByInput, ReservationChangeRequestUncheckedCreateWithoutRequestedByInput> | ReservationChangeRequestCreateWithoutRequestedByInput[] | ReservationChangeRequestUncheckedCreateWithoutRequestedByInput[]
+    connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutRequestedByInput | ReservationChangeRequestCreateOrConnectWithoutRequestedByInput[]
+    createMany?: ReservationChangeRequestCreateManyRequestedByInputEnvelope
+    connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+  }
+
   export type AuditLogUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
@@ -26339,6 +28033,13 @@ export namespace Prisma {
     connectOrCreate?: ReviewCreateOrConnectWithoutUserInput | ReviewCreateOrConnectWithoutUserInput[]
     createMany?: ReviewCreateManyUserInputEnvelope
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput = {
+    create?: XOR<ReservationChangeRequestCreateWithoutRequestedByInput, ReservationChangeRequestUncheckedCreateWithoutRequestedByInput> | ReservationChangeRequestCreateWithoutRequestedByInput[] | ReservationChangeRequestUncheckedCreateWithoutRequestedByInput[]
+    connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutRequestedByInput | ReservationChangeRequestCreateOrConnectWithoutRequestedByInput[]
+    createMany?: ReservationChangeRequestCreateManyRequestedByInputEnvelope
+    connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -26433,6 +28134,20 @@ export namespace Prisma {
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
+  export type ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput = {
+    create?: XOR<ReservationChangeRequestCreateWithoutRequestedByInput, ReservationChangeRequestUncheckedCreateWithoutRequestedByInput> | ReservationChangeRequestCreateWithoutRequestedByInput[] | ReservationChangeRequestUncheckedCreateWithoutRequestedByInput[]
+    connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutRequestedByInput | ReservationChangeRequestCreateOrConnectWithoutRequestedByInput[]
+    upsert?: ReservationChangeRequestUpsertWithWhereUniqueWithoutRequestedByInput | ReservationChangeRequestUpsertWithWhereUniqueWithoutRequestedByInput[]
+    createMany?: ReservationChangeRequestCreateManyRequestedByInputEnvelope
+    set?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    disconnect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    delete?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    update?: ReservationChangeRequestUpdateWithWhereUniqueWithoutRequestedByInput | ReservationChangeRequestUpdateWithWhereUniqueWithoutRequestedByInput[]
+    updateMany?: ReservationChangeRequestUpdateManyWithWhereWithoutRequestedByInput | ReservationChangeRequestUpdateManyWithWhereWithoutRequestedByInput[]
+    deleteMany?: ReservationChangeRequestScalarWhereInput | ReservationChangeRequestScalarWhereInput[]
+  }
+
   export type AuditLogUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
@@ -26515,6 +28230,20 @@ export namespace Prisma {
     update?: ReviewUpdateWithWhereUniqueWithoutUserInput | ReviewUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ReviewUpdateManyWithWhereWithoutUserInput | ReviewUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput = {
+    create?: XOR<ReservationChangeRequestCreateWithoutRequestedByInput, ReservationChangeRequestUncheckedCreateWithoutRequestedByInput> | ReservationChangeRequestCreateWithoutRequestedByInput[] | ReservationChangeRequestUncheckedCreateWithoutRequestedByInput[]
+    connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutRequestedByInput | ReservationChangeRequestCreateOrConnectWithoutRequestedByInput[]
+    upsert?: ReservationChangeRequestUpsertWithWhereUniqueWithoutRequestedByInput | ReservationChangeRequestUpsertWithWhereUniqueWithoutRequestedByInput[]
+    createMany?: ReservationChangeRequestCreateManyRequestedByInputEnvelope
+    set?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    disconnect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    delete?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    update?: ReservationChangeRequestUpdateWithWhereUniqueWithoutRequestedByInput | ReservationChangeRequestUpdateWithWhereUniqueWithoutRequestedByInput[]
+    updateMany?: ReservationChangeRequestUpdateManyWithWhereWithoutRequestedByInput | ReservationChangeRequestUpdateManyWithWhereWithoutRequestedByInput[]
+    deleteMany?: ReservationChangeRequestScalarWhereInput | ReservationChangeRequestScalarWhereInput[]
   }
 
   export type BookingRuleCreateNestedOneWithoutRestaurantInput = {
@@ -27132,6 +28861,13 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ReservationChangeRequestCreateNestedManyWithoutReservationInput = {
+    create?: XOR<ReservationChangeRequestCreateWithoutReservationInput, ReservationChangeRequestUncheckedCreateWithoutReservationInput> | ReservationChangeRequestCreateWithoutReservationInput[] | ReservationChangeRequestUncheckedCreateWithoutReservationInput[]
+    connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutReservationInput | ReservationChangeRequestCreateOrConnectWithoutReservationInput[]
+    createMany?: ReservationChangeRequestCreateManyReservationInputEnvelope
+    connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+  }
+
   export type NotificationUncheckedCreateNestedManyWithoutReservationInput = {
     create?: XOR<NotificationCreateWithoutReservationInput, NotificationUncheckedCreateWithoutReservationInput> | NotificationCreateWithoutReservationInput[] | NotificationUncheckedCreateWithoutReservationInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutReservationInput | NotificationCreateOrConnectWithoutReservationInput[]
@@ -27143,6 +28879,13 @@ export namespace Prisma {
     create?: XOR<QrTokenCreateWithoutReservationInput, QrTokenUncheckedCreateWithoutReservationInput>
     connectOrCreate?: QrTokenCreateOrConnectWithoutReservationInput
     connect?: QrTokenWhereUniqueInput
+  }
+
+  export type ReservationChangeRequestUncheckedCreateNestedManyWithoutReservationInput = {
+    create?: XOR<ReservationChangeRequestCreateWithoutReservationInput, ReservationChangeRequestUncheckedCreateWithoutReservationInput> | ReservationChangeRequestCreateWithoutReservationInput[] | ReservationChangeRequestUncheckedCreateWithoutReservationInput[]
+    connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutReservationInput | ReservationChangeRequestCreateOrConnectWithoutReservationInput[]
+    createMany?: ReservationChangeRequestCreateManyReservationInputEnvelope
+    connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
   }
 
   export type EnumReservationStatusFieldUpdateOperationsInput = {
@@ -27197,6 +28940,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReservationsInput, UserUpdateWithoutReservationsInput>, UserUncheckedUpdateWithoutReservationsInput>
   }
 
+  export type ReservationChangeRequestUpdateManyWithoutReservationNestedInput = {
+    create?: XOR<ReservationChangeRequestCreateWithoutReservationInput, ReservationChangeRequestUncheckedCreateWithoutReservationInput> | ReservationChangeRequestCreateWithoutReservationInput[] | ReservationChangeRequestUncheckedCreateWithoutReservationInput[]
+    connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutReservationInput | ReservationChangeRequestCreateOrConnectWithoutReservationInput[]
+    upsert?: ReservationChangeRequestUpsertWithWhereUniqueWithoutReservationInput | ReservationChangeRequestUpsertWithWhereUniqueWithoutReservationInput[]
+    createMany?: ReservationChangeRequestCreateManyReservationInputEnvelope
+    set?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    disconnect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    delete?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    update?: ReservationChangeRequestUpdateWithWhereUniqueWithoutReservationInput | ReservationChangeRequestUpdateWithWhereUniqueWithoutReservationInput[]
+    updateMany?: ReservationChangeRequestUpdateManyWithWhereWithoutReservationInput | ReservationChangeRequestUpdateManyWithWhereWithoutReservationInput[]
+    deleteMany?: ReservationChangeRequestScalarWhereInput | ReservationChangeRequestScalarWhereInput[]
+  }
+
   export type NotificationUncheckedUpdateManyWithoutReservationNestedInput = {
     create?: XOR<NotificationCreateWithoutReservationInput, NotificationUncheckedCreateWithoutReservationInput> | NotificationCreateWithoutReservationInput[] | NotificationUncheckedCreateWithoutReservationInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutReservationInput | NotificationCreateOrConnectWithoutReservationInput[]
@@ -27219,6 +28976,64 @@ export namespace Prisma {
     delete?: QrTokenWhereInput | boolean
     connect?: QrTokenWhereUniqueInput
     update?: XOR<XOR<QrTokenUpdateToOneWithWhereWithoutReservationInput, QrTokenUpdateWithoutReservationInput>, QrTokenUncheckedUpdateWithoutReservationInput>
+  }
+
+  export type ReservationChangeRequestUncheckedUpdateManyWithoutReservationNestedInput = {
+    create?: XOR<ReservationChangeRequestCreateWithoutReservationInput, ReservationChangeRequestUncheckedCreateWithoutReservationInput> | ReservationChangeRequestCreateWithoutReservationInput[] | ReservationChangeRequestUncheckedCreateWithoutReservationInput[]
+    connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutReservationInput | ReservationChangeRequestCreateOrConnectWithoutReservationInput[]
+    upsert?: ReservationChangeRequestUpsertWithWhereUniqueWithoutReservationInput | ReservationChangeRequestUpsertWithWhereUniqueWithoutReservationInput[]
+    createMany?: ReservationChangeRequestCreateManyReservationInputEnvelope
+    set?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    disconnect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    delete?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    update?: ReservationChangeRequestUpdateWithWhereUniqueWithoutReservationInput | ReservationChangeRequestUpdateWithWhereUniqueWithoutReservationInput[]
+    updateMany?: ReservationChangeRequestUpdateManyWithWhereWithoutReservationInput | ReservationChangeRequestUpdateManyWithWhereWithoutReservationInput[]
+    deleteMany?: ReservationChangeRequestScalarWhereInput | ReservationChangeRequestScalarWhereInput[]
+  }
+
+  export type ReservationCreateNestedOneWithoutReservationChangeRequestInput = {
+    create?: XOR<ReservationCreateWithoutReservationChangeRequestInput, ReservationUncheckedCreateWithoutReservationChangeRequestInput>
+    connectOrCreate?: ReservationCreateOrConnectWithoutReservationChangeRequestInput
+    connect?: ReservationWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutReservationChangeRequestInput = {
+    create?: XOR<UserCreateWithoutReservationChangeRequestInput, UserUncheckedCreateWithoutReservationChangeRequestInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReservationChangeRequestInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumChangeStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ChangeStatus
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type ReservationUpdateOneRequiredWithoutReservationChangeRequestNestedInput = {
+    create?: XOR<ReservationCreateWithoutReservationChangeRequestInput, ReservationUncheckedCreateWithoutReservationChangeRequestInput>
+    connectOrCreate?: ReservationCreateOrConnectWithoutReservationChangeRequestInput
+    upsert?: ReservationUpsertWithoutReservationChangeRequestInput
+    connect?: ReservationWhereUniqueInput
+    update?: XOR<XOR<ReservationUpdateToOneWithWhereWithoutReservationChangeRequestInput, ReservationUpdateWithoutReservationChangeRequestInput>, ReservationUncheckedUpdateWithoutReservationChangeRequestInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutReservationChangeRequestNestedInput = {
+    create?: XOR<UserCreateWithoutReservationChangeRequestInput, UserUncheckedCreateWithoutReservationChangeRequestInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReservationChangeRequestInput
+    upsert?: UserUpsertWithoutReservationChangeRequestInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReservationChangeRequestInput, UserUpdateWithoutReservationChangeRequestInput>, UserUncheckedUpdateWithoutReservationChangeRequestInput>
   }
 
   export type ReservationCreateNestedOneWithoutQrTokenInput = {
@@ -27752,6 +29567,75 @@ export namespace Prisma {
     _max?: NestedEnumReservationStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumChangeStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ChangeStatus | EnumChangeStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ChangeStatus[] | ListEnumChangeStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ChangeStatus[] | ListEnumChangeStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumChangeStatusFilter<$PrismaModel> | $Enums.ChangeStatus
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumChangeStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ChangeStatus | EnumChangeStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ChangeStatus[] | ListEnumChangeStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ChangeStatus[] | ListEnumChangeStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumChangeStatusWithAggregatesFilter<$PrismaModel> | $Enums.ChangeStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumChangeStatusFilter<$PrismaModel>
+    _max?: NestedEnumChangeStatusFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumDayOfWeekFilter<$PrismaModel = never> = {
     equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
     in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
@@ -27878,6 +29762,7 @@ export namespace Prisma {
     qrToken?: QrTokenCreateNestedOneWithoutReservationInput
     restaurant: RestaurantCreateNestedOneWithoutReservationsInput
     table: TableCreateNestedOneWithoutReservationsInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateWithoutUserInput = {
@@ -27892,6 +29777,7 @@ export namespace Prisma {
     createdAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutReservationInput
     qrToken?: QrTokenUncheckedCreateNestedOneWithoutReservationInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationCreateOrConnectWithoutUserInput = {
@@ -27969,6 +29855,40 @@ export namespace Prisma {
 
   export type ReviewCreateManyUserInputEnvelope = {
     data: ReviewCreateManyUserInput | ReviewCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReservationChangeRequestCreateWithoutRequestedByInput = {
+    id?: string
+    status?: $Enums.ChangeStatus
+    newStartsAt?: Date | string | null
+    newEndsAt?: Date | string | null
+    newPartySize?: number | null
+    newNotes?: string | null
+    createdAt?: Date | string
+    reviewedAt?: Date | string | null
+    reservation: ReservationCreateNestedOneWithoutReservationChangeRequestInput
+  }
+
+  export type ReservationChangeRequestUncheckedCreateWithoutRequestedByInput = {
+    id?: string
+    reservationId: string
+    status?: $Enums.ChangeStatus
+    newStartsAt?: Date | string | null
+    newEndsAt?: Date | string | null
+    newPartySize?: number | null
+    newNotes?: string | null
+    createdAt?: Date | string
+    reviewedAt?: Date | string | null
+  }
+
+  export type ReservationChangeRequestCreateOrConnectWithoutRequestedByInput = {
+    where: ReservationChangeRequestWhereUniqueInput
+    create: XOR<ReservationChangeRequestCreateWithoutRequestedByInput, ReservationChangeRequestUncheckedCreateWithoutRequestedByInput>
+  }
+
+  export type ReservationChangeRequestCreateManyRequestedByInputEnvelope = {
+    data: ReservationChangeRequestCreateManyRequestedByInput | ReservationChangeRequestCreateManyRequestedByInput[]
     skipDuplicates?: boolean
   }
 
@@ -28144,6 +30064,38 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Review"> | Date | string
   }
 
+  export type ReservationChangeRequestUpsertWithWhereUniqueWithoutRequestedByInput = {
+    where: ReservationChangeRequestWhereUniqueInput
+    update: XOR<ReservationChangeRequestUpdateWithoutRequestedByInput, ReservationChangeRequestUncheckedUpdateWithoutRequestedByInput>
+    create: XOR<ReservationChangeRequestCreateWithoutRequestedByInput, ReservationChangeRequestUncheckedCreateWithoutRequestedByInput>
+  }
+
+  export type ReservationChangeRequestUpdateWithWhereUniqueWithoutRequestedByInput = {
+    where: ReservationChangeRequestWhereUniqueInput
+    data: XOR<ReservationChangeRequestUpdateWithoutRequestedByInput, ReservationChangeRequestUncheckedUpdateWithoutRequestedByInput>
+  }
+
+  export type ReservationChangeRequestUpdateManyWithWhereWithoutRequestedByInput = {
+    where: ReservationChangeRequestScalarWhereInput
+    data: XOR<ReservationChangeRequestUpdateManyMutationInput, ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByInput>
+  }
+
+  export type ReservationChangeRequestScalarWhereInput = {
+    AND?: ReservationChangeRequestScalarWhereInput | ReservationChangeRequestScalarWhereInput[]
+    OR?: ReservationChangeRequestScalarWhereInput[]
+    NOT?: ReservationChangeRequestScalarWhereInput | ReservationChangeRequestScalarWhereInput[]
+    id?: StringFilter<"ReservationChangeRequest"> | string
+    reservationId?: StringFilter<"ReservationChangeRequest"> | string
+    requestedById?: StringFilter<"ReservationChangeRequest"> | string
+    status?: EnumChangeStatusFilter<"ReservationChangeRequest"> | $Enums.ChangeStatus
+    newStartsAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
+    newEndsAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
+    newPartySize?: IntNullableFilter<"ReservationChangeRequest"> | number | null
+    newNotes?: StringNullableFilter<"ReservationChangeRequest"> | string | null
+    createdAt?: DateTimeFilter<"ReservationChangeRequest"> | Date | string
+    reviewedAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
+  }
+
   export type BookingRuleCreateWithoutRestaurantInput = {
     id?: string
     maxPartySize: number
@@ -28225,6 +30177,7 @@ export namespace Prisma {
     qrToken?: QrTokenCreateNestedOneWithoutReservationInput
     table: TableCreateNestedOneWithoutReservationsInput
     user: UserCreateNestedOneWithoutReservationsInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateWithoutRestaurantInput = {
@@ -28239,6 +30192,7 @@ export namespace Prisma {
     createdAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutReservationInput
     qrToken?: QrTokenUncheckedCreateNestedOneWithoutReservationInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationCreateOrConnectWithoutRestaurantInput = {
@@ -28262,6 +30216,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutRestaurantsInput = {
@@ -28275,6 +30230,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutUserInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutRestaurantsInput = {
@@ -28513,6 +30469,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRestaurantsInput = {
@@ -28526,6 +30483,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type RestaurantAccessibilityUpsertWithWhereUniqueWithoutRestaurantInput = {
@@ -28789,6 +30747,7 @@ export namespace Prisma {
     qrToken?: QrTokenCreateNestedOneWithoutReservationInput
     restaurant: RestaurantCreateNestedOneWithoutReservationsInput
     user: UserCreateNestedOneWithoutReservationsInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateWithoutTableInput = {
@@ -28803,6 +30762,7 @@ export namespace Prisma {
     createdAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutReservationInput
     qrToken?: QrTokenUncheckedCreateNestedOneWithoutReservationInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationCreateOrConnectWithoutTableInput = {
@@ -29190,6 +31150,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutReservationsInput = {
@@ -29203,11 +31164,46 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutReservationsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutReservationsInput, UserUncheckedCreateWithoutReservationsInput>
+  }
+
+  export type ReservationChangeRequestCreateWithoutReservationInput = {
+    id?: string
+    status?: $Enums.ChangeStatus
+    newStartsAt?: Date | string | null
+    newEndsAt?: Date | string | null
+    newPartySize?: number | null
+    newNotes?: string | null
+    createdAt?: Date | string
+    reviewedAt?: Date | string | null
+    requestedBy: UserCreateNestedOneWithoutReservationChangeRequestInput
+  }
+
+  export type ReservationChangeRequestUncheckedCreateWithoutReservationInput = {
+    id?: string
+    requestedById: string
+    status?: $Enums.ChangeStatus
+    newStartsAt?: Date | string | null
+    newEndsAt?: Date | string | null
+    newPartySize?: number | null
+    newNotes?: string | null
+    createdAt?: Date | string
+    reviewedAt?: Date | string | null
+  }
+
+  export type ReservationChangeRequestCreateOrConnectWithoutReservationInput = {
+    where: ReservationChangeRequestWhereUniqueInput
+    create: XOR<ReservationChangeRequestCreateWithoutReservationInput, ReservationChangeRequestUncheckedCreateWithoutReservationInput>
+  }
+
+  export type ReservationChangeRequestCreateManyReservationInputEnvelope = {
+    data: ReservationChangeRequestCreateManyReservationInput | ReservationChangeRequestCreateManyReservationInput[]
+    skipDuplicates?: boolean
   }
 
   export type NotificationUpsertWithWhereUniqueWithoutReservationInput = {
@@ -29349,6 +31345,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservationsInput = {
@@ -29360,6 +31357,171 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  }
+
+  export type ReservationChangeRequestUpsertWithWhereUniqueWithoutReservationInput = {
+    where: ReservationChangeRequestWhereUniqueInput
+    update: XOR<ReservationChangeRequestUpdateWithoutReservationInput, ReservationChangeRequestUncheckedUpdateWithoutReservationInput>
+    create: XOR<ReservationChangeRequestCreateWithoutReservationInput, ReservationChangeRequestUncheckedCreateWithoutReservationInput>
+  }
+
+  export type ReservationChangeRequestUpdateWithWhereUniqueWithoutReservationInput = {
+    where: ReservationChangeRequestWhereUniqueInput
+    data: XOR<ReservationChangeRequestUpdateWithoutReservationInput, ReservationChangeRequestUncheckedUpdateWithoutReservationInput>
+  }
+
+  export type ReservationChangeRequestUpdateManyWithWhereWithoutReservationInput = {
+    where: ReservationChangeRequestScalarWhereInput
+    data: XOR<ReservationChangeRequestUpdateManyMutationInput, ReservationChangeRequestUncheckedUpdateManyWithoutReservationInput>
+  }
+
+  export type ReservationCreateWithoutReservationChangeRequestInput = {
+    id?: string
+    startsAt: Date | string
+    endsAt: Date | string
+    partySize: number
+    notes?: string | null
+    status?: $Enums.ReservationStatus
+    createdAt?: Date | string
+    notifications?: NotificationCreateNestedManyWithoutReservationInput
+    qrToken?: QrTokenCreateNestedOneWithoutReservationInput
+    restaurant: RestaurantCreateNestedOneWithoutReservationsInput
+    table: TableCreateNestedOneWithoutReservationsInput
+    user: UserCreateNestedOneWithoutReservationsInput
+  }
+
+  export type ReservationUncheckedCreateWithoutReservationChangeRequestInput = {
+    id?: string
+    restaurantId: string
+    userId: string
+    tableId: string
+    startsAt: Date | string
+    endsAt: Date | string
+    partySize: number
+    notes?: string | null
+    status?: $Enums.ReservationStatus
+    createdAt?: Date | string
+    notifications?: NotificationUncheckedCreateNestedManyWithoutReservationInput
+    qrToken?: QrTokenUncheckedCreateNestedOneWithoutReservationInput
+  }
+
+  export type ReservationCreateOrConnectWithoutReservationChangeRequestInput = {
+    where: ReservationWhereUniqueInput
+    create: XOR<ReservationCreateWithoutReservationChangeRequestInput, ReservationUncheckedCreateWithoutReservationChangeRequestInput>
+  }
+
+  export type UserCreateWithoutReservationChangeRequestInput = {
+    id?: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    name: string
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    reservations?: ReservationCreateNestedManyWithoutUserInput
+    restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutReservationChangeRequestInput = {
+    id?: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    name: string
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutUserInput
+    restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutReservationChangeRequestInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutReservationChangeRequestInput, UserUncheckedCreateWithoutReservationChangeRequestInput>
+  }
+
+  export type ReservationUpsertWithoutReservationChangeRequestInput = {
+    update: XOR<ReservationUpdateWithoutReservationChangeRequestInput, ReservationUncheckedUpdateWithoutReservationChangeRequestInput>
+    create: XOR<ReservationCreateWithoutReservationChangeRequestInput, ReservationUncheckedCreateWithoutReservationChangeRequestInput>
+    where?: ReservationWhereInput
+  }
+
+  export type ReservationUpdateToOneWithWhereWithoutReservationChangeRequestInput = {
+    where?: ReservationWhereInput
+    data: XOR<ReservationUpdateWithoutReservationChangeRequestInput, ReservationUncheckedUpdateWithoutReservationChangeRequestInput>
+  }
+
+  export type ReservationUpdateWithoutReservationChangeRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    partySize?: IntFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notifications?: NotificationUpdateManyWithoutReservationNestedInput
+    qrToken?: QrTokenUpdateOneWithoutReservationNestedInput
+    restaurant?: RestaurantUpdateOneRequiredWithoutReservationsNestedInput
+    table?: TableUpdateOneRequiredWithoutReservationsNestedInput
+    user?: UserUpdateOneRequiredWithoutReservationsNestedInput
+  }
+
+  export type ReservationUncheckedUpdateWithoutReservationChangeRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    restaurantId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    partySize?: IntFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notifications?: NotificationUncheckedUpdateManyWithoutReservationNestedInput
+    qrToken?: QrTokenUncheckedUpdateOneWithoutReservationNestedInput
+  }
+
+  export type UserUpsertWithoutReservationChangeRequestInput = {
+    update: XOR<UserUpdateWithoutReservationChangeRequestInput, UserUncheckedUpdateWithoutReservationChangeRequestInput>
+    create: XOR<UserCreateWithoutReservationChangeRequestInput, UserUncheckedCreateWithoutReservationChangeRequestInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutReservationChangeRequestInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutReservationChangeRequestInput, UserUncheckedUpdateWithoutReservationChangeRequestInput>
+  }
+
+  export type UserUpdateWithoutReservationChangeRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    name?: StringFieldUpdateOperationsInput | string
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    reservations?: ReservationUpdateManyWithoutUserNestedInput
+    restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutReservationChangeRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    name?: StringFieldUpdateOperationsInput | string
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -29376,6 +31538,7 @@ export namespace Prisma {
     restaurant: RestaurantCreateNestedOneWithoutReservationsInput
     table: TableCreateNestedOneWithoutReservationsInput
     user: UserCreateNestedOneWithoutReservationsInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateWithoutQrTokenInput = {
@@ -29390,6 +31553,7 @@ export namespace Prisma {
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutReservationInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationCreateOrConnectWithoutQrTokenInput = {
@@ -29420,6 +31584,7 @@ export namespace Prisma {
     restaurant?: RestaurantUpdateOneRequiredWithoutReservationsNestedInput
     table?: TableUpdateOneRequiredWithoutReservationsNestedInput
     user?: UserUpdateOneRequiredWithoutReservationsNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutQrTokenInput = {
@@ -29434,6 +31599,7 @@ export namespace Prisma {
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutReservationNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationCreateWithoutNotificationsInput = {
@@ -29448,6 +31614,7 @@ export namespace Prisma {
     restaurant: RestaurantCreateNestedOneWithoutReservationsInput
     table: TableCreateNestedOneWithoutReservationsInput
     user: UserCreateNestedOneWithoutReservationsInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateWithoutNotificationsInput = {
@@ -29462,6 +31629,7 @@ export namespace Prisma {
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     qrToken?: QrTokenUncheckedCreateNestedOneWithoutReservationInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationCreateOrConnectWithoutNotificationsInput = {
@@ -29480,6 +31648,7 @@ export namespace Prisma {
     reservations?: ReservationCreateNestedManyWithoutUserInput
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -29493,6 +31662,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedCreateNestedManyWithoutUserInput
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -29523,6 +31693,7 @@ export namespace Prisma {
     restaurant?: RestaurantUpdateOneRequiredWithoutReservationsNestedInput
     table?: TableUpdateOneRequiredWithoutReservationsNestedInput
     user?: UserUpdateOneRequiredWithoutReservationsNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutNotificationsInput = {
@@ -29537,6 +31708,7 @@ export namespace Prisma {
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     qrToken?: QrTokenUncheckedUpdateOneWithoutReservationNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutReservationNestedInput
   }
 
   export type UserUpsertWithoutNotificationsInput = {
@@ -29561,6 +31733,7 @@ export namespace Prisma {
     reservations?: ReservationUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -29574,6 +31747,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type RestaurantCreateWithoutReviewsInput = {
@@ -29624,6 +31798,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutReviewsInput = {
@@ -29637,6 +31812,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutUserInput
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutReviewsInput = {
@@ -29709,6 +31885,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -29722,6 +31899,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type RestaurantCreateWithoutFavoritesInput = {
@@ -29772,6 +31950,7 @@ export namespace Prisma {
     reservations?: ReservationCreateNestedManyWithoutUserInput
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutFavoritesInput = {
@@ -29785,6 +31964,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedCreateNestedManyWithoutUserInput
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutFavoritesInput = {
@@ -29857,6 +32037,7 @@ export namespace Prisma {
     reservations?: ReservationUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFavoritesInput = {
@@ -29870,6 +32051,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type RestaurantCreateWithoutOpeningHoursInput = {
@@ -30446,6 +32628,7 @@ export namespace Prisma {
     reservations?: ReservationCreateNestedManyWithoutUserInput
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -30459,6 +32642,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedCreateNestedManyWithoutUserInput
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
   }
 
   export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -30488,6 +32672,7 @@ export namespace Prisma {
     reservations?: ReservationUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -30501,6 +32686,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
   export type AuditLogCreateManyUserInput = {
@@ -30553,6 +32739,18 @@ export namespace Prisma {
     rating: number
     comment?: string | null
     createdAt?: Date | string
+  }
+
+  export type ReservationChangeRequestCreateManyRequestedByInput = {
+    id?: string
+    reservationId: string
+    status?: $Enums.ChangeStatus
+    newStartsAt?: Date | string | null
+    newEndsAt?: Date | string | null
+    newPartySize?: number | null
+    newNotes?: string | null
+    createdAt?: Date | string
+    reviewedAt?: Date | string | null
   }
 
   export type AuditLogUpdateWithoutUserInput = {
@@ -30642,6 +32840,7 @@ export namespace Prisma {
     qrToken?: QrTokenUpdateOneWithoutReservationNestedInput
     restaurant?: RestaurantUpdateOneRequiredWithoutReservationsNestedInput
     table?: TableUpdateOneRequiredWithoutReservationsNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutUserInput = {
@@ -30656,6 +32855,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutReservationNestedInput
     qrToken?: QrTokenUncheckedUpdateOneWithoutReservationNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateManyWithoutUserInput = {
@@ -30731,6 +32931,42 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReservationChangeRequestUpdateWithoutRequestedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reservation?: ReservationUpdateOneRequiredWithoutReservationChangeRequestNestedInput
+  }
+
+  export type ReservationChangeRequestUncheckedUpdateWithoutRequestedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type FavoriteCreateManyRestaurantInput = {
@@ -30846,6 +33082,7 @@ export namespace Prisma {
     qrToken?: QrTokenUpdateOneWithoutReservationNestedInput
     table?: TableUpdateOneRequiredWithoutReservationsNestedInput
     user?: UserUpdateOneRequiredWithoutReservationsNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutRestaurantInput = {
@@ -30860,6 +33097,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutReservationNestedInput
     qrToken?: QrTokenUncheckedUpdateOneWithoutReservationNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateManyWithoutRestaurantInput = {
@@ -31050,6 +33288,7 @@ export namespace Prisma {
     qrToken?: QrTokenUpdateOneWithoutReservationNestedInput
     restaurant?: RestaurantUpdateOneRequiredWithoutReservationsNestedInput
     user?: UserUpdateOneRequiredWithoutReservationsNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutTableInput = {
@@ -31064,6 +33303,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutReservationNestedInput
     qrToken?: QrTokenUncheckedUpdateOneWithoutReservationNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateManyWithoutTableInput = {
@@ -31109,6 +33349,18 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ReservationChangeRequestCreateManyReservationInput = {
+    id?: string
+    requestedById: string
+    status?: $Enums.ChangeStatus
+    newStartsAt?: Date | string | null
+    newEndsAt?: Date | string | null
+    newPartySize?: number | null
+    newNotes?: string | null
+    createdAt?: Date | string
+    reviewedAt?: Date | string | null
+  }
+
   export type NotificationUpdateWithoutReservationInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
@@ -31137,6 +33389,42 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReservationChangeRequestUpdateWithoutReservationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestedBy?: UserUpdateOneRequiredWithoutReservationChangeRequestNestedInput
+  }
+
+  export type ReservationChangeRequestUncheckedUpdateWithoutReservationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReservationChangeRequestUncheckedUpdateManyWithoutReservationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TagCreateManyCategoryInput = {

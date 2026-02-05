@@ -8,17 +8,18 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(uuid())
-  email         String         @unique
-  password      String
-  role          Role           @default(CUSTOMER)
-  name          String
-  auditLogs     AuditLog[]
-  favorites     Favorite[]
-  notifications Notification[]
-  reservations  Reservation[]
-  restaurants   Restaurant[]
-  reviews       Review[]
+  id                       String                     @id @default(uuid())
+  email                    String                     @unique
+  password                 String
+  role                     Role                       @default(CUSTOMER)
+  name                     String
+  auditLogs                AuditLog[]
+  favorites                Favorite[]
+  notifications            Notification[]
+  reservations             Reservation[]
+  restaurants              Restaurant[]
+  reviews                  Review[]
+  ReservationChangeRequest ReservationChangeRequest[]
 }
 
 model Restaurant {
@@ -74,21 +75,38 @@ model TableUnavailability {
 }
 
 model Reservation {
-  id            String            @id @default(uuid())
-  restaurantId  String
-  userId        String
-  tableId       String
-  startsAt      DateTime
-  endsAt        DateTime
-  partySize     Int
-  notes         String?
-  status        ReservationStatus @default(PENDING)
-  createdAt     DateTime          @default(now())
-  notifications Notification[]
-  qrToken       QrToken?
-  restaurant    Restaurant        @relation(fields: [restaurantId], references: [id])
-  table         Table             @relation(fields: [tableId], references: [id])
-  user          User              @relation(fields: [userId], references: [id])
+  id                       String                     @id @default(uuid())
+  restaurantId             String
+  userId                   String
+  tableId                  String
+  startsAt                 DateTime
+  endsAt                   DateTime
+  partySize                Int
+  notes                    String?
+  status                   ReservationStatus          @default(PENDING)
+  createdAt                DateTime                   @default(now())
+  notifications            Notification[]
+  qrToken                  QrToken?
+  restaurant               Restaurant                 @relation(fields: [restaurantId], references: [id])
+  table                    Table                      @relation(fields: [tableId], references: [id])
+  user                     User                       @relation(fields: [userId], references: [id])
+  ReservationChangeRequest ReservationChangeRequest[]
+}
+
+model ReservationChangeRequest {
+  id            String       @id @default(uuid())
+  reservationId String
+  requestedById String
+  status        ChangeStatus @default(PENDING)
+  newStartsAt   DateTime?
+  newEndsAt     DateTime?
+  newPartySize  Int?
+  newNotes      String?
+  createdAt     DateTime     @default(now())
+  reviewedAt    DateTime?
+
+  reservation Reservation @relation(fields: [reservationId], references: [id])
+  requestedBy User        @relation(fields: [requestedById], references: [id])
 }
 
 model QrToken {
@@ -242,4 +260,10 @@ enum DayOfWeek {
   FRIDAY
   SATURDAY
   SUNDAY
+}
+
+enum ChangeStatus {
+  PENDING
+  APPROVED
+  DECLINED
 }

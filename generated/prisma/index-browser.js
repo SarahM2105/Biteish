@@ -174,6 +174,19 @@ exports.Prisma.ReservationScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ReservationChangeRequestScalarFieldEnum = {
+  id: 'id',
+  reservationId: 'reservationId',
+  requestedById: 'requestedById',
+  status: 'status',
+  newStartsAt: 'newStartsAt',
+  newEndsAt: 'newEndsAt',
+  newPartySize: 'newPartySize',
+  newNotes: 'newNotes',
+  createdAt: 'createdAt',
+  reviewedAt: 'reviewedAt'
+};
+
 exports.Prisma.QrTokenScalarFieldEnum = {
   id: 'id',
   reservationId: 'reservationId',
@@ -297,6 +310,12 @@ exports.ReservationStatus = exports.$Enums.ReservationStatus = {
   NO_SHOW: 'NO_SHOW'
 };
 
+exports.ChangeStatus = exports.$Enums.ChangeStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  DECLINED: 'DECLINED'
+};
+
 exports.DayOfWeek = exports.$Enums.DayOfWeek = {
   MONDAY: 'MONDAY',
   TUESDAY: 'TUESDAY',
@@ -324,6 +343,7 @@ exports.Prisma.ModelName = {
   Table: 'Table',
   TableUnavailability: 'TableUnavailability',
   Reservation: 'Reservation',
+  ReservationChangeRequest: 'ReservationChangeRequest',
   QrToken: 'QrToken',
   Notification: 'Notification',
   Review: 'Review',

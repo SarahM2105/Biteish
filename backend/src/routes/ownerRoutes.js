@@ -29,6 +29,26 @@ const {
     deleteUnavailability
 } = require('../controllers/unavailabilityController');
 
+const {
+    setBookingRule,
+    getBookingRule,
+} = require('../controllers/bookingRuleController');
+
+const {
+    upsertOpeningHours,
+    listOpeningHours
+} = require('../controllers/openingHourController');
+
+const {
+    updateReservation,
+    approveReservation,
+    declineReservation
+} = require("../controllers/bookingController");
+const {
+    listChangeRequest,
+    approveChangeRequest,
+    declineChangeRequest,
+} = require('../controllers/ownerReservationController');
 
 const router =express.Router();
 
@@ -55,5 +75,18 @@ router.post("/tables/:tableId/unavailability", addUnavailability);
 router.get("/tables/:tableId/unavailability", listUnavailability);
 router.put("/tables/unavailability/:unavailabilityId", updateUnavailability);
 router.delete("/tables/unavailability/:unavailabilityId", deleteUnavailability);
+//booking rule
+router.put("/restaurants/:restaurantId/booking-rule", setBookingRule);
+router.get("/restaurants/:restaurantId/booking-rule", getBookingRule);
+//opening hours
+router.put("/restaurants/:restaurantId/opening-hours",upsertOpeningHours);
+router.get("restaurants/:restaurantId/opening-hours", listOpeningHours);
+//approve decline flow
+router.patch("/reservations/:reservationId/approve", approveReservation);
+router.patch("/reservations/:reservationId/decline", declineReservation);
+// approving/ decline change requests
+router.get("/change-request", listChangeRequest);
+router.patch("/change-request/:requestId/approve", approveChangeRequest);
+router.patch("/change-request/:requestId/decline", declineChangeRequest);
 
 module.exports = router;

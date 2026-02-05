@@ -13,12 +13,14 @@ const app = express();
 const authRoutes = require("./routes/authRoutes");
 const protectedRoutes = require("./routes/protectedRoutes");
 const ownerRoutes = require("./routes/ownerRoutes");
+const customerRoutes = require("./routes/customerRoutes");
 
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/protected", protectedRoutes);
 app.use("/api/owner", ownerRoutes);
 
+app.use("/api/customer", customerRoutes);
 app.get("/health", (req, res) => {
     res.send("ok");
 });
