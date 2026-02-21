@@ -42,7 +42,8 @@ const {
 const {
     updateReservation,
     approveReservation,
-    declineReservation
+    declineReservation,
+    listPendingReservations
 } = require("../controllers/bookingController");
 const {
     listChangeRequest,
@@ -80,8 +81,9 @@ router.put("/restaurants/:restaurantId/booking-rule", setBookingRule);
 router.get("/restaurants/:restaurantId/booking-rule", getBookingRule);
 //opening hours
 router.put("/restaurants/:restaurantId/opening-hours",upsertOpeningHours);
-router.get("restaurants/:restaurantId/opening-hours", listOpeningHours);
+router.get("/restaurants/:restaurantId/opening-hours", listOpeningHours);
 //approve decline flow
+router.get("/reservations/pending", listPendingReservations)
 router.patch("/reservations/:reservationId/approve", approveReservation);
 router.patch("/reservations/:reservationId/decline", declineReservation);
 // approving/ decline change requests

@@ -1,11 +1,37 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bookingController = require('../controllers/bookingController');
-const authenticateToken = require('../middleware/authMiddleware');
-//restaurant list
-router.post("/tables/:tableId/book", authenticateToken, bookingController.createBooking);
-router.get("/reservations", authenticateToken, bookingController.listUserReservations);
-router.put("/reservations/:reservationId", authenticateToken, bookingController.updateReservation);
-router.patch("/reservations/:reservationId/cancel", authenticateToken, bookingController.cancelReservation);
+
+const authenticateToken = require("../middleware/authMiddleware");
+const requiredRole = require("../middleware/roleMiddleware");
+
+const {
+    createBooking,
+    updateReservation,
+    listUserReservations,
+    cancelReservation,
+} = require("../controllers/bookingController");
+
+const { listRestaurants } = require("../controllers/publicRestaurantController");
+
+const {
+    listZonesForRestaurant,
+    listTablesForZone,
+} = require("../controllers/customerBrowseController");
+
+const { getMe } = require("../controllers/userController");
+
+router.use(authenticateToken);
+router.use(requiredRole(["CUSTOMER"]));
+
+router.post("/tables/:tableId/book", createBooking);
+router.get("/reservations", listUserReservations);
+router.put("/reservations/:reservationId", updateReservation);
+router.patch("/reservations/:reservationId/cancel", cancelReservation);
+
+router.get("/restaurants/search", listRestaurants);
+router.get("/restaurants/:restaurantId/zones", listZonesForRestaurant);
+router.get("/zones/:zoneId/tables", listTablesForZone);
+
+router.get("/me", getMe);
 
 module.exports = router;

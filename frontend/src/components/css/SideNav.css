@@ -1,0 +1,81 @@
+.sidenav {
+    width: 240px;
+    background: #61dafb;
+    border-right: 1px solid #61dafb;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    height:100%
+}
+
+.sidenav__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidenav__header {
+    font-weight: 700;
+    margin: 16px;
+    letter-spacing: 0.4px;
+    color: #61dafb;
+    margin-bottom: 14px;
+}
+
+.sidenav__item {
+    width: 100%;
+    text-align: left;
+    padding: 12px 14px;
+    border:1px solid transparent;
+    background: transparent;
+    border-radius:10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #222;
+}
+
+.sidenav__item:hover {
+    background-color: #e9f2ff;
+}
+
+.sidenav__item.is-active {
+    background-color: #dbeafe;
+    border-color: #bfdbfe;
+    font-weight: 600;
+}
+
+.sidenav__footer{
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid #e6e9f2;
+}
+
+.sidenav__logout {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #61dafb;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.sidenav__logout:hover {
+    background-color: #f6f8fc;
+}
+
+.dashboard-nav.is-collapsed .sidenav__item{
+    justify-content: center;
+    padding: 10px;
+}
+
+.dashboard-nav.is-collapsed .sidenav__item {
+    font-size:0;
+}
+
+/*.dashboard-nav.is-collapsed .sidenav__item::before {
+    content: ".";
+    font-size: 20px;
+}
+
+ */

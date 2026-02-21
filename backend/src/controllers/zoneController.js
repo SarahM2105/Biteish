@@ -73,18 +73,65 @@ async function deleteZone(req, res) {
     try {
         const { zoneId } = req.params;
 
-        const zone = await prisma.zone.findUnique({where: {id: zoneId}, include: {restaurant: true}});
-        if(!zone) {
-            return res.status(404).json({error: 'zone not found with id'});
+        const zone = await prisma.zone.findUnique({
+            where: { id: zoneId },
+            include: { restaurant: true },
+        });
+
+        if (!zone) {
+            return res.status(404).json({ error: "zone not found" });
         }
-        if(zone.restaurant.ownerId !== req.user.userId) {
-            return res.status(403).json({error:"not your zone"});
+
+        if (zone.restaurant.ownerId !== req.user.userId) {
+            return res.status(403).json({ error: "not your zone" });
         }
-        await prisma.zone.delete({where: {id: zoneId}});
-        return res.json({message: "zone deleted"});
+
+        await prisma.$transaction(async (tx) => {
+            const tables = await tx.table.findMany({
+                where: { zoneId },
+                select: { id: true },
+            });
+
+            const tableIds = tables.map(t => t.id);
+
+            if (tableIds.length > 0) {
+                const reservations = await tx.reservation.findMany({
+                    where: { tableId: { in: tableIds } },
+                    select: { id: true },
+                });
+
+                const reservationIds = reservations.map(r => r.id);
+
+                if (reservationIds.length > 0) {
+                    await tx.reservationChangeRequest.deleteMany({
+                        where: { reservationId: { in: reservationIds } },
+                    });
+                }
+
+                await tx.reservation.deleteMany({
+                    where: { tableId: { in: tableIds } },
+                });
+
+                await tx.tableUnavailability.deleteMany({
+                    where: { tableId: { in: tableIds } },
+                });
+
+                await tx.table.deleteMany({
+                    where: { id: { in: tableIds } },
+                });
+            }
+
+
+            await tx.zone.delete({
+                where: { id: zoneId },
+            });
+        });
+
+        return res.status(204).send();
+
     } catch (error) {
         console.error(error);
-        return res.status(500).json({error:"server error"});
+        return res.status(500).json({ message: "Server error" });
     }
 }
 

@@ -14,6 +14,16 @@ const authRoutes = require("./routes/authRoutes");
 const protectedRoutes = require("./routes/protectedRoutes");
 const ownerRoutes = require("./routes/ownerRoutes");
 const customerRoutes = require("./routes/customerRoutes");
+const cors = require("cors");
+
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
+app.options(/.*/, cors());
+
+
 
 app.use(express.json());
 app.use("/api/auth", authRoutes);

@@ -26,26 +26,38 @@ async function createBooking(req, res) {
             return res.status(404).json({error: "tableId not found"});
         }
         const bookingStart = new Date(startsAt);
-        const bookingDay = bookingStart.toLocaleDateString("en-GB",{weekday:"long"}).toUpperCase();
-        const openingHour = table.restaurant.openingHours.find(
-            h => h.day === bookingDay
-        );
-        if (!openingHour) {
-            return res.status(404).json({error: `restaurant is closed on ${bookingDay}`});
+        const bookingEnd = new Date(endsAt);
+
+        const hours = table.restaurant.openingHours || [];
+        const bookingDay = bookingStart
+            .toLocaleDateString("en-GB", { weekday: "long" })
+            .toUpperCase();
+
+        if (hours.length > 0) {
+            const openingHour = hours.find(h => h.day === bookingDay);
+
+            if (!openingHour) {
+                return res.status(400).json({ error: `Restaurant is closed on ${bookingDay}` });
+            }
+
+            const [openHour, openMinute] = openingHour.opensAt.split(":").map(Number);
+            const [closeHour, closeMinute] = openingHour.closesAt.split(":").map(Number);
+
+            const opensAt = new Date(bookingStart);
+            opensAt.setHours(openHour, openMinute, 0, 0);
+
+            const closesAt = new Date(bookingStart);
+            closesAt.setHours(closeHour, closeMinute, 0, 0);
+
+            if (closesAt <= opensAt) {
+                closesAt.setDate(closesAt.getDate() + 1);
+            }
+
+            if (bookingStart < opensAt || bookingEnd > closesAt) {
+                return res.status(400).json({ error: "Booking is outside of opening hours" });
+            }
         }
 
-        const [openHour, openMinute] = openingHour.opensAt.split(":").map(Number);
-        const [closeHour, closeMinute] = openHour.closesAt.split(":").map(Number);
-
-        const opensAt = new Date(bookingStart);
-        opensAt.setHours(openHour, openMinute, 0);
-
-        const closesAt = new Date(bookingStart);
-        closesAt.setHours(closeHour, closeMinute, 0);
-
-        if (bookingStart < opensAt || new Date(endsAt) > closesAt) {
-            return res.status(400).json({error: "booking is outside of opening hours"});
-        }
 
         if (table.restaurant.ownerId === req.user.userId) {
             return res.status(403).json({error: "you cannot book your own table"})
@@ -119,8 +131,8 @@ async function updateReservation(req, res) {
         if (reservation.userId !== req.user.userId) {
             return res.status(403).json({error: "you can only update your own reservations"});
         }
-        if (reservation.status !== "CONFIRMED"){
-            return res.status(400).json({error: "only confirmed reservations"});
+        if (["CANCELLED", "COMPLETED", "NO_SHOW"].includes(reservation.status)){
+            return res.status(400).json({error: `cannot update a ${reservation.status.toLowerCase()} reservation`});
         }
         const existingRequest = await prisma.reservationChangeRequest.findFirst({
             where: {
@@ -225,4 +237,33 @@ async function declineReservation(req, res) {
     }
 }
 
-module.exports = {createBooking, listUserReservations, updateReservation, cancelReservation, approveReservation, declineReservation};
+async function listPendingReservations(req, res) {
+    try {
+        const ownerId = req.user.userId;
+
+        const reservations = await prisma.reservation.findMany({
+            where: {
+                status: "PENDING",
+                table: {
+                    restaurant: {
+                        ownerId: ownerId,
+                    },
+                },
+            },
+            include: {
+                user: { select: { id: true, name: true, email: true } },
+                table: { select: { id: true, name: true, capacity: true } },
+                restaurant: { select: { id: true, name: true } },
+            },
+            orderBy: { startsAt: "asc" },
+            take: 200,
+        });
+
+        return res.status(200).json(reservations);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Server error" });
+    }
+}
+
+module.exports = {createBooking, listUserReservations, updateReservation, cancelReservation, approveReservation, declineReservation, listPendingReservations};
