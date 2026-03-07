@@ -1,6 +1,6 @@
 const path = require("path");
 require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
-if (!process.env.JWT_TOKEN) {
+if (!process.env.JWT_SECRET) {
     console.error("Missing JWT token to authenticate");
     process.exit(1);
 }
@@ -15,6 +15,8 @@ const protectedRoutes = require("./routes/protectedRoutes");
 const ownerRoutes = require("./routes/ownerRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const cors = require("cors");
+const http = require("http");
+const { initSocket } = require("./socket");
 
 app.use(cors({
     origin: "http://localhost:5173",
@@ -36,6 +38,12 @@ app.get("/health", (req, res) => {
 });
 
 const PORT = 3000;
-app.listen(PORT, ()=>{
+/* app.listen(PORT, ()=>{
+    console.log(`server running on port ${PORT}`);
+}); */
+
+const server = http.createServer(app);
+initSocket(server);
+server.listen(PORT, () => {
     console.log(`server running on port ${PORT}`);
 });

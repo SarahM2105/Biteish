@@ -1,4 +1,5 @@
 const {prisma} = require("../prismaClient");
+const { getIO } = require("../socket");
 
 function bookingsOverlap(startA, endA, startB, endB){
     return startA < endB && startB < endA;
@@ -67,7 +68,7 @@ async function createBooking(req, res) {
         const existingReservation = await prisma.reservation.findMany({
             where: {
                 tableId,
-                status: "CONFIRMED"
+                status: { in: ["PENDING", "CONFIRMED"]}
             }
         });
         const conflict = existingReservation.some(r =>
@@ -93,6 +94,15 @@ async function createBooking(req, res) {
                 notes,
             }
         });
+        try{
+            const io = getIO();
+            io.to(`user:${table.restaurant.ownerId}`).emit("reservation:created", {
+                reservationId: reservation.id,
+                restaurantId: reservation.restaurantId,
+                tableId: reservation.tableId,
+                status: reservation.status,
+            });
+        } catch {}
         return res.status(201).json(reservation);
     } catch (error) {
         console.error(error);
@@ -200,12 +210,23 @@ async function approveReservation(req, res) {
             return res.status(403).json({error: "Not authorised"});
         }
         if (reservation.status !== "PENDING") {
-            return res.status(400).json({error: "only confirmed reservations"});
+            return res.status(400).json({error: "only pending reservations"});
         }
         await prisma.reservation.update({
             where: {id: reservationId},
             data: {status: "CONFIRMED"}
         });
+        try {
+            const io = getIO();
+            io.to(`user:${reservation.table.restaurant.ownerId}`).emit("reservation:updated",{
+                reservationId,
+                status: "CONFIRMED",
+            });
+            io.to(`user:$${reservation.userId}`).emit("reservation:updated",{
+                reservationId,
+                status: "CONFIRMED",
+            })
+        } catch {}
         return res.status(200).json({message: "Approved reservation"});
     } catch (error) {
         console.error(error);
@@ -230,6 +251,17 @@ async function declineReservation(req, res) {
             where: {id: reservationId},
             data: {status: "DECLINED"}
         });
+        try{
+            const io = getIO();
+            io.to(`user:${reservation.table.restaurant.ownerId}`).emit("reservation:updated", {
+                id: reservationId,
+                status: "DECLINED",
+            });
+            io.to(`user:${reservation.userId}`).emit("reservation:updated", {
+                reservationId,
+                status: "DECLINED",
+            });
+        } catch{}
         return res.status(200).json({message: "Declined reservation"});
     } catch (error) {
         console.error(error);
