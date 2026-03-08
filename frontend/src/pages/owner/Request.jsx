@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import OwnerSideNav from "../../components/OwnerSideNav";
+import { getSocket } from "../../socket";
 
 export default function Request() {
     const name = localStorage.getItem("name") || "owner";
@@ -15,79 +16,106 @@ export default function Request() {
 
     const [actingKey, setActingKey] = useState(null);
 
-    useEffect(() => {
-        (async () => {
-            setStatus("");
-            setLoadingNew(true);
+    const loadPendingBookings = useCallback(async () => {
+        setStatus("");
+        setLoadingNew(true);
+        try {
+            const token = localStorage.getItem("token");
+            const res = await fetch("/api/owner/reservations/pending", {
+                headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+            });
+
+            const text = await res.text();
+            let data = [];
             try {
-                const token = localStorage.getItem("token");
-                const res = await fetch("/api/owner/reservations/pending", {
-                    headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-                });
-
-                const text = await res.text();
-                let data = [];
-                try {
-                    data = text ? JSON.parse(text) : [];
-                } catch {
-                    setStatus("Bad response from server (new bookings)");
-                    setReservations([]);
-                    return;
-                }
-
-                if (!res.ok) {
-                    setStatus(data?.error || data?.message || "Failed to load new bookings");
-                    setReservations([]);
-                    return;
-                }
-
-                setReservations(Array.isArray(data) ? data : []);
-            } catch (e) {
-                console.error(e);
-                setStatus("Network/server error (new bookings)");
+                data = text ? JSON.parse(text) : [];
+            } catch {
+                setStatus("Bad response from server (new bookings)");
                 setReservations([]);
-            } finally {
-                setLoadingNew(false);
+                return;
             }
-        })();
+
+            if (!res.ok) {
+                setStatus(data?.error || data?.message || "Failed to load new bookings");
+                setReservations([]);
+                return;
+            }
+
+            setReservations(Array.isArray(data) ? data : []);
+        } catch (error) {
+            console.error(error);
+            setStatus("Network/server error (new bookings)");
+            setReservations([]);
+        } finally {
+            setLoadingNew(false);
+        }
+    }, []);
+
+    const loadPendingBookingUpdates = useCallback(async () => {
+        setStatus("");
+        setLoadingChanges(true);
+        try {
+            const token = localStorage.getItem("token");
+            const res = await fetch("/api/owner/change-request", {
+                headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+            });
+
+            const text = await res.text();
+            let data = [];
+            try {
+                data = text ? JSON.parse(text) : [];
+            } catch {
+                setStatus("Bad response from server (change requests)");
+                setChangeRequests([]);
+                return;
+            }
+
+            if (!res.ok) {
+                setStatus(data?.error || data?.message || "Failed to load change requests");
+                setChangeRequests([]);
+                return;
+            }
+
+            setChangeRequests(Array.isArray(data) ? data : []);
+        } catch (error) {
+            console.error(error);
+            setStatus("Network/server error (change requests)");
+            setChangeRequests([]);
+        } finally {
+            setLoadingChanges(false);
+        }
     }, []);
 
     useEffect(() => {
-        (async () => {
-            setStatus("");
-            setLoadingChanges(true);
-            try {
-                const token = localStorage.getItem("token");
-                const res = await fetch("/api/owner/change-request", {
-                    headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-                });
+        loadPendingBookings();
+        loadPendingBookingUpdates();
+    }, [loadPendingBookings, loadPendingBookingUpdates]);
 
-                const text = await res.text();
-                let data = [];
-                try {
-                    data = text ? JSON.parse(text) : [];
-                } catch {
-                    setStatus("Bad response from server (change requests)");
-                    setChangeRequests([]);
-                    return;
-                }
+    useEffect(() => {
+        const role = localStorage.getItem("role");
+        const userId = localStorage.getItem("userId");
 
-                if (!res.ok) {
-                    setStatus(data?.error || data?.message || "Failed to load change requests");
-                    setChangeRequests([]);
-                    return;
-                }
+        const socket = getSocket();
+        socket.connect();
 
-                setChangeRequests(Array.isArray(data) ? data : []);
-            } catch (e) {
-                console.error(e);
-                setStatus("Network/server error (change requests)");
-                setChangeRequests([]);
-            } finally {
-                setLoadingChanges(false);
-            }
-        })();
-    }, []);
+        socket.on("connect", () => {
+            socket.emit("join", { role, userId });
+        });
+
+        const refreshRequests = () => {
+            loadPendingBookings();
+            loadPendingBookingUpdates();
+        };
+
+        socket.on("reservation:created", refreshRequests);
+        socket.on("reservation:updated", refreshRequests);
+
+        return () => {
+            socket.off("reservation:created", refreshRequests);
+            socket.off("reservation:updated", refreshRequests);
+            socket.disconnect();
+        };
+    }, [loadPendingBookings, loadPendingBookingUpdates]);
 
     const pendingNew = useMemo(
         () => reservations.filter((r) => r.status === "PENDING"),

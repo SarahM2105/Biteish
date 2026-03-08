@@ -222,7 +222,7 @@ async function approveReservation(req, res) {
                 reservationId,
                 status: "CONFIRMED",
             });
-            io.to(`user:$${reservation.userId}`).emit("reservation:updated",{
+            io.to(`user:${reservation.userId}`).emit("reservation:updated",{
                 reservationId,
                 status: "CONFIRMED",
             })
@@ -253,10 +253,10 @@ async function declineReservation(req, res) {
         });
         try{
             const io = getIO();
-            io.to(`user:${reservation.table.restaurant.ownerId}`).emit("reservation:updated", {
+            /*io.to(`user:${reservation.table.restaurant.ownerId}`).emit("reservation:updated", {
                 id: reservationId,
                 status: "DECLINED",
-            });
+            });*/
             io.to(`user:${reservation.userId}`).emit("reservation:updated", {
                 reservationId,
                 status: "DECLINED",

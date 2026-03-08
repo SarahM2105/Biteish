@@ -25,7 +25,7 @@ function Auth(){
                 body: JSON.stringify(payload),
             });
             const text = await res.text()
-            const data = await text ? JSON.parse(text) : {};
+            const data = text ? JSON.parse(text) : {};
 
             if (res.ok) {
                 setStatus(isRegistering ? 'registered successfully. log in' : 'login successful');
@@ -33,6 +33,7 @@ function Auth(){
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('name', data.user?.name || 'user');
                     localStorage.setItem('role', data.user?.role || 'CUSTOMER');
+                    localStorage.setItem('userId', data.user?.id || data.user?.userId || '');
                     navigate(`/${data.user?.role?.toLowerCase() || 'customer'}-dashboard`);
                 }
             }else {
@@ -77,7 +78,7 @@ function Auth(){
                 required
                 />
                 {isRegistering && (
-                    <select id="role" value={form.value} onChange={handleChange}>
+                    <select id="role" value={form.role} onChange={handleChange}>
                         <option value="CUSTOMER">CUSTOMER</option>
                         <option value="OWNER">OWNER</option>
                         <option value="ADMIN">ADMIN</option>
