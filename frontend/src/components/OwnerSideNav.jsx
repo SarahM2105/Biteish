@@ -1,6 +1,7 @@
 import React from 'react';
 import "./css/SideNav.css"
 import {useNavigate, useLocation} from "react-router-dom";
+import {logout} from "./utils/logout";
 
 export default function OwnerSideNav({active = "Dashboard", onNavigate}) {
     const navigate = useNavigate();
@@ -48,7 +49,7 @@ export default function OwnerSideNav({active = "Dashboard", onNavigate}) {
                 ))}
             </nav>
             <div className="sidenav__footer">
-                <button type="button" className="sidenav__logout" onClick={() => onNavigate?.("Logout")}>
+                <button type="button" className="sidenav__logout" onClick={() => logout(navigate)}>
                     Logout
                 </button>
             </div>
