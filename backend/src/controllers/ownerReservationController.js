@@ -1,6 +1,8 @@
 const {prisma}= require('../prismaClient');
 const res = require("express/lib/response");
 const {listMyRestaurants} = require("./restaurantController");
+const {buildEmailLayout, sendEmail} = require("../utils/emailService");
+const {updateReservation} = require("./bookingController");
 
 async function listChangeRequest(req, res){
     try {
@@ -36,6 +38,8 @@ async function approveChangeRequest(req, res) {
             include: {
                 reservation: {
                     include: {
+                        user: true,
+                        restaurant: true,
                         table: {
                             include: {restaurant: true},
                         },
@@ -61,6 +65,41 @@ async function approveChangeRequest(req, res) {
             where: { id: requestId},
             data: {status: "APPROVED"},
         });
+
+        try{
+            const updatedReservation = await prisma.reservation.findUnique({
+                where: {id: request.reservationId},
+                include:{
+                    user:true,
+                    restaurant: true
+                }
+            });
+            const html = buildEmailLayout({
+                title: "Reservation Change Approved",
+                greeting: `Hello ${updatedReservation.user?.name || "customer"},`,
+                intro: `Your reservation change request for ${updatedReservation.restaurant?.name || "the restaurant"} has been approved.`,
+                content: `<p><strong>New Date:</strong> ${new Date(updatedReservation.startsAt).toLocaleDateString("en-GB")}</p>
+                <p><strong>Time:</strong> ${new Date(updatedReservation.startsAt).toLocaleTimeString("en-GB",{
+                    hour: "2-digit",
+                    minute:"2-digit"}
+                )}</p>
+                <p><strong>Party Size:</strong> ${updatedReservation.partySize}</p>
+                <p><strong>Notes:</strong> ${updatedReservation.notes || "None"}</p>
+                <p><strong>Status:</strong> Change Approved</p>`,
+                actionText: "view my bookings",
+                actionUrl: `${process.env.FRONTEND_URL}/customer/bookings`
+            });
+            if (updatedReservation.user?.email) {
+                await sendEmail({
+                    to: updatedReservation.user.email,
+                    subject: "your reservation change request was now approved ",
+                    text: `Your  reservation change request for  ${updatedReservation.restaurant?.name || "the restaurant"} was approved .`,
+                    html
+                });
+            }
+        } catch (error){
+            console.error("failed to send new booking approval email: ", error )
+        }
         return res.status(200).json({message: "Approved reservation and confirmed"});
     } catch (error) {
         console.error(error);
