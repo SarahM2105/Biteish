@@ -169,6 +169,13 @@ async function updateReservation(req, res) {
 
         const reservation = await prisma.reservation.findUnique({
             where: {id: reservationId},
+            include: {
+                user: true,
+                restaurant: true,
+                table:{
+                    include: {restaurant:true}
+                }
+            }
         });
         if (!reservation) {
             return res.status(404).json({error: 'No reservation with this id'});
@@ -198,6 +205,45 @@ async function updateReservation(req, res) {
                 requestedById: req.user.userId,
             }
         });
+        try{
+            const owner = await prisma.user.findUnique({
+                where: {id: reservation.table.restaurant.ownerId},
+                select: {email:true, name: true}
+            });
+            const html = buildEmailLayout({
+                title: "Reservation Change Request",
+                greeting: `Hello ${owner?.name || "Owner"},`,
+                intro: `A customer has submitted a reservation change request for ${reservation.restaurant?.name || "your restaurant"}.`,
+                content: `<p><strong> Customer: </strong> ${reservation.user?.name}</p>
+                <p><strong>Original Date:</strong> ${new Date(reservation.startsAt).toLocaleDateString("en-GB")}</p>
+                <p><strong>Original Time: </strong> ${new Date(reservation.startsAt).toLocaleTimeString("en-GB",{
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })}</p>
+                
+                <p><strong>Requested New Date:</strong> ${request.newStartsAt ? new Date(request.newStartsAt).toLocaleDateString("en-GB"):"no change"}</p>
+                <p><strong>Requested New Time: </strong> ${request.newStartsAt ? new Date(request.newStartsAt).toLocaleTimeString("en-GB",{
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }): "No Change"}</p>
+                
+                <p><strong>Requested Party Size:</strong> ${request.newPartySize ?? "No change"}</p>
+                <p><strong>Request Notes:</strong> ${request.newNotes || "no Change"}</p>`,
+                actionText:"View Change Requests",
+                actionUrl: `${process.env.FRONTEND_URL}/owner/request`
+            });
+            if (owner?.email) {
+                await sendEmail({
+                    to: owner.email,
+                    subject: "New reservation change request",
+                    text: `A customer has submitted a reservation change request for ${reservation.restaurant?.name || "your restaurant"}.`,
+                    html
+                });
+            }
+        } catch (error){
+            console.error("failed to send new booking decline email: ", error )
+        }
+
         return res.status(202).json({
             message: "Reservation change request submitted for approval",
             request: request
