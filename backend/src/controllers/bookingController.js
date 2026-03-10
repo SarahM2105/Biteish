@@ -1,5 +1,7 @@
 const {prisma} = require("../prismaClient");
 const { getIO } = require("../socket");
+const { sendEmail , buildEmailLayout} = require("../utils/emailService");
+const {buildBookingEmailData} = require("../utils/emailDataBuilder")
 
 function bookingsOverlap(startA, endA, startB, endB){
     return startA < endB && startB < endA;
@@ -94,6 +96,39 @@ async function createBooking(req, res) {
                 notes,
             }
         });
+        try{
+            const emailData = await buildBookingEmailData({
+                reservation,
+                table,
+                bookingStart
+            });
+
+            const subject = "New Booking Request";
+
+            const html = buildEmailLayout({
+                title: "New Booking Request",
+                greeting: `Hello ${emailData.owner.name|| "Owner"},`,
+                intro: `You have received a new booking request for ${emailData.restaurantName}.`,
+                content: `
+                <p><strong> Customer: </strong> ${emailData.customer.name}</p>
+                <p><strong>Date:</strong> ${emailData.date}</p>
+                <p><strong>Time: </strong> ${emailData.time}</p>
+                <p><strong>Party Size:</strong> ${emailData.partySize}</p>
+                <p><strong>Notes:</strong> ${emailData.notes || "none"}</p>`,
+                actionText:"View Requests",
+                actionUrl: `${process.env.FRONTEND_URL}/owner/request`
+            });
+            if (emailData.owner?.email) {
+                await sendEmail({
+                    to: emailData.owner.email,
+                    subject,
+                    text: `you have a new booking request from ${emailData.customer.name}`,
+                    html
+                });
+            }
+        } catch (error) {
+            console.error("Failed to send owner email:", error);
+        }
         try{
             const io = getIO();
             io.to(`user:${table.restaurant.ownerId}`).emit("reservation:created", {
