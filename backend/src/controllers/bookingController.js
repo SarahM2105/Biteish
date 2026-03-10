@@ -213,6 +213,12 @@ async function cancelReservation(req, res) {
         const {reservationId} = req.params;
         const reservation = await prisma.reservation.findUnique({
             where: {id: reservationId},
+            include: {
+                restaurant: true,
+                table:{
+                    include: {restaurant:true}
+                }
+            }
         });
         if(!reservation) {
             return res.status(404).json({error: 'No reservation with this id'});
@@ -225,8 +231,38 @@ async function cancelReservation(req, res) {
         }
         const cancelled = await prisma.reservation.update({
             where: {id: reservationId},
-            data: { status: "CANCELLED"},
+            data: {status: "CANCELLED"},
         });
+        try{
+            const owner = await prisma.user.findUnique({
+                where: {id: reservation.table.restaurant.ownerId},
+                select: {email:true, name:true}
+            });
+            const html = buildEmailLayout({
+                title: "Booking Cancelled",
+                greeting: `Hello ${owner?.name || "Owner"},`,
+                intro: `You have a cancellation for  ${reservation.restaurant?.name || "your restaurant"}.`,
+                content: `<p><strong>Date:</strong> ${new Date(reservation.startsAt).toLocaleDateString("en-GB")}</p>
+                <p><strong>Time:</strong> ${new Date(reservation.startsAt).toLocaleTimeString("en-GB",{
+                    hour: "2-digit",
+                    minute:"2-digit"}
+                )}</p>
+                <p><strong>Party Size:</strong> ${reservation.partySize}</p>
+                <p><strong>Status:</strong> Cancelled</p>`,
+                actionText: "view requests",
+                actionUrl: `${process.env.FRONTEND_URL}/owner/requests`
+            });
+            if (owner?.email) {
+                await sendEmail({
+                    to: owner.email,
+                    subject: "a booking has been cancelled",
+                    text: `Your booking for ${reservation.restaurant?.name || "the restaurant"} has been cancelled.`,
+                    html
+                });
+            }
+        } catch (error){
+            console.error("failed to send new booking approval email: ", error )
+        }
         return res.status(200).json({ message: "Cancelled" });
     } catch (error) {
         console.error(error);
