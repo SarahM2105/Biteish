@@ -115,6 +115,8 @@ async function declineChangeRequest(req, res) {
             include: {
                 reservation: {
                     include: {
+                        user: true,
+                        restaurant: true,
                         table: {
                             include: {restaurant: true},
                         },
@@ -129,6 +131,44 @@ async function declineChangeRequest(req, res) {
             where: {id: requestId},
             data: {status: "DECLINED"}
         });
+
+        try{
+            const html = buildEmailLayout({
+                title: "Reservation Change Declined",
+                greeting: `Hello ${request.reservation.user?.name || "customer"},`,
+                intro: `Unfortunately your request change reuest for ${request.reservation.restaurant?.name || "the restaurant"} was declined however your orginal bookinhg still stands.`,
+                content: `
+                <p><strong>Requested Date:</strong> ${request.newStartsAt ? new Date(request.newStartsAt).toLocaleDateString("en-GB") : "No change"}</p>
+                <p><strong>Requested Time:</strong> ${request.newStartsAt ? new Date(request.newStartsAt).toLocaleTimeString("en-GB",{
+                    hour: "2-digit",
+                    minute:"2-digit"}
+                )  : "no change"}</p>
+                <p><strong>Requested Party Size:</strong> ${request.newPartySize ?? "No change"}</p>
+                <br/>
+                <p> this change request has been declined your booking still remains as:</p>
+                <p><strong>Original Date:</strong> ${new Date(request.reservation.startsAt).toLocaleDateString("en-GB")}</p>
+                <p><strong>Original Time:</strong> ${new Date(request.reservation.startsAt).toLocaleTimeString("en-GB",{
+                    hour: "2-digit",
+                    minute:"2-digit"}
+                )}</p>
+                <p><strong>Party Size:</strong> ${request.reservation.partySize}</p>
+                <p><strong>Notes:</strong> ${request.reservation.notes || "None"}</p>
+                <p><strong>Status:</strong> Change declined</p>`,
+                actionText: "view my bookings",
+                actionUrl: `${process.env.FRONTEND_URL}/customer/bookings`
+            });
+            if (request.reservation.user?.email) {
+                await sendEmail({
+                    to: request.reservation.user.email,
+                    subject: "your reservation change request was declined",
+                    text: `Your  reservation change request for  ${request.reservation.restaurant?.name || "the restaurant"} wasdeclined but your original booking is still confirmed  .`,
+                    html
+                });
+            }
+        } catch (error){
+            console.error("failed to send new booking approval email: ", error )
+        }
+
         return res.status(200).json({message: "Declined reservation and confirmed"});
     } catch (error) {
         console.error(error);
