@@ -239,8 +239,15 @@ async function approveReservation(req, res) {
         const {reservationId} = req.params;
         const reservation = await prisma.reservation.findUnique({
             where: {id: reservationId},
-            include: {table: {include: {restaurant: true}}}
+            include: {
+                user: true,
+                restaurant: true,
+                table:{
+                    include: {restaurant:true}
+                }
+            }
         });
+
         if (!reservation || reservation.table.restaurant.ownerId !== req.user.userId) {
             return res.status(403).json({error: "Not authorised"});
         }
@@ -251,6 +258,33 @@ async function approveReservation(req, res) {
             where: {id: reservationId},
             data: {status: "CONFIRMED"}
         });
+
+        try{
+            const html = buildEmailLayout({
+                title: "Booking Confirmed",
+                greeting: `Hello ${reservation.user?.name || "customer"},`,
+                intro: `Your booking request for ${reservation.restaurant?.name || "the restaurant"} has been confirmed.`,
+                content: `<p><strong>Date:</strong> ${new Date(reservation.startsAt).toLocaleDateString("en-GB")}</p>
+<p><strong>Time:</strong> ${new Date(reservation.startsAt).toLocaleTimeString("en-GB",{
+hour: "2-digit",
+                minute:"2-digit"}
+                )}</p>
+<p><strong>Party Size:</strong> ${reservation.partySize}</p>
+<p><strong>Status:</strong> Confirmed</p>`,
+                actionText: "view my bookings",
+                actionUrl: `${process.env.FRONTEND_URL}/customer/bookings`
+            });
+            if (reservation.user?.email) {
+                await sendEmail({
+                    to: reservation.user.email,
+                    subject: "your booking has now been confirmed",
+                    text: `Your booking for ${reservation.restaurant?.name || "the restaurant"} has been confirmed.`,
+                    html
+                });
+            }
+        } catch (error){
+            console.error("failed to send approval email: ", error )
+        }
         try {
             const io = getIO();
             io.to(`user:${reservation.table.restaurant.ownerId}`).emit("reservation:updated",{
@@ -280,7 +314,7 @@ async function declineReservation(req, res) {
             return res.status(403).json({error: "Not authorised"});
         }
         if (reservation.status !== "PENDING") {
-            return res.status(400).json({error: "only confirmed reservationspending reservations can be declined"});
+            return res.status(400).json({error: "only confirmed reservations pending reservations can be declined"});
         }
         await prisma.reservation.update({
             where: {id: reservationId},
