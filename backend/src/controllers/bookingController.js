@@ -265,12 +265,12 @@ async function approveReservation(req, res) {
                 greeting: `Hello ${reservation.user?.name || "customer"},`,
                 intro: `Your booking request for ${reservation.restaurant?.name || "the restaurant"} has been confirmed.`,
                 content: `<p><strong>Date:</strong> ${new Date(reservation.startsAt).toLocaleDateString("en-GB")}</p>
-<p><strong>Time:</strong> ${new Date(reservation.startsAt).toLocaleTimeString("en-GB",{
-hour: "2-digit",
-                minute:"2-digit"}
+                <p><strong>Time:</strong> ${new Date(reservation.startsAt).toLocaleTimeString("en-GB",{
+                    hour: "2-digit",
+                    minute:"2-digit"}
                 )}</p>
-<p><strong>Party Size:</strong> ${reservation.partySize}</p>
-<p><strong>Status:</strong> Confirmed</p>`,
+                <p><strong>Party Size:</strong> ${reservation.partySize}</p>
+                <p><strong>Status:</strong> Confirmed</p>`,
                 actionText: "view my bookings",
                 actionUrl: `${process.env.FRONTEND_URL}/customer/bookings`
             });
@@ -283,7 +283,7 @@ hour: "2-digit",
                 });
             }
         } catch (error){
-            console.error("failed to send approval email: ", error )
+            console.error("failed to send new booking approval email: ", error )
         }
         try {
             const io = getIO();
@@ -308,8 +308,45 @@ async function declineReservation(req, res) {
         const {reservationId} = req.params;
         const reservation = await prisma.reservation.findUnique({
             where: {id: reservationId},
-            include: {table: {include: {restaurant: true}}}
+            include: {
+                user: true,
+                restaurant: true,
+                table:{
+                    include: {restaurant:true}
+                }
+            }
         });
+        await prisma.reservation.update({
+            where: {id: reservationId},
+            data: {status: "DECLINED"}
+        });
+
+        try{
+            const html = buildEmailLayout({
+                title: "Booking Confirmed",
+                greeting: `Hello ${reservation.user?.name || "customer"},`,
+                intro: `Unfortunately your booking request for ${reservation.restaurant?.name || "the restaurant"} has been declined.`,
+                content: `<p><strong>Date:</strong> ${new Date(reservation.startsAt).toLocaleDateString("en-GB")}</p>
+                <p><strong>Time:</strong> ${new Date(reservation.startsAt).toLocaleTimeString("en-GB",{
+                    hour: "2-digit",
+                    minute:"2-digit"}
+                )}</p>
+                <p><strong>Party Size:</strong> ${reservation.partySize}</p>
+                <p><strong>Status:</strong> Declined</p>`,
+                actionText: "Browse Restaurants",
+                actionUrl: `${process.env.FRONTEND_URL}/restaurants`
+            });
+            if (reservation.user?.email) {
+                await sendEmail({
+                    to: reservation.user.email,
+                    subject: "your booking request was declined",
+                    text: `Your booking for ${reservation.restaurant?.name || "the restaurant"} has been declined.`,
+                    html
+                });
+            }
+        } catch (error){
+            console.error("failed to send new booking decline email: ", error )
+        }
         if (!reservation || reservation.table.restaurant.ownerId !== req.user.userId) {
             return res.status(403).json({error: "Not authorised"});
         }
