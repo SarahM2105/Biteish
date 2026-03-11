@@ -3,8 +3,8 @@ import {getSocket} from "../socket";
 
 export default function useCustomerNotificationCounts(){
     const [pendingBookingsCount, setPendingBookingsCount] = useState(0);
-    const [upcommingConfirmedCount, setUpcommingConfirmedCount] = useState(0);
-    const [updatedBookingsCount, setUpdatedBookingsCount] = useState=(0);
+    const [upcomingConfirmedCount, setUpcomingConfirmedCount] = useState(0);
+    const [updatedBookingsCount, setUpdatedBookingsCount] = useState(0);
     const loadCounts = useCallback(async () => {
         try{
             const token = localStorage.getItem("token");
@@ -16,16 +16,20 @@ export default function useCustomerNotificationCounts(){
             const now = Date.now();
             const pending = Array.isArray(data)
             ? data.filter((r) => r.status === "PENDING").length : 0;
-            const confirmedUpcomming = Array.isArray(data)
+            const confirmedUpcoming = Array.isArray(data)
             ? data.filter(
                     (r)=> r.status === "CONFIRMED" && new Date(r.startsAt).getTime()>= now).length : 0;
+            const changed = Array.isArray(data)
+            ? data.filter((r)=>
+                ["DECLINED", "CANCELLED"].includes(r.status)).length :0;
+
             setPendingBookingsCount(pending);
-            setUpcommingConfirmedCount(confirmedUpcomming);
+            setUpcomingConfirmedCount(confirmedUpcoming);
             setUpdatedBookingsCount(changed);
         } catch (error) {
             console.error("failed to load customer notification counts",error);
             setPendingBookingsCount(0);
-            setUpcommingConfirmedCount(0);
+            setUpcomingConfirmedCount(0);
             setUpdatedBookingsCount(0);
         }
     }, []);
@@ -48,8 +52,8 @@ export default function useCustomerNotificationCounts(){
     }, [loadCounts]);
     return {
         pendingBookingsCount,
-        upcommingConfirmedCount,
+        upcomingConfirmedCount,
         updatedBookingsCount,
-        totalCustomerNotifications : pendingBookingsCount + upcommingConfirmedCount + updatedBookingsCount,
+        totalCustomerNotifications : pendingBookingsCount + upcomingConfirmedCount + updatedBookingsCount,
     };
 }

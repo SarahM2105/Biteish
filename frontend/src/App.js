@@ -6,6 +6,7 @@ import CustomerBookingForm from './pages/customer/CustomerBookingForm';
 import CustomerBookings from './pages/customer/CustomerBookings';
 import CustomerEditBooking from './pages/customer/CustomerEditBooking';
 import CustomerProfile from "./pages/customer/CustomerProfile";
+import CustomerNotifications from "./pages/customer/CustomerNotifications";
 import OwnerDashboard from './pages/OwnerDashboard';
 import OwnerRestaurantLayout from './pages/owner/OwnerRestaurantLayout';
 import OwnerRequests from './pages/owner/Request';
@@ -43,6 +44,11 @@ function App() {
                 <CustomerBookings />
                 </ProtectedRoutes>
             }/>
+            <Route path="/customer/notifications" element={
+                <ProtectedRoutes allowedRoles={["CUSTOMER"]}>
+                    <CustomerNotifications/>
+                </ProtectedRoutes>
+            } />
             <Route path={"/customer/profile"} element={
                 <ProtectedRoutes allowedRoles={["CUSTOMER"]}>
                 <CustomerProfile />

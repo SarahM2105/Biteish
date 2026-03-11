@@ -2,10 +2,13 @@ import React from 'react';
 import "./css/SideNav.css";
 import {useLocation, useNavigate} from "react-router-dom";
 import {logout} from "./utils/logout";
+import useCustomerNotificationCounts from "../hooks/useCustomerNotificationCounts";
 
 export default function CustomerSideNav({active = "Dashboard", onNavigate}) {
     const navigate = useNavigate();
     const location = useLocation();
+
+    const {totalCustomerNotifications} = useCustomerNotificationCounts();
     const items = [
         "Dashboard",
         "Search and Filter",
@@ -37,7 +40,12 @@ export default function CustomerSideNav({active = "Dashboard", onNavigate}) {
                         navigate(routes[label]);
                     }}
                     >
-                        {label}
+                        <span>{label}</span>
+                        {label === "Notifications" && totalCustomerNotifications> 0 &&(
+                            <span className="sidenav__badge">
+                                {totalCustomerNotifications}
+                            </span>
+                        )}
                     </button>
                 ))}
             </nav>
