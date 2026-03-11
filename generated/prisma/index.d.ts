@@ -8854,6 +8854,7 @@ export namespace Prisma {
     endsAt: Date | null
     partySize: number | null
     notes: string | null
+    checkedInAt: Date | null
     status: $Enums.ReservationStatus | null
     createdAt: Date | null
   }
@@ -8867,6 +8868,7 @@ export namespace Prisma {
     endsAt: Date | null
     partySize: number | null
     notes: string | null
+    checkedInAt: Date | null
     status: $Enums.ReservationStatus | null
     createdAt: Date | null
   }
@@ -8880,6 +8882,7 @@ export namespace Prisma {
     endsAt: number
     partySize: number
     notes: number
+    checkedInAt: number
     status: number
     createdAt: number
     _all: number
@@ -8903,6 +8906,7 @@ export namespace Prisma {
     endsAt?: true
     partySize?: true
     notes?: true
+    checkedInAt?: true
     status?: true
     createdAt?: true
   }
@@ -8916,6 +8920,7 @@ export namespace Prisma {
     endsAt?: true
     partySize?: true
     notes?: true
+    checkedInAt?: true
     status?: true
     createdAt?: true
   }
@@ -8929,6 +8934,7 @@ export namespace Prisma {
     endsAt?: true
     partySize?: true
     notes?: true
+    checkedInAt?: true
     status?: true
     createdAt?: true
     _all?: true
@@ -9029,6 +9035,7 @@ export namespace Prisma {
     endsAt: Date
     partySize: number
     notes: string | null
+    checkedInAt: Date | null
     status: $Enums.ReservationStatus
     createdAt: Date
     _count: ReservationCountAggregateOutputType | null
@@ -9061,6 +9068,7 @@ export namespace Prisma {
     endsAt?: boolean
     partySize?: boolean
     notes?: boolean
+    checkedInAt?: boolean
     status?: boolean
     createdAt?: boolean
     notifications?: boolean | Reservation$notificationsArgs<ExtArgs>
@@ -9081,6 +9089,7 @@ export namespace Prisma {
     endsAt?: boolean
     partySize?: boolean
     notes?: boolean
+    checkedInAt?: boolean
     status?: boolean
     createdAt?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
@@ -9097,6 +9106,7 @@ export namespace Prisma {
     endsAt?: boolean
     partySize?: boolean
     notes?: boolean
+    checkedInAt?: boolean
     status?: boolean
     createdAt?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
@@ -9113,11 +9123,12 @@ export namespace Prisma {
     endsAt?: boolean
     partySize?: boolean
     notes?: boolean
+    checkedInAt?: boolean
     status?: boolean
     createdAt?: boolean
   }
 
-  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "restaurantId" | "userId" | "tableId" | "startsAt" | "endsAt" | "partySize" | "notes" | "status" | "createdAt", ExtArgs["result"]["reservation"]>
+  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "restaurantId" | "userId" | "tableId" | "startsAt" | "endsAt" | "partySize" | "notes" | "checkedInAt" | "status" | "createdAt", ExtArgs["result"]["reservation"]>
   export type ReservationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     notifications?: boolean | Reservation$notificationsArgs<ExtArgs>
     qrToken?: boolean | Reservation$qrTokenArgs<ExtArgs>
@@ -9157,6 +9168,7 @@ export namespace Prisma {
       endsAt: Date
       partySize: number
       notes: string | null
+      checkedInAt: Date | null
       status: $Enums.ReservationStatus
       createdAt: Date
     }, ExtArgs["result"]["reservation"]>
@@ -9596,6 +9608,7 @@ export namespace Prisma {
     readonly endsAt: FieldRef<"Reservation", 'DateTime'>
     readonly partySize: FieldRef<"Reservation", 'Int'>
     readonly notes: FieldRef<"Reservation", 'String'>
+    readonly checkedInAt: FieldRef<"Reservation", 'DateTime'>
     readonly status: FieldRef<"Reservation", 'ReservationStatus'>
     readonly createdAt: FieldRef<"Reservation", 'DateTime'>
   }
@@ -24205,6 +24218,7 @@ export namespace Prisma {
     endsAt: 'endsAt',
     partySize: 'partySize',
     notes: 'notes',
+    checkedInAt: 'checkedInAt',
     status: 'status',
     createdAt: 'createdAt'
   };
@@ -24875,6 +24889,7 @@ export namespace Prisma {
     endsAt?: DateTimeFilter<"Reservation"> | Date | string
     partySize?: IntFilter<"Reservation"> | number
     notes?: StringNullableFilter<"Reservation"> | string | null
+    checkedInAt?: DateTimeNullableFilter<"Reservation"> | Date | string | null
     status?: EnumReservationStatusFilter<"Reservation"> | $Enums.ReservationStatus
     createdAt?: DateTimeFilter<"Reservation"> | Date | string
     notifications?: NotificationListRelationFilter
@@ -24894,6 +24909,7 @@ export namespace Prisma {
     endsAt?: SortOrder
     partySize?: SortOrder
     notes?: SortOrderInput | SortOrder
+    checkedInAt?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     notifications?: NotificationOrderByRelationAggregateInput
@@ -24916,6 +24932,7 @@ export namespace Prisma {
     endsAt?: DateTimeFilter<"Reservation"> | Date | string
     partySize?: IntFilter<"Reservation"> | number
     notes?: StringNullableFilter<"Reservation"> | string | null
+    checkedInAt?: DateTimeNullableFilter<"Reservation"> | Date | string | null
     status?: EnumReservationStatusFilter<"Reservation"> | $Enums.ReservationStatus
     createdAt?: DateTimeFilter<"Reservation"> | Date | string
     notifications?: NotificationListRelationFilter
@@ -24935,6 +24952,7 @@ export namespace Prisma {
     endsAt?: SortOrder
     partySize?: SortOrder
     notes?: SortOrderInput | SortOrder
+    checkedInAt?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     _count?: ReservationCountOrderByAggregateInput
@@ -24956,6 +24974,7 @@ export namespace Prisma {
     endsAt?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
     partySize?: IntWithAggregatesFilter<"Reservation"> | number
     notes?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
+    checkedInAt?: DateTimeNullableWithAggregatesFilter<"Reservation"> | Date | string | null
     status?: EnumReservationStatusWithAggregatesFilter<"Reservation"> | $Enums.ReservationStatus
     createdAt?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
   }
@@ -26084,6 +26103,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationCreateNestedManyWithoutReservationInput
@@ -26103,6 +26123,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutReservationInput
@@ -26116,6 +26137,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUpdateManyWithoutReservationNestedInput
@@ -26135,6 +26157,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutReservationNestedInput
@@ -26151,6 +26174,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
   }
@@ -26161,6 +26185,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -26174,6 +26199,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27366,6 +27392,17 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type EnumReservationStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ReservationStatus | EnumReservationStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
@@ -27387,6 +27424,7 @@ export namespace Prisma {
     endsAt?: SortOrder
     partySize?: SortOrder
     notes?: SortOrder
+    checkedInAt?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }
@@ -27404,6 +27442,7 @@ export namespace Prisma {
     endsAt?: SortOrder
     partySize?: SortOrder
     notes?: SortOrder
+    checkedInAt?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }
@@ -27417,12 +27456,27 @@ export namespace Prisma {
     endsAt?: SortOrder
     partySize?: SortOrder
     notes?: SortOrder
+    checkedInAt?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }
 
   export type ReservationSumOrderByAggregateInput = {
     partySize?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumReservationStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -27440,17 +27494,6 @@ export namespace Prisma {
     in?: $Enums.ChangeStatus[] | ListEnumChangeStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.ChangeStatus[] | ListEnumChangeStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumChangeStatusFilter<$PrismaModel> | $Enums.ChangeStatus
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -27524,20 +27567,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumChangeStatusFilter<$PrismaModel>
     _max?: NestedEnumChangeStatusFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -28888,6 +28917,10 @@ export namespace Prisma {
     connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type EnumReservationStatusFieldUpdateOperationsInput = {
     set?: $Enums.ReservationStatus
   }
@@ -29006,10 +29039,6 @@ export namespace Prisma {
 
   export type EnumChangeStatusFieldUpdateOperationsInput = {
     set?: $Enums.ChangeStatus
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -29550,11 +29579,36 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumReservationStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ReservationStatus | EnumReservationStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumReservationStatusFilter<$PrismaModel> | $Enums.ReservationStatus
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumReservationStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -29574,17 +29628,6 @@ export namespace Prisma {
     not?: NestedEnumChangeStatusFilter<$PrismaModel> | $Enums.ChangeStatus
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedEnumChangeStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.ChangeStatus | EnumChangeStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ChangeStatus[] | ListEnumChangeStatusFieldRefInput<$PrismaModel>
@@ -29593,20 +29636,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumChangeStatusFilter<$PrismaModel>
     _max?: NestedEnumChangeStatusFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -29756,6 +29785,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationCreateNestedManyWithoutReservationInput
@@ -29773,6 +29803,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutReservationInput
@@ -30005,6 +30036,7 @@ export namespace Prisma {
     endsAt?: DateTimeFilter<"Reservation"> | Date | string
     partySize?: IntFilter<"Reservation"> | number
     notes?: StringNullableFilter<"Reservation"> | string | null
+    checkedInAt?: DateTimeNullableFilter<"Reservation"> | Date | string | null
     status?: EnumReservationStatusFilter<"Reservation"> | $Enums.ReservationStatus
     createdAt?: DateTimeFilter<"Reservation"> | Date | string
   }
@@ -30171,6 +30203,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationCreateNestedManyWithoutReservationInput
@@ -30188,6 +30221,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutReservationInput
@@ -30741,6 +30775,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationCreateNestedManyWithoutReservationInput
@@ -30758,6 +30793,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutReservationInput
@@ -31384,6 +31420,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationCreateNestedManyWithoutReservationInput
@@ -31402,6 +31439,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutReservationInput
@@ -31463,6 +31501,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUpdateManyWithoutReservationNestedInput
@@ -31481,6 +31520,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutReservationNestedInput
@@ -31532,6 +31572,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationCreateNestedManyWithoutReservationInput
@@ -31550,6 +31591,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutReservationInput
@@ -31578,6 +31620,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUpdateManyWithoutReservationNestedInput
@@ -31596,6 +31639,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutReservationNestedInput
@@ -31608,6 +31652,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     qrToken?: QrTokenCreateNestedOneWithoutReservationInput
@@ -31626,6 +31671,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
     qrToken?: QrTokenUncheckedCreateNestedOneWithoutReservationInput
@@ -31687,6 +31733,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     qrToken?: QrTokenUpdateOneWithoutReservationNestedInput
@@ -31705,6 +31752,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     qrToken?: QrTokenUncheckedUpdateOneWithoutReservationNestedInput
@@ -32722,6 +32770,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
   }
@@ -32834,6 +32883,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUpdateManyWithoutReservationNestedInput
@@ -32851,6 +32901,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutReservationNestedInput
@@ -32866,6 +32917,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32991,6 +33043,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
   }
@@ -33076,6 +33129,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUpdateManyWithoutReservationNestedInput
@@ -33093,6 +33147,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutReservationNestedInput
@@ -33108,6 +33163,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33265,6 +33321,7 @@ export namespace Prisma {
     endsAt: Date | string
     partySize: number
     notes?: string | null
+    checkedInAt?: Date | string | null
     status?: $Enums.ReservationStatus
     createdAt?: Date | string
   }
@@ -33282,6 +33339,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUpdateManyWithoutReservationNestedInput
@@ -33299,6 +33357,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutReservationNestedInput
@@ -33314,6 +33373,7 @@ export namespace Prisma {
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

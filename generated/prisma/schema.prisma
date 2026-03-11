@@ -5,6 +5,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  //url = env("DATABASE_URL")
+  //url= env("postgresql://neondb_owner:npg_3VJjYsnTNz0D@ep-divine-thunder-ab91ulwe.eu-west-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require")
 }
 
 model User {
@@ -83,6 +85,7 @@ model Reservation {
   endsAt                   DateTime
   partySize                Int
   notes                    String?
+  checkedInAt              DateTime?
   status                   ReservationStatus          @default(PENDING)
   createdAt                DateTime                   @default(now())
   notifications            Notification[]

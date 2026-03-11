@@ -170,6 +170,7 @@ exports.Prisma.ReservationScalarFieldEnum = {
   endsAt: 'endsAt',
   partySize: 'partySize',
   notes: 'notes',
+  checkedInAt: 'checkedInAt',
   status: 'status',
   createdAt: 'createdAt'
 };
