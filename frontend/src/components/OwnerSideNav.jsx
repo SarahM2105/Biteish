@@ -2,10 +2,12 @@ import React from 'react';
 import "./css/SideNav.css"
 import {useNavigate, useLocation} from "react-router-dom";
 import {logout} from "./utils/logout";
+import useOwnerNotificationCounts from "../hooks/useOwnerNotificationCounts";
 
 export default function OwnerSideNav({active = "Dashboard", onNavigate}) {
     const navigate = useNavigate();
     const location = useLocation();
+    const {totalRequestsCount} = useOwnerNotificationCounts()
     const items = [
         "Dashboard",
         "Restaurant Profile",
@@ -44,7 +46,10 @@ export default function OwnerSideNav({active = "Dashboard", onNavigate}) {
                             navigate(routes[label]);
                         }}
                     >
-                        {label}
+                        <span>{label}</span>
+                        {label === "Notifications" && totalRequestsCount >0 && (
+                            <span className="sidenav__badge">{totalRequestsCount}</span>
+                        )}
                     </button>
                 ))}
             </nav>
