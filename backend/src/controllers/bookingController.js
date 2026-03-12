@@ -420,6 +420,16 @@ async function declineReservation(req, res) {
                 }
             }
         });
+
+        if (!reservation|| reservation.table.restaurant.ownerId !== req.user.userId){
+            return res.status(403).json({ error: "Not Authorised"});
+        }
+        if (reservation.status !== "PENDING"){
+            return res.status(400).json({
+                error: "Only pending reservations can be declined"
+            });
+        }
+
         await prisma.reservation.update({
             where: {id: reservationId},
             data: {status: "DECLINED"}

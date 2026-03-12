@@ -31,12 +31,16 @@ async function getReservationQr(req, res) {
         if (!reservation.qrToken) {
             return res.status(404).json({ error: "QR token not generated yet" });
         }
-
-        const qrImage = await QRCode.toDataURL(reservation.qrToken.token);
+        const payload = JSON.stringify({
+            type: "reservation_checkin",
+            token: reservation.qrToken.token,
+        });
+        const qrImage = await QRCode.toDataURL(payload);
 
         return res.json({
             qrImage,
             expiresAt: reservation.qrToken.expiresAt,
+            qrToken: reservation.qrToken.token,
         });
     } catch (error) {
         console.error(error);

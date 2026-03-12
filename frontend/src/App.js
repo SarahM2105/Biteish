@@ -14,6 +14,7 @@ import OwnerNotifications from "./pages/owner/Notifications";
 import AdminDashboard from './pages/AdminDashboard';
 import CustomerSearchAndFilter from "./pages/customer/CustomerSearchAndFilter";
 import ProtectedRoutes from "./components/utils/ProtectedRoute";
+import OwnerCheckIn from "./pages/owner/OwnerCheckIn";
 
 function App() {
   return (
@@ -76,6 +77,11 @@ function App() {
                 <ProtectedRoutes allowedRoles={["OWNER"]}>
                     <OwnerNotifications/>
                 </ProtectedRoutes>}/>
+            <Route path="/owner/check-ins" element={
+                <ProtectedRoutes allowedRoles={["OWNER"]}>
+                    <OwnerCheckIn/>
+                </ProtectedRoutes>
+            }/>
             <Route path="/admin-dashboard" element={
                 <ProtectedRoutes allowedRoles={["ADMIN"]}>
                 <AdminDashboard/>

@@ -15,6 +15,7 @@ export default function CustomerBookings() {
     const [qrImage, setQrImage] = useState("");
     const [qrExpiresAt, setQrExpiresAt] = useState("");
     const [showQrModal, setShowQrModal] = useState(false);
+    const [qrToken, setQrToken] = useState("");
 
     function handleNavigate(label) {
         if (label === "Logout") {
@@ -78,12 +79,14 @@ export default function CustomerBookings() {
                 headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
             });
             const data = await res.json().catch(() => ({}));
+            console.log("qr response", data );
             if (!res.ok) {
                 setStatus(data?.error || data?.message || "Failed to load qr code");
                 return;
             }
             setQrImage(data.qrImage || "");
             setQrExpiresAt(data.expiresAt || "");
+            setQrToken(data.qrToken||"");
             setShowQrModal(true);
         } catch (error){
             console.error(error);
@@ -95,6 +98,7 @@ export default function CustomerBookings() {
         setShowQrModal(false);
         setQrImage("");
         setQrExpiresAt("");
+        setQrToken("");
     }
 
 
@@ -126,7 +130,6 @@ export default function CustomerBookings() {
                 return;
             }
 
-            // update UI without refetch
             setBookings((prev) =>
                 prev.map((b) => (b.id === reservationId ? { ...b, status: "CANCELLED" } : b))
             );
@@ -275,6 +278,31 @@ export default function CustomerBookings() {
                             alt="Reservation QR Code"
                             style={{ maxWidth: 250, width: "100%" }} />
                     </div>
+                        {qrToken && (
+                            <div style={{marginTop:16, textAlign: "center"}}>
+                            <div style={{fontWeight: 600, marginBottom: 10}}>Booking Code</div>
+                            <div
+                            style={{
+                            wordBreak: "break-all",
+                            background: "#f5f5f5",
+                            padding: "10px 12px",
+                            borderRadius: 8,
+                            fontFamily: "monospace",
+                            fontSize: 12,
+                        }}
+                    >
+                        {qrToken}
+                    </div>
+                    <button
+                        type="button"
+                        className="sf-filterBtn"
+                        style={{marginTop: 10}}
+                        onClick={()=> navigator.clipboard.writeText(qrToken)}>
+                        Copy code
+                    </button>
+                </div>
+                        )}
+
             {qrExpiresAt && (
                 <div style={{ opacity:0.8, marginTop: 16, textAlign: "center" }}>
                     Expires: {new Date(qrExpiresAt).toLocaleString("en-GB")}

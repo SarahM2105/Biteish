@@ -51,6 +51,8 @@ const {
     declineChangeRequest,
 } = require('../controllers/ownerReservationController');
 
+const {checkinCustomer} = require('../controllers/checkinController');
+
 const router =express.Router();
 
 
@@ -90,5 +92,7 @@ router.patch("/reservations/:reservationId/decline", declineReservation);
 router.get("/change-request", listChangeRequest);
 router.patch("/change-request/:requestId/approve", approveChangeRequest);
 router.patch("/change-request/:requestId/decline", declineChangeRequest);
+router.post("/check-in", checkinCustomer);
+
 
 module.exports = router;
