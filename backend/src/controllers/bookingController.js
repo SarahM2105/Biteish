@@ -6,6 +6,8 @@ const {buildBookingEmailData} = require("../utils/emailDataBuilder")
 function bookingsOverlap(startA, endA, startB, endB){
     return startA < endB && startB < endA;
 }
+const crypto = require("crypto");
+const QRCode = require("qrcode");
 
 async function createBooking(req, res) {
     try{
@@ -339,6 +341,26 @@ async function approveReservation(req, res) {
         await prisma.reservation.update({
             where: {id: reservationId},
             data: {status: "CONFIRMED"}
+        });
+
+        const qrToken = crypto.randomUUID();
+        const expiresAt = new Date(
+            new Date(reservation.startsAt).getTime() +30*60*1000 // for now expires 30 mins after booking starts
+        );
+
+        await prisma.qrToken.upsert({
+            where: { reservationId: reservationId },
+            update: {
+                token: qrToken,
+                expiresAt,
+                used:false,
+            },
+            create: {
+                reservationId: reservationId,
+                token: qrToken,
+                expiresAt,
+                used:false,
+            },
         });
 
         try{

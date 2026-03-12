@@ -11,6 +11,7 @@ const {
     cancelReservation,
 } = require("../controllers/bookingController");
 
+const {getReservationQr} = require("../controllers/qrController");
 const { listRestaurants } = require("../controllers/publicRestaurantController");
 
 const {
@@ -31,6 +32,7 @@ router.patch("/reservations/:reservationId/cancel", cancelReservation);
 router.get("/restaurants/search", listRestaurants);
 router.get("/restaurants/:restaurantId/zones", listZonesForRestaurant);
 router.get("/zones/:zoneId/tables", listTablesForZone);
+router.get("/reservations/:reservationId/qr", getReservationQr);
 
 router.get("/me", getMe);
 

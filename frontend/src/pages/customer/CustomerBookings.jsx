@@ -4,8 +4,6 @@ import CustomerSideNav from "../../components/CustomerSideNav";
 import { useNavigate } from "react-router-dom";
 import {logout} from "../../components/utils/logout";
 
-
-
 export default function CustomerBookings() {
     const name = localStorage.getItem("name") || "customer";
     const[active, setActive]  = useState("My Bookings");
@@ -14,6 +12,9 @@ export default function CustomerBookings() {
     const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(false);
     const [bookings, setBookings] = useState([]);
+    const [qrImage, setQrImage] = useState("");
+    const [qrExpiresAt, setQrExpiresAt] = useState("");
+    const [showQrModal, setShowQrModal] = useState(false);
 
     function handleNavigate(label) {
         if (label === "Logout") {
@@ -69,6 +70,32 @@ export default function CustomerBookings() {
         })();
     }, []);
 
+    async function handleShowQr(reservationId){
+        setStatus("");
+        try{
+            const token = localStorage.getItem("token");
+            const res = await fetch(`/api/customer/reservations/${reservationId}/qr`, {
+                headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                setStatus(data?.error || data?.message || "Failed to load qr code");
+                return;
+            }
+            setQrImage(data.qrImage || "");
+            setQrExpiresAt(data.expiresAt || "");
+            setShowQrModal(true);
+        } catch (error){
+            console.error(error);
+            setStatus("Network/server error loading qr code");
+        }
+    }
+
+    function handleCloseQrModal() {
+        setShowQrModal(false);
+        setQrImage("");
+        setQrExpiresAt("");
+    }
 
 
     const canEdit = (s) => !["CANCELLED", "COMPLETED", "NO_SHOW"].includes(s);
@@ -109,36 +136,6 @@ export default function CustomerBookings() {
         }
     }
 
-    useEffect(() => {
-        (async () => {
-            setLoading(true);
-            setStatus("");
-
-            const token = localStorage.getItem("token");
-
-            console.log("Token in bookings page:", token);
-
-            if (!token) {
-                setStatus("No token found. Please log in again.");
-                setLoading(false);
-                return;
-            }
-
-            try {
-                await fetch("/api/customer/reservations", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-            } catch (e) {
-                console.error(e);
-                setStatus("Network/server error");
-            } finally {
-                setLoading(false);
-            }
-        })();
-    }, []);
-
     const now = Date.now();
 
     const upcoming = useMemo(
@@ -152,8 +149,6 @@ export default function CustomerBookings() {
     );
 
     const shown = tab === "UPCOMING" ? upcoming : past;
-
-
 
     return (
         <DashboardLayout name={name} sideNav={<CustomerSideNav active={active} onNavigate={handleNavigate}/>}>
@@ -219,6 +214,15 @@ export default function CustomerBookings() {
                                         </button>
                                     )}
 
+                                    {b.status === "CONFIRMED" && (
+                                        <button
+                                            type="button"
+                                            className="sf-filterBtn"
+                                            onClick={() => handleShowQr(b.id)}>
+                                            View QR
+                                        </button>
+                                    )}
+
                                     {canCancel(b.status) && (
                                         <button
                                             type="button"
@@ -235,6 +239,50 @@ export default function CustomerBookings() {
                     </div>
                 ))}
             </div>
+            {showQrModal && qrImage && (
+                <div
+                    style={{
+                        position:"fixed",
+                        inset:0,
+                        background: "rgba(0,0,0,0.5)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        zIndex: 1000,
+                    }}
+                    onClick={handleCloseQrModal}
+                    >
+                    <div
+                        className="dashboard-panel"
+                        style={{
+                            width: "min(92vw, 420px)",
+                            padding: 24,
+                            position: "relative",
+                        }}
+                        onClick={(e)=> e.stopPropagation()}>
+                    <button
+                        type="button"
+                        className="sf-filterBtn"
+                        onClick={handleCloseQrModal}
+                        style={{position:"absolute", top: 12, right: 12}}
+                        >
+                        close
+                    </button>
+                    <h3> Your Qr Code</h3>
+                    <div style={{display: "flex", justifyContent: "center"}}>
+                        <img
+                            src={qrImage}
+                            alt="Reservation QR Code"
+                            style={{ maxWidth: 250, width: "100%" }} />
+                    </div>
+            {qrExpiresAt && (
+                <div style={{ opacity:0.8, marginTop: 16, textAlign: "center" }}>
+                    Expires: {new Date(qrExpiresAt).toLocaleString("en-GB")}
+                </div>
+                )}
+                </div>
+                </div>
+                )}
         </DashboardLayout>
     );
 }
