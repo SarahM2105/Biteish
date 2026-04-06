@@ -1,5 +1,5 @@
 import React from "react";
-import DashboardLayout from "../../layouts/DashboardLayout";
+import AppLayout from "../../layouts/AppLayout";
 import CustomerSideNav from "../../components/CustomerSideNav";
 import useCustomerNotificationCounts from "../../hooks/useCustomerNotificationCounts";
 
@@ -8,7 +8,7 @@ export default function CustomerNotifications() {
     const active = "Notifications";
     const {pendingBookingsCount, upcomingConfirmedCount, updatedBookingCount, totalCustomerNotifications}= useCustomerNotificationCounts();
     return (
-        <DashboardLayout name={name} sideNav={<CustomerSideNav active={active}/>}>
+        <AppLayout name={name} sideNav={<CustomerSideNav active={active}/>}>
             <h1> Notifications </h1>
             <div className="dashboard-panel" style={{marginTop: 12}}>
                 <h2>Customer Notification Summary - to be changed in the next sprint</h2>
@@ -19,6 +19,6 @@ export default function CustomerNotifications() {
                     <div>Total Notifications: {totalCustomerNotifications}</div>
                 </div>
             </div>
-        </DashboardLayout>
+        </AppLayout>
     );
 }

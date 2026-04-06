@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import DashboardLayout from '../../layouts/DashboardLayout';
+import AppLayout from '../../layouts/AppLayout';
 import CustomerSideNav from "../../components/CustomerSideNav";
 import { useNavigate } from "react-router-dom";
 
@@ -88,7 +88,7 @@ export default function CustomerSearchAndFilter() {
     }
 
     return (
-        <DashboardLayout
+        <AppLayout
             name={name}
             sideNav={<CustomerSideNav active={active} onNavigate={setActive} />}
         >
@@ -202,6 +202,6 @@ export default function CustomerSearchAndFilter() {
                     </div>
                 </aside>
             </div>
-        </DashboardLayout>
+        </AppLayout>
     );
 }

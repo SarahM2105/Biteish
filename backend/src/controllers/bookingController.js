@@ -1,7 +1,7 @@
 const {prisma} = require("../prismaClient");
 const { getIO } = require("../socket");
 const { sendEmail , buildEmailLayout} = require("../utils/emailService");
-const {buildBookingEmailData} = require("../utils/emailDataBuilder")
+const {buildBookingEmailData} = require("../utils/emailDataBuilder");
 
 function bookingsOverlap(startA, endA, startB, endB){
     return startA < endB && startB < endA;
@@ -243,7 +243,7 @@ async function updateReservation(req, res) {
                 });
             }
         } catch (error){
-            console.error("failed to send new booking decline email: ", error )
+            console.error("failed to send change request email: ", error )
         }
 
         return res.status(202).json({
@@ -298,7 +298,7 @@ async function cancelReservation(req, res) {
                 <p><strong>Party Size:</strong> ${reservation.partySize}</p>
                 <p><strong>Status:</strong> Cancelled</p>`,
                 actionText: "view requests",
-                actionUrl: `${process.env.FRONTEND_URL}/owner/requests`
+                actionUrl: `${process.env.FRONTEND_URL}/owner/request`
             });
             if (owner?.email) {
                 await sendEmail({
@@ -309,7 +309,7 @@ async function cancelReservation(req, res) {
                 });
             }
         } catch (error){
-            console.error("failed to send new booking approval email: ", error )
+            console.error("failed to send cancellation email ", error )
         }
         return res.status(200).json({ message: "Cancelled" });
     } catch (error) {
@@ -461,22 +461,8 @@ async function declineReservation(req, res) {
         } catch (error){
             console.error("failed to send new booking decline email: ", error )
         }
-        if (!reservation || reservation.table.restaurant.ownerId !== req.user.userId) {
-            return res.status(403).json({error: "Not authorised"});
-        }
-        if (reservation.status !== "PENDING") {
-            return res.status(400).json({error: "only confirmed reservations pending reservations can be declined"});
-        }
-        await prisma.reservation.update({
-            where: {id: reservationId},
-            data: {status: "DECLINED"}
-        });
         try{
             const io = getIO();
-            /*io.to(`user:${reservation.table.restaurant.ownerId}`).emit("reservation:updated", {
-                id: reservationId,
-                status: "DECLINED",
-            });*/
             io.to(`user:${reservation.userId}`).emit("reservation:updated", {
                 reservationId,
                 status: "DECLINED",

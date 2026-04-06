@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import DashboardLayout from '../layouts/DashboardLayout';
+import AppLayout from '../layouts/AppLayout';
 import AdminSideNav from "../components/AdminSideNav";
 import {useNavigate} from 'react-router-dom';
 import {logout} from "../components/utils/logout"
@@ -16,7 +16,7 @@ function AdminDashboard() {
         setActive(label);
     }
     return (
-        <DashboardLayout
+        <AppLayout
             name={name}
             sideNav={<AdminSideNav active={active} onNavigate={handleNavigate}/>}>
             <h1 className="page-title">Welcome Back, {name}</h1>
@@ -34,7 +34,7 @@ function AdminDashboard() {
                 <h3>Graphs</h3>
                 {/*TODO: ...*/}
             </section>
-        </DashboardLayout>
+        </AppLayout>
     );
 }
 

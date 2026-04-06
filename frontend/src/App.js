@@ -7,7 +7,7 @@ import CustomerBookings from './pages/customer/CustomerBookings';
 import CustomerEditBooking from './pages/customer/CustomerEditBooking';
 import CustomerProfile from "./pages/customer/CustomerProfile";
 import CustomerNotifications from "./pages/customer/CustomerNotifications";
-import OwnerDashboard from './pages/OwnerDashboard';
+import OwnerDashboard from './pages/owner/OwnerDashboard';
 import OwnerRestaurantLayout from './pages/owner/OwnerRestaurantLayout';
 import OwnerRequests from './pages/owner/Request';
 import OwnerNotifications from "./pages/owner/Notifications";
@@ -15,6 +15,12 @@ import AdminDashboard from './pages/AdminDashboard';
 import CustomerSearchAndFilter from "./pages/customer/CustomerSearchAndFilter";
 import ProtectedRoutes from "./components/utils/ProtectedRoute";
 import OwnerCheckIn from "./pages/owner/OwnerCheckIn";
+import OwnerRestaurantProfile from "./pages/owner/OwnerRestaurantProfile";
+import OwnerAnalytics from "./pages/owner/OwnerAnalytics";
+import OwnerRestaurantSettings from "./pages/owner/OwnerRestaurantSettings";
+import OwnerProfilePreference from "./pages/owner/OwnerProfilePreference";
+import OwnerMenu from "./pages/owner/OwnerMenu";
+import CustomerFavourites from "./pages/customer/CustomerFavourites";
 
 function App() {
   return (
@@ -54,6 +60,10 @@ function App() {
                 <ProtectedRoutes allowedRoles={["CUSTOMER"]}>
                 <CustomerProfile />
                 </ProtectedRoutes>}/>
+            <Route path={"/customer/favourites"} element={
+                <ProtectedRoutes allowedRoles={["CUSTOMER"]}>
+                    <CustomerFavourites />
+                </ProtectedRoutes>}/>
             <Route path={"/customer/bookings/:reservationId/edit"} element={
                 <ProtectedRoutes allowedRoles={["CUSTOMER"]}>
                 <CustomerEditBooking />
@@ -80,6 +90,33 @@ function App() {
             <Route path="/owner/check-ins" element={
                 <ProtectedRoutes allowedRoles={["OWNER"]}>
                     <OwnerCheckIn/>
+                </ProtectedRoutes>
+            }/>
+            <Route path="/owner/restaurant/profile" element={
+                <ProtectedRoutes allowedRoles={["OWNER"]}>
+                    <OwnerRestaurantProfile/>
+                </ProtectedRoutes>
+            }/>
+            <Route path="/owner/analytics" element={
+                <ProtectedRoutes allowedRoles={["OWNER"]}>
+                    <OwnerAnalytics/>
+                </ProtectedRoutes>
+            }/>
+            <Route path="/owner/settings" element={
+                <ProtectedRoutes allowedRoles={["OWNER"]}>
+                    <OwnerRestaurantSettings />
+                </ProtectedRoutes>
+            }
+                   />
+            <Route path="/owner/profile-preferences" element={
+                <ProtectedRoutes allowedRoles={["OWNER"]}>
+                    <OwnerProfilePreference />
+                </ProtectedRoutes>
+            }
+            />
+            <Route path="/owner/menu" element={
+                <ProtectedRoutes allowedRoles={["OWNER"]}>
+                    <OwnerMenu/>
                 </ProtectedRoutes>
             }/>
             <Route path="/admin-dashboard" element={

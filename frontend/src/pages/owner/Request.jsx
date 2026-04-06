@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import DashboardLayout from "../../layouts/DashboardLayout";
+import AppLayout from "../../layouts/AppLayout";
 import OwnerSideNav from "../../components/OwnerSideNav";
 import { getSocket } from "../../socket";
 
@@ -241,7 +241,7 @@ export default function Request() {
     }
 
     return (
-        <DashboardLayout name={name} sideNav={<OwnerSideNav active={active} />}>
+        <AppLayout name={name} sideNav={<OwnerSideNav active={active} />}>
             <h1 className="page-title">Requests</h1>
 
             {status && <div style={{ opacity: 0.9, marginBottom: 12 }}>{status}</div>}
@@ -358,6 +358,6 @@ export default function Request() {
                     })}
                 </div>
             </div>
-        </DashboardLayout>
+        </AppLayout>
     );
 }

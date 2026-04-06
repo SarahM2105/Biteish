@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import DashboardLayout from "../../layouts/DashboardLayout";
+import AppLayout from "../../layouts/AppLayout";
 import OwnerSideNav from "../../components/OwnerSideNav";
 import {Scanner} from "@yudiel/react-qr-scanner";
 
@@ -59,7 +59,7 @@ export default function OwnerCheckIn() {
     }
 
     return (
-        <DashboardLayout name={name} sideNav={<OwnerSideNav active="Check In"/>}>
+        <AppLayout name={name} sideNav={<OwnerSideNav active="Check In"/>}>
             <h1> QR Check in </h1>
             <div className="dashboard-panel" style={{ maxWidth: 520, marginBottom:20}}>
                 <h3 style={{marginBottom: 12}}>Scan QR code</h3>
@@ -113,6 +113,6 @@ export default function OwnerCheckIn() {
                 </div>
                 </div>
             )}
-        </DashboardLayout>
+        </AppLayout>
     );
 }

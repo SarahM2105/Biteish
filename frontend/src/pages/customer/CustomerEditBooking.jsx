@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import DashboardLayout from "../../layouts/DashboardLayout";
+import AppLayout from "../../layouts/AppLayout";
 import CustomerSideNav from "../../components/CustomerSideNav";
 
 export default function CustomerEditBooking() {
@@ -108,7 +108,7 @@ export default function CustomerEditBooking() {
     }
 
     return (
-        <DashboardLayout
+        <AppLayout
             name={name}
             sideNav={<CustomerSideNav active={active} onNavigate={setActive} />}
         >
@@ -180,6 +180,6 @@ export default function CustomerEditBooking() {
                     </div>
                 </form>
             )}
-        </DashboardLayout>
+        </AppLayout>
     );
 }

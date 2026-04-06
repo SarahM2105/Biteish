@@ -52,6 +52,11 @@ const {
 } = require('../controllers/ownerReservationController');
 
 const {checkinCustomer} = require('../controllers/checkinController');
+const {getOwnerOccupancy} = require("../controllers/occupancyController");
+const {
+    getOwnerRestaurantProfile,
+    updateOwnerRestaurantProfile,
+} = require("../controllers/ownerProfileController");
 
 const router =express.Router();
 
@@ -93,6 +98,9 @@ router.get("/change-request", listChangeRequest);
 router.patch("/change-request/:requestId/approve", approveChangeRequest);
 router.patch("/change-request/:requestId/decline", declineChangeRequest);
 router.post("/check-in", checkinCustomer);
+router.get("/occupancy", getOwnerOccupancy);
+router.get("/restaurant/profile", getOwnerRestaurantProfile);
+router.patch("/restaurant/profile", updateOwnerRestaurantProfile);
 
 
 module.exports = router;

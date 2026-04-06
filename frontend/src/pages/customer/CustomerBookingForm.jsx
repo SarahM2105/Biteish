@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import DashboardLayout from "../../layouts/DashboardLayout";
+import AppLayout from "../../layouts/AppLayout";
 import CustomerSideNav from "../../components/CustomerSideNav";
 
 export default function CustomerBookingForm() {
@@ -77,7 +77,7 @@ export default function CustomerBookingForm() {
     }
 
     return (
-        <DashboardLayout name={name} sideNav={<CustomerSideNav active={active} />}>
+        <AppLayout name={name} sideNav={<CustomerSideNav active={active} />}>
             <h1 className="page-title">Restaurant name</h1>
 
             <form onSubmit={handleSubmit} className="dashboard-panel">
@@ -134,6 +134,6 @@ export default function CustomerBookingForm() {
                     {status && <div style={{ opacity: 0.85 }}>{status}</div>}
                 </div>
             </form>
-        </DashboardLayout>
+        </AppLayout>
     );
 }

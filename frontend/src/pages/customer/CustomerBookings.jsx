@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import DashboardLayout from "../../layouts/DashboardLayout";
+import AppLayout from "../../layouts/AppLayout";
 import CustomerSideNav from "../../components/CustomerSideNav";
 import { useNavigate } from "react-router-dom";
 import {logout} from "../../components/utils/logout";
@@ -154,7 +154,7 @@ export default function CustomerBookings() {
     const shown = tab === "UPCOMING" ? upcoming : past;
 
     return (
-        <DashboardLayout name={name} sideNav={<CustomerSideNav active={active} onNavigate={handleNavigate}/>}>
+        <AppLayout name={name} sideNav={<CustomerSideNav active={active} onNavigate={handleNavigate}/>}>
             <h1 className="page-title">My Bookings</h1>
 
             <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
@@ -311,6 +311,6 @@ export default function CustomerBookings() {
                 </div>
                 </div>
                 )}
-        </DashboardLayout>
+        </AppLayout>
     );
 }

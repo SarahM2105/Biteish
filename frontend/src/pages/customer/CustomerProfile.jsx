@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import DashboardLayout from "../../layouts/DashboardLayout";
+import AppLayout from "../../layouts/AppLayout";
 import CustomerSideNav from "../../components/CustomerSideNav";
 
 export default function CustomerProfile() {
@@ -39,7 +39,7 @@ export default function CustomerProfile() {
     }, [fallbackName]);
 
     return (
-        <DashboardLayout name={me.name} sideNav={<CustomerSideNav active="Profile and Preferences" />}>
+        <AppLayout name={me.name} sideNav={<CustomerSideNav active="Profile and Preferences" />}>
             <h1 className="page-title">Profile</h1>
 
             {loading && <div style={{ opacity: 0.85 }}>Loading…</div>}
@@ -63,6 +63,6 @@ export default function CustomerProfile() {
                     </div>
                 </div>
             </div>
-        </DashboardLayout>
+        </AppLayout>
     );
 }

@@ -1,4 +1,6 @@
 const {prisma}= require('../prismaClient');
+const {getIO} = require("../socket");
+const {getRestaurantOccupancy} = require("../utils/occupancy");
 
 async function checkinCustomer(req,res) {
     try{
@@ -74,11 +76,16 @@ async function checkinCustomer(req,res) {
                 },
             },
         });
-
-        await prisma.qrToken.update({
-            where:{id:tokenRow.id},
-            data:{ used: true},
-        });
+        try{
+            const io = getIO();
+            const occupancy = await getRestaurantOccupancy(restaurant.id);
+            io.to(`user:${restaurant.ownerId}`).emit("occupancy:updated",{
+                restaurantId: restaurant.id,
+                ...occupancy,
+            });
+        } catch (error) {
+            console.error("Failed to emit occupancy update:", error);
+        }
         return res.json({
             message: "Customer checked in successfully",
             reservation: {

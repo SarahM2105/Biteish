@@ -1,98 +1,144 @@
 .sidenav {
-    width: 240px;
-    background: #61dafb;
-    border-right: 1px solid #61dafb;
+    position: fixed;
+    top: 76px;
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, var(--sidebar) 0%, var(--panel) 100%);
+    border-right: 1px solid var(--border);
     display: flex;
     flex-direction: column;
-    padding: 16px;
-    height:100%
+    justify-content: space-between;
+    transition: width 0.22s ease, background 0.22s ease;
+    backdrop-filter: blur(10px);
+    z-index: 15;
+    box-shadow: 8px 0 20px rgba(0,0,0,0.03);
+}
+
+.sidenav.is-collapsed {
+    width: 78px;
+}
+
+.sidenav.is-expanded {
+    width: 252px;
 }
 
 .sidenav__nav {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+    padding: 14px 12px;
 }
 
-.sidenav__header {
-    font-weight: 700;
-    margin: 16px;
-    letter-spacing: 0.4px;
-    color: #61dafb;
-    margin-bottom: 14px;
-}
-
-.sidenav__item {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: left;
-    padding: 12px 14px;
-    border:1px solid transparent;
+.sidenav__item,
+.sidenav__logout {
+    position: relative;
+    height: 50px;
+    border: none;
+    border-radius: 18px;
     background: transparent;
-    border-radius:10px;
+    align-items: center;
+    gap: 12px;
+    display: flex;
+    text-align: left;
+    padding: 0 14px;
+    font-weight: 700;
+    color: var(--text-main);
     cursor: pointer;
     font-size: 14px;
-    color: #222;
+    transition: all 0.22s ease;
+    white-space: nowrap;
 }
 
 .sidenav__badge {
-    min-width: 22px;
-    height: 22px;
-    padding:0 8px;
+    min-width: 27px;
+    height: 27px;
+    padding: 0 8px;
     border-radius: 999px;
-    background: red;
-    color: white;
+    background: linear-gradient(135deg, #ff6a00, #ff3cac);
+    color: #fff;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 800;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    box-shadow: 0 8px 16px rgba(255, 60, 172, 0.2);
 }
 
-.sidenav__item:hover {
-    background-color: #e9f2ff;
+.sidenav__item:hover,
+.sidenav__logout:hover {
+    background: var(--primary-soft);
+    transform: translateX(3px);
+    box-shadow: 0 8px 16px rgba(255,106,0,0.08);
 }
 
 .sidenav__item.is-active {
-    background-color: #dbeafe;
-    border-color: #bfdbfe;
-    font-weight: 600;
+    background: linear-gradient(90deg, rgba(255,106,0,0.14), rgba(255,60,172,0.08));
+    color: var(--primary);
+    box-shadow: 0 8px 16px rgba(255,106,0,0.14);
 }
 
-.sidenav__footer{
-    margin-top: auto;
-    padding-top: 16px;
-    border-top: 1px solid #e6e9f2;
+.sidenav__item.is-active::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 26px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--primary), var(--accent));
+}
+
+.sidenav__icon {
+    width: 20px;
+    min-width: 20px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--text-muted);
+}
+
+.sidenav__item.is-active .sidenav__icon {
+    color: var(--primary);
+}
+
+.sidenav__label {
+    flex: 1;
+}
+
+.sidenav__footer {
+    padding: 12px;
 }
 
 .sidenav__logout {
     width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid #61dafb;
-    background: #fff;
-    cursor: pointer;
-    font-size: 14px;
+    border: 1px solid var(--border);
+    background: var(--logout-bg);
+    color: var(--logout-text);
 }
 
 .sidenav__logout:hover {
-    background-color: #f6f8fc;
+    background-color: var(--primary-soft);
 }
 
-.dashboard-nav.is-collapsed .sidenav__item{
+.sidenav.is-collapsed .sidenav__item,
+.sidenav.is-collapsed .sidenav__logout {
     justify-content: center;
-    padding: 10px;
+    padding: 0;
 }
 
-.dashboard-nav.is-collapsed .sidenav__item {
-    font-size:0;
+.sidenav.is-collapsed .sidenav__label,
+.sidenav.is-collapsed .sidenav__badge {
+    display: none;
 }
 
-/*.dashboard-nav.is-collapsed .sidenav__item::before {
-    content: ".";
-    font-size: 20px;
+.sidenav.is-collapsed .sidenav__footer {
+    padding: 12px 10px;
 }
 
- */
+@media (max-width: 700px) {
+    .sidenav.is-expanded {
+        width: 220px;
+    }
+}

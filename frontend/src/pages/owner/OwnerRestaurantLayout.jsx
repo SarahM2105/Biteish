@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import DashboardLayout from "../../layouts/DashboardLayout";
+import AppLayout from "../../layouts/AppLayout";
 import OwnerSideNav from "../../components/OwnerSideNav";
 
 export default function OwnerRestaurantLayout() {
@@ -595,7 +595,7 @@ export default function OwnerRestaurantLayout() {
     }
 
     return (
-        <DashboardLayout name={name} sideNav={<OwnerSideNav active={active} />}>
+        <AppLayout name={name} sideNav={<OwnerSideNav active={active} />}>
             <h1 className="page-title">Restaurant Layout</h1>
 
             {loading && <div style={{ opacity: 0.85 }}>Loading…</div>}
@@ -931,6 +931,6 @@ export default function OwnerRestaurantLayout() {
                     </div>
                 </div>
             )}
-        </DashboardLayout>
+        </AppLayout>
     );
 }

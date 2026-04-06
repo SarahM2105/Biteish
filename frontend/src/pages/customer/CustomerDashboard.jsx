@@ -1,13 +1,23 @@
-import React, {useState} from 'react';
-import DashboardLayout from '../../layouts/DashboardLayout';
+import React, { useState } from 'react';
+import AppLayout from '../../layouts/AppLayout';
 import CustomerSideNav from "../../components/CustomerSideNav";
-import {useNavigate} from "react-router-dom";
-import {logout} from "../../components/utils/logout"
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../components/utils/logout";
+import DashboardHeader from "../../components/Customer/Dashboard/Header";
+import SummaryCards from "../../components/Customer/Dashboard/SummaryCards";
+import NextBooking from "../../components/Customer/Dashboard/NextBooking";
+import UpcommingBookingsCarousel from "../../components/Customer/Dashboard/UpcomingBookingsCarousel";
+import useCustomerDashboardData  from "../../hooks/useCustomerDashboardData";
+import "../../components/Customer/Dashboard/Dashboard.css"
 
 function CustomerDashboard() {
-    const name= localStorage.getItem('name') || 'customer';
+    const name = localStorage.getItem('name') || 'customer';
+    const [collapsed, setCollapsed] = useState(true);
     const [active, setActive] = useState("Dashboard");
+    const [isDarkMode, setIsDarkMode] = useState(true);
     const navigate = useNavigate();
+    const {loading, status, nextBooking, summary,upcomingBookings} = useCustomerDashboardData();
+
     function handleNavigate(label) {
         if (label === "Logout") {
             logout(navigate);
@@ -15,29 +25,56 @@ function CustomerDashboard() {
         }
         setActive(label);
     }
+
     return (
-        <DashboardLayout
-        name={name}
-        sideNav={<CustomerSideNav  active={active} onNavigate={handleNavigate}/>}>
-            <h1 className="page-title">Welcome Back, {name}</h1>
-            <section className="dashboard-panel">
-                <h3>Upcomming Bookings</h3>
-                {/*TODO: list of bookings for the upcomming week*/}
+        <AppLayout
+            collapsed={collapsed}
+            onToggleSidebar={() => setCollapsed((prev) => !prev)}
+            isDarkMode={isDarkMode}
+            onToggleTheme={() => setIsDarkMode((prev) => !prev)}
+            sideNav={
+                <CustomerSideNav
+                    active={active}
+                    onNavigate={handleNavigate}
+                    collapsed={collapsed}
+                />
+            }
+        >
+            <div className="dashboard-page">
+                <DashboardHeader name={name}/>
+
+                {status && <div className="dashboard-panel">{status}</div>}
+
+                <SummaryCards summary={summary} loading={loading}/>
+                <NextBooking booking={nextBooking} upcomingBookings={upcomingBookings} loading={loading}/>
+                <UpcommingBookingsCarousel bookings={upcomingBookings} loading={loading}/>
+            </div>
+
+            <section className="dashboard-section">
+                <div className="dashboard-section__topRow">
+                    <div className="dashboard-section__heading">
+                        <h2>Recommended for you</h2>
+                    </div>
+                </div>
+
+                <div className="dashboard-placeholder-card">
+                    <p>Personalised recommendations will appear here.</p>
+                </div>
             </section>
 
-            <section className="dashboard-panel">
-                <h3>Reccomended for you</h3>
-                {/*TODO: recommendations sprint 7*/}
-            </section>
+            <section className="dashboard-section">
+                <div className="dashboard-section__topRow">
+                    <div className="dashboard-section__heading">
+                        <h2>Popular in your area</h2>
+                    </div>
+                </div>
 
-            <section className="dashboard-panel">
-                <h3>Popular Restaurants</h3>
-                {/*TODO: sprint 7*/}
+                <div className="dashboard-placeholder-card">
+                    <p>Popular restaurants near you will appear here.</p>
+                </div>
             </section>
-        </DashboardLayout>
+        </AppLayout>
     );
 }
-
-
 
 export default CustomerDashboard;

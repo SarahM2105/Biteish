@@ -23,7 +23,7 @@ export default function OwnerSideNav({active = "Dashboard", onNavigate}) {
 
     const routes = {
         "Dashboard" : "/owner-dashboard",
-        "Restaurant Profile": "/owner/restaurants",
+        "Restaurant Profile": "/owner/restaurant/profile",
         "Zones and Tables": "/owner/restaurant-layout",
         "Menu": "/owner/menu",
         "Request": "/owner/request",
@@ -31,7 +31,7 @@ export default function OwnerSideNav({active = "Dashboard", onNavigate}) {
         "Analytics": "/owner/analytics",
         "Notifications": "/owner/notifications",
         "Restaurant Settings": "/owner/settings",
-        "Profile and Preferences": "/owner/profile",
+        "Profile and Preferences": "/owner/profile-preferences",
     }
     return (
         <aside className="sidenav">
