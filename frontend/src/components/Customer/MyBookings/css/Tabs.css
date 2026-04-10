@@ -1,0 +1,100 @@
+.bookings-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.bookings-tabs__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text-main);
+    border-radius: 999px;
+    padding: 12px 18px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+}
+
+.dark-mode .bookings-tabs__button:hover {
+    transform: translateY(-1px);
+    background: var(--primary-soft);
+}
+
+.bookings-tabs__button.is-active {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 10px 24px rgba(255, 138, 61, 0.22);
+}
+
+.bookings-tabs__button.is-active:hover {
+    transform: translateY(0);
+    background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 10px 24px rgba(255, 138, 61, 0.22);
+}
+
+.bookings-tabs__count {
+    min-width: 24px;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.16);
+    color: inherit;
+}
+
+.light-mode .bookings-tabs__button {
+    background: #ffffff;
+    border: 1px solid #e4d6cc;
+    color: #17223b;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+
+.light-mode .bookings-tabs__button:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #fff1e8 0%, #ffe7f2 100%);
+    border-color: #f2bfa6;
+    box-shadow: 0 8px 18px rgba(255, 138, 61, 0.12);
+}
+
+.light-mode .bookings-tabs__button.is-active {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 10px 24px rgba(255, 138, 61, 0.22);
+}
+
+.light-mode .bookings-tabs__button.is-active:hover {
+    transform: translateY(0);
+    background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 10px 24px rgba(255, 138, 61, 0.22);
+}
+
+.light-mode .bookings-tabs__button:not(.is-active) .bookings-tabs__count {
+    background: #f3e7dd;
+}
+
+.light-mode .bookings-tabs__button:hover:not(.is-active) .bookings-tabs__count {
+    background: #ffffff;
+}
+
+.light-mode .bookings-tabs__button.is-active .bookings-tabs__count {
+    background: rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+}
+
+.dark-mode .bookings-tabs__button:not(.is-active) .bookings-tabs__count {
+    background: rgba(255, 255, 255, 0.08);
+}

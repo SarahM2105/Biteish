@@ -1,0 +1,98 @@
+.dark-mode .status-confirmed {
+    color: #86efac;
+}
+
+.dark-mode .status-pending {
+    color: #fcd34d;
+}
+
+.dark-mode .status-cancelled {
+    color: #cbd5e1;
+}
+
+.dark-mode .status-declined {
+    color: #fca5a5;
+}
+
+.dark-mode .status-completed {
+    color: #c7d2fe;
+}
+
+.dark-mode .status-no-show {
+    color: #f9a8d4;
+}
+
+.dark-mode .booking-card__button--ghost {
+    color: #fecaca;
+}
+
+.dark-mode .bookings-tabs__button:not(.is-active) .bookings-tabs__count {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.light-mode .bookings-header {
+    background:
+            radial-gradient(circle at top left, rgba(255, 106, 0, 0.14), transparent 28%),
+            radial-gradient(circle at right center, rgba(255, 60, 172, 0.10), transparent 30%),
+            linear-gradient(135deg, #fff4ec 0%, #ffeef7 48%, #fff4ea 100%);
+    border: 1px solid #e6d2c5;
+    box-shadow: 0 16px 34px rgba(120, 72, 32, 0.10);
+}
+
+.light-mode .bookings-summary-card {
+    background: #ffffff;
+    border: 1px solid #e7d9cf;
+    box-shadow: 0 10px 22px rgba(90, 60, 30, 0.05);
+}
+
+.light-mode .booking-card {
+    background: #fffefd;
+    border: 1px solid #e7d9cf;
+    box-shadow: 0 18px 34px rgba(108, 73, 36, 0.10);
+}
+
+.light-mode .booking-card:hover {
+    box-shadow: 0 22px 40px rgba(108, 73, 36, 0.14);
+}
+
+.light-mode .booking-card__meta-item,
+.light-mode .booking-card__notes {
+    background: #f9ede2;
+    border: 1px solid #e8d2c3;
+}
+
+.light-mode .bookings-tabs__button {
+    background: #ffffff;
+    border: 1px solid #e4d6cc;
+    color: #17223b;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+
+.light-mode .bookings-tabs__button:hover {
+    background: #fff2e8;
+    border-color: #e6cbbb;
+}
+
+.light-mode .bookings-header__text,
+.light-mode .bookings-summary-card__text,
+.light-mode .booking-card__subtitle,
+.light-mode .bookings-empty-state__text,
+.light-mode .booking-qr-modal__expires {
+    color: #5f687c;
+}
+
+.light-mode .bookings-summary-card__label,
+.light-mode .booking-card__meta-label,
+.light-mode .booking-card__notes-label {
+    color: #7b6f7b;
+}
+
+.light-mode .bookings-feedback,
+.light-mode .bookings-empty-state {
+    background: #fffdfa;
+    border-color: #e6d8cf;
+}
+
+.light-mode .bookings-tabs__button:not(.is-active) .bookings-tabs__count {
+    background: #f3e7dd;
+}

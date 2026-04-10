@@ -3,11 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import AppLayout from "../../layouts/AppLayout";
 import CustomerSideNav from "../../components/CustomerSideNav";
 import { logout } from "../../components/utils/logout";
-import BookingProgress from "../../components/Customer/Booking/BookingProgress";
-import BookingStep1Details from "../../components/Customer/Booking/BookingStep1Details";
-import BookingStep2TableSelect from "../../components/Customer/Booking/BookingStep2TableSelect";
-import BookingStep3Review from "../../components/Customer/Booking/BookingStep3Review";
-import BookingStep4Confirmation from "../../components/Customer/Booking/BookingStep4Confirmation";
+import BookingProgress from "../../components/Customer/BookingForm/BookingProgress";
+import BookingStep1Details from "../../components/Customer/BookingForm/BookingStep1Details";
+import BookingStep2TableSelect from "../../components/Customer/BookingForm/BookingStep2TableSelect";
+import BookingStep3Review from "../../components/Customer/BookingForm/BookingStep3Review";
+import BookingStep4Confirmation from "../../components/Customer/BookingForm/BookingStep4Confirmation";
 export default function CustomerBookingPage() {
     const navigate = useNavigate();
     const { restaurantId } = useParams();
