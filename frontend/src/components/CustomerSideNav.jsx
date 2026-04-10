@@ -19,7 +19,7 @@ export default function CustomerSideNav({active = "Dashboard", onNavigate, colla
     ];
 
     const routes = {
-        "Dashboard": "/customer-dashboard",
+        "Dashboard": "/customer/dashboard",
         "Search and Filter": "/customer/search",
         "My Bookings" : "/customer/myBookings",
         "Favourites": "/customer/favourites",

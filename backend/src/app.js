@@ -1,5 +1,5 @@
 const path = require("path");
-require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 if (!process.env.JWT_SECRET) {
     console.error("Missing JWT token to authenticate");
     process.exit(1);
@@ -46,4 +46,15 @@ const server = http.createServer(app);
 initSocket(server);
 server.listen(PORT, () => {
     console.log(`server running on port ${PORT}`);
+});
+
+app.use((err, req, res, next)=> {
+    if (err.message === "Only image files are allowed") {
+        return res.status(400).json({ message: err.message });
+    }
+    if (err.code === "LIMIT_FILE_SIZE") {
+        return res.status(400).json({ message: "File too large (max 5MB)" });
+    }
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
 });

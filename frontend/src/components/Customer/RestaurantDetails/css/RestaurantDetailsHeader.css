@@ -1,0 +1,46 @@
+
+.restaurant-header {
+    padding: 32px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(255, 138, 61, 0.16), rgba(255, 105, 199, 0.10));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    color: #f8fafc;
+}
+
+.restaurant-header__content {
+    display: grid;
+    gap: 12px;
+    max-width: 720px;
+}
+
+.restaurant-header__badge {
+    width: fit-content;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff7ed;
+}
+
+.restaurant-header h1 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #ffffff;
+    line-height: 1.05;
+}
+
+.restaurant-header__location {
+    margin: 0;
+    color: rgba(248, 250, 252, 0.82);
+}
+
+.restaurant-header__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-weight: 600;
+    color: #fde68a;
+}
+

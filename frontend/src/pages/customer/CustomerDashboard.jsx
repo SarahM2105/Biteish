@@ -6,7 +6,7 @@ import { logout } from "../../components/utils/logout";
 import DashboardHeader from "../../components/Customer/Dashboard/Header";
 import SummaryCards from "../../components/Customer/Dashboard/SummaryCards";
 import NextBooking from "../../components/Customer/Dashboard/NextBooking";
-import UpcommingBookingsCarousel from "../../components/Customer/Dashboard/UpcomingBookingsCarousel";
+import UpcomingBookingsCarousel from "../../components/Customer/Dashboard/UpcomingBookingsCarousel";
 import useCustomerDashboardData  from "../../hooks/useCustomerDashboardData";
 import "../../components/Customer/Dashboard/Dashboard.css"
 
@@ -47,7 +47,7 @@ function CustomerDashboard() {
 
                 <SummaryCards summary={summary} loading={loading}/>
                 <NextBooking booking={nextBooking} upcomingBookings={upcomingBookings} loading={loading}/>
-                <UpcommingBookingsCarousel bookings={upcomingBookings} loading={loading}/>
+                <UpcomingBookingsCarousel bookings={upcomingBookings} loading={loading}/>
             </div>
 
             <section className="dashboard-section">

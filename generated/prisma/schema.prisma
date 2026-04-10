@@ -5,8 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  //url = env("DATABASE_URL")
-  //url= env("postgresql://neondb_owner:npg_3VJjYsnTNz0D@ep-divine-thunder-ab91ulwe.eu-west-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require")
 }
 
 model User {
@@ -29,6 +27,8 @@ model Restaurant {
   ownerId       String
   name          String
   location      String
+  latitude      Float?
+  longitude     Float?
   verified      Boolean                   @default(false)
   bookingRule   BookingRule?
   favorites     Favorite[]
@@ -135,14 +135,24 @@ model Notification {
 }
 
 model Review {
-  id           String     @id @default(uuid())
-  userId       String
-  restaurantId String
-  rating       Int
-  comment      String?
-  createdAt    DateTime   @default(now())
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
-  user         User       @relation(fields: [userId], references: [id])
+  id            String        @id @default(uuid())
+  userId        String
+  restaurantId  String
+  rating        Int
+  comment       String?
+  verifiedVisit Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  restaurant    Restaurant    @relation(fields: [restaurantId], references: [id])
+  user          User          @relation(fields: [userId], references: [id])
+  images        ReviewImage[]
+}
+
+model ReviewImage {
+  id        String   @id @default(cuid())
+  reviewId  String
+  imageUrl  String
+  createdAt DateTime @default(now())
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
 
 model Favorite {

@@ -1,0 +1,121 @@
+
+.restaurant-details-card,
+.restaurant-booking-card {
+    padding: 24px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    color: #f8fafc;
+}
+
+.restaurant-details-card h2,
+.restaurant-booking-card h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    color: #ffffff;
+}
+
+.restaurant-details-card h3,
+.restaurant-booking-card h3 {
+    color: #f8fafc;
+    margin-bottom: 8px;
+}
+
+.restaurant-details-card p,
+.restaurant-booking-card p,
+.restaurant-details-card span,
+.restaurant-booking-card span {
+    color: rgba(226, 232, 240, 0.88);
+}
+
+.restaurant-chip-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.restaurant-chip {
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+}
+
+.restaurant-chip--soft {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f8fafc;
+}
+
+.restaurant-about-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.restaurant-hours {
+    display: grid;
+    gap: 12px;
+}
+
+.restaurant-hours__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: #f8fafc;
+}
+
+.restaurant-hours__row strong {
+    color: #ffffff;
+}
+
+.restaurant-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.restaurant-rating-pill {
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fde68a;
+}
+
+
+.restaurant-booking-card__rules {
+    display: grid;
+    gap: 14px;
+    margin: 18px 0 22px;
+}
+
+.restaurant-booking-card__rules div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.restaurant-booking-card__rules strong {
+    color: #ffffff;
+}
+
+.restaurant-booking-card__button {
+    width: 100%;
+    border: none;
+    border-radius: 16px;
+    padding: 14px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ff8a3d, #ff69c7);
+    color: white;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.restaurant-booking-card__button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(255, 105, 199, 0.2);
+}

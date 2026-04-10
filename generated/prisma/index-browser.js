@@ -133,6 +133,8 @@ exports.Prisma.RestaurantScalarFieldEnum = {
   ownerId: 'ownerId',
   name: 'name',
   location: 'location',
+  latitude: 'latitude',
+  longitude: 'longitude',
   verified: 'verified'
 };
 
@@ -213,6 +215,14 @@ exports.Prisma.ReviewScalarFieldEnum = {
   restaurantId: 'restaurantId',
   rating: 'rating',
   comment: 'comment',
+  verifiedVisit: 'verifiedVisit',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ReviewImageScalarFieldEnum = {
+  id: 'id',
+  reviewId: 'reviewId',
+  imageUrl: 'imageUrl',
   createdAt: 'createdAt'
 };
 
@@ -348,6 +358,7 @@ exports.Prisma.ModelName = {
   QrToken: 'QrToken',
   Notification: 'Notification',
   Review: 'Review',
+  ReviewImage: 'ReviewImage',
   Favorite: 'Favorite',
   OpeningHour: 'OpeningHour',
   BookingRule: 'BookingRule',

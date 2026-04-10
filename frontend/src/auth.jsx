@@ -34,7 +34,7 @@ function Auth(){
                     localStorage.setItem('name', data.user?.name || 'user');
                     localStorage.setItem('role', data.user?.role || 'CUSTOMER');
                     localStorage.setItem('userId', data.user?.id || data.user?.userId || '');
-                    navigate(`/${data.user?.role?.toLowerCase() || 'customer'}-dashboard`);
+                    navigate(`/${data.user?.role?.toLowerCase() || 'customer'}/dashboard`);
                 }
             }else {
                 setStatus(data.error || 'something went wrong');

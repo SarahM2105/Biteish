@@ -1,5 +1,6 @@
 import './App.css';
 import Auth from "./auth";
+import 'leaflet/dist/leaflet.css';
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import CustomerDashboard from './pages/customer/CustomerDashboard';
 import CustomerBookingForm from './pages/customer/CustomerBookingForm';
@@ -13,8 +14,10 @@ import OwnerRequests from './pages/owner/Request';
 import OwnerNotifications from "./pages/owner/Notifications";
 import AdminDashboard from './pages/AdminDashboard';
 import CustomerSearchAndFilter from "./pages/customer/CustomerSearchAndFilter";
+import CustomerRestaurantDetails from "./pages/customer/CustomerRestaurantDetails";
+import CustomerBookingPage from "./pages/customer/CustomerBookingPage";
 import ProtectedRoutes from "./components/utils/ProtectedRoute";
-import OwnerCheckIn from "./pages/owner/OwnerCheckIn";
+import OwnerCheckIn from "./pages/owner/OwnerCheckIn"
 import OwnerRestaurantProfile from "./pages/owner/OwnerRestaurantProfile";
 import OwnerAnalytics from "./pages/owner/OwnerAnalytics";
 import OwnerRestaurantSettings from "./pages/owner/OwnerRestaurantSettings";
@@ -27,7 +30,7 @@ function App() {
       <Router>
         <Routes>
             <Route path="/" element={<Auth />} />
-            <Route path="/customer-dashboard" element={
+            <Route path="/customer/dashboard" element={
                 <ProtectedRoutes allowedRoles={["CUSTOMER"]}>
                 <CustomerDashboard />
             </ProtectedRoutes>
@@ -42,10 +45,6 @@ function App() {
                 <CustomerBookingForm />
                 </ProtectedRoutes>
             }/>
-            <Route path={"/customer/book/:tableId"} element={
-                <ProtectedRoutes allowedRoles={["CUSTOMER"]}>
-                <CustomerBookingForm />
-                </ProtectedRoutes>}/>
             <Route path={"/customer/myBookings"} element={
                 <ProtectedRoutes allowedRoles={["CUSTOMER"]}>
                 <CustomerBookings />
@@ -67,6 +66,16 @@ function App() {
             <Route path={"/customer/bookings/:reservationId/edit"} element={
                 <ProtectedRoutes allowedRoles={["CUSTOMER"]}>
                 <CustomerEditBooking />
+                </ProtectedRoutes>
+            }/>
+            <Route path={"/customer/restaurants/:restaurantId"} element={
+                <ProtectedRoutes allowedRoles={["CUSTOMER"]}>
+                    <CustomerRestaurantDetails />
+                </ProtectedRoutes>
+            }/>
+            <Route path={"/customer/restaurants/:restaurantId/book"} element={
+                <ProtectedRoutes allowedRoles={["CUSTOMER"]}>
+                    <CustomerBookingPage />
                 </ProtectedRoutes>
             }/>
             <Route path="/owner-dashboard" element={

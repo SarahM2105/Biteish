@@ -64,6 +64,11 @@ export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
  */
 export type Review = $Result.DefaultSelection<Prisma.$ReviewPayload>
 /**
+ * Model ReviewImage
+ * 
+ */
+export type ReviewImage = $Result.DefaultSelection<Prisma.$ReviewImagePayload>
+/**
  * Model Favorite
  * 
  */
@@ -406,6 +411,16 @@ export class PrismaClient<
     * ```
     */
   get review(): Prisma.ReviewDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.reviewImage`: Exposes CRUD operations for the **ReviewImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReviewImages
+    * const reviewImages = await prisma.reviewImage.findMany()
+    * ```
+    */
+  get reviewImage(): Prisma.ReviewImageDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.favorite`: Exposes CRUD operations for the **Favorite** model.
@@ -940,6 +955,7 @@ export namespace Prisma {
     QrToken: 'QrToken',
     Notification: 'Notification',
     Review: 'Review',
+    ReviewImage: 'ReviewImage',
     Favorite: 'Favorite',
     OpeningHour: 'OpeningHour',
     BookingRule: 'BookingRule',
@@ -964,7 +980,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "restaurant" | "zone" | "table" | "tableUnavailability" | "reservation" | "reservationChangeRequest" | "qrToken" | "notification" | "review" | "favorite" | "openingHour" | "bookingRule" | "tagCategory" | "tag" | "restaurantTag" | "accessibilityOption" | "restaurantAccessibility" | "auditLog"
+      modelProps: "user" | "restaurant" | "zone" | "table" | "tableUnavailability" | "reservation" | "reservationChangeRequest" | "qrToken" | "notification" | "review" | "reviewImage" | "favorite" | "openingHour" | "bookingRule" | "tagCategory" | "tag" | "restaurantTag" | "accessibilityOption" | "restaurantAccessibility" | "auditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1705,6 +1721,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ReviewCountArgs<ExtArgs>
             result: $Utils.Optional<ReviewCountAggregateOutputType> | number
+          }
+        }
+      }
+      ReviewImage: {
+        payload: Prisma.$ReviewImagePayload<ExtArgs>
+        fields: Prisma.ReviewImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReviewImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReviewImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewImagePayload>
+          }
+          findFirst: {
+            args: Prisma.ReviewImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReviewImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewImagePayload>
+          }
+          findMany: {
+            args: Prisma.ReviewImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewImagePayload>[]
+          }
+          create: {
+            args: Prisma.ReviewImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewImagePayload>
+          }
+          createMany: {
+            args: Prisma.ReviewImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReviewImageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewImagePayload>[]
+          }
+          delete: {
+            args: Prisma.ReviewImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewImagePayload>
+          }
+          update: {
+            args: Prisma.ReviewImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.ReviewImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReviewImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ReviewImageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewImagePayload>[]
+          }
+          upsert: {
+            args: Prisma.ReviewImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewImagePayload>
+          }
+          aggregate: {
+            args: Prisma.ReviewImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReviewImage>
+          }
+          groupBy: {
+            args: Prisma.ReviewImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReviewImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReviewImageCountArgs<ExtArgs>
+            result: $Utils.Optional<ReviewImageCountAggregateOutputType> | number
           }
         }
       }
@@ -2492,6 +2582,7 @@ export namespace Prisma {
     qrToken?: QrTokenOmit
     notification?: NotificationOmit
     review?: ReviewOmit
+    reviewImage?: ReviewImageOmit
     favorite?: FavoriteOmit
     openingHour?: OpeningHourOmit
     bookingRule?: BookingRuleOmit
@@ -2863,6 +2954,37 @@ export namespace Prisma {
    */
   export type ReservationCountOutputTypeCountReservationChangeRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReservationChangeRequestWhereInput
+  }
+
+
+  /**
+   * Count Type ReviewCountOutputType
+   */
+
+  export type ReviewCountOutputType = {
+    images: number
+  }
+
+  export type ReviewCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    images?: boolean | ReviewCountOutputTypeCountImagesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ReviewCountOutputType without action
+   */
+  export type ReviewCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewCountOutputType
+     */
+    select?: ReviewCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ReviewCountOutputType without action
+   */
+  export type ReviewCountOutputTypeCountImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReviewImageWhereInput
   }
 
 
@@ -4207,8 +4329,20 @@ export namespace Prisma {
 
   export type AggregateRestaurant = {
     _count: RestaurantCountAggregateOutputType | null
+    _avg: RestaurantAvgAggregateOutputType | null
+    _sum: RestaurantSumAggregateOutputType | null
     _min: RestaurantMinAggregateOutputType | null
     _max: RestaurantMaxAggregateOutputType | null
+  }
+
+  export type RestaurantAvgAggregateOutputType = {
+    latitude: number | null
+    longitude: number | null
+  }
+
+  export type RestaurantSumAggregateOutputType = {
+    latitude: number | null
+    longitude: number | null
   }
 
   export type RestaurantMinAggregateOutputType = {
@@ -4216,6 +4350,8 @@ export namespace Prisma {
     ownerId: string | null
     name: string | null
     location: string | null
+    latitude: number | null
+    longitude: number | null
     verified: boolean | null
   }
 
@@ -4224,6 +4360,8 @@ export namespace Prisma {
     ownerId: string | null
     name: string | null
     location: string | null
+    latitude: number | null
+    longitude: number | null
     verified: boolean | null
   }
 
@@ -4232,16 +4370,30 @@ export namespace Prisma {
     ownerId: number
     name: number
     location: number
+    latitude: number
+    longitude: number
     verified: number
     _all: number
   }
 
+
+  export type RestaurantAvgAggregateInputType = {
+    latitude?: true
+    longitude?: true
+  }
+
+  export type RestaurantSumAggregateInputType = {
+    latitude?: true
+    longitude?: true
+  }
 
   export type RestaurantMinAggregateInputType = {
     id?: true
     ownerId?: true
     name?: true
     location?: true
+    latitude?: true
+    longitude?: true
     verified?: true
   }
 
@@ -4250,6 +4402,8 @@ export namespace Prisma {
     ownerId?: true
     name?: true
     location?: true
+    latitude?: true
+    longitude?: true
     verified?: true
   }
 
@@ -4258,6 +4412,8 @@ export namespace Prisma {
     ownerId?: true
     name?: true
     location?: true
+    latitude?: true
+    longitude?: true
     verified?: true
     _all?: true
   }
@@ -4300,6 +4456,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: RestaurantAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RestaurantSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: RestaurantMinAggregateInputType
@@ -4330,6 +4498,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: RestaurantCountAggregateInputType | true
+    _avg?: RestaurantAvgAggregateInputType
+    _sum?: RestaurantSumAggregateInputType
     _min?: RestaurantMinAggregateInputType
     _max?: RestaurantMaxAggregateInputType
   }
@@ -4339,8 +4509,12 @@ export namespace Prisma {
     ownerId: string
     name: string
     location: string
+    latitude: number | null
+    longitude: number | null
     verified: boolean
     _count: RestaurantCountAggregateOutputType | null
+    _avg: RestaurantAvgAggregateOutputType | null
+    _sum: RestaurantSumAggregateOutputType | null
     _min: RestaurantMinAggregateOutputType | null
     _max: RestaurantMaxAggregateOutputType | null
   }
@@ -4364,6 +4538,8 @@ export namespace Prisma {
     ownerId?: boolean
     name?: boolean
     location?: boolean
+    latitude?: boolean
+    longitude?: boolean
     verified?: boolean
     bookingRule?: boolean | Restaurant$bookingRuleArgs<ExtArgs>
     favorites?: boolean | Restaurant$favoritesArgs<ExtArgs>
@@ -4383,6 +4559,8 @@ export namespace Prisma {
     ownerId?: boolean
     name?: boolean
     location?: boolean
+    latitude?: boolean
+    longitude?: boolean
     verified?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["restaurant"]>
@@ -4392,6 +4570,8 @@ export namespace Prisma {
     ownerId?: boolean
     name?: boolean
     location?: boolean
+    latitude?: boolean
+    longitude?: boolean
     verified?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["restaurant"]>
@@ -4401,10 +4581,12 @@ export namespace Prisma {
     ownerId?: boolean
     name?: boolean
     location?: boolean
+    latitude?: boolean
+    longitude?: boolean
     verified?: boolean
   }
 
-  export type RestaurantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerId" | "name" | "location" | "verified", ExtArgs["result"]["restaurant"]>
+  export type RestaurantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerId" | "name" | "location" | "latitude" | "longitude" | "verified", ExtArgs["result"]["restaurant"]>
   export type RestaurantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookingRule?: boolean | Restaurant$bookingRuleArgs<ExtArgs>
     favorites?: boolean | Restaurant$favoritesArgs<ExtArgs>
@@ -4444,6 +4626,8 @@ export namespace Prisma {
       ownerId: string
       name: string
       location: string
+      latitude: number | null
+      longitude: number | null
       verified: boolean
     }, ExtArgs["result"]["restaurant"]>
     composites: {}
@@ -4882,6 +5066,8 @@ export namespace Prisma {
     readonly ownerId: FieldRef<"Restaurant", 'String'>
     readonly name: FieldRef<"Restaurant", 'String'>
     readonly location: FieldRef<"Restaurant", 'String'>
+    readonly latitude: FieldRef<"Restaurant", 'Float'>
+    readonly longitude: FieldRef<"Restaurant", 'Float'>
     readonly verified: FieldRef<"Restaurant", 'Boolean'>
   }
     
@@ -13465,6 +13651,7 @@ export namespace Prisma {
     restaurantId: string | null
     rating: number | null
     comment: string | null
+    verifiedVisit: boolean | null
     createdAt: Date | null
   }
 
@@ -13474,6 +13661,7 @@ export namespace Prisma {
     restaurantId: string | null
     rating: number | null
     comment: string | null
+    verifiedVisit: boolean | null
     createdAt: Date | null
   }
 
@@ -13483,6 +13671,7 @@ export namespace Prisma {
     restaurantId: number
     rating: number
     comment: number
+    verifiedVisit: number
     createdAt: number
     _all: number
   }
@@ -13502,6 +13691,7 @@ export namespace Prisma {
     restaurantId?: true
     rating?: true
     comment?: true
+    verifiedVisit?: true
     createdAt?: true
   }
 
@@ -13511,6 +13701,7 @@ export namespace Prisma {
     restaurantId?: true
     rating?: true
     comment?: true
+    verifiedVisit?: true
     createdAt?: true
   }
 
@@ -13520,6 +13711,7 @@ export namespace Prisma {
     restaurantId?: true
     rating?: true
     comment?: true
+    verifiedVisit?: true
     createdAt?: true
     _all?: true
   }
@@ -13616,6 +13808,7 @@ export namespace Prisma {
     restaurantId: string
     rating: number
     comment: string | null
+    verifiedVisit: boolean
     createdAt: Date
     _count: ReviewCountAggregateOutputType | null
     _avg: ReviewAvgAggregateOutputType | null
@@ -13644,9 +13837,12 @@ export namespace Prisma {
     restaurantId?: boolean
     rating?: boolean
     comment?: boolean
+    verifiedVisit?: boolean
     createdAt?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    images?: boolean | Review$imagesArgs<ExtArgs>
+    _count?: boolean | ReviewCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["review"]>
 
   export type ReviewSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -13655,6 +13851,7 @@ export namespace Prisma {
     restaurantId?: boolean
     rating?: boolean
     comment?: boolean
+    verifiedVisit?: boolean
     createdAt?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -13666,6 +13863,7 @@ export namespace Prisma {
     restaurantId?: boolean
     rating?: boolean
     comment?: boolean
+    verifiedVisit?: boolean
     createdAt?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -13677,13 +13875,16 @@ export namespace Prisma {
     restaurantId?: boolean
     rating?: boolean
     comment?: boolean
+    verifiedVisit?: boolean
     createdAt?: boolean
   }
 
-  export type ReviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "restaurantId" | "rating" | "comment" | "createdAt", ExtArgs["result"]["review"]>
+  export type ReviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "restaurantId" | "rating" | "comment" | "verifiedVisit" | "createdAt", ExtArgs["result"]["review"]>
   export type ReviewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    images?: boolean | Review$imagesArgs<ExtArgs>
+    _count?: boolean | ReviewCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ReviewIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
@@ -13699,6 +13900,7 @@ export namespace Prisma {
     objects: {
       restaurant: Prisma.$RestaurantPayload<ExtArgs>
       user: Prisma.$UserPayload<ExtArgs>
+      images: Prisma.$ReviewImagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13706,6 +13908,7 @@ export namespace Prisma {
       restaurantId: string
       rating: number
       comment: string | null
+      verifiedVisit: boolean
       createdAt: Date
     }, ExtArgs["result"]["review"]>
     composites: {}
@@ -14103,6 +14306,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     restaurant<T extends RestaurantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RestaurantDefaultArgs<ExtArgs>>): Prisma__RestaurantClient<$Result.GetResult<Prisma.$RestaurantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    images<T extends Review$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Review$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14137,6 +14341,7 @@ export namespace Prisma {
     readonly restaurantId: FieldRef<"Review", 'String'>
     readonly rating: FieldRef<"Review", 'Int'>
     readonly comment: FieldRef<"Review", 'String'>
+    readonly verifiedVisit: FieldRef<"Review", 'Boolean'>
     readonly createdAt: FieldRef<"Review", 'DateTime'>
   }
     
@@ -14534,6 +14739,30 @@ export namespace Prisma {
   }
 
   /**
+   * Review.images
+   */
+  export type Review$imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageInclude<ExtArgs> | null
+    where?: ReviewImageWhereInput
+    orderBy?: ReviewImageOrderByWithRelationInput | ReviewImageOrderByWithRelationInput[]
+    cursor?: ReviewImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReviewImageScalarFieldEnum | ReviewImageScalarFieldEnum[]
+  }
+
+  /**
    * Review without action
    */
   export type ReviewDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14549,6 +14778,1051 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ReviewInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ReviewImage
+   */
+
+  export type AggregateReviewImage = {
+    _count: ReviewImageCountAggregateOutputType | null
+    _min: ReviewImageMinAggregateOutputType | null
+    _max: ReviewImageMaxAggregateOutputType | null
+  }
+
+  export type ReviewImageMinAggregateOutputType = {
+    id: string | null
+    reviewId: string | null
+    imageUrl: string | null
+    createdAt: Date | null
+  }
+
+  export type ReviewImageMaxAggregateOutputType = {
+    id: string | null
+    reviewId: string | null
+    imageUrl: string | null
+    createdAt: Date | null
+  }
+
+  export type ReviewImageCountAggregateOutputType = {
+    id: number
+    reviewId: number
+    imageUrl: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ReviewImageMinAggregateInputType = {
+    id?: true
+    reviewId?: true
+    imageUrl?: true
+    createdAt?: true
+  }
+
+  export type ReviewImageMaxAggregateInputType = {
+    id?: true
+    reviewId?: true
+    imageUrl?: true
+    createdAt?: true
+  }
+
+  export type ReviewImageCountAggregateInputType = {
+    id?: true
+    reviewId?: true
+    imageUrl?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ReviewImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReviewImage to aggregate.
+     */
+    where?: ReviewImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReviewImages to fetch.
+     */
+    orderBy?: ReviewImageOrderByWithRelationInput | ReviewImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReviewImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReviewImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReviewImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ReviewImages
+    **/
+    _count?: true | ReviewImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReviewImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReviewImageMaxAggregateInputType
+  }
+
+  export type GetReviewImageAggregateType<T extends ReviewImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateReviewImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReviewImage[P]>
+      : GetScalarType<T[P], AggregateReviewImage[P]>
+  }
+
+
+
+
+  export type ReviewImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReviewImageWhereInput
+    orderBy?: ReviewImageOrderByWithAggregationInput | ReviewImageOrderByWithAggregationInput[]
+    by: ReviewImageScalarFieldEnum[] | ReviewImageScalarFieldEnum
+    having?: ReviewImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReviewImageCountAggregateInputType | true
+    _min?: ReviewImageMinAggregateInputType
+    _max?: ReviewImageMaxAggregateInputType
+  }
+
+  export type ReviewImageGroupByOutputType = {
+    id: string
+    reviewId: string
+    imageUrl: string
+    createdAt: Date
+    _count: ReviewImageCountAggregateOutputType | null
+    _min: ReviewImageMinAggregateOutputType | null
+    _max: ReviewImageMaxAggregateOutputType | null
+  }
+
+  type GetReviewImageGroupByPayload<T extends ReviewImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReviewImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReviewImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReviewImageGroupByOutputType[P]>
+            : GetScalarType<T[P], ReviewImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReviewImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reviewId?: boolean
+    imageUrl?: boolean
+    createdAt?: boolean
+    review?: boolean | ReviewDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reviewImage"]>
+
+  export type ReviewImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reviewId?: boolean
+    imageUrl?: boolean
+    createdAt?: boolean
+    review?: boolean | ReviewDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reviewImage"]>
+
+  export type ReviewImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reviewId?: boolean
+    imageUrl?: boolean
+    createdAt?: boolean
+    review?: boolean | ReviewDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reviewImage"]>
+
+  export type ReviewImageSelectScalar = {
+    id?: boolean
+    reviewId?: boolean
+    imageUrl?: boolean
+    createdAt?: boolean
+  }
+
+  export type ReviewImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reviewId" | "imageUrl" | "createdAt", ExtArgs["result"]["reviewImage"]>
+  export type ReviewImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    review?: boolean | ReviewDefaultArgs<ExtArgs>
+  }
+  export type ReviewImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    review?: boolean | ReviewDefaultArgs<ExtArgs>
+  }
+  export type ReviewImageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    review?: boolean | ReviewDefaultArgs<ExtArgs>
+  }
+
+  export type $ReviewImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ReviewImage"
+    objects: {
+      review: Prisma.$ReviewPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      reviewId: string
+      imageUrl: string
+      createdAt: Date
+    }, ExtArgs["result"]["reviewImage"]>
+    composites: {}
+  }
+
+  type ReviewImageGetPayload<S extends boolean | null | undefined | ReviewImageDefaultArgs> = $Result.GetResult<Prisma.$ReviewImagePayload, S>
+
+  type ReviewImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReviewImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReviewImageCountAggregateInputType | true
+    }
+
+  export interface ReviewImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ReviewImage'], meta: { name: 'ReviewImage' } }
+    /**
+     * Find zero or one ReviewImage that matches the filter.
+     * @param {ReviewImageFindUniqueArgs} args - Arguments to find a ReviewImage
+     * @example
+     * // Get one ReviewImage
+     * const reviewImage = await prisma.reviewImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReviewImageFindUniqueArgs>(args: SelectSubset<T, ReviewImageFindUniqueArgs<ExtArgs>>): Prisma__ReviewImageClient<$Result.GetResult<Prisma.$ReviewImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ReviewImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReviewImageFindUniqueOrThrowArgs} args - Arguments to find a ReviewImage
+     * @example
+     * // Get one ReviewImage
+     * const reviewImage = await prisma.reviewImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReviewImageFindUniqueOrThrowArgs>(args: SelectSubset<T, ReviewImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReviewImageClient<$Result.GetResult<Prisma.$ReviewImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReviewImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewImageFindFirstArgs} args - Arguments to find a ReviewImage
+     * @example
+     * // Get one ReviewImage
+     * const reviewImage = await prisma.reviewImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReviewImageFindFirstArgs>(args?: SelectSubset<T, ReviewImageFindFirstArgs<ExtArgs>>): Prisma__ReviewImageClient<$Result.GetResult<Prisma.$ReviewImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReviewImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewImageFindFirstOrThrowArgs} args - Arguments to find a ReviewImage
+     * @example
+     * // Get one ReviewImage
+     * const reviewImage = await prisma.reviewImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReviewImageFindFirstOrThrowArgs>(args?: SelectSubset<T, ReviewImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReviewImageClient<$Result.GetResult<Prisma.$ReviewImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ReviewImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ReviewImages
+     * const reviewImages = await prisma.reviewImage.findMany()
+     * 
+     * // Get first 10 ReviewImages
+     * const reviewImages = await prisma.reviewImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reviewImageWithIdOnly = await prisma.reviewImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReviewImageFindManyArgs>(args?: SelectSubset<T, ReviewImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ReviewImage.
+     * @param {ReviewImageCreateArgs} args - Arguments to create a ReviewImage.
+     * @example
+     * // Create one ReviewImage
+     * const ReviewImage = await prisma.reviewImage.create({
+     *   data: {
+     *     // ... data to create a ReviewImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReviewImageCreateArgs>(args: SelectSubset<T, ReviewImageCreateArgs<ExtArgs>>): Prisma__ReviewImageClient<$Result.GetResult<Prisma.$ReviewImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ReviewImages.
+     * @param {ReviewImageCreateManyArgs} args - Arguments to create many ReviewImages.
+     * @example
+     * // Create many ReviewImages
+     * const reviewImage = await prisma.reviewImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReviewImageCreateManyArgs>(args?: SelectSubset<T, ReviewImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ReviewImages and returns the data saved in the database.
+     * @param {ReviewImageCreateManyAndReturnArgs} args - Arguments to create many ReviewImages.
+     * @example
+     * // Create many ReviewImages
+     * const reviewImage = await prisma.reviewImage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ReviewImages and only return the `id`
+     * const reviewImageWithIdOnly = await prisma.reviewImage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReviewImageCreateManyAndReturnArgs>(args?: SelectSubset<T, ReviewImageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewImagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ReviewImage.
+     * @param {ReviewImageDeleteArgs} args - Arguments to delete one ReviewImage.
+     * @example
+     * // Delete one ReviewImage
+     * const ReviewImage = await prisma.reviewImage.delete({
+     *   where: {
+     *     // ... filter to delete one ReviewImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReviewImageDeleteArgs>(args: SelectSubset<T, ReviewImageDeleteArgs<ExtArgs>>): Prisma__ReviewImageClient<$Result.GetResult<Prisma.$ReviewImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ReviewImage.
+     * @param {ReviewImageUpdateArgs} args - Arguments to update one ReviewImage.
+     * @example
+     * // Update one ReviewImage
+     * const reviewImage = await prisma.reviewImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReviewImageUpdateArgs>(args: SelectSubset<T, ReviewImageUpdateArgs<ExtArgs>>): Prisma__ReviewImageClient<$Result.GetResult<Prisma.$ReviewImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ReviewImages.
+     * @param {ReviewImageDeleteManyArgs} args - Arguments to filter ReviewImages to delete.
+     * @example
+     * // Delete a few ReviewImages
+     * const { count } = await prisma.reviewImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReviewImageDeleteManyArgs>(args?: SelectSubset<T, ReviewImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReviewImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ReviewImages
+     * const reviewImage = await prisma.reviewImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReviewImageUpdateManyArgs>(args: SelectSubset<T, ReviewImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReviewImages and returns the data updated in the database.
+     * @param {ReviewImageUpdateManyAndReturnArgs} args - Arguments to update many ReviewImages.
+     * @example
+     * // Update many ReviewImages
+     * const reviewImage = await prisma.reviewImage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ReviewImages and only return the `id`
+     * const reviewImageWithIdOnly = await prisma.reviewImage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ReviewImageUpdateManyAndReturnArgs>(args: SelectSubset<T, ReviewImageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewImagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ReviewImage.
+     * @param {ReviewImageUpsertArgs} args - Arguments to update or create a ReviewImage.
+     * @example
+     * // Update or create a ReviewImage
+     * const reviewImage = await prisma.reviewImage.upsert({
+     *   create: {
+     *     // ... data to create a ReviewImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ReviewImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReviewImageUpsertArgs>(args: SelectSubset<T, ReviewImageUpsertArgs<ExtArgs>>): Prisma__ReviewImageClient<$Result.GetResult<Prisma.$ReviewImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ReviewImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewImageCountArgs} args - Arguments to filter ReviewImages to count.
+     * @example
+     * // Count the number of ReviewImages
+     * const count = await prisma.reviewImage.count({
+     *   where: {
+     *     // ... the filter for the ReviewImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReviewImageCountArgs>(
+      args?: Subset<T, ReviewImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReviewImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ReviewImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReviewImageAggregateArgs>(args: Subset<T, ReviewImageAggregateArgs>): Prisma.PrismaPromise<GetReviewImageAggregateType<T>>
+
+    /**
+     * Group by ReviewImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReviewImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReviewImageGroupByArgs['orderBy'] }
+        : { orderBy?: ReviewImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReviewImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReviewImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ReviewImage model
+   */
+  readonly fields: ReviewImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ReviewImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReviewImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    review<T extends ReviewDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ReviewDefaultArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ReviewImage model
+   */
+  interface ReviewImageFieldRefs {
+    readonly id: FieldRef<"ReviewImage", 'String'>
+    readonly reviewId: FieldRef<"ReviewImage", 'String'>
+    readonly imageUrl: FieldRef<"ReviewImage", 'String'>
+    readonly createdAt: FieldRef<"ReviewImage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ReviewImage findUnique
+   */
+  export type ReviewImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageInclude<ExtArgs> | null
+    /**
+     * Filter, which ReviewImage to fetch.
+     */
+    where: ReviewImageWhereUniqueInput
+  }
+
+  /**
+   * ReviewImage findUniqueOrThrow
+   */
+  export type ReviewImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageInclude<ExtArgs> | null
+    /**
+     * Filter, which ReviewImage to fetch.
+     */
+    where: ReviewImageWhereUniqueInput
+  }
+
+  /**
+   * ReviewImage findFirst
+   */
+  export type ReviewImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageInclude<ExtArgs> | null
+    /**
+     * Filter, which ReviewImage to fetch.
+     */
+    where?: ReviewImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReviewImages to fetch.
+     */
+    orderBy?: ReviewImageOrderByWithRelationInput | ReviewImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReviewImages.
+     */
+    cursor?: ReviewImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReviewImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReviewImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReviewImages.
+     */
+    distinct?: ReviewImageScalarFieldEnum | ReviewImageScalarFieldEnum[]
+  }
+
+  /**
+   * ReviewImage findFirstOrThrow
+   */
+  export type ReviewImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageInclude<ExtArgs> | null
+    /**
+     * Filter, which ReviewImage to fetch.
+     */
+    where?: ReviewImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReviewImages to fetch.
+     */
+    orderBy?: ReviewImageOrderByWithRelationInput | ReviewImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReviewImages.
+     */
+    cursor?: ReviewImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReviewImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReviewImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReviewImages.
+     */
+    distinct?: ReviewImageScalarFieldEnum | ReviewImageScalarFieldEnum[]
+  }
+
+  /**
+   * ReviewImage findMany
+   */
+  export type ReviewImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageInclude<ExtArgs> | null
+    /**
+     * Filter, which ReviewImages to fetch.
+     */
+    where?: ReviewImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReviewImages to fetch.
+     */
+    orderBy?: ReviewImageOrderByWithRelationInput | ReviewImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ReviewImages.
+     */
+    cursor?: ReviewImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReviewImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReviewImages.
+     */
+    skip?: number
+    distinct?: ReviewImageScalarFieldEnum | ReviewImageScalarFieldEnum[]
+  }
+
+  /**
+   * ReviewImage create
+   */
+  export type ReviewImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ReviewImage.
+     */
+    data: XOR<ReviewImageCreateInput, ReviewImageUncheckedCreateInput>
+  }
+
+  /**
+   * ReviewImage createMany
+   */
+  export type ReviewImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ReviewImages.
+     */
+    data: ReviewImageCreateManyInput | ReviewImageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReviewImage createManyAndReturn
+   */
+  export type ReviewImageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * The data used to create many ReviewImages.
+     */
+    data: ReviewImageCreateManyInput | ReviewImageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReviewImage update
+   */
+  export type ReviewImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ReviewImage.
+     */
+    data: XOR<ReviewImageUpdateInput, ReviewImageUncheckedUpdateInput>
+    /**
+     * Choose, which ReviewImage to update.
+     */
+    where: ReviewImageWhereUniqueInput
+  }
+
+  /**
+   * ReviewImage updateMany
+   */
+  export type ReviewImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ReviewImages.
+     */
+    data: XOR<ReviewImageUpdateManyMutationInput, ReviewImageUncheckedUpdateManyInput>
+    /**
+     * Filter which ReviewImages to update
+     */
+    where?: ReviewImageWhereInput
+    /**
+     * Limit how many ReviewImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReviewImage updateManyAndReturn
+   */
+  export type ReviewImageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * The data used to update ReviewImages.
+     */
+    data: XOR<ReviewImageUpdateManyMutationInput, ReviewImageUncheckedUpdateManyInput>
+    /**
+     * Filter which ReviewImages to update
+     */
+    where?: ReviewImageWhereInput
+    /**
+     * Limit how many ReviewImages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReviewImage upsert
+   */
+  export type ReviewImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ReviewImage to update in case it exists.
+     */
+    where: ReviewImageWhereUniqueInput
+    /**
+     * In case the ReviewImage found by the `where` argument doesn't exist, create a new ReviewImage with this data.
+     */
+    create: XOR<ReviewImageCreateInput, ReviewImageUncheckedCreateInput>
+    /**
+     * In case the ReviewImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReviewImageUpdateInput, ReviewImageUncheckedUpdateInput>
+  }
+
+  /**
+   * ReviewImage delete
+   */
+  export type ReviewImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageInclude<ExtArgs> | null
+    /**
+     * Filter which ReviewImage to delete.
+     */
+    where: ReviewImageWhereUniqueInput
+  }
+
+  /**
+   * ReviewImage deleteMany
+   */
+  export type ReviewImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReviewImages to delete
+     */
+    where?: ReviewImageWhereInput
+    /**
+     * Limit how many ReviewImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReviewImage without action
+   */
+  export type ReviewImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewImage
+     */
+    select?: ReviewImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReviewImage
+     */
+    omit?: ReviewImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewImageInclude<ExtArgs> | null
   }
 
 
@@ -24169,6 +25443,8 @@ export namespace Prisma {
     ownerId: 'ownerId',
     name: 'name',
     location: 'location',
+    latitude: 'latitude',
+    longitude: 'longitude',
     verified: 'verified'
   };
 
@@ -24273,10 +25549,21 @@ export namespace Prisma {
     restaurantId: 'restaurantId',
     rating: 'rating',
     comment: 'comment',
+    verifiedVisit: 'verifiedVisit',
     createdAt: 'createdAt'
   };
 
   export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+  export const ReviewImageScalarFieldEnum: {
+    id: 'id',
+    reviewId: 'reviewId',
+    imageUrl: 'imageUrl',
+    createdAt: 'createdAt'
+  };
+
+  export type ReviewImageScalarFieldEnum = (typeof ReviewImageScalarFieldEnum)[keyof typeof ReviewImageScalarFieldEnum]
 
 
   export const FavoriteScalarFieldEnum: {
@@ -24430,6 +25717,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -24518,20 +25819,6 @@ export namespace Prisma {
    */
   export type ListEnumAuditEntityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuditEntity[]'>
     
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
   /**
    * Deep Input Types
    */
@@ -24618,6 +25905,8 @@ export namespace Prisma {
     ownerId?: StringFilter<"Restaurant"> | string
     name?: StringFilter<"Restaurant"> | string
     location?: StringFilter<"Restaurant"> | string
+    latitude?: FloatNullableFilter<"Restaurant"> | number | null
+    longitude?: FloatNullableFilter<"Restaurant"> | number | null
     verified?: BoolFilter<"Restaurant"> | boolean
     bookingRule?: XOR<BookingRuleNullableScalarRelationFilter, BookingRuleWhereInput> | null
     favorites?: FavoriteListRelationFilter
@@ -24636,6 +25925,8 @@ export namespace Prisma {
     ownerId?: SortOrder
     name?: SortOrder
     location?: SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
     verified?: SortOrder
     bookingRule?: BookingRuleOrderByWithRelationInput
     favorites?: FavoriteOrderByRelationAggregateInput
@@ -24657,6 +25948,8 @@ export namespace Prisma {
     ownerId?: StringFilter<"Restaurant"> | string
     name?: StringFilter<"Restaurant"> | string
     location?: StringFilter<"Restaurant"> | string
+    latitude?: FloatNullableFilter<"Restaurant"> | number | null
+    longitude?: FloatNullableFilter<"Restaurant"> | number | null
     verified?: BoolFilter<"Restaurant"> | boolean
     bookingRule?: XOR<BookingRuleNullableScalarRelationFilter, BookingRuleWhereInput> | null
     favorites?: FavoriteListRelationFilter
@@ -24675,10 +25968,14 @@ export namespace Prisma {
     ownerId?: SortOrder
     name?: SortOrder
     location?: SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
     verified?: SortOrder
     _count?: RestaurantCountOrderByAggregateInput
+    _avg?: RestaurantAvgOrderByAggregateInput
     _max?: RestaurantMaxOrderByAggregateInput
     _min?: RestaurantMinOrderByAggregateInput
+    _sum?: RestaurantSumOrderByAggregateInput
   }
 
   export type RestaurantScalarWhereWithAggregatesInput = {
@@ -24689,6 +25986,8 @@ export namespace Prisma {
     ownerId?: StringWithAggregatesFilter<"Restaurant"> | string
     name?: StringWithAggregatesFilter<"Restaurant"> | string
     location?: StringWithAggregatesFilter<"Restaurant"> | string
+    latitude?: FloatNullableWithAggregatesFilter<"Restaurant"> | number | null
+    longitude?: FloatNullableWithAggregatesFilter<"Restaurant"> | number | null
     verified?: BoolWithAggregatesFilter<"Restaurant"> | boolean
   }
 
@@ -25201,9 +26500,11 @@ export namespace Prisma {
     restaurantId?: StringFilter<"Review"> | string
     rating?: IntFilter<"Review"> | number
     comment?: StringNullableFilter<"Review"> | string | null
+    verifiedVisit?: BoolFilter<"Review"> | boolean
     createdAt?: DateTimeFilter<"Review"> | Date | string
     restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    images?: ReviewImageListRelationFilter
   }
 
   export type ReviewOrderByWithRelationInput = {
@@ -25212,9 +26513,11 @@ export namespace Prisma {
     restaurantId?: SortOrder
     rating?: SortOrder
     comment?: SortOrderInput | SortOrder
+    verifiedVisit?: SortOrder
     createdAt?: SortOrder
     restaurant?: RestaurantOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
+    images?: ReviewImageOrderByRelationAggregateInput
   }
 
   export type ReviewWhereUniqueInput = Prisma.AtLeast<{
@@ -25226,9 +26529,11 @@ export namespace Prisma {
     restaurantId?: StringFilter<"Review"> | string
     rating?: IntFilter<"Review"> | number
     comment?: StringNullableFilter<"Review"> | string | null
+    verifiedVisit?: BoolFilter<"Review"> | boolean
     createdAt?: DateTimeFilter<"Review"> | Date | string
     restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    images?: ReviewImageListRelationFilter
   }, "id">
 
   export type ReviewOrderByWithAggregationInput = {
@@ -25237,6 +26542,7 @@ export namespace Prisma {
     restaurantId?: SortOrder
     rating?: SortOrder
     comment?: SortOrderInput | SortOrder
+    verifiedVisit?: SortOrder
     createdAt?: SortOrder
     _count?: ReviewCountOrderByAggregateInput
     _avg?: ReviewAvgOrderByAggregateInput
@@ -25254,7 +26560,58 @@ export namespace Prisma {
     restaurantId?: StringWithAggregatesFilter<"Review"> | string
     rating?: IntWithAggregatesFilter<"Review"> | number
     comment?: StringNullableWithAggregatesFilter<"Review"> | string | null
+    verifiedVisit?: BoolWithAggregatesFilter<"Review"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Review"> | Date | string
+  }
+
+  export type ReviewImageWhereInput = {
+    AND?: ReviewImageWhereInput | ReviewImageWhereInput[]
+    OR?: ReviewImageWhereInput[]
+    NOT?: ReviewImageWhereInput | ReviewImageWhereInput[]
+    id?: StringFilter<"ReviewImage"> | string
+    reviewId?: StringFilter<"ReviewImage"> | string
+    imageUrl?: StringFilter<"ReviewImage"> | string
+    createdAt?: DateTimeFilter<"ReviewImage"> | Date | string
+    review?: XOR<ReviewScalarRelationFilter, ReviewWhereInput>
+  }
+
+  export type ReviewImageOrderByWithRelationInput = {
+    id?: SortOrder
+    reviewId?: SortOrder
+    imageUrl?: SortOrder
+    createdAt?: SortOrder
+    review?: ReviewOrderByWithRelationInput
+  }
+
+  export type ReviewImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ReviewImageWhereInput | ReviewImageWhereInput[]
+    OR?: ReviewImageWhereInput[]
+    NOT?: ReviewImageWhereInput | ReviewImageWhereInput[]
+    reviewId?: StringFilter<"ReviewImage"> | string
+    imageUrl?: StringFilter<"ReviewImage"> | string
+    createdAt?: DateTimeFilter<"ReviewImage"> | Date | string
+    review?: XOR<ReviewScalarRelationFilter, ReviewWhereInput>
+  }, "id">
+
+  export type ReviewImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    reviewId?: SortOrder
+    imageUrl?: SortOrder
+    createdAt?: SortOrder
+    _count?: ReviewImageCountOrderByAggregateInput
+    _max?: ReviewImageMaxOrderByAggregateInput
+    _min?: ReviewImageMinOrderByAggregateInput
+  }
+
+  export type ReviewImageScalarWhereWithAggregatesInput = {
+    AND?: ReviewImageScalarWhereWithAggregatesInput | ReviewImageScalarWhereWithAggregatesInput[]
+    OR?: ReviewImageScalarWhereWithAggregatesInput[]
+    NOT?: ReviewImageScalarWhereWithAggregatesInput | ReviewImageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ReviewImage"> | string
+    reviewId?: StringWithAggregatesFilter<"ReviewImage"> | string
+    imageUrl?: StringWithAggregatesFilter<"ReviewImage"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ReviewImage"> | Date | string
   }
 
   export type FavoriteWhereInput = {
@@ -25827,6 +27184,8 @@ export namespace Prisma {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
@@ -25845,6 +27204,8 @@ export namespace Prisma {
     ownerId: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
@@ -25861,6 +27222,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
@@ -25879,6 +27242,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -25896,6 +27261,8 @@ export namespace Prisma {
     ownerId: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
   }
 
@@ -25903,6 +27270,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -25911,6 +27280,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -26427,9 +27798,11 @@ export namespace Prisma {
     id?: string
     rating: number
     comment?: string | null
+    verifiedVisit?: boolean
     createdAt?: Date | string
     restaurant: RestaurantCreateNestedOneWithoutReviewsInput
     user: UserCreateNestedOneWithoutReviewsInput
+    images?: ReviewImageCreateNestedManyWithoutReviewInput
   }
 
   export type ReviewUncheckedCreateInput = {
@@ -26438,16 +27811,20 @@ export namespace Prisma {
     restaurantId: string
     rating: number
     comment?: string | null
+    verifiedVisit?: boolean
     createdAt?: Date | string
+    images?: ReviewImageUncheckedCreateNestedManyWithoutReviewInput
   }
 
   export type ReviewUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedVisit?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     restaurant?: RestaurantUpdateOneRequiredWithoutReviewsNestedInput
     user?: UserUpdateOneRequiredWithoutReviewsNestedInput
+    images?: ReviewImageUpdateManyWithoutReviewNestedInput
   }
 
   export type ReviewUncheckedUpdateInput = {
@@ -26456,7 +27833,9 @@ export namespace Prisma {
     restaurantId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedVisit?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: ReviewImageUncheckedUpdateManyWithoutReviewNestedInput
   }
 
   export type ReviewCreateManyInput = {
@@ -26465,6 +27844,7 @@ export namespace Prisma {
     restaurantId: string
     rating: number
     comment?: string | null
+    verifiedVisit?: boolean
     createdAt?: Date | string
   }
 
@@ -26472,6 +27852,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedVisit?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -26481,6 +27862,55 @@ export namespace Prisma {
     restaurantId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedVisit?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReviewImageCreateInput = {
+    id?: string
+    imageUrl: string
+    createdAt?: Date | string
+    review: ReviewCreateNestedOneWithoutImagesInput
+  }
+
+  export type ReviewImageUncheckedCreateInput = {
+    id?: string
+    reviewId: string
+    imageUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ReviewImageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    review?: ReviewUpdateOneRequiredWithoutImagesNestedInput
+  }
+
+  export type ReviewImageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reviewId?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReviewImageCreateManyInput = {
+    id?: string
+    reviewId: string
+    imageUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ReviewImageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReviewImageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reviewId?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -27092,6 +28522,17 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -27137,6 +28578,11 @@ export namespace Prisma {
     none?: ZoneWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type OpeningHourOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -27162,7 +28608,14 @@ export namespace Prisma {
     ownerId?: SortOrder
     name?: SortOrder
     location?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
     verified?: SortOrder
+  }
+
+  export type RestaurantAvgOrderByAggregateInput = {
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type RestaurantMaxOrderByAggregateInput = {
@@ -27170,6 +28623,8 @@ export namespace Prisma {
     ownerId?: SortOrder
     name?: SortOrder
     location?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
     verified?: SortOrder
   }
 
@@ -27178,7 +28633,30 @@ export namespace Prisma {
     ownerId?: SortOrder
     name?: SortOrder
     location?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
     verified?: SortOrder
+  }
+
+  export type RestaurantSumOrderByAggregateInput = {
+    latitude?: SortOrder
+    longitude?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -27207,11 +28685,6 @@ export namespace Prisma {
   export type RestaurantScalarRelationFilter = {
     is?: RestaurantWhereInput
     isNot?: RestaurantWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type ZoneCountOrderByAggregateInput = {
@@ -27647,12 +29120,23 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type ReviewImageListRelationFilter = {
+    every?: ReviewImageWhereInput
+    some?: ReviewImageWhereInput
+    none?: ReviewImageWhereInput
+  }
+
+  export type ReviewImageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ReviewCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     restaurantId?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
+    verifiedVisit?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -27666,6 +29150,7 @@ export namespace Prisma {
     restaurantId?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
+    verifiedVisit?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -27675,11 +29160,38 @@ export namespace Prisma {
     restaurantId?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
+    verifiedVisit?: SortOrder
     createdAt?: SortOrder
   }
 
   export type ReviewSumOrderByAggregateInput = {
     rating?: SortOrder
+  }
+
+  export type ReviewScalarRelationFilter = {
+    is?: ReviewWhereInput
+    isNot?: ReviewWhereInput
+  }
+
+  export type ReviewImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    reviewId?: SortOrder
+    imageUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReviewImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    reviewId?: SortOrder
+    imageUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReviewImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    reviewId?: SortOrder
+    imageUrl?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type FavoriteUserIdRestaurantIdCompoundUniqueInput = {
@@ -28405,6 +29917,14 @@ export namespace Prisma {
     connect?: ZoneWhereUniqueInput | ZoneWhereUniqueInput[]
   }
 
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
@@ -29121,6 +30641,20 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ReviewImageCreateNestedManyWithoutReviewInput = {
+    create?: XOR<ReviewImageCreateWithoutReviewInput, ReviewImageUncheckedCreateWithoutReviewInput> | ReviewImageCreateWithoutReviewInput[] | ReviewImageUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: ReviewImageCreateOrConnectWithoutReviewInput | ReviewImageCreateOrConnectWithoutReviewInput[]
+    createMany?: ReviewImageCreateManyReviewInputEnvelope
+    connect?: ReviewImageWhereUniqueInput | ReviewImageWhereUniqueInput[]
+  }
+
+  export type ReviewImageUncheckedCreateNestedManyWithoutReviewInput = {
+    create?: XOR<ReviewImageCreateWithoutReviewInput, ReviewImageUncheckedCreateWithoutReviewInput> | ReviewImageCreateWithoutReviewInput[] | ReviewImageUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: ReviewImageCreateOrConnectWithoutReviewInput | ReviewImageCreateOrConnectWithoutReviewInput[]
+    createMany?: ReviewImageCreateManyReviewInputEnvelope
+    connect?: ReviewImageWhereUniqueInput | ReviewImageWhereUniqueInput[]
+  }
+
   export type RestaurantUpdateOneRequiredWithoutReviewsNestedInput = {
     create?: XOR<RestaurantCreateWithoutReviewsInput, RestaurantUncheckedCreateWithoutReviewsInput>
     connectOrCreate?: RestaurantCreateOrConnectWithoutReviewsInput
@@ -29135,6 +30669,48 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutReviewsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReviewsInput, UserUpdateWithoutReviewsInput>, UserUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type ReviewImageUpdateManyWithoutReviewNestedInput = {
+    create?: XOR<ReviewImageCreateWithoutReviewInput, ReviewImageUncheckedCreateWithoutReviewInput> | ReviewImageCreateWithoutReviewInput[] | ReviewImageUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: ReviewImageCreateOrConnectWithoutReviewInput | ReviewImageCreateOrConnectWithoutReviewInput[]
+    upsert?: ReviewImageUpsertWithWhereUniqueWithoutReviewInput | ReviewImageUpsertWithWhereUniqueWithoutReviewInput[]
+    createMany?: ReviewImageCreateManyReviewInputEnvelope
+    set?: ReviewImageWhereUniqueInput | ReviewImageWhereUniqueInput[]
+    disconnect?: ReviewImageWhereUniqueInput | ReviewImageWhereUniqueInput[]
+    delete?: ReviewImageWhereUniqueInput | ReviewImageWhereUniqueInput[]
+    connect?: ReviewImageWhereUniqueInput | ReviewImageWhereUniqueInput[]
+    update?: ReviewImageUpdateWithWhereUniqueWithoutReviewInput | ReviewImageUpdateWithWhereUniqueWithoutReviewInput[]
+    updateMany?: ReviewImageUpdateManyWithWhereWithoutReviewInput | ReviewImageUpdateManyWithWhereWithoutReviewInput[]
+    deleteMany?: ReviewImageScalarWhereInput | ReviewImageScalarWhereInput[]
+  }
+
+  export type ReviewImageUncheckedUpdateManyWithoutReviewNestedInput = {
+    create?: XOR<ReviewImageCreateWithoutReviewInput, ReviewImageUncheckedCreateWithoutReviewInput> | ReviewImageCreateWithoutReviewInput[] | ReviewImageUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: ReviewImageCreateOrConnectWithoutReviewInput | ReviewImageCreateOrConnectWithoutReviewInput[]
+    upsert?: ReviewImageUpsertWithWhereUniqueWithoutReviewInput | ReviewImageUpsertWithWhereUniqueWithoutReviewInput[]
+    createMany?: ReviewImageCreateManyReviewInputEnvelope
+    set?: ReviewImageWhereUniqueInput | ReviewImageWhereUniqueInput[]
+    disconnect?: ReviewImageWhereUniqueInput | ReviewImageWhereUniqueInput[]
+    delete?: ReviewImageWhereUniqueInput | ReviewImageWhereUniqueInput[]
+    connect?: ReviewImageWhereUniqueInput | ReviewImageWhereUniqueInput[]
+    update?: ReviewImageUpdateWithWhereUniqueWithoutReviewInput | ReviewImageUpdateWithWhereUniqueWithoutReviewInput[]
+    updateMany?: ReviewImageUpdateManyWithWhereWithoutReviewInput | ReviewImageUpdateManyWithWhereWithoutReviewInput[]
+    deleteMany?: ReviewImageScalarWhereInput | ReviewImageScalarWhereInput[]
+  }
+
+  export type ReviewCreateNestedOneWithoutImagesInput = {
+    create?: XOR<ReviewCreateWithoutImagesInput, ReviewUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: ReviewCreateOrConnectWithoutImagesInput
+    connect?: ReviewWhereUniqueInput
+  }
+
+  export type ReviewUpdateOneRequiredWithoutImagesNestedInput = {
+    create?: XOR<ReviewCreateWithoutImagesInput, ReviewUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: ReviewCreateOrConnectWithoutImagesInput
+    upsert?: ReviewUpsertWithoutImagesInput
+    connect?: ReviewWhereUniqueInput
+    update?: XOR<XOR<ReviewUpdateToOneWithWhereWithoutImagesInput, ReviewUpdateWithoutImagesInput>, ReviewUncheckedUpdateWithoutImagesInput>
   }
 
   export type RestaurantCreateNestedOneWithoutFavoritesInput = {
@@ -29472,9 +31048,47 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -29514,17 +31128,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -29652,17 +31255,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumDayOfWeekFilter<$PrismaModel = never> = {
@@ -29825,6 +31417,8 @@ export namespace Prisma {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
@@ -29841,6 +31435,8 @@ export namespace Prisma {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
@@ -29867,8 +31463,10 @@ export namespace Prisma {
     id?: string
     rating: number
     comment?: string | null
+    verifiedVisit?: boolean
     createdAt?: Date | string
     restaurant: RestaurantCreateNestedOneWithoutReviewsInput
+    images?: ReviewImageCreateNestedManyWithoutReviewInput
   }
 
   export type ReviewUncheckedCreateWithoutUserInput = {
@@ -29876,7 +31474,9 @@ export namespace Prisma {
     restaurantId: string
     rating: number
     comment?: string | null
+    verifiedVisit?: boolean
     createdAt?: Date | string
+    images?: ReviewImageUncheckedCreateNestedManyWithoutReviewInput
   }
 
   export type ReviewCreateOrConnectWithoutUserInput = {
@@ -30065,6 +31665,8 @@ export namespace Prisma {
     ownerId?: StringFilter<"Restaurant"> | string
     name?: StringFilter<"Restaurant"> | string
     location?: StringFilter<"Restaurant"> | string
+    latitude?: FloatNullableFilter<"Restaurant"> | number | null
+    longitude?: FloatNullableFilter<"Restaurant"> | number | null
     verified?: BoolFilter<"Restaurant"> | boolean
   }
 
@@ -30093,6 +31695,7 @@ export namespace Prisma {
     restaurantId?: StringFilter<"Review"> | string
     rating?: IntFilter<"Review"> | number
     comment?: StringNullableFilter<"Review"> | string | null
+    verifiedVisit?: BoolFilter<"Review"> | boolean
     createdAt?: DateTimeFilter<"Review"> | Date | string
   }
 
@@ -30316,8 +31919,10 @@ export namespace Prisma {
     id?: string
     rating: number
     comment?: string | null
+    verifiedVisit?: boolean
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutReviewsInput
+    images?: ReviewImageCreateNestedManyWithoutReviewInput
   }
 
   export type ReviewUncheckedCreateWithoutRestaurantInput = {
@@ -30325,7 +31930,9 @@ export namespace Prisma {
     userId: string
     rating: number
     comment?: string | null
+    verifiedVisit?: boolean
     createdAt?: Date | string
+    images?: ReviewImageUncheckedCreateNestedManyWithoutReviewInput
   }
 
   export type ReviewCreateOrConnectWithoutRestaurantInput = {
@@ -30677,6 +32284,8 @@ export namespace Prisma {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
@@ -30694,6 +32303,8 @@ export namespace Prisma {
     ownerId: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
@@ -30741,6 +32352,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
@@ -30758,6 +32371,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -30815,6 +32430,8 @@ export namespace Prisma {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
@@ -30832,6 +32449,8 @@ export namespace Prisma {
     ownerId: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
@@ -30922,6 +32541,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
@@ -30939,6 +32560,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -31115,6 +32738,8 @@ export namespace Prisma {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
@@ -31132,6 +32757,8 @@ export namespace Prisma {
     ownerId: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
@@ -31298,6 +32925,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
@@ -31315,6 +32944,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -31802,6 +33433,8 @@ export namespace Prisma {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
@@ -31819,6 +33452,8 @@ export namespace Prisma {
     ownerId: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
@@ -31868,6 +33503,28 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
   }
 
+  export type ReviewImageCreateWithoutReviewInput = {
+    id?: string
+    imageUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ReviewImageUncheckedCreateWithoutReviewInput = {
+    id?: string
+    imageUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ReviewImageCreateOrConnectWithoutReviewInput = {
+    where: ReviewImageWhereUniqueInput
+    create: XOR<ReviewImageCreateWithoutReviewInput, ReviewImageUncheckedCreateWithoutReviewInput>
+  }
+
+  export type ReviewImageCreateManyReviewInputEnvelope = {
+    data: ReviewImageCreateManyReviewInput | ReviewImageCreateManyReviewInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RestaurantUpsertWithoutReviewsInput = {
     update: XOR<RestaurantUpdateWithoutReviewsInput, RestaurantUncheckedUpdateWithoutReviewsInput>
     create: XOR<RestaurantCreateWithoutReviewsInput, RestaurantUncheckedCreateWithoutReviewsInput>
@@ -31883,6 +33540,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
@@ -31900,6 +33559,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -31950,10 +33611,94 @@ export namespace Prisma {
     ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   }
 
+  export type ReviewImageUpsertWithWhereUniqueWithoutReviewInput = {
+    where: ReviewImageWhereUniqueInput
+    update: XOR<ReviewImageUpdateWithoutReviewInput, ReviewImageUncheckedUpdateWithoutReviewInput>
+    create: XOR<ReviewImageCreateWithoutReviewInput, ReviewImageUncheckedCreateWithoutReviewInput>
+  }
+
+  export type ReviewImageUpdateWithWhereUniqueWithoutReviewInput = {
+    where: ReviewImageWhereUniqueInput
+    data: XOR<ReviewImageUpdateWithoutReviewInput, ReviewImageUncheckedUpdateWithoutReviewInput>
+  }
+
+  export type ReviewImageUpdateManyWithWhereWithoutReviewInput = {
+    where: ReviewImageScalarWhereInput
+    data: XOR<ReviewImageUpdateManyMutationInput, ReviewImageUncheckedUpdateManyWithoutReviewInput>
+  }
+
+  export type ReviewImageScalarWhereInput = {
+    AND?: ReviewImageScalarWhereInput | ReviewImageScalarWhereInput[]
+    OR?: ReviewImageScalarWhereInput[]
+    NOT?: ReviewImageScalarWhereInput | ReviewImageScalarWhereInput[]
+    id?: StringFilter<"ReviewImage"> | string
+    reviewId?: StringFilter<"ReviewImage"> | string
+    imageUrl?: StringFilter<"ReviewImage"> | string
+    createdAt?: DateTimeFilter<"ReviewImage"> | Date | string
+  }
+
+  export type ReviewCreateWithoutImagesInput = {
+    id?: string
+    rating: number
+    comment?: string | null
+    verifiedVisit?: boolean
+    createdAt?: Date | string
+    restaurant: RestaurantCreateNestedOneWithoutReviewsInput
+    user: UserCreateNestedOneWithoutReviewsInput
+  }
+
+  export type ReviewUncheckedCreateWithoutImagesInput = {
+    id?: string
+    userId: string
+    restaurantId: string
+    rating: number
+    comment?: string | null
+    verifiedVisit?: boolean
+    createdAt?: Date | string
+  }
+
+  export type ReviewCreateOrConnectWithoutImagesInput = {
+    where: ReviewWhereUniqueInput
+    create: XOR<ReviewCreateWithoutImagesInput, ReviewUncheckedCreateWithoutImagesInput>
+  }
+
+  export type ReviewUpsertWithoutImagesInput = {
+    update: XOR<ReviewUpdateWithoutImagesInput, ReviewUncheckedUpdateWithoutImagesInput>
+    create: XOR<ReviewCreateWithoutImagesInput, ReviewUncheckedCreateWithoutImagesInput>
+    where?: ReviewWhereInput
+  }
+
+  export type ReviewUpdateToOneWithWhereWithoutImagesInput = {
+    where?: ReviewWhereInput
+    data: XOR<ReviewUpdateWithoutImagesInput, ReviewUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type ReviewUpdateWithoutImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedVisit?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    restaurant?: RestaurantUpdateOneRequiredWithoutReviewsNestedInput
+    user?: UserUpdateOneRequiredWithoutReviewsNestedInput
+  }
+
+  export type ReviewUncheckedUpdateWithoutImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    restaurantId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedVisit?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RestaurantCreateWithoutFavoritesInput = {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
@@ -31971,6 +33716,8 @@ export namespace Prisma {
     ownerId: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
@@ -32035,6 +33782,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
@@ -32052,6 +33801,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
     openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -32106,6 +33857,8 @@ export namespace Prisma {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
@@ -32123,6 +33876,8 @@ export namespace Prisma {
     ownerId: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
@@ -32154,6 +33909,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
@@ -32171,6 +33928,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -32186,6 +33945,8 @@ export namespace Prisma {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
@@ -32203,6 +33964,8 @@ export namespace Prisma {
     ownerId: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
@@ -32234,6 +33997,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
@@ -32251,6 +34016,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -32389,6 +34156,8 @@ export namespace Prisma {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
@@ -32406,6 +34175,8 @@ export namespace Prisma {
     ownerId: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
@@ -32454,6 +34225,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
@@ -32471,6 +34244,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -32564,6 +34339,8 @@ export namespace Prisma {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
@@ -32581,6 +34358,8 @@ export namespace Prisma {
     ownerId: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
@@ -32637,6 +34416,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
@@ -32654,6 +34435,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -32779,6 +34562,8 @@ export namespace Prisma {
     id?: string
     name: string
     location: string
+    latitude?: number | null
+    longitude?: number | null
     verified?: boolean
   }
 
@@ -32787,6 +34572,7 @@ export namespace Prisma {
     restaurantId: string
     rating: number
     comment?: string | null
+    verifiedVisit?: boolean
     createdAt?: Date | string
   }
 
@@ -32926,6 +34712,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
@@ -32942,6 +34730,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -32958,6 +34748,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -32965,8 +34757,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedVisit?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     restaurant?: RestaurantUpdateOneRequiredWithoutReviewsNestedInput
+    images?: ReviewImageUpdateManyWithoutReviewNestedInput
   }
 
   export type ReviewUncheckedUpdateWithoutUserInput = {
@@ -32974,7 +34768,9 @@ export namespace Prisma {
     restaurantId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedVisit?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: ReviewImageUncheckedUpdateManyWithoutReviewNestedInput
   }
 
   export type ReviewUncheckedUpdateManyWithoutUserInput = {
@@ -32982,6 +34778,7 @@ export namespace Prisma {
     restaurantId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedVisit?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -33063,6 +34860,7 @@ export namespace Prisma {
     userId: string
     rating: number
     comment?: string | null
+    verifiedVisit?: boolean
     createdAt?: Date | string
   }
 
@@ -33202,8 +35000,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedVisit?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutReviewsNestedInput
+    images?: ReviewImageUpdateManyWithoutReviewNestedInput
   }
 
   export type ReviewUncheckedUpdateWithoutRestaurantInput = {
@@ -33211,7 +35011,9 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedVisit?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: ReviewImageUncheckedUpdateManyWithoutReviewNestedInput
   }
 
   export type ReviewUncheckedUpdateManyWithoutRestaurantInput = {
@@ -33219,6 +35021,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedVisit?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -33485,6 +35288,30 @@ export namespace Prisma {
     newNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReviewImageCreateManyReviewInput = {
+    id?: string
+    imageUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ReviewImageUpdateWithoutReviewInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReviewImageUncheckedUpdateWithoutReviewInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReviewImageUncheckedUpdateManyWithoutReviewInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TagCreateManyCategoryInput = {
