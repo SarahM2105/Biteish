@@ -3,6 +3,8 @@ const { prisma } = require("../prismaClient");
 async function listRestaurants(req, res) {
     try {
         const q = (req.query.q || "").trim().toLowerCase();
+        const userId = req.user?.userId || req.user?.id;
+
         const restaurants = await prisma.restaurant.findMany({
             where: {
                 verified: true,
@@ -45,6 +47,16 @@ async function listRestaurants(req, res) {
                         rating: true,
                     },
                 },
+                favorites: userId
+                    ? {
+                        where: {
+                            userId,
+                        },
+                        select: {
+                            id: true,
+                        },
+                    }
+                    : false,
             },
             take: 200,
         });
@@ -55,6 +67,7 @@ async function listRestaurants(req, res) {
                 reviewCount > 0
                     ? restaurant.reviews.reduce((sum, review) => sum + review.rating, 0) / reviewCount
                     : 0;
+
             return {
                 id: restaurant.id,
                 name: restaurant.name,
@@ -68,8 +81,10 @@ async function listRestaurants(req, res) {
                 ),
                 averageRating: Number(averageRating.toFixed(1)),
                 reviewCount,
+                isFavourite: Array.isArray(restaurant.favorites) && restaurant.favorites.length > 0,
             };
         });
+
         return res.json(formattedRestaurants);
     } catch (error) {
         console.error(error);

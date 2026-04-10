@@ -1,0 +1,104 @@
+.restaurant-map {
+    width: 100%;
+    height: 620px;
+}
+
+.restaurant-map__container {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.restaurant-map__popup {
+    min-width: 240px;
+    display: grid;
+    gap: 10px;
+}
+
+.restaurant-map__popup-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: #1d2432;
+}
+
+.restaurant-map__popup-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #525a68;
+}
+
+.restaurant-map__popup-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.restaurant-map__popup-badge {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255, 138, 61, 0.1);
+    color: #d95f18;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.restaurant-map__popup-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.restaurant-map__popup-button {
+    border: none;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-weight: 700;
+    cursor: pointer;
+    background: linear-gradient(90deg, #ff8a3d 0%, #ff69c7 100%);
+    color: white;
+}
+
+.custom-numbered-marker {
+    background: transparent;
+    border: none;
+}
+
+.marker-pin {
+    width: 36px;
+    height: 36px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    background: linear-gradient(135deg, #ff8a3d 0%, #ff69c7 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.28);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+.marker-pin span {
+    transform: rotate(45deg);
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.marker-pin.is-selected {
+    transform: rotate(-45deg) scale(1.12);
+    box-shadow: 0 10px 22px rgba(255, 138, 61, 0.4);
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 16px;
+}
+
+.leaflet-popup-tip {
+    background: white;
+}
+
+@media (max-width: 700px) {
+    .restaurant-map {
+        height: 480px;
+    }
+}

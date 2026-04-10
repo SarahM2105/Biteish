@@ -6,7 +6,11 @@ import RestaurantCard from "../../components/Customer/Search/RestaurantCard";
 import FilterDrawer from "../../components/Customer/Search/FilterDrawer";
 import RestaurantMap from "../../components/Customer/Search/RestaurantMap";
 import RestaurantPreviewModal from "../../components/Customer/Search/RestaurantPreviewModal";
-import "../../components/Customer/Search/SearchandFilter.css";
+import "../../components/Customer/Search/css/SearchandFilter.css";
+import "../../components/Customer/Search/css/FilterDrawer.css";
+import "../../components/Customer/Search/css/RestaurantCard.css";
+import "../../components/Customer/Search/css/RestaurantMap.css";
+import "../../components/Customer/Search/css/RestaurantPreviewModal.css";
 import { logout } from "../../components/utils/logout";
 
 export default function CustomerSearchAndFilter() {
@@ -150,12 +154,12 @@ export default function CustomerSearchAndFilter() {
     }, [selected, viewMode]);
 
     function handleSelectRestaurant(restaurant) {
-        setSelected(restaurant); // Select restaurant, no modal trigger
+        setSelected(restaurant);
     }
 
     function handleOpenPreview(restaurant) {
         setPreviewRestaurant(restaurant);
-        setPreviewOpen(true); // Open modal only from this point (Quick Preview)
+        setPreviewOpen(true);
     }
 
     function handleClosePreview() {
@@ -174,6 +178,48 @@ export default function CustomerSearchAndFilter() {
                 time,
             },
         });
+    }
+
+    async function handleToggleFavourite(restaurantId) {
+        const targetRestaurant = restaurants.find((item) => item.id === restaurantId);
+
+        if (!targetRestaurant) return;
+
+        const wasFavourite = Boolean(targetRestaurant.isFavourite);
+        const method = wasFavourite ? "DELETE" : "POST";
+
+        try {
+            const res = await authFetch(`/api/customer/favourites/${restaurantId}`, {
+                method,
+            });
+
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(text || "Failed to update favourite");
+            }
+
+            setRestaurants((prev) =>
+                prev.map((restaurant) =>
+                    restaurant.id === restaurantId
+                        ? { ...restaurant, isFavourite: !wasFavourite }
+                        : restaurant
+                )
+            );
+
+            setSelected((prev) =>
+                prev?.id === restaurantId
+                    ? { ...prev, isFavourite: !wasFavourite }
+                    : prev
+            );
+
+            setPreviewRestaurant((prev) =>
+                prev?.id === restaurantId
+                    ? { ...prev, isFavourite: !wasFavourite }
+                    : prev
+            );
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     function handleNavigate(label) {
@@ -320,9 +366,10 @@ export default function CustomerSearchAndFilter() {
                                     key={restaurant.id}
                                     restaurant={restaurant}
                                     isSelected={selected?.id === restaurant.id}
-                                    onSelect={() => handleSelectRestaurant(restaurant)} // Select restaurant, no modal trigger
-                                    onViewMore={() => handleOpenPreview(restaurant)} // Only View More opens the modal
+                                    onSelect={() => handleSelectRestaurant(restaurant)}
+                                    onViewMore={() => handleOpenPreview(restaurant)}
                                     onBook={() => handleBookRestaurant(restaurant.id)}
+                                    onToggleFavourite={() => handleToggleFavourite(restaurant.id)}
                                 />
                             ))}
                         </div>
@@ -337,7 +384,7 @@ export default function CustomerSearchAndFilter() {
                                         restaurant.rating !== undefined &&
                                         restaurant.rating !== ""
                                             ? Number(restaurant.rating)
-                                            : 0;
+                                            : Number(restaurant.averageRating || 0);
 
                                     return (
                                         <button
@@ -348,7 +395,7 @@ export default function CustomerSearchAndFilter() {
                                             type="button"
                                             className={`search-map-list__item ${selected?.id === restaurant.id ? "is-selected" : ""}`}
                                             onClick={() => {
-                                                handleSelectRestaurant(restaurant); // Select the restaurant, open map popup
+                                                handleSelectRestaurant(restaurant);
                                             }}
                                         >
                                             <div className="search-map-list__number">{index + 1}</div>
@@ -379,8 +426,8 @@ export default function CustomerSearchAndFilter() {
                             <RestaurantMap
                                 restaurants={filtered}
                                 selected={selected}
-                                onSelectRestaurant={handleSelectRestaurant} // Updates map when a restaurant is clicked
-                                onPreviewRestaurant={handleOpenPreview} // Trigger preview in popup
+                                onSelectRestaurant={handleSelectRestaurant}
+                                onPreviewRestaurant={handleOpenPreview}
                             />
                         </section>
                     </div>

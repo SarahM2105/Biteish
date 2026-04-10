@@ -23,6 +23,12 @@ const {
     updateRestaurantReview,
 } = require("../controllers/customerBrowseController");
 
+const {
+    listFavouriteRestaurants,
+    addFavouriteRestaurant,
+    removeFavouriteRestaurant,
+} = require("../controllers/customer/favouriteController");
+
 const { getMe } = require("../controllers/userController");
 const { getSearchFilterOptions } = require("../controllers/customer/SearchFilterOptionsController");
 const uploadReviewImages = require("../middleware/uploadReviewImages");
@@ -54,6 +60,9 @@ router.get("/restaurants/:restaurantId/zones", listZonesForRestaurant);
 router.get("/zones/:zoneId/tables", listTablesForZone);
 router.get("/restaurants/:restaurantId", getRestaurantDetails);
 router.get("/reservations/:reservationId/qr", getReservationQr);
+router.get("/favourites", listFavouriteRestaurants);
+router.post("/favourites/:restaurantId", addFavouriteRestaurant);
+router.delete("/favourites/:restaurantId", removeFavouriteRestaurant);
 
 router.get("/me", getMe);
 
