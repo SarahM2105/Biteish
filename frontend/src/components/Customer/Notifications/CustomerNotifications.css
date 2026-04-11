@@ -1,0 +1,297 @@
+.customer-notifications-page {
+    display: grid;
+    gap: 22px;
+}
+
+.customer-notifications-hero {
+    display: grid;
+    gap: 20px;
+}
+
+.customer-notifications-hero__title {
+    margin: 0 0 8px;
+    font-size: clamp(1.9rem, 3vw, 2.5rem);
+    line-height: 1.1;
+    color: var(--text-main);
+}
+
+.customer-notifications-hero__subtitle {
+    margin: 0;
+    max-width: 720px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.customer-notifications-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+}
+
+.customer-notifications-summary__card {
+    display: grid;
+    gap: 6px;
+    padding: 16px 18px;
+    border-radius: 18px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+}
+
+.customer-notifications-summary__value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.customer-notifications-summary__label {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+}
+
+.customer-notifications-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.customer-notifications-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.customer-notifications-filter {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text-main);
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.customer-notifications-filter:hover {
+    transform: translateY(-1px);
+    background: var(--primary-soft);
+}
+
+.customer-notifications-filter.is-active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.customer-notifications-status {
+    color: var(--text-main);
+}
+
+.customer-notifications-list {
+    display: grid;
+    gap: 16px;
+}
+
+.customer-notification-card,
+.dashboard-panel.customer-notification-card {
+    --notification-color: var(--primary);
+    position: relative;
+    display: grid;
+    gap: 14px;
+    border-radius: 24px;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--notification-color);
+    background: var(--panel);
+    overflow: hidden;
+}
+
+.customer-notification-card::before,
+.dashboard-panel.customer-notification-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--notification-color);
+    z-index: 1;
+}
+
+.customer-notification-card::after,
+.dashboard-panel.customer-notification-card::after {
+    content: none;
+}
+
+.customer-notification-card > *,
+.dashboard-panel.customer-notification-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+.customer-notification-card__top {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.customer-notification-card__heading {
+    display: grid;
+    gap: 8px;
+}
+
+.customer-notification-card__heading h2 {
+    margin: 0;
+    font-size: 1.08rem;
+    color: var(--notification-color);
+}
+
+.customer-notification-card__badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--notification-color);
+}
+
+.customer-notification-card__meta {
+    display: grid;
+    gap: 4px;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    text-align: right;
+}
+
+.customer-notification-card__message {
+    margin: 0;
+    color: var(--text-main);
+    line-height: 1.65;
+}
+
+.customer-notification-card__details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.customer-notification-card__actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.customer-notifications-action {
+    border-radius: 14px;
+    padding: 11px 16px;
+    font-size: 0.94rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.customer-notifications-action:hover {
+    transform: translateY(-1px);
+}
+
+.customer-notifications-action--primary {
+    background: var(--primary);
+    color: #fff;
+    border: 1px solid var(--primary);
+}
+
+.customer-notifications-action--secondary {
+    background: var(--panel);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+}
+
+.customer-notifications-action--secondary:hover {
+    background: var(--primary-soft);
+}
+
+.customer-notifications-empty {
+    display: grid;
+    gap: 12px;
+    text-align: left;
+}
+
+.customer-notifications-empty h2 {
+    margin: 0;
+    color: var(--text-main);
+}
+
+.customer-notifications-empty p {
+    margin: 0;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.customer-notifications-empty__actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+.dashboard-panel.customer-notification-card--pending,
+.customer-notification-card--pending {
+    --notification-color: #f59e0b;
+}
+
+.dashboard-panel.customer-notification-card--confirmed,
+.customer-notification-card--confirmed {
+    --notification-color: #22c55e;
+}
+
+.dashboard-panel.customer-notification-card--upcoming,
+.customer-notification-card--upcoming {
+    --notification-color: #3b82f6;
+}
+
+.dashboard-panel.customer-notification-card--declined,
+.customer-notification-card--declined {
+    --notification-color: #ef4444;
+}
+
+.dashboard-panel.customer-notification-card--cancelled,
+.customer-notification-card--cancelled {
+    --notification-color: #ef4444;
+}
+
+.dashboard-panel.customer-notification-card--checked-in,
+.customer-notification-card--checked-in {
+    --notification-color: #8b5cf6;
+}
+
+@media (max-width: 720px) {
+    .customer-notification-card,
+    .dashboard-panel.customer-notification-card {
+        padding: 18px;
+    }
+
+    .customer-notification-card__meta {
+        text-align: left;
+    }
+
+    .customer-notification-card__actions,
+    .customer-notifications-empty__actions {
+        flex-direction: column;
+    }
+
+    .customer-notifications-action {
+        width: 100%;
+    }
+}
+
