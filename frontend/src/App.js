@@ -24,9 +24,11 @@ import OwnerRestaurantSettings from "./pages/owner/OwnerRestaurantSettings";
 import OwnerProfilePreference from "./pages/owner/OwnerProfilePreference";
 import OwnerMenu from "./pages/owner/OwnerMenu";
 import CustomerFavourites from "./pages/customer/CustomerFavourites";
+import { ThemeProvider} from "./ThemeContext";
 
 function App() {
   return (
+      <ThemeProvider>
       <Router>
         <Routes>
             <Route path="/" element={<Auth />} />
@@ -135,6 +137,7 @@ function App() {
                 }/>
         </Routes>
       </Router>
+      </ThemeProvider>
   );
 }
 

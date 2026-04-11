@@ -8,12 +8,14 @@ import BookingStep1Details from "../../components/Customer/BookingForm/BookingSt
 import BookingStep2TableSelect from "../../components/Customer/BookingForm/BookingStep2TableSelect";
 import BookingStep3Review from "../../components/Customer/BookingForm/BookingStep3Review";
 import BookingStep4Confirmation from "../../components/Customer/BookingForm/BookingStep4Confirmation";
+import { useTheme } from "../../ThemeContext";
+
 export default function CustomerBookingPage() {
     const navigate = useNavigate();
     const { restaurantId } = useParams();
-    const [collapsed, setCollapsed] = useState(true);
+    const [collapsed, setCollapsed] = useState(false);
+    const {isDarkMode, setIsDarkMode} = useTheme();
     const [active, setActive] = useState("Search and Filter");
-    const [isDarkMode, setIsDarkMode] = useState(true);
     const [step, setStep] = useState(1);
     const [restaurant, setRestaurant] = useState(null);
     const [zones, setZones] = useState([]);

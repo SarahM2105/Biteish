@@ -1,67 +1,100 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AppLayout from "../../layouts/AppLayout";
 import CustomerSideNav from "../../components/CustomerSideNav";
+import useCustomerProfile from "../../hooks/useCustomerProfile";
+import ProfileHeader from "../../components/Customer/Profile/Header";
+import ProfileMenu from "../../components/Customer/Profile/Menu";
+import ProfileInfo from "../../components/Customer/Profile/Info";
+import ProfileSecurity from "../../components/Customer/Profile/Security";
+import ProfileActions from "../../components/Customer/Profile/Actions";
+import "../../components/Customer/Profile/css/ProfileAction.css";
+import "../../components/Customer/Profile/css/ProfileBase.css";
+import "../../components/Customer/Profile/css/ProfileDetail.css";
+import "../../components/Customer/Profile/css/ProfileHeader.css";
+import "../../components/Customer/Profile/css/ProfileResponsive.css";
+import "../../components/Customer/Profile/css/ProfileMenu.css";
+import { useTheme } from "../../ThemeContext";
 
 export default function CustomerProfile() {
-    const fallbackName = localStorage.getItem("name") || "customer";
+    const [collapsed, setCollapsed] = useState(false);
+    const [active, setActive] = useState("Profile and Preferences");
+    const {isDarkMode, setIsDarkMode} = useTheme();
 
-    const [me, setMe] = useState({ name: fallbackName, email: "—", role: "—" });
-    const [status, setStatus] = useState("");
-    const [loading, setLoading] = useState(false);
+    const profile = useCustomerProfile();
 
-    useEffect(() => {
-        (async () => {
-            setLoading(true);
-            setStatus("");
-            try {
-                const token = localStorage.getItem("token");
-                const res = await fetch("/api/customer/me", {
-                    headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-                });
-
-                const data = await res.json().catch(() => ({}));
-                if (!res.ok) {
-                    setStatus(data?.error || data?.message || "Failed to load profile");
-                    return;
-                }
-                setMe({
-                    name: data?.name || fallbackName,
-                    email: data?.email || "—",
-                    role: data?.role || "—",
-                });
-            } catch (e) {
-                console.error(e);
-                setStatus("Network/server error");
-            } finally {
-                setLoading(false);
-            }
-        })();
-    }, [fallbackName]);
+    function handleNavigate(label) {
+        setActive(label);
+    }
 
     return (
-        <AppLayout name={me.name} sideNav={<CustomerSideNav active="Profile and Preferences" />}>
-            <h1 className="page-title">Profile</h1>
+        <AppLayout
+            collapsed={collapsed}
+            onToggleSidebar={() => setCollapsed((prev) => !prev)}
+            isDarkMode={isDarkMode}
+            onToggleTheme={() => setIsDarkMode((prev) => !prev)}
+            sideNav={
+                <CustomerSideNav
+                    active={active}
+                    onNavigate={handleNavigate}
+                    collapsed={collapsed}
+                />
+            }
+        >
+            <div className="customer-profile-page">
+                <h1 className="page-title">Profile & Preferences</h1>
 
-            {loading && <div style={{ opacity: 0.85 }}>Loading…</div>}
-            {status && <div style={{ opacity: 0.85 }}>{status}</div>}
+                {profile.loading && <div className="customer-profile__banner">Loading profile...</div>}
+                {profile.loadStatus && <div className="customer-profile__banner">{profile.loadStatus}</div>}
 
-            <div className="dashboard-panel" style={{ maxWidth: 520 }}>
-                <div style={{ display: "grid", gap: 12 }}>
-                    <div>
-                        <div style={{ opacity: 0.7, fontSize: 13 }}>Name</div>
-                        <div style={{ fontWeight: 600 }}>{me.name}</div>
-                    </div>
+                <ProfileHeader
+                    avatarLetter={profile.avatarLetter}
+                    name={profile.me.name}
+                    email={profile.me.email}
+                    role={profile.me.role}
+                />
 
-                    <div>
-                        <div style={{ opacity: 0.7, fontSize: 13 }}>Email</div>
-                        <div style={{ fontWeight: 600 }}>{me.email}</div>
-                    </div>
+                {profile.currentView === "menu" && (
+                    <ProfileMenu openView={profile.openView} />
+                )}
 
-                    <div>
-                        <div style={{ opacity: 0.7, fontSize: 13 }}>Role</div>
-                        <div style={{ fontWeight: 600 }}>{me.role}</div>
-                    </div>
-                </div>
+                {profile.currentView === "personal" && (
+                    <ProfileInfo
+                        me={profile.me}
+                        profileForm={profile.profileForm}
+                        isEditingProfile={profile.isEditingProfile}
+                        profileStatus={profile.profileStatus}
+                        setIsEditingProfile={profile.setIsEditingProfile}
+                        setCurrentView={profile.setCurrentView}
+                        handleProfileChange={profile.handleProfileChange}
+                        handleCancelEdit={profile.handleCancelEdit}
+                        handleSaveProfile={profile.handleSaveProfile}
+                    />
+                )}
+
+                {profile.currentView === "security" && (
+                    <ProfileSecurity
+                        passwordForm={profile.passwordForm}
+                        passwordStatus={profile.passwordStatus}
+                        setCurrentView={profile.setCurrentView}
+                        handlePasswordChange={profile.handlePasswordChange}
+                        handleUpdatePassword={profile.handleUpdatePassword}
+                    />
+                )}
+
+                {profile.currentView === "actions" && (
+                    <ProfileActions
+                        issueOpen={profile.issueOpen}
+                        issueForm={profile.issueForm}
+                        issueStatus={profile.issueStatus}
+                        actionStatus={profile.actionStatus}
+                        setCurrentView={profile.setCurrentView}
+                        setIssueOpen={profile.setIssueOpen}
+                        setIssueStatus={profile.setIssueStatus}
+                        setActionStatus={profile.setActionStatus}
+                        handleIssueChange={profile.handleIssueChange}
+                        handleSubmitIssue={profile.handleSubmitIssue}
+                    />
+                )}
             </div>
         </AppLayout>
     );

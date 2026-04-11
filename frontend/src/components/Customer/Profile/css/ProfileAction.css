@@ -1,0 +1,47 @@
+.customer-profile__actionStack {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+}
+
+.customer-profile__actionItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 22px;
+    padding: 18px;
+}
+
+.customer-profile__actionItem h4 {
+    margin: 0 0 6px;
+    color: var(--text-main);
+    font-size: 1rem;
+}
+
+.customer-profile__actionItem p {
+    margin: 0;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.customer-profile__actionItem--column {
+    display: grid;
+    gap: 16px;
+    align-items: stretch;
+}
+
+.customer-profile__actionTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.customer-profile__issueForm {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+}

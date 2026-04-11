@@ -4,15 +4,16 @@ import AppLayout from "../../layouts/AppLayout";
 import CustomerSideNav from "../../components/CustomerSideNav";
 import { logout } from "../../components/utils/logout";
 import "../../components/Customer/MyBookings/css/EditBookingPage.css";
+import { useTheme } from "../../ThemeContext";
 
 export default function CustomerEditBooking() {
     const name = localStorage.getItem("name") || "customer";
     const { reservationId } = useParams();
     const navigate = useNavigate();
 
-    const [collapsed, setCollapsed] = useState(true);
+    const [collapsed, setCollapsed] = useState(false);
     const [active, setActive] = useState("My Bookings");
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const {isDarkMode, setIsDarkMode} = useTheme();
 
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");

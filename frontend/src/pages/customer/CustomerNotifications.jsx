@@ -5,12 +5,14 @@ import CustomerSideNav from "../../components/CustomerSideNav";
 import { logout } from "../../components/utils/logout";
 import useCustomerNotifications from "../../hooks/useCustomerNotifications";
 import "../../components/Customer/Notifications/CustomerNotifications.css";
+import { useTheme } from "../../ThemeContext";
+
 export default function CustomerNotifications() {
     const name = localStorage.getItem("name") || "customer";
     const navigate = useNavigate();
     const [active, setActive] = useState("Notifications");
-    const [collapsed, setCollapsed] = useState(true);
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [collapsed, setCollapsed] = useState(false);
+    const {isDarkMode, setIsDarkMode} = useTheme();
     const [filter, setFilter] = useState("all");
 
     const { notifications, loading, status, summary } = useCustomerNotifications();

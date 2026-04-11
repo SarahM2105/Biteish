@@ -4,13 +4,14 @@ import CustomerSideNav from "../../components/CustomerSideNav";
 import "../../components/Customer/Favourites/Favourites.css";
 import { logout } from "../../components/utils/logout";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../ThemeContext";
 
 export default function CustomerFavourites() {
     const name = localStorage.getItem("name") || "customer";
     const [status, setStatus] = useState("");
     const [active, setActive] = useState("Favourites");
-    const [collapsed, setCollapsed] = useState(true);
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [collapsed, setCollapsed] = useState(false);
+    const {isDarkMode, setIsDarkMode} = useTheme();
     const [favouriteRestaurants, setFavouriteRestaurants] = useState([]);
     const [loading, setLoading] = useState(true);
 

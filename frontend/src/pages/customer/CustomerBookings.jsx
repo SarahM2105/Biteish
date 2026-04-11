@@ -14,12 +14,13 @@ import BookingsSummaryCards from "../../components/Customer/MyBookings/SummaryCa
 import BookingTabs from "../../components/Customer/MyBookings/Tabs";
 import BookingCard from "../../components/Customer/MyBookings/BookingCard";
 import BookingQrModal from "../../components/Customer/MyBookings/QRModal";
+import { useTheme } from "../../ThemeContext";
 
 export default function CustomerBookings() {
     const name = localStorage.getItem("name") || "customer";
-    const [collapsed, setCollapsed] = useState(true);
+    const [collapsed, setCollapsed] = useState(false);
     const [active, setActive] = useState("My Bookings");
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const {isDarkMode, setIsDarkMode} = useTheme();
 
     const [tab, setTab] = useState("UPCOMING");
     const [status, setStatus] = useState("");

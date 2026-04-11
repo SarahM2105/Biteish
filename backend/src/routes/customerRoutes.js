@@ -29,7 +29,11 @@ const {
     removeFavouriteRestaurant,
 } = require("../controllers/customer/favouriteController");
 
-const { getMe } = require("../controllers/userController");
+const {
+    getMe,
+    updateMe,
+    updateMyPassword,
+} = require("../controllers/userController");
 const { getSearchFilterOptions } = require("../controllers/customer/SearchFilterOptionsController");
 const uploadReviewImages = require("../middleware/uploadReviewImages");
 
@@ -65,5 +69,7 @@ router.post("/favourites/:restaurantId", addFavouriteRestaurant);
 router.delete("/favourites/:restaurantId", removeFavouriteRestaurant);
 
 router.get("/me", getMe);
+router.patch("/me", updateMe);
+router.patch("/me/password", updateMyPassword);
 
 module.exports = router;

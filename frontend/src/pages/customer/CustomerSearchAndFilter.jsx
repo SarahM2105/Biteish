@@ -15,8 +15,8 @@ import { logout } from "../../components/utils/logout";
 
 export default function CustomerSearchAndFilter() {
     const [active, setActive] = useState("Search and Filter");
-    const [collapsed, setCollapsed] = useState(true);
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [collapsed, setCollapsed] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(false);
     const [q, setQ] = useState("");
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");

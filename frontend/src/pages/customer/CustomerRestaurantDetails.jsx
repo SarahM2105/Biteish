@@ -17,11 +17,12 @@ import "../../components/Customer/RestaurantDetails/css/RestaurantReviewForm.css
 import "../../components/Customer/RestaurantDetails/css/RestaurantReviews.css";
 import "../../components/Customer/RestaurantDetails/css/RestaurantDetailsHeader.css";
 import "../../components/Customer/RestaurantDetails/css/RestaurantDetailsLayout.css";
+import { useTheme } from "../../ThemeContext";
 
 export default function CustomerRestaurantDetails() {
-    const [collapsed, setCollapsed] = useState(true);
+    const [collapsed, setCollapsed] = useState(false);
     const [active, setActive] = useState("Search and Filter");
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const {isDarkMode, setIsDarkMode} = useTheme();
 
     const navigate = useNavigate();
     const { restaurantId } = useParams();

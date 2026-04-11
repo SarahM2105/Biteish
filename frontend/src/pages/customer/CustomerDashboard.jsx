@@ -9,12 +9,13 @@ import NextBooking from "../../components/Customer/Dashboard/NextBooking";
 import UpcomingBookingsCarousel from "../../components/Customer/Dashboard/UpcomingBookingsCarousel";
 import useCustomerDashboardData  from "../../hooks/useCustomerDashboardData";
 import "../../components/Customer/Dashboard/Dashboard.css"
+import { useTheme } from "../../ThemeContext";
 
 function CustomerDashboard() {
     const name = localStorage.getItem('name') || 'customer';
-    const [collapsed, setCollapsed] = useState(true);
+    const [collapsed, setCollapsed] = useState(false);
     const [active, setActive] = useState("Dashboard");
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const {isDarkMode, setIsDarkMode} = useTheme();
     const navigate = useNavigate();
     const {loading, status, nextBooking, summary,upcomingBookings} = useCustomerDashboardData();
 
