@@ -78,7 +78,7 @@ function App() {
                     <CustomerBookingPage />
                 </ProtectedRoutes>
             }/>
-            <Route path="/owner-dashboard" element={
+            <Route path="/owner/dashboard" element={
                 <ProtectedRoutes allowedRoles={["OWNER"]}>
                 <OwnerDashboard/>
                 </ProtectedRoutes>

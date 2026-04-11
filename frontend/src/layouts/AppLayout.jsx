@@ -3,7 +3,7 @@ import "../components/css/AppLayout.css";
 import TopNav from "../components/utils/TopNav";
 
 export default function AppLayout({sideNav, children, onToggleSidebar, collapsed, isDarkMode, onToggleTheme
-                                        }) {
+                                  }) {
     return (
         <div className={`dashboard-layout ${isDarkMode ? "dark-mode" : "light-mode"}`}>
             <TopNav
