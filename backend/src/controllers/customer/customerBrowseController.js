@@ -1,5 +1,5 @@
-const { prisma } = require("../prismaClient");
-const cloudinary = require("../config/cloudinary");
+const { prisma } = require("../../prismaClient");
+const cloudinary = require("../../config/cloudinary");
 const streamifier = require("streamifier");
 
 function uploadBufferToCloudinary(buffer, folder= "restaurant-reviews") {

@@ -57,12 +57,14 @@ const {
     getOwnerRestaurantProfile,
     updateOwnerRestaurantProfile,
 } = require("../controllers/ownerProfileController");
+const {getOwnerDashboard} = require("../controllers/ownerDashboardController");
 
 const router =express.Router();
 
 
 router.use(authenticateToken);
 router.use(requiredRole(["OWNER"]));
+router.get("/dashboard",getOwnerDashboard);
 //restaurants
 router.post("/restaurants", createRestaurant);
 router.get("/restaurants", listMyRestaurants);

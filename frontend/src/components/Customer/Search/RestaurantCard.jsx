@@ -32,11 +32,20 @@ export default function RestaurantCard({
     const fullStars = Math.round(numericRating);
     const totalStars = 5;
 
+    function handleKeyDown(e) {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onSelect?.();
+        }
+    }
+
     return (
-        <button
-            type="button"
+        <article
+            role="button"
+            tabIndex={0}
             className={`restaurant-card ${compact ? "compact" : ""} ${isSelected ? "is-selected" : ""}`}
             onClick={onSelect}
+            onKeyDown={handleKeyDown}
         >
             <div className="restaurant-card-image">
                 <span className="restaurant-card-badge">Featured</span>
@@ -79,8 +88,8 @@ export default function RestaurantCard({
 
                 {badges.length > 0 && (
                     <div className="restaurant-card-badges">
-                        {badges.map((badge) => (
-                            <span key={badge} className="restaurant-card-chip">
+                        {badges.map((badge, index) => (
+                            <span key={`${badge}-${index}`} className="restaurant-card-chip">
                                 {badge}
                             </span>
                         ))}
@@ -90,7 +99,8 @@ export default function RestaurantCard({
                 {nextSlot ? <div className="restaurant-card-slot">Next slot: {nextSlot}</div> : null}
 
                 <div className="restaurant-card-actions">
-                    <span
+                    <button
+                        type="button"
                         className="restaurant-card-link"
                         onClick={(e) => {
                             e.stopPropagation();
@@ -98,9 +108,10 @@ export default function RestaurantCard({
                         }}
                     >
                         View more
-                    </span>
+                    </button>
 
-                    <span
+                    <button
+                        type="button"
                         className="restaurant-card-link restaurant-card-link--primary"
                         onClick={(e) => {
                             e.stopPropagation();
@@ -108,9 +119,9 @@ export default function RestaurantCard({
                         }}
                     >
                         Book
-                    </span>
+                    </button>
                 </div>
             </div>
-        </button>
+        </article>
     );
 }
