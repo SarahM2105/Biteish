@@ -12,11 +12,12 @@ import "../../components/Customer/Search/css/RestaurantCard.css";
 import "../../components/Customer/Search/css/RestaurantMap.css";
 import "../../components/Customer/Search/css/RestaurantPreviewModal.css";
 import { logout } from "../../components/utils/logout";
+import {useTheme} from "../../ThemeContext";
 
 export default function CustomerSearchAndFilter() {
     const [active, setActive] = useState("Search and Filter");
     const [collapsed, setCollapsed] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const {isDarkMode, setIsDarkMode} = useTheme();
     const [q, setQ] = useState("");
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");

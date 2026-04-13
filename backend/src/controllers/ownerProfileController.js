@@ -7,6 +7,13 @@ async function getOwnerRestaurantProfile(req, res) {
         const restaurant = await prisma.restaurant.findFirst({
             where: { ownerId },
             include: {
+                owner: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                    },
+                },
                 bookingRule: true,
                 openingHours: {
                     orderBy: { day: "asc" },
@@ -14,6 +21,11 @@ async function getOwnerRestaurantProfile(req, res) {
                 accessibility: {
                     include: {
                         option: true,
+                    },
+                },
+                tags: {
+                    include: {
+                        tag: true,
                     },
                 },
             },
@@ -36,47 +48,46 @@ async function updateOwnerRestaurantProfile(req, res) {
         const {
             name,
             location,
+            description,
             bookingRule,
             openingHours,
         } = req.body;
 
         const restaurant = await prisma.restaurant.findFirst({
             where: { ownerId },
-            select: { id: true },
+            select: {
+                id: true,
+                bookingRule: true,
+            },
         });
 
         if (!restaurant) {
             return res.status(404).json({ error: "Restaurant not found" });
         }
 
+        const updateData = {
+            name: name ?? undefined,
+            location: location ?? undefined,
+            description: description ?? undefined,
+        };
+
+        if (bookingRule) {
+            if (restaurant.bookingRule) {
+                updateData.bookingRule = {
+                    update: {
+                        daysAhead: Number(bookingRule.daysAhead),
+                        slotMinutes: Number(bookingRule.slotMinutes),
+                        cancellationCutoffMinutes: Number(
+                            bookingRule.cancellationCutoffMinutes
+                        ),
+                    },
+                };
+            }
+        }
+
         await prisma.restaurant.update({
             where: { id: restaurant.id },
-            data: {
-                name: name ?? undefined,
-                location: location ?? undefined,
-                bookingRule: bookingRule
-                    ? {
-                        upsert: {
-                            update: {
-                                maxPartySize: Number(bookingRule.maxPartySize),
-                                daysAhead: Number(bookingRule.daysAhead),
-                                slotMinutes: Number(bookingRule.slotMinutes),
-                                cancellationCutoffMinutes: Number(
-                                    bookingRule.cancellationCutoffMinutes
-                                ),
-                            },
-                            create: {
-                                maxPartySize: Number(bookingRule.maxPartySize),
-                                daysAhead: Number(bookingRule.daysAhead),
-                                slotMinutes: Number(bookingRule.slotMinutes),
-                                cancellationCutoffMinutes: Number(
-                                    bookingRule.cancellationCutoffMinutes
-                                ),
-                            },
-                        },
-                    }
-                    : undefined,
-            },
+            data: updateData,
         });
 
         if (Array.isArray(openingHours)) {
@@ -109,12 +120,24 @@ async function updateOwnerRestaurantProfile(req, res) {
         const updatedRestaurant = await prisma.restaurant.findUnique({
             where: { id: restaurant.id },
             include: {
+                owner: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                    },
+                },
                 bookingRule: true,
                 openingHours: {
                     orderBy: { day: "asc" },
                 },
                 accessibility: {
                     include: { option: true },
+                },
+                tags: {
+                    include: {
+                        tag: true,
+                    },
                 },
             },
         });

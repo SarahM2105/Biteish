@@ -26,6 +26,7 @@ model Restaurant {
   id            String                    @id @default(uuid())
   ownerId       String
   name          String
+  description String?
   location      String
   latitude      Float?
   longitude     Float?

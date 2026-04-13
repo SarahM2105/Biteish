@@ -24,6 +24,7 @@ import OwnerRestaurantSettings from "./pages/owner/OwnerRestaurantSettings";
 import OwnerProfilePreference from "./pages/owner/OwnerProfilePreference";
 import OwnerMenu from "./pages/owner/OwnerMenu";
 import CustomerFavourites from "./pages/customer/CustomerFavourites";
+import OwnerEditRestaurantProfile from "./pages/owner/OwnerEditRestaurantProfile";
 import { ThemeProvider} from "./ThemeContext";
 
 function App() {
@@ -106,6 +107,11 @@ function App() {
             <Route path="/owner/restaurant/profile" element={
                 <ProtectedRoutes allowedRoles={["OWNER"]}>
                     <OwnerRestaurantProfile/>
+                </ProtectedRoutes>
+            }/>
+            <Route path="/owner/restaurant/edit" element={
+                <ProtectedRoutes allowedRoles={["OWNER"]}>
+                    <OwnerEditRestaurantProfile />
                 </ProtectedRoutes>
             }/>
             <Route path="/owner/analytics" element={

@@ -4349,6 +4349,7 @@ export namespace Prisma {
     id: string | null
     ownerId: string | null
     name: string | null
+    description: string | null
     location: string | null
     latitude: number | null
     longitude: number | null
@@ -4359,6 +4360,7 @@ export namespace Prisma {
     id: string | null
     ownerId: string | null
     name: string | null
+    description: string | null
     location: string | null
     latitude: number | null
     longitude: number | null
@@ -4369,6 +4371,7 @@ export namespace Prisma {
     id: number
     ownerId: number
     name: number
+    description: number
     location: number
     latitude: number
     longitude: number
@@ -4391,6 +4394,7 @@ export namespace Prisma {
     id?: true
     ownerId?: true
     name?: true
+    description?: true
     location?: true
     latitude?: true
     longitude?: true
@@ -4401,6 +4405,7 @@ export namespace Prisma {
     id?: true
     ownerId?: true
     name?: true
+    description?: true
     location?: true
     latitude?: true
     longitude?: true
@@ -4411,6 +4416,7 @@ export namespace Prisma {
     id?: true
     ownerId?: true
     name?: true
+    description?: true
     location?: true
     latitude?: true
     longitude?: true
@@ -4508,6 +4514,7 @@ export namespace Prisma {
     id: string
     ownerId: string
     name: string
+    description: string | null
     location: string
     latitude: number | null
     longitude: number | null
@@ -4537,6 +4544,7 @@ export namespace Prisma {
     id?: boolean
     ownerId?: boolean
     name?: boolean
+    description?: boolean
     location?: boolean
     latitude?: boolean
     longitude?: boolean
@@ -4558,6 +4566,7 @@ export namespace Prisma {
     id?: boolean
     ownerId?: boolean
     name?: boolean
+    description?: boolean
     location?: boolean
     latitude?: boolean
     longitude?: boolean
@@ -4569,6 +4578,7 @@ export namespace Prisma {
     id?: boolean
     ownerId?: boolean
     name?: boolean
+    description?: boolean
     location?: boolean
     latitude?: boolean
     longitude?: boolean
@@ -4580,13 +4590,14 @@ export namespace Prisma {
     id?: boolean
     ownerId?: boolean
     name?: boolean
+    description?: boolean
     location?: boolean
     latitude?: boolean
     longitude?: boolean
     verified?: boolean
   }
 
-  export type RestaurantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerId" | "name" | "location" | "latitude" | "longitude" | "verified", ExtArgs["result"]["restaurant"]>
+  export type RestaurantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerId" | "name" | "description" | "location" | "latitude" | "longitude" | "verified", ExtArgs["result"]["restaurant"]>
   export type RestaurantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookingRule?: boolean | Restaurant$bookingRuleArgs<ExtArgs>
     favorites?: boolean | Restaurant$favoritesArgs<ExtArgs>
@@ -4625,6 +4636,7 @@ export namespace Prisma {
       id: string
       ownerId: string
       name: string
+      description: string | null
       location: string
       latitude: number | null
       longitude: number | null
@@ -5065,6 +5077,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Restaurant", 'String'>
     readonly ownerId: FieldRef<"Restaurant", 'String'>
     readonly name: FieldRef<"Restaurant", 'String'>
+    readonly description: FieldRef<"Restaurant", 'String'>
     readonly location: FieldRef<"Restaurant", 'String'>
     readonly latitude: FieldRef<"Restaurant", 'Float'>
     readonly longitude: FieldRef<"Restaurant", 'Float'>
@@ -25442,6 +25455,7 @@ export namespace Prisma {
     id: 'id',
     ownerId: 'ownerId',
     name: 'name',
+    description: 'description',
     location: 'location',
     latitude: 'latitude',
     longitude: 'longitude',
@@ -25904,6 +25918,7 @@ export namespace Prisma {
     id?: StringFilter<"Restaurant"> | string
     ownerId?: StringFilter<"Restaurant"> | string
     name?: StringFilter<"Restaurant"> | string
+    description?: StringNullableFilter<"Restaurant"> | string | null
     location?: StringFilter<"Restaurant"> | string
     latitude?: FloatNullableFilter<"Restaurant"> | number | null
     longitude?: FloatNullableFilter<"Restaurant"> | number | null
@@ -25924,6 +25939,7 @@ export namespace Prisma {
     id?: SortOrder
     ownerId?: SortOrder
     name?: SortOrder
+    description?: SortOrderInput | SortOrder
     location?: SortOrder
     latitude?: SortOrderInput | SortOrder
     longitude?: SortOrderInput | SortOrder
@@ -25947,6 +25963,7 @@ export namespace Prisma {
     NOT?: RestaurantWhereInput | RestaurantWhereInput[]
     ownerId?: StringFilter<"Restaurant"> | string
     name?: StringFilter<"Restaurant"> | string
+    description?: StringNullableFilter<"Restaurant"> | string | null
     location?: StringFilter<"Restaurant"> | string
     latitude?: FloatNullableFilter<"Restaurant"> | number | null
     longitude?: FloatNullableFilter<"Restaurant"> | number | null
@@ -25967,6 +25984,7 @@ export namespace Prisma {
     id?: SortOrder
     ownerId?: SortOrder
     name?: SortOrder
+    description?: SortOrderInput | SortOrder
     location?: SortOrder
     latitude?: SortOrderInput | SortOrder
     longitude?: SortOrderInput | SortOrder
@@ -25985,6 +26003,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Restaurant"> | string
     ownerId?: StringWithAggregatesFilter<"Restaurant"> | string
     name?: StringWithAggregatesFilter<"Restaurant"> | string
+    description?: StringNullableWithAggregatesFilter<"Restaurant"> | string | null
     location?: StringWithAggregatesFilter<"Restaurant"> | string
     latitude?: FloatNullableWithAggregatesFilter<"Restaurant"> | number | null
     longitude?: FloatNullableWithAggregatesFilter<"Restaurant"> | number | null
@@ -27183,6 +27202,7 @@ export namespace Prisma {
   export type RestaurantCreateInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -27203,6 +27223,7 @@ export namespace Prisma {
     id?: string
     ownerId: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -27221,6 +27242,7 @@ export namespace Prisma {
   export type RestaurantUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -27241,6 +27263,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -27260,6 +27283,7 @@ export namespace Prisma {
     id?: string
     ownerId: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -27269,6 +27293,7 @@ export namespace Prisma {
   export type RestaurantUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -27279,6 +27304,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -28522,6 +28548,21 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type FloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -28607,6 +28648,7 @@ export namespace Prisma {
     id?: SortOrder
     ownerId?: SortOrder
     name?: SortOrder
+    description?: SortOrder
     location?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
@@ -28622,6 +28664,7 @@ export namespace Prisma {
     id?: SortOrder
     ownerId?: SortOrder
     name?: SortOrder
+    description?: SortOrder
     location?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
@@ -28632,6 +28675,7 @@ export namespace Prisma {
     id?: SortOrder
     ownerId?: SortOrder
     name?: SortOrder
+    description?: SortOrder
     location?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
@@ -28641,6 +28685,24 @@ export namespace Prisma {
   export type RestaurantSumOrderByAggregateInput = {
     latitude?: SortOrder
     longitude?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -28667,21 +28729,6 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type RestaurantScalarRelationFilter = {
     is?: RestaurantWhereInput
     isNot?: RestaurantWhereInput
@@ -28706,24 +28753,6 @@ export namespace Prisma {
     restaurantId?: SortOrder
     name?: SortOrder
     description?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -29917,6 +29946,10 @@ export namespace Prisma {
     connect?: ZoneWhereUniqueInput | ZoneWhereUniqueInput[]
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type NullableFloatFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
@@ -30199,10 +30232,6 @@ export namespace Prisma {
     connectOrCreate?: TableCreateOrConnectWithoutZoneInput | TableCreateOrConnectWithoutZoneInput[]
     createMany?: TableCreateManyZoneInputEnvelope
     connect?: TableWhereUniqueInput | TableWhereUniqueInput[]
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type TableUpdateManyWithoutZoneNestedInput = {
@@ -31048,6 +31077,20 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -31062,6 +31105,34 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -31080,54 +31151,12 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -31416,6 +31445,7 @@ export namespace Prisma {
   export type RestaurantCreateWithoutOwnerInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -31434,6 +31464,7 @@ export namespace Prisma {
   export type RestaurantUncheckedCreateWithoutOwnerInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -31664,6 +31695,7 @@ export namespace Prisma {
     id?: StringFilter<"Restaurant"> | string
     ownerId?: StringFilter<"Restaurant"> | string
     name?: StringFilter<"Restaurant"> | string
+    description?: StringNullableFilter<"Restaurant"> | string | null
     location?: StringFilter<"Restaurant"> | string
     latitude?: FloatNullableFilter<"Restaurant"> | number | null
     longitude?: FloatNullableFilter<"Restaurant"> | number | null
@@ -32283,6 +32315,7 @@ export namespace Prisma {
   export type RestaurantCreateWithoutZonesInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -32302,6 +32335,7 @@ export namespace Prisma {
     id?: string
     ownerId: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -32351,6 +32385,7 @@ export namespace Prisma {
   export type RestaurantUpdateWithoutZonesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -32370,6 +32405,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -32429,6 +32465,7 @@ export namespace Prisma {
   export type RestaurantCreateWithoutTablesInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -32448,6 +32485,7 @@ export namespace Prisma {
     id?: string
     ownerId: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -32540,6 +32578,7 @@ export namespace Prisma {
   export type RestaurantUpdateWithoutTablesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -32559,6 +32598,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -32737,6 +32777,7 @@ export namespace Prisma {
   export type RestaurantCreateWithoutReservationsInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -32756,6 +32797,7 @@ export namespace Prisma {
     id?: string
     ownerId: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -32924,6 +32966,7 @@ export namespace Prisma {
   export type RestaurantUpdateWithoutReservationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -32943,6 +32986,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -33432,6 +33476,7 @@ export namespace Prisma {
   export type RestaurantCreateWithoutReviewsInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -33451,6 +33496,7 @@ export namespace Prisma {
     id?: string
     ownerId: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -33539,6 +33585,7 @@ export namespace Prisma {
   export type RestaurantUpdateWithoutReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -33558,6 +33605,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -33696,6 +33744,7 @@ export namespace Prisma {
   export type RestaurantCreateWithoutFavoritesInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -33715,6 +33764,7 @@ export namespace Prisma {
     id?: string
     ownerId: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -33781,6 +33831,7 @@ export namespace Prisma {
   export type RestaurantUpdateWithoutFavoritesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -33800,6 +33851,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -33856,6 +33908,7 @@ export namespace Prisma {
   export type RestaurantCreateWithoutOpeningHoursInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -33875,6 +33928,7 @@ export namespace Prisma {
     id?: string
     ownerId: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -33908,6 +33962,7 @@ export namespace Prisma {
   export type RestaurantUpdateWithoutOpeningHoursInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -33927,6 +33982,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -33944,6 +34000,7 @@ export namespace Prisma {
   export type RestaurantCreateWithoutBookingRuleInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -33963,6 +34020,7 @@ export namespace Prisma {
     id?: string
     ownerId: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -33996,6 +34054,7 @@ export namespace Prisma {
   export type RestaurantUpdateWithoutBookingRuleInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -34015,6 +34074,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -34155,6 +34215,7 @@ export namespace Prisma {
   export type RestaurantCreateWithoutTagsInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -34174,6 +34235,7 @@ export namespace Prisma {
     id?: string
     ownerId: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -34224,6 +34286,7 @@ export namespace Prisma {
   export type RestaurantUpdateWithoutTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -34243,6 +34306,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -34338,6 +34402,7 @@ export namespace Prisma {
   export type RestaurantCreateWithoutAccessibilityInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -34357,6 +34422,7 @@ export namespace Prisma {
     id?: string
     ownerId: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -34415,6 +34481,7 @@ export namespace Prisma {
   export type RestaurantUpdateWithoutAccessibilityInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -34434,6 +34501,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -34561,6 +34629,7 @@ export namespace Prisma {
   export type RestaurantCreateManyOwnerInput = {
     id?: string
     name: string
+    description?: string | null
     location: string
     latitude?: number | null
     longitude?: number | null
@@ -34711,6 +34780,7 @@ export namespace Prisma {
   export type RestaurantUpdateWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -34729,6 +34799,7 @@ export namespace Prisma {
   export type RestaurantUncheckedUpdateWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -34747,6 +34818,7 @@ export namespace Prisma {
   export type RestaurantUncheckedUpdateManyWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
