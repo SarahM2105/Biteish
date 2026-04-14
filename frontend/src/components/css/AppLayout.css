@@ -1,4 +1,5 @@
 .dashboard-layout {
+    --ui-scale: 0.8;
     min-height: 100vh;
 }
 
@@ -13,10 +14,11 @@
 .dashboard-main {
     flex: 1;
     min-height: 100vh;
-    margin-top: 76px;
-    padding: 32px;
+    margin-top: 68px;
+    padding: 20px 24px 24px;
     transition: margin-left 0.22s ease;
     background: var(--bg);
+    overflow-x: hidden;
 }
 
 .light-mode {
@@ -70,11 +72,11 @@
 }
 
 .dashboard-main.is-collapsed {
-    margin-left: 78px;
+    margin-left: 72px;
 }
 
 .dashboard-main.is-expanded {
-    margin-left: 252px;
+    margin-left: 236px;
 }
 .light-mode .dashboard-main {
     background:
@@ -96,17 +98,17 @@
     position: relative;
     background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
     border: 1px solid var(--border);
-    border-radius: 26px;
-    padding: 24px;
-    margin-bottom: 20px;
-    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.05);
+    border-radius: 22px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.05);
 }
 
 .page-title {
-    margin: 0 0 28px;
-    font-size: 40px;
+    margin: 0 0 22px;
+    font-size: 34px;
     font-weight: 900;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.4px;
     background: linear-gradient(90deg, #ff6a00 0%, #ff3cac 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -117,9 +119,9 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 6px;
+    height: calc(6px * var(--ui-scale));
     width: 100%;
-    border-radius: 26px 26px 0 0;
+    border-radius: calc(26px * var(--ui-scale)) calc(26px * var(--ui-scale)) 0 0;
 }
 
 .dashboard-panel:nth-of-type(1)::before {
@@ -136,20 +138,20 @@
 
 .dashboard-panel h3 {
     margin: 0;
-    font-size: 22px;
+    font-size: calc(22px * var(--ui-scale));
     color: var(--text-main);
 }
 
 @media (max-width: 700px) {
     .dashboard-main {
-        padding: 22px;
+        padding: calc(22px * var(--ui-scale));
     }
 
     .dashboard-main.is-expanded {
-        margin-left: 220px;
+        margin-left: calc(220px * var(--ui-scale));
     }
 
     .page-title {
-        font-size: 32px;
+        font-size: calc(32px * var(--ui-scale));
     }
 }

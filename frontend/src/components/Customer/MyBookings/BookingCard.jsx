@@ -23,6 +23,7 @@ export default function BookingCard({
     const hasChangeRequest =
         Array.isArray(b.reservationChangeRequests) &&
         b.reservationChangeRequests.length > 0;
+
     return (
         <article className="booking-card">
             <div className="booking-card__top">
@@ -31,8 +32,11 @@ export default function BookingCard({
                         {(b.restaurant?.name || "R").slice(0, 1).toUpperCase()}
                     </div>
 
-                    <div>
-                        <h3 className="booking-card__title">{b.restaurant?.name || "Restaurant"}</h3>
+                    <div className="booking-card__content">
+                        <h3 className="booking-card__title">
+                            {b.restaurant?.name || "Restaurant"}
+                        </h3>
+
                         <p className="booking-card__subtitle">
                             {bookingDate.toLocaleDateString("en-GB", {
                                 weekday: "long",
@@ -46,6 +50,10 @@ export default function BookingCard({
                                 minute: "2-digit",
                             })}
                         </p>
+
+                        <p className="booking-card__summary">
+                            Party of {b.partySize} · Table {b.table?.name || "Not assigned"}
+                        </p>
                     </div>
                 </div>
 
@@ -56,47 +64,19 @@ export default function BookingCard({
 
                     {hasChangeRequest && (
                         <div className="booking-card__status booking-card__status--change">
-                            CHANGE REQUEST
+                            Change
                         </div>
                     )}
                 </div>
             </div>
 
-            <div className="booking-card__meta">
-                <div className="booking-card__meta-item">
-                    <span className="booking-card__meta-label">Party size</span>
-                    <span className="booking-card__meta-value">{b.partySize}</span>
-                </div>
-
-                <div className="booking-card__meta-item">
-                    <span className="booking-card__meta-label">Table</span>
-                    <span className="booking-card__meta-value">{b.table?.name || "Not assigned"}</span>
-                </div>
-
-                <div className="booking-card__meta-item">
-                    <span className="booking-card__meta-label">Booking ID</span>
-                    <span className="booking-card__meta-value">{b.id}</span>
-                </div>
-            </div>
-
             {b.notes && (
                 <div className="booking-card__notes">
-                    <span className="booking-card__notes-label">Notes</span>
-                    <p className="booking-card__notes-text">{b.notes}</p>
+                    {b.notes}
                 </div>
             )}
 
             <div className="booking-card__actions">
-                {canEdit(b) && (
-                    <button
-                        type="button"
-                        className="booking-card__button booking-card__button--secondary"
-                        onClick={() => handleRequestChange(b.id)}
-                    >
-                        Request change
-                    </button>
-                )}
-
                 {canShowQr(b) && (
                     <button
                         type="button"
@@ -107,13 +87,23 @@ export default function BookingCard({
                     </button>
                 )}
 
+                {canEdit(b) && (
+                    <button
+                        type="button"
+                        className="booking-card__button booking-card__button--secondary"
+                        onClick={() => handleRequestChange(b.id)}
+                    >
+                        Request change
+                    </button>
+                )}
+
                 {canCancel(b) && (
                     <button
                         type="button"
                         className="booking-card__button booking-card__button--ghost"
                         onClick={() => handleCancel(b.id)}
                     >
-                        Cancel booking
+                        Cancel
                     </button>
                 )}
             </div>
