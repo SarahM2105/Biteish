@@ -1,0 +1,145 @@
+.table-visual.is-selected .table-visual__chair {
+    box-shadow: 0 0 0 2px rgba(255, 138, 61, 0.18);
+}
+
+.table-visual__chair {
+    position: absolute;
+    width: var(--chair-width);
+    height: var(--chair-height);
+    border-radius: 7px 7px 10px 10px;
+    box-sizing: border-box;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
+}
+
+.table-visual__chair::before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    right: 3px;
+    top: 6px;
+}
+
+.light-mode .table-visual--small .table-visual__chair,
+.dark-mode .table-visual--small .table-visual__chair {
+    border: 2px solid rgba(255, 138, 61, 0.6);
+    background: linear-gradient(180deg, rgba(255, 138, 61, 0.18), rgba(255, 105, 199, 0.08));
+}
+
+.light-mode .table-visual--small .table-visual__chair::before,
+.dark-mode .table-visual--small .table-visual__chair::before {
+    border-top: 1.5px solid rgba(255, 138, 61, 0.45);
+}
+
+.light-mode .table-visual--medium .table-visual__chair,
+.dark-mode .table-visual--medium .table-visual__chair {
+    border: 2px solid rgba(250, 204, 21, 0.7);
+    background: linear-gradient(180deg, rgba(250, 204, 21, 0.25), rgba(253, 224, 71, 0.1));
+}
+
+.light-mode .table-visual--medium .table-visual__chair::before,
+.dark-mode .table-visual--medium .table-visual__chair::before {
+    border-top: 1.5px solid rgba(250, 204, 21, 0.5);
+}
+
+.light-mode .table-visual--large .table-visual__chair,
+.dark-mode .table-visual--large .table-visual__chair {
+    border: 2px solid rgba(59, 130, 246, 0.6);
+    background: linear-gradient(180deg, rgba(59, 130, 246, 0.18), rgba(96, 165, 250, 0.08));
+}
+
+.light-mode .table-visual--large .table-visual__chair::before,
+.dark-mode .table-visual--large .table-visual__chair::before {
+    border-top: 1.5px solid rgba(59, 130, 246, 0.42);
+}
+
+.light-mode .table-visual--extra-large .table-visual__chair,
+.dark-mode .table-visual--extra-large .table-visual__chair {
+    border: 2px solid rgba(147, 51, 234, 0.65);
+    background: linear-gradient(180deg, rgba(147, 51, 234, 0.22), rgba(217, 70, 239, 0.1));
+}
+
+.light-mode .table-visual--extra-large .table-visual__chair::before,
+.dark-mode .table-visual--extra-large .table-visual__chair::before {
+    border-top: 1.5px solid rgba(147, 51, 234, 0.45);
+}
+
+.table-visual__chair--top-center,
+.table-visual__chair--bottom-center {
+    left: 50%;
+}
+
+.table-visual__chair--top-center {
+    top: calc(50% - (var(--table-height) / 2) - var(--vertical-gap) - var(--chair-height));
+    transform: translateX(-50%);
+}
+
+.table-visual__chair--bottom-center {
+    top: calc(50% + (var(--table-height) / 2) + var(--vertical-gap));
+    transform: translateX(-50%) rotate(180deg);
+}
+
+.table-visual__chair--left-center,
+.table-visual__chair--left-top,
+.table-visual__chair--left-bottom {
+    left: calc(50% - (var(--table-width) / 2) - var(--chair-gap) - var(--chair-width));
+}
+
+.table-visual__chair--right-center,
+.table-visual__chair--right-top,
+.table-visual__chair--right-bottom {
+    left: calc(50% + (var(--table-width) / 2) + var(--chair-gap));
+}
+
+.table-visual__chair--left-center,
+.table-visual__chair--right-center {
+    top: 50%;
+}
+
+.table-visual__chair--left-center {
+    transform: translateY(-50%) rotate(270deg);
+}
+
+.table-visual__chair--right-center {
+    transform: translateY(-50%) rotate(90deg);
+}
+
+.table-visual__chair--top-left,
+.table-visual__chair--bottom-left {
+    left: calc(50% - (var(--table-width) / 2) + var(--corner-inset));
+}
+
+.table-visual__chair--top-right,
+.table-visual__chair--bottom-right {
+    left: calc(50% + (var(--table-width) / 2) - var(--corner-inset) - var(--chair-width));
+}
+
+.table-visual__chair--top-left,
+.table-visual__chair--top-right {
+    top: calc(50% - (var(--table-height) / 2) - var(--vertical-gap) - var(--chair-height));
+}
+
+.table-visual__chair--bottom-left,
+.table-visual__chair--bottom-right {
+    top: calc(50% + (var(--table-height) / 2) + var(--vertical-gap));
+    transform: rotate(180deg);
+}
+
+.table-visual__chair--left-top,
+.table-visual__chair--right-top {
+    top: calc(50% - var(--side-stack-offset) - (var(--chair-height) / 2));
+}
+
+.table-visual__chair--left-bottom,
+.table-visual__chair--right-bottom {
+    top: calc(50% + var(--side-stack-offset) - (var(--chair-height) / 2));
+}
+
+.table-visual__chair--left-top,
+.table-visual__chair--left-bottom {
+    transform: rotate(270deg);
+}
+
+.table-visual__chair--right-top,
+.table-visual__chair--right-bottom {
+    transform: rotate(90deg);
+}

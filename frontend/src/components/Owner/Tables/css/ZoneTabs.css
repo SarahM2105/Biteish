@@ -1,0 +1,102 @@
+.zone-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.zone-tab {
+    position: relative;
+    display: grid;
+    gap: 12px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 20px;
+    padding: 16px;
+    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.zone-tab:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 138, 61, 0.2);
+}
+
+.zone-tab.is-active {
+    border: 2px solid var(--primary);
+    background: linear-gradient(180deg, rgba(255, 138, 61, 0.1), rgba(255, 105, 199, 0.06));
+    box-shadow:
+            0 0 0 2px rgba(255, 138, 61, 0.2),
+            0 10px 24px rgba(255, 138, 61, 0.12);
+    transform: translateY(-2px);
+}
+
+.zone-tab.is-active::after {
+    content: "Selected";
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1;
+    padding: 6px 10px;
+    border-radius: 999px;
+    box-shadow: 0 8px 18px rgba(255, 138, 61, 0.22);
+}
+
+.zone-tab__main {
+    border: none;
+    background: transparent;
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+    display: grid;
+    gap: 8px;
+}
+
+.zone-tab__name {
+    color: var(--text-main);
+    font-size: 1rem;
+    font-weight: 800;
+    padding-right: 84px;
+}
+
+.zone-tab__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.zone-tab__actions {
+    display: flex;
+    gap: 10px;
+}
+
+.zone-tab__action {
+    min-height: 40px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    color: var(--text-main);
+    border-radius: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.18s ease, opacity 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.zone-tab__action:hover {
+    transform: translateY(-1px);
+}
+
+.zone-tab.is-active .zone-tab__action {
+    border-color: rgba(255, 138, 61, 0.28);
+}
+
+.zone-tab__action--danger {
+    border-color: rgba(239, 68, 68, 0.2);
+    background: rgba(239, 68, 68, 0.08);
+    color: #b91c1c;
+}

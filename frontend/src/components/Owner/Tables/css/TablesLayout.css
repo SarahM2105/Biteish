@@ -1,0 +1,40 @@
+.owner-tables-page {
+    display: grid;
+    gap: 22px;
+}
+
+.owner-tables-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.9fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.zone-tabs--empty,
+.owner-tables-shell {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 24px;
+    padding: 24px;
+}
+
+.zone-tabs__empty,
+.owner-tables-empty {
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+}
+
+.zone-tabs__empty strong,
+.owner-tables-empty h3 {
+    color: var(--text-main);
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.zone-tabs__empty p,
+.owner-tables-empty p {
+    margin: 0;
+    color: var(--text-muted);
+    line-height: 1.7;
+}

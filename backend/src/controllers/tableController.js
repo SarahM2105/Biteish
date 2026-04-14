@@ -5,12 +5,16 @@ async function createTable(req, res) {
         const { zoneId } = req.params;
         const { name, capacity, reservable, active } = req.body;
 
+        const trimmedName = String(name || "").trim();
+
         if (!capacity || capacity < 1) {
             return res.status(400).json({ error: "capacity must be >= 1" });
         }
-        if (!name || typeof name !== "string"){
+
+        if (!trimmedName) {
             return res.status(400).json({ error: "name required" });
         }
+
         const zone = await prisma.zone.findUnique({
             where: { id: zoneId },
             include: { restaurant: true },
@@ -24,11 +28,25 @@ async function createTable(req, res) {
             return res.status(403).json({ error: "not your zone to add a table" });
         }
 
+        const existingTable = await prisma.table.findFirst({
+            where: {
+                restaurantId: zone.restaurantId,
+                name: trimmedName,
+            },
+            select: { id: true },
+        });
+
+        if (existingTable) {
+            return res.status(409).json({
+                error: "A table with this name already exists in your restaurant.",
+            });
+        }
+
         const table = await prisma.table.create({
             data: {
                 zoneId,
                 restaurantId: zone.restaurantId,
-                name,
+                name: trimmedName,
                 capacity,
                 reservable: typeof reservable === "boolean" ? reservable : true,
                 active: typeof active === "boolean" ? active : true,
@@ -37,11 +55,15 @@ async function createTable(req, res) {
 
         return res.status(201).json(table);
     } catch (error) {
+        if (error.code === "P2002") {
+            return res.status(409).json({
+                error: "A table with this name already exists in your restaurant.",
+            });
+        }
+
         console.error(error);
         return res.status(500).json({
-            message: error.message,
-            code: error.code,
-            meta: error.meta,
+            error: "server error",
         });
     }
 }
@@ -89,10 +111,31 @@ async function updateTable(req, res) {
             return res.status(403).json({ error: "not your table" });
         }
 
+        const nextName = typeof name === "string" ? name.trim() : table.name;
+
+        if (!nextName) {
+            return res.status(400).json({ error: "name required" });
+        }
+
+        const duplicateTable = await prisma.table.findFirst({
+            where: {
+                restaurantId: table.restaurantId,
+                name: nextName,
+                NOT: { id: tableId },
+            },
+            select: { id: true },
+        });
+
+        if (duplicateTable) {
+            return res.status(409).json({
+                error: "A table with this name already exists in your restaurant.",
+            });
+        }
+
         const updated = await prisma.table.update({
             where: { id: tableId },
             data: {
-                name: name?? table.name,
+                name: nextName,
                 capacity: capacity ?? table.capacity,
                 reservable: typeof reservable === "boolean" ? reservable : table.reservable,
                 active: typeof active === "boolean" ? active : table.active,
@@ -101,6 +144,12 @@ async function updateTable(req, res) {
 
         return res.json(updated);
     } catch (error) {
+        if (error.code === "P2002") {
+            return res.status(409).json({
+                error: "A table with this name already exists in your restaurant.",
+            });
+        }
+
         console.error(error);
         return res.status(500).json({ error: "server error" });
     }
