@@ -1,64 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-
-function getTableVariant(capacity) {
-    const count = Number(capacity) || 1;
-
-    if (count <= 2) return "table-visual__table--two";
-    if (count <= 4) return "table-visual__table--four";
-    if (count <= 6) return "table-visual__table--six";
-    if (count <= 8) return "table-visual__table--eight";
-    if (count <= 12) return "table-visual__table--large";
-    return "table-visual__table--extra-large";
-}
-
-function getStageVariant(capacity) {
-    const count = Number(capacity) || 1;
-
-    if (count <= 2) return "table-visual__stage--two";
-    if (count <= 4) return "table-visual__stage--four";
-    if (count <= 6) return "table-visual__stage--six";
-    if (count <= 8) return "table-visual__stage--eight";
-    if (count <= 12) return "table-visual__stage--large";
-    return "table-visual__stage--extra-large";
-}
-
-function getChairPositions(capacity) {
-    const count = Number(capacity) || 1;
-
-    if (count <= 2) {
-        return ["top-center", "bottom-center"].slice(0, count);
-    }
-
-    if (count <= 4) {
-        return ["top-center", "right-center", "bottom-center", "left-center"].slice(0, count);
-    }
-
-    if (count <= 6) {
-        return [
-            "top-left",
-            "top-right",
-            "right-center",
-            "bottom-right",
-            "bottom-left",
-            "left-center",
-        ].slice(0, count);
-    }
-
-    if (count <= 8) {
-        return [
-            "top-left",
-            "top-right",
-            "right-top",
-            "right-bottom",
-            "bottom-right",
-            "bottom-left",
-            "left-bottom",
-            "left-top",
-        ];
-    }
-
-    return [];
-}
+import React, { useEffect, useState } from "react";
+import TableVisual from "./TableVisual";
 
 export default function TableModal({
                                        open,
@@ -87,10 +28,6 @@ export default function TableModal({
         }
     }, [open, table, initialZoneId, zones]);
 
-    const previewChairs = useMemo(() => getChairPositions(capacity), [capacity]);
-    const tableVariant = useMemo(() => getTableVariant(capacity), [capacity]);
-    const stageVariant = useMemo(() => getStageVariant(capacity), [capacity]);
-
     if (!open) return null;
 
     function handleSubmit(event) {
@@ -104,6 +41,15 @@ export default function TableModal({
             active,
         });
     }
+
+    const previewTable = {
+        id: table?.id || "preview-table",
+        name: name || "Table",
+        capacity: Number(capacity) || 0,
+        active,
+        reservable,
+        zoneId,
+    };
 
     return (
         <div className="owner-modal-backdrop">
@@ -204,26 +150,11 @@ export default function TableModal({
                     <div className="owner-table-preview">
                         <p className="owner-table-preview__eyebrow">Live preview</p>
 
-                        <div className={`table-visual table-visual--preview ${active ? "" : "is-inactive"}`}>
-                            <div className={`table-visual__stage ${stageVariant}`}>
-                                <div className={`table-visual__table ${tableVariant}`}>
-                                    <strong>{name || "Table"}</strong>
-                                    <span>{Number(capacity) || 0} seats</span>
-                                    {Number(capacity) > 8 ? (
-                                        <em className="table-visual__type-label">
-                                            {Number(capacity) <= 12 ? "Large table" : "Extra Large"}
-                                        </em>
-                                    ) : null}
-                                </div>
-
-                                {previewChairs.map((position) => (
-                                    <span
-                                        key={position}
-                                        className={`table-visual__chair table-visual__chair--${position}`}
-                                    />
-                                ))}
-                            </div>
-                        </div>
+                        <TableVisual
+                            table={previewTable}
+                            className="table-visual--preview"
+                            onClick={() => {}}
+                        />
 
                         {mode === "edit" ? (
                             <p className="owner-table-preview__note">

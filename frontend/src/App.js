@@ -19,6 +19,7 @@ import CustomerBookingPage from "./pages/customer/CustomerBookingPage";
 import ProtectedRoutes from "./components/utils/ProtectedRoute";
 import OwnerCheckIn from "./pages/owner/OwnerCheckIn"
 import OwnerRestaurantProfile from "./pages/owner/OwnerRestaurantProfile";
+import CheckInResult from "./components/Owner/Check-In/CheckInResult";
 import OwnerAnalytics from "./pages/owner/OwnerAnalytics";
 import OwnerRestaurantSettings from "./pages/owner/OwnerRestaurantSettings";
 import OwnerProfilePreference from "./pages/owner/OwnerProfilePreference";
@@ -102,6 +103,11 @@ function App() {
             <Route path="/owner/check-ins" element={
                 <ProtectedRoutes allowedRoles={["OWNER"]}>
                     <OwnerCheckIn/>
+                </ProtectedRoutes>
+            }/>
+            <Route path="/owner/check-in/result" element={
+                <ProtectedRoutes allowedRoles={["OWNER"]}>
+                    <CheckInResult/>
                 </ProtectedRoutes>
             }/>
             <Route path="/owner/restaurant/profile" element={

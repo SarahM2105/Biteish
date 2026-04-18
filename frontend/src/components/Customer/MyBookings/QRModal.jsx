@@ -1,16 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function QRModal({
-                                           showQrModal,
-                                           qrImage,
-                                           qrToken,
-                                           qrExpiresAt,
-                                           handleCloseQrModal,
-                                       }) {
+                                    showQrModal,
+                                    qrImage,
+                                    qrToken,
+                                    qrExpiresAt,
+                                    handleCloseQrModal,
+                                }) {
+    const [copied, setCopied] = useState(false);
+
     if (!showQrModal || !qrImage) return null;
+
+    function handleCopy() {
+        if (!qrToken) return;
+
+        navigator.clipboard.writeText(qrToken);
+        setCopied(true);
+
+        setTimeout(() => {
+            setCopied(false);
+        }, 2000);
+    }
+
     return (
         <div className="booking-qr-modal" onClick={handleCloseQrModal}>
-            <div className="booking-qr-modal__card" onClick={(e) => e.stopPropagation()}>
+            <div
+                className="booking-qr-modal__card"
+                onClick={(e) => e.stopPropagation()}
+            >
                 <button
                     type="button"
                     className="booking-qr-modal__close"
@@ -31,21 +48,28 @@ export default function QRModal({
 
                 {qrToken && (
                     <div className="booking-qr-modal__token-section">
-                        <div className="booking-qr-modal__token-label">Booking Code</div>
-                        <div className="booking-qr-modal__token">{qrToken}</div>
+                        <div className="booking-qr-modal__token-label">
+                            Booking Code
+                        </div>
+
+                        <div className="booking-qr-modal__token">
+                            {qrToken}
+                        </div>
+
                         <button
                             type="button"
                             className="booking-qr-modal__copy"
-                            onClick={() => navigator.clipboard.writeText(qrToken)}
+                            onClick={handleCopy}
                         >
-                            Copy code
+                            {copied ? "Copied!" : "Copy code"}
                         </button>
                     </div>
                 )}
 
                 {qrExpiresAt && (
                     <div className="booking-qr-modal__expires">
-                        Expires: {new Date(qrExpiresAt).toLocaleString("en-GB")}
+                        Expires:{" "}
+                        {new Date(qrExpiresAt).toLocaleString("en-GB")}
                     </div>
                 )}
             </div>

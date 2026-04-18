@@ -1,0 +1,104 @@
+.checkin-card {
+    display: grid;
+    gap: 20px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 26px;
+    padding: 24px;
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.checkin-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 5px;
+    background: linear-gradient(90deg, #ff7a18 0%, #ff6a00 35%, #ff4fa3 100%);
+}
+
+.checkin-card__header {
+    display: grid;
+    gap: 6px;
+    padding-top: 8px;
+}
+
+.checkin-card__header h3 {
+    margin: 0;
+    color: var(--text-main);
+    font-size: 1.55rem;
+    font-weight: 900;
+    line-height: 1.08;
+}
+
+.checkin-card__header p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.97rem;
+    line-height: 1.65;
+}
+
+.checkin-status {
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.66);
+    border-radius: 14px;
+    padding: 12px 14px;
+    color: var(--text-main);
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.checkin-result {
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.66);
+    display: grid;
+    gap: 8px;
+}
+
+.checkin-result h4 {
+    margin: 0 0 4px;
+    color: var(--text-main);
+    font-size: 1.05rem;
+    font-weight: 900;
+}
+
+.checkin-result div {
+    color: var(--text-main);
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.checkin-empty-state {
+    border: 1px dashed var(--border);
+    background: rgba(255, 255, 255, 0.54);
+    border-radius: 16px;
+    padding: 16px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.checkin-helper-text {
+    margin: -4px 0 4px;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.checkin-scanner-shell {
+    width: 100%;
+    max-width: 420px;
+    overflow: hidden;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.75);
+}
+
+@media (max-width: 768px) {
+    .checkin-card {
+        padding: 18px;
+    }
+}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppLayout from "../../layouts/AppLayout";
 import OwnerSideNav from "../../components/OwnerSideNav";
-import "../../components/Owner/Dashboard/Dashboard.css";
+import "../../components/Owner/Dashboard/css/Dashboard.css";
 import { useTheme } from "../../ThemeContext";
 import useOwnerDashboard from "../../hooks/useOwnerDashboard";
 import DashboardHero from "../../components/Owner/Dashboard/Header";
@@ -10,6 +10,7 @@ import TableLayoutPanel from "../../components/Owner/Dashboard/TableLayoutPanel"
 import ExpectedCustomersPanel from "../../components/Owner/Dashboard/ExpectedCustomersPanel";
 import PendingActivityPanel from "../../components/Owner/Dashboard/PendingActivityPanel";
 import QuickActionsPanel from "../../components/Owner/Dashboard/QuickActionsPanel";
+import LateArrivalsPanel from "../../components/Owner/Dashboard/LateArrivalsPanel";
 
 function OwnerDashboard() {
     const name = localStorage.getItem("name") || "owner";
@@ -60,10 +61,17 @@ function OwnerDashboard() {
                         )}
 
                         <section className="owner-dashboard-grid">
-                            <TableLayoutPanel
-                                layoutSummary={dashboard.layoutSummary}
-                                zoneSummaries={dashboard.zoneSummaries}
-                            />
+                            <div className="owner-panel--wide">
+                                <TableLayoutPanel
+                                    layoutSummary={dashboard.layoutSummary}
+                                    zoneSummaries={dashboard.zoneSummaries}
+                                    zones={dashboard.zones}
+                                />
+                            </div>
+
+                            <div className="owner-panel--wide">
+                                <LateArrivalsPanel />
+                            </div>
 
                             <ExpectedCustomersPanel
                                 expectedGuests={dashboard.expectedGuests}

@@ -1,13 +1,8 @@
-const {prisma} = require("../prismaClient");
-const { getIO } = require("../socket");
-const { sendEmail , buildEmailLayout} = require("../utils/emailService");
-const {buildBookingEmailData} = require("../utils/emailDataBuilder");
-
-function bookingsOverlap(startA, endA, startB, endB){
-    return startA < endB && startB < endA;
-}
-const crypto = require("crypto");
-const QRCode = require("qrcode");
+const {prisma} = require("../../prismaClient");
+const {buildBookingEmailData} = require("../../utils/emailDataBuilder");
+const {buildEmailLayout, sendEmail} = require("../../utils/emailService");
+const {getIO} = require("../../socket");
+const {bookingsOverlap} = require("../../utils/bookingsOverlap");
 
 async function createBooking(req, res) {
     try{
@@ -72,8 +67,11 @@ async function createBooking(req, res) {
         const existingReservation = await prisma.reservation.findMany({
             where: {
                 tableId,
-                status: { in: ["PENDING", "CONFIRMED"]}
-            }
+                status: { in: ["PENDING", "CONFIRMED"] },
+                endsAt: {
+                    gt: new Date(startsAt),
+                },
+            },
         });
         const conflict = existingReservation.some(r =>
             bookingsOverlap(
@@ -318,190 +316,4 @@ async function cancelReservation(req, res) {
     }
 }
 
-async function approveReservation(req, res) {
-    try {
-        const {reservationId} = req.params;
-        const reservation = await prisma.reservation.findUnique({
-            where: {id: reservationId},
-            include: {
-                user: true,
-                restaurant: true,
-                table:{
-                    include: {restaurant:true}
-                }
-            }
-        });
-
-        if (!reservation || reservation.table.restaurant.ownerId !== req.user.userId) {
-            return res.status(403).json({error: "Not authorised"});
-        }
-        if (reservation.status !== "PENDING") {
-            return res.status(400).json({error: "only pending reservations"});
-        }
-        await prisma.reservation.update({
-            where: {id: reservationId},
-            data: {status: "CONFIRMED"}
-        });
-
-        const qrToken = crypto.randomUUID();
-        const expiresAt = new Date(
-            new Date(reservation.startsAt).getTime() +30*60*1000 // for now expires 30 mins after booking starts
-        );
-
-        await prisma.qrToken.upsert({
-            where: { reservationId: reservationId },
-            update: {
-                token: qrToken,
-                expiresAt,
-                used:false,
-            },
-            create: {
-                reservationId: reservationId,
-                token: qrToken,
-                expiresAt,
-                used:false,
-            },
-        });
-
-        try{
-            const html = buildEmailLayout({
-                title: "Booking Confirmed",
-                greeting: `Hello ${reservation.user?.name || "customer"},`,
-                intro: `Your booking request for ${reservation.restaurant?.name || "the restaurant"} has been confirmed.`,
-                content: `<p><strong>Date:</strong> ${new Date(reservation.startsAt).toLocaleDateString("en-GB")}</p>
-                <p><strong>Time:</strong> ${new Date(reservation.startsAt).toLocaleTimeString("en-GB",{
-                    hour: "2-digit",
-                    minute:"2-digit"}
-                )}</p>
-                <p><strong>Party Size:</strong> ${reservation.partySize}</p>
-                <p><strong>Status:</strong> Confirmed</p>`,
-                actionText: "view my bookings",
-                actionUrl: `${process.env.FRONTEND_URL}/customer/bookings`
-            });
-            if (reservation.user?.email) {
-                await sendEmail({
-                    to: reservation.user.email,
-                    subject: "your booking has now been confirmed",
-                    text: `Your booking for ${reservation.restaurant?.name || "the restaurant"} has been confirmed.`,
-                    html
-                });
-            }
-        } catch (error){
-            console.error("failed to send new booking approval email: ", error )
-        }
-        try {
-            const io = getIO();
-            io.to(`user:${reservation.table.restaurant.ownerId}`).emit("reservation:updated",{
-                reservationId,
-                status: "CONFIRMED",
-            });
-            io.to(`user:${reservation.userId}`).emit("reservation:updated",{
-                reservationId,
-                status: "CONFIRMED",
-            })
-        } catch {}
-        return res.status(200).json({message: "Approved reservation"});
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({message: "Server error"});
-    }
-}
-
-async function declineReservation(req, res) {
-    try {
-        const {reservationId} = req.params;
-        const reservation = await prisma.reservation.findUnique({
-            where: {id: reservationId},
-            include: {
-                user: true,
-                restaurant: true,
-                table:{
-                    include: {restaurant:true}
-                }
-            }
-        });
-
-        if (!reservation|| reservation.table.restaurant.ownerId !== req.user.userId){
-            return res.status(403).json({ error: "Not Authorised"});
-        }
-        if (reservation.status !== "PENDING"){
-            return res.status(400).json({
-                error: "Only pending reservations can be declined"
-            });
-        }
-
-        await prisma.reservation.update({
-            where: {id: reservationId},
-            data: {status: "DECLINED"}
-        });
-
-        try{
-            const html = buildEmailLayout({
-                title: "Booking Confirmed",
-                greeting: `Hello ${reservation.user?.name || "customer"},`,
-                intro: `Unfortunately your booking request for ${reservation.restaurant?.name || "the restaurant"} has been declined.`,
-                content: `<p><strong>Date:</strong> ${new Date(reservation.startsAt).toLocaleDateString("en-GB")}</p>
-                <p><strong>Time:</strong> ${new Date(reservation.startsAt).toLocaleTimeString("en-GB",{
-                    hour: "2-digit",
-                    minute:"2-digit"}
-                )}</p>
-                <p><strong>Party Size:</strong> ${reservation.partySize}</p>
-                <p><strong>Status:</strong> Declined</p>`,
-                actionText: "Browse Restaurants",
-                actionUrl: `${process.env.FRONTEND_URL}/restaurants`
-            });
-            if (reservation.user?.email) {
-                await sendEmail({
-                    to: reservation.user.email,
-                    subject: "your booking request was declined",
-                    text: `Your booking for ${reservation.restaurant?.name || "the restaurant"} has been declined.`,
-                    html
-                });
-            }
-        } catch (error){
-            console.error("failed to send new booking decline email: ", error )
-        }
-        try{
-            const io = getIO();
-            io.to(`user:${reservation.userId}`).emit("reservation:updated", {
-                reservationId,
-                status: "DECLINED",
-            });
-        } catch{}
-        return res.status(200).json({message: "Declined reservation"});
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({message: "Server error"});
-    }
-}
-
-async function listPendingReservations(req, res) {
-    try {
-        const ownerId = req.user.userId;
-
-        const reservations = await prisma.reservation.findMany({
-            where: {
-                status: "PENDING",
-                table: {
-                    restaurant: {
-                        ownerId: ownerId,
-                    },
-                },
-            },
-            include: {
-                user: { select: { id: true, name: true, email: true } },
-                table: { select: { id: true, name: true, capacity: true } },
-                restaurant: { select: { id: true, name: true } },
-            },
-            orderBy: { startsAt: "asc" },
-            take: 200,
-        });
-
-        return res.status(200).json(reservations);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Server error" });
-    }
-}
-
-module.exports = {createBooking, listUserReservations, updateReservation, cancelReservation, approveReservation, declineReservation, listPendingReservations};
+module.exports = {createBooking, listUserReservations, updateReservation, cancelReservation};

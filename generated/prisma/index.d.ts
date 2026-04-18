@@ -9048,6 +9048,8 @@ export namespace Prisma {
     id: string | null
     restaurantId: string | null
     userId: string | null
+    guestName: string | null
+    isWalkIn: boolean | null
     tableId: string | null
     startsAt: Date | null
     endsAt: Date | null
@@ -9062,6 +9064,8 @@ export namespace Prisma {
     id: string | null
     restaurantId: string | null
     userId: string | null
+    guestName: string | null
+    isWalkIn: boolean | null
     tableId: string | null
     startsAt: Date | null
     endsAt: Date | null
@@ -9076,6 +9080,8 @@ export namespace Prisma {
     id: number
     restaurantId: number
     userId: number
+    guestName: number
+    isWalkIn: number
     tableId: number
     startsAt: number
     endsAt: number
@@ -9100,6 +9106,8 @@ export namespace Prisma {
     id?: true
     restaurantId?: true
     userId?: true
+    guestName?: true
+    isWalkIn?: true
     tableId?: true
     startsAt?: true
     endsAt?: true
@@ -9114,6 +9122,8 @@ export namespace Prisma {
     id?: true
     restaurantId?: true
     userId?: true
+    guestName?: true
+    isWalkIn?: true
     tableId?: true
     startsAt?: true
     endsAt?: true
@@ -9128,6 +9138,8 @@ export namespace Prisma {
     id?: true
     restaurantId?: true
     userId?: true
+    guestName?: true
+    isWalkIn?: true
     tableId?: true
     startsAt?: true
     endsAt?: true
@@ -9228,7 +9240,9 @@ export namespace Prisma {
   export type ReservationGroupByOutputType = {
     id: string
     restaurantId: string
-    userId: string
+    userId: string | null
+    guestName: string | null
+    isWalkIn: boolean
     tableId: string
     startsAt: Date
     endsAt: Date
@@ -9262,6 +9276,8 @@ export namespace Prisma {
     id?: boolean
     restaurantId?: boolean
     userId?: boolean
+    guestName?: boolean
+    isWalkIn?: boolean
     tableId?: boolean
     startsAt?: boolean
     endsAt?: boolean
@@ -9274,7 +9290,7 @@ export namespace Prisma {
     qrToken?: boolean | Reservation$qrTokenArgs<ExtArgs>
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     table?: boolean | TableDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | Reservation$userArgs<ExtArgs>
     ReservationChangeRequest?: boolean | Reservation$ReservationChangeRequestArgs<ExtArgs>
     _count?: boolean | ReservationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
@@ -9283,6 +9299,8 @@ export namespace Prisma {
     id?: boolean
     restaurantId?: boolean
     userId?: boolean
+    guestName?: boolean
+    isWalkIn?: boolean
     tableId?: boolean
     startsAt?: boolean
     endsAt?: boolean
@@ -9293,13 +9311,15 @@ export namespace Prisma {
     createdAt?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     table?: boolean | TableDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | Reservation$userArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
 
   export type ReservationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     restaurantId?: boolean
     userId?: boolean
+    guestName?: boolean
+    isWalkIn?: boolean
     tableId?: boolean
     startsAt?: boolean
     endsAt?: boolean
@@ -9310,13 +9330,15 @@ export namespace Prisma {
     createdAt?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     table?: boolean | TableDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | Reservation$userArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
 
   export type ReservationSelectScalar = {
     id?: boolean
     restaurantId?: boolean
     userId?: boolean
+    guestName?: boolean
+    isWalkIn?: boolean
     tableId?: boolean
     startsAt?: boolean
     endsAt?: boolean
@@ -9327,25 +9349,25 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "restaurantId" | "userId" | "tableId" | "startsAt" | "endsAt" | "partySize" | "notes" | "checkedInAt" | "status" | "createdAt", ExtArgs["result"]["reservation"]>
+  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "restaurantId" | "userId" | "guestName" | "isWalkIn" | "tableId" | "startsAt" | "endsAt" | "partySize" | "notes" | "checkedInAt" | "status" | "createdAt", ExtArgs["result"]["reservation"]>
   export type ReservationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     notifications?: boolean | Reservation$notificationsArgs<ExtArgs>
     qrToken?: boolean | Reservation$qrTokenArgs<ExtArgs>
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     table?: boolean | TableDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | Reservation$userArgs<ExtArgs>
     ReservationChangeRequest?: boolean | Reservation$ReservationChangeRequestArgs<ExtArgs>
     _count?: boolean | ReservationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ReservationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     table?: boolean | TableDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | Reservation$userArgs<ExtArgs>
   }
   export type ReservationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     table?: boolean | TableDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | Reservation$userArgs<ExtArgs>
   }
 
   export type $ReservationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9355,13 +9377,15 @@ export namespace Prisma {
       qrToken: Prisma.$QrTokenPayload<ExtArgs> | null
       restaurant: Prisma.$RestaurantPayload<ExtArgs>
       table: Prisma.$TablePayload<ExtArgs>
-      user: Prisma.$UserPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs> | null
       ReservationChangeRequest: Prisma.$ReservationChangeRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       restaurantId: string
-      userId: string
+      userId: string | null
+      guestName: string | null
+      isWalkIn: boolean
       tableId: string
       startsAt: Date
       endsAt: Date
@@ -9768,7 +9792,7 @@ export namespace Prisma {
     qrToken<T extends Reservation$qrTokenArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$qrTokenArgs<ExtArgs>>): Prisma__QrTokenClient<$Result.GetResult<Prisma.$QrTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     restaurant<T extends RestaurantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RestaurantDefaultArgs<ExtArgs>>): Prisma__RestaurantClient<$Result.GetResult<Prisma.$RestaurantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     table<T extends TableDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TableDefaultArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends Reservation$userArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ReservationChangeRequest<T extends Reservation$ReservationChangeRequestArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$ReservationChangeRequestArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -9802,6 +9826,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Reservation", 'String'>
     readonly restaurantId: FieldRef<"Reservation", 'String'>
     readonly userId: FieldRef<"Reservation", 'String'>
+    readonly guestName: FieldRef<"Reservation", 'String'>
+    readonly isWalkIn: FieldRef<"Reservation", 'Boolean'>
     readonly tableId: FieldRef<"Reservation", 'String'>
     readonly startsAt: FieldRef<"Reservation", 'DateTime'>
     readonly endsAt: FieldRef<"Reservation", 'DateTime'>
@@ -10246,6 +10272,25 @@ export namespace Prisma {
      */
     include?: QrTokenInclude<ExtArgs> | null
     where?: QrTokenWhereInput
+  }
+
+  /**
+   * Reservation.user
+   */
+  export type Reservation$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -17980,6 +18025,7 @@ export namespace Prisma {
     daysAhead: number | null
     slotMinutes: number | null
     cancellationCutoffMinutes: number | null
+    graceMinutes: number | null
   }
 
   export type BookingRuleSumAggregateOutputType = {
@@ -17987,6 +18033,7 @@ export namespace Prisma {
     daysAhead: number | null
     slotMinutes: number | null
     cancellationCutoffMinutes: number | null
+    graceMinutes: number | null
   }
 
   export type BookingRuleMinAggregateOutputType = {
@@ -17996,6 +18043,7 @@ export namespace Prisma {
     daysAhead: number | null
     slotMinutes: number | null
     cancellationCutoffMinutes: number | null
+    graceMinutes: number | null
   }
 
   export type BookingRuleMaxAggregateOutputType = {
@@ -18005,6 +18053,7 @@ export namespace Prisma {
     daysAhead: number | null
     slotMinutes: number | null
     cancellationCutoffMinutes: number | null
+    graceMinutes: number | null
   }
 
   export type BookingRuleCountAggregateOutputType = {
@@ -18014,6 +18063,7 @@ export namespace Prisma {
     daysAhead: number
     slotMinutes: number
     cancellationCutoffMinutes: number
+    graceMinutes: number
     _all: number
   }
 
@@ -18023,6 +18073,7 @@ export namespace Prisma {
     daysAhead?: true
     slotMinutes?: true
     cancellationCutoffMinutes?: true
+    graceMinutes?: true
   }
 
   export type BookingRuleSumAggregateInputType = {
@@ -18030,6 +18081,7 @@ export namespace Prisma {
     daysAhead?: true
     slotMinutes?: true
     cancellationCutoffMinutes?: true
+    graceMinutes?: true
   }
 
   export type BookingRuleMinAggregateInputType = {
@@ -18039,6 +18091,7 @@ export namespace Prisma {
     daysAhead?: true
     slotMinutes?: true
     cancellationCutoffMinutes?: true
+    graceMinutes?: true
   }
 
   export type BookingRuleMaxAggregateInputType = {
@@ -18048,6 +18101,7 @@ export namespace Prisma {
     daysAhead?: true
     slotMinutes?: true
     cancellationCutoffMinutes?: true
+    graceMinutes?: true
   }
 
   export type BookingRuleCountAggregateInputType = {
@@ -18057,6 +18111,7 @@ export namespace Prisma {
     daysAhead?: true
     slotMinutes?: true
     cancellationCutoffMinutes?: true
+    graceMinutes?: true
     _all?: true
   }
 
@@ -18153,6 +18208,7 @@ export namespace Prisma {
     daysAhead: number
     slotMinutes: number
     cancellationCutoffMinutes: number
+    graceMinutes: number
     _count: BookingRuleCountAggregateOutputType | null
     _avg: BookingRuleAvgAggregateOutputType | null
     _sum: BookingRuleSumAggregateOutputType | null
@@ -18181,6 +18237,7 @@ export namespace Prisma {
     daysAhead?: boolean
     slotMinutes?: boolean
     cancellationCutoffMinutes?: boolean
+    graceMinutes?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bookingRule"]>
 
@@ -18191,6 +18248,7 @@ export namespace Prisma {
     daysAhead?: boolean
     slotMinutes?: boolean
     cancellationCutoffMinutes?: boolean
+    graceMinutes?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bookingRule"]>
 
@@ -18201,6 +18259,7 @@ export namespace Prisma {
     daysAhead?: boolean
     slotMinutes?: boolean
     cancellationCutoffMinutes?: boolean
+    graceMinutes?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bookingRule"]>
 
@@ -18211,9 +18270,10 @@ export namespace Prisma {
     daysAhead?: boolean
     slotMinutes?: boolean
     cancellationCutoffMinutes?: boolean
+    graceMinutes?: boolean
   }
 
-  export type BookingRuleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "restaurantId" | "maxPartySize" | "daysAhead" | "slotMinutes" | "cancellationCutoffMinutes", ExtArgs["result"]["bookingRule"]>
+  export type BookingRuleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "restaurantId" | "maxPartySize" | "daysAhead" | "slotMinutes" | "cancellationCutoffMinutes" | "graceMinutes", ExtArgs["result"]["bookingRule"]>
   export type BookingRuleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
   }
@@ -18236,6 +18296,7 @@ export namespace Prisma {
       daysAhead: number
       slotMinutes: number
       cancellationCutoffMinutes: number
+      graceMinutes: number
     }, ExtArgs["result"]["bookingRule"]>
     composites: {}
   }
@@ -18666,6 +18727,7 @@ export namespace Prisma {
     readonly daysAhead: FieldRef<"BookingRule", 'Int'>
     readonly slotMinutes: FieldRef<"BookingRule", 'Int'>
     readonly cancellationCutoffMinutes: FieldRef<"BookingRule", 'Int'>
+    readonly graceMinutes: FieldRef<"BookingRule", 'Int'>
   }
     
 
@@ -25503,6 +25565,8 @@ export namespace Prisma {
     id: 'id',
     restaurantId: 'restaurantId',
     userId: 'userId',
+    guestName: 'guestName',
+    isWalkIn: 'isWalkIn',
     tableId: 'tableId',
     startsAt: 'startsAt',
     endsAt: 'endsAt',
@@ -25608,7 +25672,8 @@ export namespace Prisma {
     maxPartySize: 'maxPartySize',
     daysAhead: 'daysAhead',
     slotMinutes: 'slotMinutes',
-    cancellationCutoffMinutes: 'cancellationCutoffMinutes'
+    cancellationCutoffMinutes: 'cancellationCutoffMinutes',
+    graceMinutes: 'graceMinutes'
   };
 
   export type BookingRuleScalarFieldEnum = (typeof BookingRuleScalarFieldEnum)[keyof typeof BookingRuleScalarFieldEnum]
@@ -26201,7 +26266,9 @@ export namespace Prisma {
     NOT?: ReservationWhereInput | ReservationWhereInput[]
     id?: StringFilter<"Reservation"> | string
     restaurantId?: StringFilter<"Reservation"> | string
-    userId?: StringFilter<"Reservation"> | string
+    userId?: StringNullableFilter<"Reservation"> | string | null
+    guestName?: StringNullableFilter<"Reservation"> | string | null
+    isWalkIn?: BoolFilter<"Reservation"> | boolean
     tableId?: StringFilter<"Reservation"> | string
     startsAt?: DateTimeFilter<"Reservation"> | Date | string
     endsAt?: DateTimeFilter<"Reservation"> | Date | string
@@ -26214,14 +26281,16 @@ export namespace Prisma {
     qrToken?: XOR<QrTokenNullableScalarRelationFilter, QrTokenWhereInput> | null
     restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
     table?: XOR<TableScalarRelationFilter, TableWhereInput>
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     ReservationChangeRequest?: ReservationChangeRequestListRelationFilter
   }
 
   export type ReservationOrderByWithRelationInput = {
     id?: SortOrder
     restaurantId?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    guestName?: SortOrderInput | SortOrder
+    isWalkIn?: SortOrder
     tableId?: SortOrder
     startsAt?: SortOrder
     endsAt?: SortOrder
@@ -26244,7 +26313,9 @@ export namespace Prisma {
     OR?: ReservationWhereInput[]
     NOT?: ReservationWhereInput | ReservationWhereInput[]
     restaurantId?: StringFilter<"Reservation"> | string
-    userId?: StringFilter<"Reservation"> | string
+    userId?: StringNullableFilter<"Reservation"> | string | null
+    guestName?: StringNullableFilter<"Reservation"> | string | null
+    isWalkIn?: BoolFilter<"Reservation"> | boolean
     tableId?: StringFilter<"Reservation"> | string
     startsAt?: DateTimeFilter<"Reservation"> | Date | string
     endsAt?: DateTimeFilter<"Reservation"> | Date | string
@@ -26257,14 +26328,16 @@ export namespace Prisma {
     qrToken?: XOR<QrTokenNullableScalarRelationFilter, QrTokenWhereInput> | null
     restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
     table?: XOR<TableScalarRelationFilter, TableWhereInput>
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     ReservationChangeRequest?: ReservationChangeRequestListRelationFilter
   }, "id">
 
   export type ReservationOrderByWithAggregationInput = {
     id?: SortOrder
     restaurantId?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    guestName?: SortOrderInput | SortOrder
+    isWalkIn?: SortOrder
     tableId?: SortOrder
     startsAt?: SortOrder
     endsAt?: SortOrder
@@ -26286,7 +26359,9 @@ export namespace Prisma {
     NOT?: ReservationScalarWhereWithAggregatesInput | ReservationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Reservation"> | string
     restaurantId?: StringWithAggregatesFilter<"Reservation"> | string
-    userId?: StringWithAggregatesFilter<"Reservation"> | string
+    userId?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
+    guestName?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
+    isWalkIn?: BoolWithAggregatesFilter<"Reservation"> | boolean
     tableId?: StringWithAggregatesFilter<"Reservation"> | string
     startsAt?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
     endsAt?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
@@ -26757,6 +26832,7 @@ export namespace Prisma {
     daysAhead?: IntFilter<"BookingRule"> | number
     slotMinutes?: IntFilter<"BookingRule"> | number
     cancellationCutoffMinutes?: IntFilter<"BookingRule"> | number
+    graceMinutes?: IntFilter<"BookingRule"> | number
     restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
   }
 
@@ -26767,6 +26843,7 @@ export namespace Prisma {
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
+    graceMinutes?: SortOrder
     restaurant?: RestaurantOrderByWithRelationInput
   }
 
@@ -26780,6 +26857,7 @@ export namespace Prisma {
     daysAhead?: IntFilter<"BookingRule"> | number
     slotMinutes?: IntFilter<"BookingRule"> | number
     cancellationCutoffMinutes?: IntFilter<"BookingRule"> | number
+    graceMinutes?: IntFilter<"BookingRule"> | number
     restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
   }, "id" | "restaurantId">
 
@@ -26790,6 +26868,7 @@ export namespace Prisma {
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
+    graceMinutes?: SortOrder
     _count?: BookingRuleCountOrderByAggregateInput
     _avg?: BookingRuleAvgOrderByAggregateInput
     _max?: BookingRuleMaxOrderByAggregateInput
@@ -26807,6 +26886,7 @@ export namespace Prisma {
     daysAhead?: IntWithAggregatesFilter<"BookingRule"> | number
     slotMinutes?: IntWithAggregatesFilter<"BookingRule"> | number
     cancellationCutoffMinutes?: IntWithAggregatesFilter<"BookingRule"> | number
+    graceMinutes?: IntWithAggregatesFilter<"BookingRule"> | number
   }
 
   export type TagCategoryWhereInput = {
@@ -27496,6 +27576,8 @@ export namespace Prisma {
 
   export type ReservationCreateInput = {
     id?: string
+    guestName?: string | null
+    isWalkIn?: boolean
     startsAt: Date | string
     endsAt: Date | string
     partySize: number
@@ -27507,14 +27589,16 @@ export namespace Prisma {
     qrToken?: QrTokenCreateNestedOneWithoutReservationInput
     restaurant: RestaurantCreateNestedOneWithoutReservationsInput
     table: TableCreateNestedOneWithoutReservationsInput
-    user: UserCreateNestedOneWithoutReservationsInput
+    user?: UserCreateNestedOneWithoutReservationsInput
     ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateInput = {
     id?: string
     restaurantId: string
-    userId: string
+    userId?: string | null
+    guestName?: string | null
+    isWalkIn?: boolean
     tableId: string
     startsAt: Date | string
     endsAt: Date | string
@@ -27530,6 +27614,8 @@ export namespace Prisma {
 
   export type ReservationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
@@ -27541,14 +27627,16 @@ export namespace Prisma {
     qrToken?: QrTokenUpdateOneWithoutReservationNestedInput
     restaurant?: RestaurantUpdateOneRequiredWithoutReservationsNestedInput
     table?: TableUpdateOneRequiredWithoutReservationsNestedInput
-    user?: UserUpdateOneRequiredWithoutReservationsNestedInput
+    user?: UserUpdateOneWithoutReservationsNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     restaurantId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     tableId?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27565,7 +27653,9 @@ export namespace Prisma {
   export type ReservationCreateManyInput = {
     id?: string
     restaurantId: string
-    userId: string
+    userId?: string | null
+    guestName?: string | null
+    isWalkIn?: boolean
     tableId: string
     startsAt: Date | string
     endsAt: Date | string
@@ -27578,6 +27668,8 @@ export namespace Prisma {
 
   export type ReservationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
@@ -27590,7 +27682,9 @@ export namespace Prisma {
   export type ReservationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     restaurantId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     tableId?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28055,6 +28149,7 @@ export namespace Prisma {
     daysAhead: number
     slotMinutes: number
     cancellationCutoffMinutes: number
+    graceMinutes?: number
     restaurant: RestaurantCreateNestedOneWithoutBookingRuleInput
   }
 
@@ -28065,6 +28160,7 @@ export namespace Prisma {
     daysAhead: number
     slotMinutes: number
     cancellationCutoffMinutes: number
+    graceMinutes?: number
   }
 
   export type BookingRuleUpdateInput = {
@@ -28073,6 +28169,7 @@ export namespace Prisma {
     daysAhead?: IntFieldUpdateOperationsInput | number
     slotMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
+    graceMinutes?: IntFieldUpdateOperationsInput | number
     restaurant?: RestaurantUpdateOneRequiredWithoutBookingRuleNestedInput
   }
 
@@ -28083,6 +28180,7 @@ export namespace Prisma {
     daysAhead?: IntFieldUpdateOperationsInput | number
     slotMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
+    graceMinutes?: IntFieldUpdateOperationsInput | number
   }
 
   export type BookingRuleCreateManyInput = {
@@ -28092,6 +28190,7 @@ export namespace Prisma {
     daysAhead: number
     slotMinutes: number
     cancellationCutoffMinutes: number
+    graceMinutes?: number
   }
 
   export type BookingRuleUpdateManyMutationInput = {
@@ -28100,6 +28199,7 @@ export namespace Prisma {
     daysAhead?: IntFieldUpdateOperationsInput | number
     slotMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
+    graceMinutes?: IntFieldUpdateOperationsInput | number
   }
 
   export type BookingRuleUncheckedUpdateManyInput = {
@@ -28109,6 +28209,7 @@ export namespace Prisma {
     daysAhead?: IntFieldUpdateOperationsInput | number
     slotMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
+    graceMinutes?: IntFieldUpdateOperationsInput | number
   }
 
   export type TagCategoryCreateInput = {
@@ -28917,10 +29018,17 @@ export namespace Prisma {
     isNot?: QrTokenWhereInput | null
   }
 
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
   export type ReservationCountOrderByAggregateInput = {
     id?: SortOrder
     restaurantId?: SortOrder
     userId?: SortOrder
+    guestName?: SortOrder
+    isWalkIn?: SortOrder
     tableId?: SortOrder
     startsAt?: SortOrder
     endsAt?: SortOrder
@@ -28939,6 +29047,8 @@ export namespace Prisma {
     id?: SortOrder
     restaurantId?: SortOrder
     userId?: SortOrder
+    guestName?: SortOrder
+    isWalkIn?: SortOrder
     tableId?: SortOrder
     startsAt?: SortOrder
     endsAt?: SortOrder
@@ -28953,6 +29063,8 @@ export namespace Prisma {
     id?: SortOrder
     restaurantId?: SortOrder
     userId?: SortOrder
+    guestName?: SortOrder
+    isWalkIn?: SortOrder
     tableId?: SortOrder
     startsAt?: SortOrder
     endsAt?: SortOrder
@@ -29300,6 +29412,7 @@ export namespace Prisma {
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
+    graceMinutes?: SortOrder
   }
 
   export type BookingRuleAvgOrderByAggregateInput = {
@@ -29307,6 +29420,7 @@ export namespace Prisma {
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
+    graceMinutes?: SortOrder
   }
 
   export type BookingRuleMaxOrderByAggregateInput = {
@@ -29316,6 +29430,7 @@ export namespace Prisma {
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
+    graceMinutes?: SortOrder
   }
 
   export type BookingRuleMinOrderByAggregateInput = {
@@ -29325,6 +29440,7 @@ export namespace Prisma {
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
+    graceMinutes?: SortOrder
   }
 
   export type BookingRuleSumOrderByAggregateInput = {
@@ -29332,6 +29448,7 @@ export namespace Prisma {
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
+    graceMinutes?: SortOrder
   }
 
   export type TagListRelationFilter = {
@@ -29467,11 +29584,6 @@ export namespace Prisma {
     in?: $Enums.AuditEntity[] | ListEnumAuditEntityFieldRefInput<$PrismaModel>
     notIn?: $Enums.AuditEntity[] | ListEnumAuditEntityFieldRefInput<$PrismaModel>
     not?: NestedEnumAuditEntityFilter<$PrismaModel> | $Enums.AuditEntity
-  }
-
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
   }
 
   export type AuditLogCountOrderByAggregateInput = {
@@ -30514,10 +30626,12 @@ export namespace Prisma {
     update?: XOR<XOR<TableUpdateToOneWithWhereWithoutReservationsInput, TableUpdateWithoutReservationsInput>, TableUncheckedUpdateWithoutReservationsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutReservationsNestedInput = {
+  export type UserUpdateOneWithoutReservationsNestedInput = {
     create?: XOR<UserCreateWithoutReservationsInput, UserUncheckedCreateWithoutReservationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutReservationsInput
     upsert?: UserUpsertWithoutReservationsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReservationsInput, UserUpdateWithoutReservationsInput>, UserUncheckedUpdateWithoutReservationsInput>
   }
@@ -31402,6 +31516,8 @@ export namespace Prisma {
 
   export type ReservationCreateWithoutUserInput = {
     id?: string
+    guestName?: string | null
+    isWalkIn?: boolean
     startsAt: Date | string
     endsAt: Date | string
     partySize: number
@@ -31419,6 +31535,8 @@ export namespace Prisma {
   export type ReservationUncheckedCreateWithoutUserInput = {
     id?: string
     restaurantId: string
+    guestName?: string | null
+    isWalkIn?: boolean
     tableId: string
     startsAt: Date | string
     endsAt: Date | string
@@ -31661,7 +31779,9 @@ export namespace Prisma {
     NOT?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
     id?: StringFilter<"Reservation"> | string
     restaurantId?: StringFilter<"Reservation"> | string
-    userId?: StringFilter<"Reservation"> | string
+    userId?: StringNullableFilter<"Reservation"> | string | null
+    guestName?: StringNullableFilter<"Reservation"> | string | null
+    isWalkIn?: BoolFilter<"Reservation"> | boolean
     tableId?: StringFilter<"Reservation"> | string
     startsAt?: DateTimeFilter<"Reservation"> | Date | string
     endsAt?: DateTimeFilter<"Reservation"> | Date | string
@@ -31769,6 +31889,7 @@ export namespace Prisma {
     daysAhead: number
     slotMinutes: number
     cancellationCutoffMinutes: number
+    graceMinutes?: number
   }
 
   export type BookingRuleUncheckedCreateWithoutRestaurantInput = {
@@ -31777,6 +31898,7 @@ export namespace Prisma {
     daysAhead: number
     slotMinutes: number
     cancellationCutoffMinutes: number
+    graceMinutes?: number
   }
 
   export type BookingRuleCreateOrConnectWithoutRestaurantInput = {
@@ -31834,6 +31956,8 @@ export namespace Prisma {
 
   export type ReservationCreateWithoutRestaurantInput = {
     id?: string
+    guestName?: string | null
+    isWalkIn?: boolean
     startsAt: Date | string
     endsAt: Date | string
     partySize: number
@@ -31844,13 +31968,15 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutReservationInput
     qrToken?: QrTokenCreateNestedOneWithoutReservationInput
     table: TableCreateNestedOneWithoutReservationsInput
-    user: UserCreateNestedOneWithoutReservationsInput
+    user?: UserCreateNestedOneWithoutReservationsInput
     ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateWithoutRestaurantInput = {
     id?: string
-    userId: string
+    userId?: string | null
+    guestName?: string | null
+    isWalkIn?: boolean
     tableId: string
     startsAt: Date | string
     endsAt: Date | string
@@ -32050,6 +32176,7 @@ export namespace Prisma {
     daysAhead?: IntFieldUpdateOperationsInput | number
     slotMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
+    graceMinutes?: IntFieldUpdateOperationsInput | number
   }
 
   export type BookingRuleUncheckedUpdateWithoutRestaurantInput = {
@@ -32058,6 +32185,7 @@ export namespace Prisma {
     daysAhead?: IntFieldUpdateOperationsInput | number
     slotMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
+    graceMinutes?: IntFieldUpdateOperationsInput | number
   }
 
   export type FavoriteUpsertWithWhereUniqueWithoutRestaurantInput = {
@@ -32422,6 +32550,8 @@ export namespace Prisma {
 
   export type ReservationCreateWithoutTableInput = {
     id?: string
+    guestName?: string | null
+    isWalkIn?: boolean
     startsAt: Date | string
     endsAt: Date | string
     partySize: number
@@ -32432,14 +32562,16 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutReservationInput
     qrToken?: QrTokenCreateNestedOneWithoutReservationInput
     restaurant: RestaurantCreateNestedOneWithoutReservationsInput
-    user: UserCreateNestedOneWithoutReservationsInput
+    user?: UserCreateNestedOneWithoutReservationsInput
     ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateWithoutTableInput = {
     id?: string
     restaurantId: string
-    userId: string
+    userId?: string | null
+    guestName?: string | null
+    isWalkIn?: boolean
     startsAt: Date | string
     endsAt: Date | string
     partySize: number
@@ -33091,6 +33223,8 @@ export namespace Prisma {
 
   export type ReservationCreateWithoutReservationChangeRequestInput = {
     id?: string
+    guestName?: string | null
+    isWalkIn?: boolean
     startsAt: Date | string
     endsAt: Date | string
     partySize: number
@@ -33102,13 +33236,15 @@ export namespace Prisma {
     qrToken?: QrTokenCreateNestedOneWithoutReservationInput
     restaurant: RestaurantCreateNestedOneWithoutReservationsInput
     table: TableCreateNestedOneWithoutReservationsInput
-    user: UserCreateNestedOneWithoutReservationsInput
+    user?: UserCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutReservationChangeRequestInput = {
     id?: string
     restaurantId: string
-    userId: string
+    userId?: string | null
+    guestName?: string | null
+    isWalkIn?: boolean
     tableId: string
     startsAt: Date | string
     endsAt: Date | string
@@ -33172,6 +33308,8 @@ export namespace Prisma {
 
   export type ReservationUpdateWithoutReservationChangeRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
@@ -33183,13 +33321,15 @@ export namespace Prisma {
     qrToken?: QrTokenUpdateOneWithoutReservationNestedInput
     restaurant?: RestaurantUpdateOneRequiredWithoutReservationsNestedInput
     table?: TableUpdateOneRequiredWithoutReservationsNestedInput
-    user?: UserUpdateOneRequiredWithoutReservationsNestedInput
+    user?: UserUpdateOneWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutReservationChangeRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
     restaurantId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     tableId?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33243,6 +33383,8 @@ export namespace Prisma {
 
   export type ReservationCreateWithoutQrTokenInput = {
     id?: string
+    guestName?: string | null
+    isWalkIn?: boolean
     startsAt: Date | string
     endsAt: Date | string
     partySize: number
@@ -33253,14 +33395,16 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutReservationInput
     restaurant: RestaurantCreateNestedOneWithoutReservationsInput
     table: TableCreateNestedOneWithoutReservationsInput
-    user: UserCreateNestedOneWithoutReservationsInput
+    user?: UserCreateNestedOneWithoutReservationsInput
     ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateWithoutQrTokenInput = {
     id?: string
     restaurantId: string
-    userId: string
+    userId?: string | null
+    guestName?: string | null
+    isWalkIn?: boolean
     tableId: string
     startsAt: Date | string
     endsAt: Date | string
@@ -33291,6 +33435,8 @@ export namespace Prisma {
 
   export type ReservationUpdateWithoutQrTokenInput = {
     id?: StringFieldUpdateOperationsInput | string
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
@@ -33301,14 +33447,16 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutReservationNestedInput
     restaurant?: RestaurantUpdateOneRequiredWithoutReservationsNestedInput
     table?: TableUpdateOneRequiredWithoutReservationsNestedInput
-    user?: UserUpdateOneRequiredWithoutReservationsNestedInput
+    user?: UserUpdateOneWithoutReservationsNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutQrTokenInput = {
     id?: StringFieldUpdateOperationsInput | string
     restaurantId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     tableId?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33323,6 +33471,8 @@ export namespace Prisma {
 
   export type ReservationCreateWithoutNotificationsInput = {
     id?: string
+    guestName?: string | null
+    isWalkIn?: boolean
     startsAt: Date | string
     endsAt: Date | string
     partySize: number
@@ -33333,14 +33483,16 @@ export namespace Prisma {
     qrToken?: QrTokenCreateNestedOneWithoutReservationInput
     restaurant: RestaurantCreateNestedOneWithoutReservationsInput
     table: TableCreateNestedOneWithoutReservationsInput
-    user: UserCreateNestedOneWithoutReservationsInput
+    user?: UserCreateNestedOneWithoutReservationsInput
     ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateWithoutNotificationsInput = {
     id?: string
     restaurantId: string
-    userId: string
+    userId?: string | null
+    guestName?: string | null
+    isWalkIn?: boolean
     tableId: string
     startsAt: Date | string
     endsAt: Date | string
@@ -33404,6 +33556,8 @@ export namespace Prisma {
 
   export type ReservationUpdateWithoutNotificationsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
@@ -33414,14 +33568,16 @@ export namespace Prisma {
     qrToken?: QrTokenUpdateOneWithoutReservationNestedInput
     restaurant?: RestaurantUpdateOneRequiredWithoutReservationsNestedInput
     table?: TableUpdateOneRequiredWithoutReservationsNestedInput
-    user?: UserUpdateOneRequiredWithoutReservationsNestedInput
+    user?: UserUpdateOneWithoutReservationsNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutNotificationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     restaurantId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     tableId?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34616,6 +34772,8 @@ export namespace Prisma {
   export type ReservationCreateManyUserInput = {
     id?: string
     restaurantId: string
+    guestName?: string | null
+    isWalkIn?: boolean
     tableId: string
     startsAt: Date | string
     endsAt: Date | string
@@ -34734,6 +34892,8 @@ export namespace Prisma {
 
   export type ReservationUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
@@ -34751,6 +34911,8 @@ export namespace Prisma {
   export type ReservationUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     restaurantId?: StringFieldUpdateOperationsInput | string
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     tableId?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34767,6 +34929,8 @@ export namespace Prisma {
   export type ReservationUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     restaurantId?: StringFieldUpdateOperationsInput | string
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     tableId?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34906,7 +35070,9 @@ export namespace Prisma {
 
   export type ReservationCreateManyRestaurantInput = {
     id?: string
-    userId: string
+    userId?: string | null
+    guestName?: string | null
+    isWalkIn?: boolean
     tableId: string
     startsAt: Date | string
     endsAt: Date | string
@@ -34995,6 +35161,8 @@ export namespace Prisma {
 
   export type ReservationUpdateWithoutRestaurantInput = {
     id?: StringFieldUpdateOperationsInput | string
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
@@ -35005,13 +35173,15 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutReservationNestedInput
     qrToken?: QrTokenUpdateOneWithoutReservationNestedInput
     table?: TableUpdateOneRequiredWithoutReservationsNestedInput
-    user?: UserUpdateOneRequiredWithoutReservationsNestedInput
+    user?: UserUpdateOneWithoutReservationsNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutRestaurantInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     tableId?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35027,7 +35197,9 @@ export namespace Prisma {
 
   export type ReservationUncheckedUpdateManyWithoutRestaurantInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     tableId?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35191,7 +35363,9 @@ export namespace Prisma {
   export type ReservationCreateManyTableInput = {
     id?: string
     restaurantId: string
-    userId: string
+    userId?: string | null
+    guestName?: string | null
+    isWalkIn?: boolean
     startsAt: Date | string
     endsAt: Date | string
     partySize: number
@@ -35210,6 +35384,8 @@ export namespace Prisma {
 
   export type ReservationUpdateWithoutTableInput = {
     id?: StringFieldUpdateOperationsInput | string
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
@@ -35220,14 +35396,16 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutReservationNestedInput
     qrToken?: QrTokenUpdateOneWithoutReservationNestedInput
     restaurant?: RestaurantUpdateOneRequiredWithoutReservationsNestedInput
-    user?: UserUpdateOneRequiredWithoutReservationsNestedInput
+    user?: UserUpdateOneWithoutReservationsNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutTableInput = {
     id?: StringFieldUpdateOperationsInput | string
     restaurantId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number
@@ -35243,7 +35421,9 @@ export namespace Prisma {
   export type ReservationUncheckedUpdateManyWithoutTableInput = {
     id?: StringFieldUpdateOperationsInput | string
     restaurantId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partySize?: IntFieldUpdateOperationsInput | number

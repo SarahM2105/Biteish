@@ -1,0 +1,43 @@
+.checkin-section {
+    display: grid;
+    gap: 12px;
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    padding-top: 18px;
+}
+
+.checkin-section label {
+    color: var(--text-main);
+    font-size: 0.92rem;
+    font-weight: 800;
+}
+
+.checkin-section input,
+.checkin-section select,
+.checkin-section textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: var(--panel-2);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.checkin-section input:focus,
+.checkin-section select:focus,
+.checkin-section textarea:focus {
+    border-color: var(--primary);
+    background: var(--panel);
+}
+
+.checkin-section textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+.checkin-section .sf-filterBtn {
+    width: fit-content;
+    min-width: 170px;
+}

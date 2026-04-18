@@ -16,9 +16,11 @@ export default function ZoneLayout({
             <div className="zone-layout__header">
                 <div>
                     <p className="zone-layout__eyebrow">Selected zone</p>
-                    <h2 className="zone-layout__title">{zone?.name || "No zone selected"}</h2>
+                    <h2 className="zone-layout__title">
+                        {zone?.name || "No zone selected"}
+                    </h2>
                     <p className="zone-layout__text">
-                        {zone?.description || "Click a table to view its details."}
+                        Click a table to view its details.
                     </p>
                 </div>
             </div>
@@ -29,7 +31,7 @@ export default function ZoneLayout({
                 </div>
             ) : !tables.length ? (
                 <div className="zone-layout__empty">
-                    <p>No tables in this zone yet. Add one to start building the layout.</p>
+                    <p>No tables in this zone yet.</p>
                 </div>
             ) : (
                 <div

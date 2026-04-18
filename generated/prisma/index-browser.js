@@ -168,6 +168,8 @@ exports.Prisma.ReservationScalarFieldEnum = {
   id: 'id',
   restaurantId: 'restaurantId',
   userId: 'userId',
+  guestName: 'guestName',
+  isWalkIn: 'isWalkIn',
   tableId: 'tableId',
   startsAt: 'startsAt',
   endsAt: 'endsAt',
@@ -249,7 +251,8 @@ exports.Prisma.BookingRuleScalarFieldEnum = {
   maxPartySize: 'maxPartySize',
   daysAhead: 'daysAhead',
   slotMinutes: 'slotMinutes',
-  cancellationCutoffMinutes: 'cancellationCutoffMinutes'
+  cancellationCutoffMinutes: 'cancellationCutoffMinutes',
+  graceMinutes: 'graceMinutes'
 };
 
 exports.Prisma.TagCategoryScalarFieldEnum = {

@@ -60,6 +60,11 @@
     font-weight: 700;
 }
 
+.dark-mode .owner-chip {
+    background: var(--primary-soft);
+    color: var(--text-main);
+}
+
 .owner-live-card__grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -74,8 +79,15 @@
 .owner-expected-card,
 .owner-action-card {
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--panel-2);
     border-radius: 18px;
+}
+
+.dark-mode .owner-live-card__grid div,
+.dark-mode .owner-layout-summary__item,
+.dark-mode .owner-activity-item,
+.dark-mode .owner-action-card {
+    background: var(--panel-2);
 }
 
 .owner-live-card__grid div {
@@ -102,12 +114,17 @@
 
 .owner-dashboard-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.95fr);
+    grid-template-columns: 1fr;
     gap: 20px;
 }
 
 .owner-panel--wide {
-    grid-row: span 2;
+    width: 100%;
+}
+
+.owner-panel--late {
+    border: 1px solid rgba(255, 166, 0, 0.2);
+    background: linear-gradient(180deg, rgba(255, 166, 0, 0.05), rgba(255, 166, 0, 0.02));
 }
 
 .owner-empty-state {
@@ -193,7 +210,7 @@
     padding: 20px;
     color: var(--text-muted);
     line-height: 1.7;
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--panel-2);
 }
 
 .owner-zone-row {
@@ -263,7 +280,7 @@
     }
 
     .owner-panel--wide {
-        grid-row: auto;
+        width: 100%;
     }
 }
 

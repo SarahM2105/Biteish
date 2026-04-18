@@ -80,7 +80,9 @@ model TableUnavailability {
 model Reservation {
   id                       String                     @id @default(uuid())
   restaurantId             String
-  userId                   String
+  userId                   String?
+  guestName                String?
+  isWalkIn                 Boolean                    @default(false)
   tableId                  String
   startsAt                 DateTime
   endsAt                   DateTime
@@ -93,7 +95,7 @@ model Reservation {
   qrToken                  QrToken?
   restaurant               Restaurant                 @relation(fields: [restaurantId], references: [id])
   table                    Table                      @relation(fields: [tableId], references: [id])
-  user                     User                       @relation(fields: [userId], references: [id])
+  user                     User?                      @relation(fields: [userId], references: [id])
   ReservationChangeRequest ReservationChangeRequest[]
 }
 
@@ -184,6 +186,7 @@ model BookingRule {
   daysAhead                 Int
   slotMinutes               Int
   cancellationCutoffMinutes Int
+  graceMinutes              Int        @default(15)
   restaurant                Restaurant @relation(fields: [restaurantId], references: [id])
 }
 

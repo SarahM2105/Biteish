@@ -1,6 +1,18 @@
 const { prisma } = require("../prismaClient");
 const { getRestaurantOccupancy } = require("../utils/occupancy");
 
+function mapReservation(reservation) {
+    return {
+        id: reservation.id,
+        status: reservation.status,
+        startsAt: reservation.startsAt,
+        endsAt: reservation.endsAt,
+        checkedInAt: reservation.checkedInAt,
+        partySize: reservation.partySize,
+        customerName: reservation.user?.name || "Customer",
+    };
+}
+
 async function getOwnerDashboard(req, res) {
     try {
         const ownerId = req.user.userId;
@@ -19,8 +31,7 @@ async function getOwnerDashboard(req, res) {
         }
 
         const now = new Date();
-        const startOfDay = new Date(now);
-        startOfDay.setHours(0, 0, 0, 0);
+        const reservedSoonThreshold = new Date(now.getTime() + 10 * 60 * 1000);
 
         const endOfDay = new Date(now);
         endOfDay.setHours(23, 59, 59, 999);
@@ -33,12 +44,14 @@ async function getOwnerDashboard(req, res) {
             zonesRaw,
         ] = await Promise.all([
             getRestaurantOccupancy(restaurant.id),
+
             prisma.reservation.count({
                 where: {
                     restaurantId: restaurant.id,
                     status: "PENDING",
                 },
             }),
+
             prisma.reservationChangeRequest.count({
                 where: {
                     status: "PENDING",
@@ -51,26 +64,18 @@ async function getOwnerDashboard(req, res) {
                     },
                 },
             }),
+
             prisma.reservation.findMany({
                 where: {
                     restaurantId: restaurant.id,
                     status: {
                         in: ["CONFIRMED", "PENDING"],
                     },
-                    OR: [
-                        {
-                            startsAt: {
-                                gte: startOfDay,
-                                lte: endOfDay,
-                            },
-                        },
-                        {
-                            AND: [
-                                { checkedInAt: { not: null } },
-                                { endsAt: { gt: now } },
-                            ],
-                        },
-                    ],
+                    checkedInAt: null,
+                    startsAt: {
+                        gte: now,
+                        lte: endOfDay,
+                    },
                 },
                 include: {
                     user: {
@@ -89,6 +94,7 @@ async function getOwnerDashboard(req, res) {
                 },
                 take: 8,
             }),
+
             prisma.zone.findMany({
                 where: {
                     restaurantId: restaurant.id,
@@ -99,6 +105,7 @@ async function getOwnerDashboard(req, res) {
                 select: {
                     id: true,
                     name: true,
+                    description: true,
                     tables: {
                         orderBy: {
                             name: "asc",
@@ -106,35 +113,31 @@ async function getOwnerDashboard(req, res) {
                         select: {
                             id: true,
                             name: true,
+                            capacity: true,
                             active: true,
                             reservable: true,
                             reservations: {
                                 where: {
-                                    OR: [
-                                        {
-                                            AND: [
-                                                { status: "CONFIRMED" },
-                                                { checkedInAt: { not: null } },
-                                                { endsAt: { gt: now } },
-                                            ],
-                                        },
-                                        {
-                                            AND: [
-                                                { status: "CONFIRMED" },
-                                                { checkedInAt: null },
-                                                {
-                                                    startsAt: {
-                                                        gte: startOfDay,
-                                                        lte: endOfDay,
-                                                    },
-                                                },
-                                            ],
-                                        },
-                                    ],
+                                    status: "CONFIRMED",
+                                    endsAt: {
+                                        gt: now,
+                                    },
+                                },
+                                orderBy: {
+                                    startsAt: "asc",
                                 },
                                 select: {
                                     id: true,
+                                    status: true,
+                                    startsAt: true,
+                                    endsAt: true,
                                     checkedInAt: true,
+                                    partySize: true,
+                                    user: {
+                                        select: {
+                                            name: true,
+                                        },
+                                    },
                                 },
                             },
                         },
@@ -153,15 +156,62 @@ async function getOwnerDashboard(req, res) {
             tableName: reservation.table?.name || null,
         }));
 
-        const zoneSummaries = zonesRaw.map((zone) => {
+        const zones = zonesRaw.map((zone) => ({
+            id: zone.id,
+            name: zone.name,
+            description: zone.description || "",
+            tables: zone.tables.map((table) => {
+                const occupiedReservation =
+                    table.reservations.find(
+                        (reservation) =>
+                            reservation.checkedInAt && new Date(reservation.endsAt) > now
+                    ) || null;
+
+                const upcomingReservations = table.reservations
+                    .filter(
+                        (reservation) =>
+                            !reservation.checkedInAt &&
+                            new Date(reservation.startsAt) >= now
+                    )
+                    .map(mapReservation);
+
+                const nextUpcomingReservation = upcomingReservations[0] || null;
+
+                const reservedSoon =
+                    nextUpcomingReservation &&
+                    new Date(nextUpcomingReservation.startsAt) <= reservedSoonThreshold;
+
+                const currentReservation = occupiedReservation
+                    ? mapReservation(occupiedReservation)
+                    : reservedSoon
+                        ? nextUpcomingReservation
+                        : null;
+
+                return {
+                    id: table.id,
+                    name: table.name,
+                    capacity: table.capacity,
+                    active: table.active,
+                    reservable: table.reservable,
+                    isBookable: table.active && table.reservable,
+                    currentReservation,
+                    upcomingReservations,
+                };
+            }),
+        }));
+
+        const zoneSummaries = zones.map((zone) => {
             const totalTables = zone.tables.length;
             const activeTables = zone.tables.filter((table) => table.active).length;
             const reservableTables = zone.tables.filter((table) => table.reservable).length;
-            const occupiedTables = zone.tables.filter((table) =>
-                table.reservations.some((reservation) => reservation.checkedInAt)
+            const occupiedTables = zone.tables.filter(
+                (table) => table.currentReservation?.checkedInAt
             ).length;
-            const reservedTables = zone.tables.filter((table) =>
-                table.reservations.some((reservation) => !reservation.checkedInAt)
+            const reservedTables = zone.tables.filter(
+                (table) =>
+                    table.active &&
+                    !table.currentReservation?.checkedInAt &&
+                    table.currentReservation
             ).length;
 
             return {
@@ -207,6 +257,7 @@ async function getOwnerDashboard(req, res) {
             expectedGuests,
             layoutSummary,
             zoneSummaries,
+            zones,
         });
     } catch (error) {
         console.error(error);

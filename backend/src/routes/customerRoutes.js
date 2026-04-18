@@ -4,12 +4,12 @@ const router = express.Router();
 const authenticateToken = require("../middleware/authMiddleware");
 const requiredRole = require("../middleware/roleMiddleware");
 
-const {
+const  {
     createBooking,
-    updateReservation,
     listUserReservations,
+    updateReservation,
     cancelReservation,
-} = require("../controllers/bookingController");
+} = require("../controllers/Customer/bookingController");
 
 const { getReservationQr } = require("../controllers/qrController");
 const { listRestaurants } = require("../controllers/publicRestaurantController");

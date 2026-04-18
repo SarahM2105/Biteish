@@ -1,0 +1,86 @@
+.checkin-mode-list {
+    display: grid;
+    gap: 18px;
+    max-width: 780px;
+}
+
+.checkin-mode-button {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 26px;
+    padding: 24px 26px;
+    display: grid;
+    gap: 10px;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+}
+
+.checkin-mode-button:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 138, 61, 0.42);
+    box-shadow: 0 20px 38px rgba(15, 23, 42, 0.11);
+}
+
+.checkin-mode-button.is-active {
+    background: linear-gradient(135deg, rgba(255, 138, 61, 0.18), rgba(255, 105, 199, 0.08));
+    border-color: rgba(255, 138, 61, 0.45);
+    box-shadow: 0 10px 20px rgba(255, 138, 61, 0.08);
+}
+
+.checkin-mode-button__title {
+    color: var(--text-main);
+    font-size: 1.45rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.checkin-mode-button__text {
+    color: var(--text-muted);
+    font-size: 0.97rem;
+    line-height: 1.65;
+}
+
+.checkin-method-list {
+    display: grid;
+    gap: 12px;
+}
+
+.checkin-method-button {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    color: var(--text-main);
+    border-radius: 18px;
+    padding: 16px 18px;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.checkin-method-button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 138, 61, 0.35);
+    background: var(--panel-2);
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
+}
+
+.checkin-method-button.is-active {
+    background: linear-gradient(135deg, rgba(255, 138, 61, 0.18), rgba(255, 105, 199, 0.08));
+    border-color: rgba(255, 138, 61, 0.45);
+    box-shadow: 0 10px 20px rgba(255, 138, 61, 0.08);
+}
+
+@media (max-width: 768px) {
+    .checkin-mode-button {
+        padding: 18px;
+    }
+
+    .checkin-mode-button__title {
+        font-size: 1.25rem;
+    }
+}

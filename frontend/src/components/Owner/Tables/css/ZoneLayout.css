@@ -1,19 +1,167 @@
-.zone-layout {
+.layout-canvas {
+    display: grid;
+    gap: 20px;
+    width: 100%;
+}
+
+.layout-canvas__zone {
+    display: grid;
+    gap: 16px;
     border: 1px solid var(--border);
     background: var(--panel);
     border-radius: 24px;
-    padding: 24px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    padding: 22px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+
+.dark-mode .layout-canvas__zone {
+    background: var(--panel-2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.layout-canvas__zone-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.layout-canvas__zone-header h3 {
+    margin: 0;
+    color: var(--text-main);
+    font-size: 1.45rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.layout-canvas__tables {
     display: grid;
-    gap: 22px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    align-items: stretch;
+}
+
+.layout-canvas__table-item {
+    min-width: 0;
+}
+
+.layout-canvas__table-item.is-disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.layout-canvas__table-item.is-disabled .table-visual {
+    pointer-events: none;
+}
+
+.layout-canvas .table-visual.is-available .table-visual__table {
+    border-color: rgba(34, 197, 94, 0.5);
+    box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.14);
+}
+
+.layout-canvas .table-visual.is-reserved .table-visual__table {
+    border-color: rgba(245, 158, 11, 0.58);
+    box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.16);
+}
+
+.layout-canvas .table-visual.is-occupied .table-visual__table {
+    border-color: rgba(239, 68, 68, 0.58);
+    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.16);
+}
+
+.layout-canvas .table-visual.is-inactive .table-visual__table {
+    border-color: rgba(148, 163, 184, 0.42);
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+.layout-canvas .table-visual.is-selected .table-visual__table {
+    box-shadow: 0 0 0 3px rgba(255, 138, 61, 0.18);
+}
+
+
+.zone-layout .layout-canvas {
+    gap: 0;
+}
+
+.zone-layout .layout-canvas__zone {
+    border: 0;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    gap: 24px;
+}
+
+.zone-layout .layout-canvas__zone-header {
+    display: none;
+}
+
+.zone-layout .layout-canvas__tables {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 190px);
+    gap: 24px;
+    align-content: start;
+    justify-content: start;
+}
+
+@media (max-width: 1100px) {
+    .layout-canvas__tables {
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .layout-canvas__zone {
+        padding: 18px;
+        border-radius: 20px;
+    }
+
+    .layout-canvas__tables {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
+    .zone-layout .layout-canvas__zone {
+        padding: 0;
+        border-radius: 0;
+    }
+
+    .zone-layout .layout-canvas__tables {
+        grid-template-columns: repeat(auto-fit, 190px);
+    }
+}
+
+@media (max-width: 560px) {
+    .layout-canvas__tables {
+        grid-template-columns: 1fr;
+    }
+
+    .zone-layout .layout-canvas__tables {
+        grid-template-columns: 1fr;
+    }
+}
+
+.zone-layout {
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    display: grid;
+    gap: 26px;
     min-height: 620px;
 }
 
 .zone-layout__header {
     display: flex;
     justify-content: space-between;
-    gap: 16px;
+    gap: 20px;
     align-items: flex-start;
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+    border-radius: 20px;
+    padding: 20px 22px;
 }
 
 .zone-layout__eyebrow {
@@ -21,21 +169,21 @@
     color: var(--primary);
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 800;
 }
 
 .zone-layout__title {
-    margin: 0;
+    margin: 4px 0 6px;
     color: var(--text-main);
-    font-size: 1.35rem;
-    font-weight: 800;
+    font-size: 1.6rem;
+    font-weight: 900;
 }
 
 .zone-layout__text {
     margin: 0;
     color: var(--text-muted);
-    line-height: 1.7;
+    line-height: 1.6;
 }
 
 .zone-layout__grid {

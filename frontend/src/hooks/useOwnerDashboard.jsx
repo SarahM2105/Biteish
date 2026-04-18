@@ -23,6 +23,7 @@ export default function useOwnerDashboard() {
             reservedTables: 0,
         },
         zoneSummaries: [],
+        zones: [],
     });
 
     const loadDashboard = useCallback(async () => {
@@ -43,7 +44,27 @@ export default function useOwnerDashboard() {
                 return;
             }
 
-            setDashboard(data);
+            setDashboard({
+                restaurant: data.restaurant || null,
+                summary: {
+                    occupiedGuests: data.summary?.occupiedGuests || 0,
+                    occupiedTables: data.summary?.occupiedTables || 0,
+                    activeReservations: data.summary?.activeReservations || 0,
+                    pendingBookingsCount: data.summary?.pendingBookingsCount || 0,
+                    pendingChangeRequestsCount: data.summary?.pendingChangeRequestsCount || 0,
+                },
+                expectedGuests: Array.isArray(data.expectedGuests) ? data.expectedGuests : [],
+                layoutSummary: {
+                    zonesCount: data.layoutSummary?.zonesCount || 0,
+                    totalTables: data.layoutSummary?.totalTables || 0,
+                    activeTables: data.layoutSummary?.activeTables || 0,
+                    reservableTables: data.layoutSummary?.reservableTables || 0,
+                    occupiedTables: data.layoutSummary?.occupiedTables || 0,
+                    reservedTables: data.layoutSummary?.reservedTables || 0,
+                },
+                zoneSummaries: Array.isArray(data.zoneSummaries) ? data.zoneSummaries : [],
+                zones: Array.isArray(data.zones) ? data.zones : [],
+            });
         } catch (error) {
             console.error(error);
             setStatus("Failed to load dashboard");
@@ -76,11 +97,16 @@ export default function useOwnerDashboard() {
         socket.on("occupancy:update", refreshDashboard);
         socket.on("occupancy:updated", refreshDashboard);
 
+        const intervalId = window.setInterval(() => {
+            refreshDashboard();
+        }, 30000);
+
         return () => {
             socket.off("reservation:created", refreshDashboard);
             socket.off("reservation:updated", refreshDashboard);
             socket.off("occupancy:update", refreshDashboard);
             socket.off("occupancy:updated", refreshDashboard);
+            window.clearInterval(intervalId);
         };
     }, [loadDashboard]);
 

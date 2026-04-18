@@ -69,7 +69,22 @@ function getTableTone(capacity) {
     return "table-visual--extra-large";
 }
 
-export default function TableVisual({ table, selected, onClick }) {
+function getStatusClass(status, isInactive) {
+    if (isInactive) return "is-inactive";
+    if (status === "OCCUPIED") return "is-occupied";
+    if (status === "RESERVED") return "is-reserved";
+    if (status === "AVAILABLE") return "is-available";
+    return "";
+}
+
+export default function TableVisual({
+                                        table,
+                                        selected = false,
+                                        isSelected = false,
+                                        status = "",
+                                        onClick,
+                                        className = "",
+                                    }) {
     const capacity = Number(table.capacity) || 1;
 
     const chairs = useMemo(() => getChairPositions(capacity), [capacity]);
@@ -77,14 +92,18 @@ export default function TableVisual({ table, selected, onClick }) {
     const stageVariant = useMemo(() => getStageVariant(capacity), [capacity]);
     const tone = useMemo(() => getTableTone(capacity), [capacity]);
 
+    const activeSelected = selected || isSelected;
+    const isInactive = table.active === false;
+    const statusClass = getStatusClass(status, isInactive);
+
     return (
         <div
-            className={`table-visual ${tone} ${selected ? "is-selected" : ""} ${table.active === false ? "is-inactive" : ""}`}
+            className={`table-visual ${tone} ${activeSelected ? "is-selected" : ""} ${statusClass} ${className}`.trim()}
             onClick={onClick}
         >
             <div className={`table-visual__stage ${stageVariant}`}>
                 <div className={`table-visual__table ${tableVariant}`}>
-                    <strong>{table.name}</strong>
+                    <strong>{table.name || "Table"}</strong>
                     <span>{capacity} seats</span>
 
                     {capacity > 8 ? (

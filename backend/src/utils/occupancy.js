@@ -1,12 +1,11 @@
-const {prisma} = require('../prismaClient');
-async function getRestaurantOccupancy(restaurantId){
-    const now = new Date();
+const { prisma } = require("../prismaClient");
+
+async function getRestaurantOccupancy(restaurantId) {
     const activeReservations = await prisma.reservation.findMany({
         where: {
             restaurantId,
             status: "CONFIRMED",
-            checkedInAt: {not: null},
-            endsAt: {gt: now},
+            checkedInAt: { not: null },
         },
         select: {
             id: true,
@@ -17,11 +16,15 @@ async function getRestaurantOccupancy(restaurantId){
             checkedInAt: true,
         },
     });
+
     const occupiedGuests = activeReservations.reduce((sum, reservation) => {
         return sum + (reservation.partySize || 0);
-    },0);
+    }, 0);
 
-    const occupiedTables = new Set(activeReservations.map((reservation) => reservation.tableId)).size;
+    const occupiedTables = new Set(
+        activeReservations.map((reservation) => reservation.tableId)
+    ).size;
+
     return {
         occupiedGuests,
         occupiedTables,
@@ -29,4 +32,4 @@ async function getRestaurantOccupancy(restaurantId){
     };
 }
 
-module.exports = {getRestaurantOccupancy};
+module.exports = { getRestaurantOccupancy };

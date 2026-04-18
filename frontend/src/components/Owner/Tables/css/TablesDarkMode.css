@@ -32,7 +32,7 @@
 .dark-mode .table-visual__table--small ~ .table-visual__chair::before {
     border-top: 1.5px solid rgba(255, 138, 61, 0.45);
 }
-/* making sure to select all chairs after to be the same colour*/
+
 .dark-mode .table-visual--medium .table-visual__chair,
 .dark-mode .table-visual__table--medium ~ .table-visual__chair {
     border: 2px solid rgba(250, 204, 21, 0.7);

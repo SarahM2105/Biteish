@@ -20,7 +20,7 @@ const {
     listTablesByZone,
     updateTable,
     deleteTable
-}= require('../controllers/tableController');
+} = require('../controllers/tableController');
 
 const {
     addUnavailability,
@@ -40,69 +40,86 @@ const {
 } = require('../controllers/openingHourController');
 
 const {
-    updateReservation,
     approveReservation,
     declineReservation,
     listPendingReservations
-} = require("../controllers/bookingController");
+} = require("../controllers/Owner/bookingController");
+
 const {
     listChangeRequest,
     approveChangeRequest,
     declineChangeRequest,
 } = require('../controllers/ownerReservationController');
 
-const {checkinCustomer} = require('../controllers/checkinController');
-const {getOwnerOccupancy} = require("../controllers/occupancyController");
+const {
+    checkinCustomer,
+    checkOutCustomer,
+    listOccupiedTablesForManualCheckOut,
+    listAvailableTablesForManualCheckIn,
+    manualCheckIn,
+    manualCheckOut,
+} = require('../controllers/Owner/checkins/index');
+
+const { getOwnerOccupancy } = require("../controllers/occupancyController");
 const {
     getOwnerRestaurantProfile,
     updateOwnerRestaurantProfile,
 } = require("../controllers/ownerProfileController");
+
 const {getOwnerDashboard} = require("../controllers/ownerDashboardController");
+const {getLateArrivals} = require("../controllers/LateArrivalsController");
+const {markNoShow} = require("../controllers/noShowController");
 
-const router =express.Router();
-
+const router = express.Router();
 
 router.use(authenticateToken);
 router.use(requiredRole(["OWNER"]));
-router.get("/dashboard",getOwnerDashboard);
-//restaurants
+router.get("/dashboard", getOwnerDashboard);
+router.get("/dashboard/late-arrivals", getLateArrivals);
+// restaurants
 router.post("/restaurants", createRestaurant);
 router.get("/restaurants", listMyRestaurants);
 router.put("/restaurants/:restaurantId", updateRestaurant);
 router.delete("/restaurants/:restaurantId", deleteRestaurant);
-//zone
+// zone
 router.post("/restaurants/:restaurantId/zones", createZone);
 router.get("/restaurants/:restaurantId/zones", listZones);
 router.put("/zones/:zoneId", updateZone);
 router.delete("/zones/:zoneId", deleteZone);
-//tables
+// tables
 router.post("/zones/:zoneId/tables", createTable);
 router.get("/zones/:zoneId/tables", listTablesByZone);
 router.put("/tables/:tableId", updateTable);
 router.delete("/tables/:tableId", deleteTable);
-//Table unavailability
+// table unavailability
 router.post("/tables/:tableId/unavailability", addUnavailability);
 router.get("/tables/:tableId/unavailability", listUnavailability);
 router.put("/tables/unavailability/:unavailabilityId", updateUnavailability);
 router.delete("/tables/unavailability/:unavailabilityId", deleteUnavailability);
-//booking rule
+// booking rule
 router.put("/restaurants/:restaurantId/booking-rule", setBookingRule);
 router.get("/restaurants/:restaurantId/booking-rule", getBookingRule);
-//opening hours
-router.put("/restaurants/:restaurantId/opening-hours",upsertOpeningHours);
+// opening hours
+router.put("/restaurants/:restaurantId/opening-hours", upsertOpeningHours);
 router.get("/restaurants/:restaurantId/opening-hours", listOpeningHours);
-//approve decline flow
-router.get("/reservations/pending", listPendingReservations)
+// approve decline flow
+router.get("/reservations/pending", listPendingReservations);
 router.patch("/reservations/:reservationId/approve", approveReservation);
 router.patch("/reservations/:reservationId/decline", declineReservation);
-// approving/ decline change requests
+// approving / decline change requests
 router.get("/change-request", listChangeRequest);
 router.patch("/change-request/:requestId/approve", approveChangeRequest);
 router.patch("/change-request/:requestId/decline", declineChangeRequest);
 router.post("/check-in", checkinCustomer);
+router.post("/check-out", checkOutCustomer);
+router.get("/manual-check-in/options", listAvailableTablesForManualCheckIn);
+router.post("/manual-check-in", manualCheckIn);
+router.get("/manual-check-out/options", listOccupiedTablesForManualCheckOut);
+router.post("/manual-check-out", manualCheckOut);
+router.post("/manual-check-out", manualCheckOut);
+router.post("/no-shows/mark", markNoShow);
 router.get("/occupancy", getOwnerOccupancy);
 router.get("/restaurant/profile", getOwnerRestaurantProfile);
 router.patch("/restaurant/profile", updateOwnerRestaurantProfile);
-
 
 module.exports = router;
