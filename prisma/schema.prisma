@@ -188,7 +188,7 @@ model BookingRule {
   maxPartySize              Int
   daysAhead                 Int
   slotMinutes               Int
-  turnoverMinutes Int @default(15)
+  turnoverMinutes           Int        @default(15)
   cancellationCutoffMinutes Int
   graceMinutes              Int        @default(15)
   restaurant                Restaurant @relation(fields: [restaurantId], references: [id])
