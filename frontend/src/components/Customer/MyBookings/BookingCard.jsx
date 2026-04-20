@@ -20,9 +20,13 @@ export default function BookingCard({
                                         handleCancel,
                                     }) {
     const bookingDate = new Date(b.startsAt);
-    const hasChangeRequest =
-        Array.isArray(b.reservationChangeRequests) &&
-        b.reservationChangeRequests.length > 0;
+
+    const activeChangeRequest =
+        Array.isArray(b.ReservationChangeRequest)
+            ? b.ReservationChangeRequest.find((request) => request.status === "PENDING")
+            : null;
+
+    const hasChangeRequest = Boolean(activeChangeRequest);
 
     return (
         <article className="booking-card">
@@ -64,17 +68,13 @@ export default function BookingCard({
 
                     {hasChangeRequest && (
                         <div className="booking-card__status booking-card__status--change">
-                            Change
+                            Change pending
                         </div>
                     )}
                 </div>
             </div>
 
-            {b.notes && (
-                <div className="booking-card__notes">
-                    {b.notes}
-                </div>
-            )}
+            {b.notes && <div className="booking-card__notes">{b.notes}</div>}
 
             <div className="booking-card__actions">
                 {canShowQr(b) && (
@@ -93,7 +93,7 @@ export default function BookingCard({
                         className="booking-card__button booking-card__button--secondary"
                         onClick={() => handleRequestChange(b.id)}
                     >
-                        Request change
+                        {hasChangeRequest ? "View change request" : "Request change"}
                     </button>
                 )}
 

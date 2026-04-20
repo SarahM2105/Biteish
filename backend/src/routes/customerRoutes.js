@@ -7,9 +7,15 @@ const requiredRole = require("../middleware/roleMiddleware");
 const  {
     createBooking,
     listUserReservations,
-    updateReservation,
     cancelReservation,
-} = require("../controllers/Customer/bookingController");
+} = require("../controllers/customer/bookings/bookingController");
+
+const {
+    updateReservation,
+    listIncomingChangeRequests,
+    approveIncomingChangeRequest,
+    declineIncomingChangeRequest,
+} = require("../controllers/customer/bookings/changeRequestController");
 
 const { getReservationQr } = require("../controllers/qrController");
 const { listRestaurants } = require("../controllers/publicRestaurantController");
@@ -42,7 +48,11 @@ router.use(requiredRole(["CUSTOMER"]));
 
 router.post("/tables/:tableId/book", createBooking);
 router.get("/reservations", listUserReservations);
-router.put("/reservations/:reservationId", updateReservation);
+router.patch("/reservations/:reservationId/update", updateReservation);
+router.get("/change-request", listIncomingChangeRequests);
+router.patch("/change-request/:requestId/approve", approveIncomingChangeRequest);
+router.patch("/change-request/:requestId/decline", declineIncomingChangeRequest);
+//router.patch("/change-request/:requestId/cancel", cancelChangeRequest);
 router.patch("/reservations/:reservationId/cancel", cancelReservation);
 
 router.get("/restaurants/filter-options", getSearchFilterOptions);

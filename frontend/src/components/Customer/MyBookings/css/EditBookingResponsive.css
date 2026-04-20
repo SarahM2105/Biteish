@@ -1,0 +1,31 @@
+@media (max-width: 820px) {
+    .edit-booking-current__top {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .edit-booking-current__grid,
+    .edit-booking-form {
+        grid-template-columns: 1fr;
+    }
+
+    .edit-booking-actions {
+        flex-direction: column;
+    }
+
+    .edit-booking-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 720px) {
+    .edit-booking-header {
+        padding: 22px;
+        border-radius: 24px;
+    }
+
+    .edit-booking-current,
+    .edit-booking-form-card {
+        padding: 18px;
+    }
+}

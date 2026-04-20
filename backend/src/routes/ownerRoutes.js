@@ -42,14 +42,20 @@ const {
 const {
     approveReservation,
     declineReservation,
-    listPendingReservations
+    listPendingReservations,
+    listOwnerReservations,
 } = require("../controllers/Owner/bookingController");
+
+const {
+    createOwnerChangeRequest,
+    cancelChangeRequest,
+} = require("../controllers/Owner/Bookings/outgoingChangeRequestsController");
 
 const {
     listChangeRequest,
     approveChangeRequest,
     declineChangeRequest,
-} = require('../controllers/ownerReservationController');
+} = require("../controllers/Owner/Bookings/IncomingChangeRequestsController");
 
 const {
     checkinCustomer,
@@ -66,9 +72,9 @@ const {
     updateOwnerRestaurantProfile,
 } = require("../controllers/ownerProfileController");
 
-const {getOwnerDashboard} = require("../controllers/ownerDashboardController");
-const {getLateArrivals} = require("../controllers/LateArrivalsController");
-const {markNoShow} = require("../controllers/noShowController");
+const { getOwnerDashboard } = require("../controllers/ownerDashboardController");
+const { getLateArrivals } = require("../controllers/LateArrivalsController");
+const { markNoShow } = require("../controllers/noShowController");
 
 const router = express.Router();
 
@@ -102,20 +108,23 @@ router.get("/restaurants/:restaurantId/booking-rule", getBookingRule);
 // opening hours
 router.put("/restaurants/:restaurantId/opening-hours", upsertOpeningHours);
 router.get("/restaurants/:restaurantId/opening-hours", listOpeningHours);
-// approve decline flow
+// approve / decline normal bookings
 router.get("/reservations/pending", listPendingReservations);
 router.patch("/reservations/:reservationId/approve", approveReservation);
 router.patch("/reservations/:reservationId/decline", declineReservation);
-// approving / decline change requests
+// change requests
+router.get("/reservations", listOwnerReservations);
 router.get("/change-request", listChangeRequest);
+router.post("/reservations/:reservationId/change-request", createOwnerChangeRequest);
 router.patch("/change-request/:requestId/approve", approveChangeRequest);
 router.patch("/change-request/:requestId/decline", declineChangeRequest);
+router.patch("/change-request/:requestId/cancel", cancelChangeRequest);
+// check in / out
 router.post("/check-in", checkinCustomer);
 router.post("/check-out", checkOutCustomer);
 router.get("/manual-check-in/options", listAvailableTablesForManualCheckIn);
 router.post("/manual-check-in", manualCheckIn);
 router.get("/manual-check-out/options", listOccupiedTablesForManualCheckOut);
-router.post("/manual-check-out", manualCheckOut);
 router.post("/manual-check-out", manualCheckOut);
 router.post("/no-shows/mark", markNoShow);
 router.get("/occupancy", getOwnerOccupancy);

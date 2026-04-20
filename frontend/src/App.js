@@ -27,6 +27,7 @@ import OwnerMenu from "./pages/owner/OwnerMenu";
 import CustomerFavourites from "./pages/customer/CustomerFavourites";
 import OwnerEditRestaurantProfile from "./pages/owner/OwnerEditRestaurantProfile";
 import { ThemeProvider} from "./ThemeContext";
+import OwnerBookings from "./pages/owner/Bookings";
 
 function App() {
   return (
@@ -92,6 +93,10 @@ function App() {
                 <OwnerRestaurantLayout/>
                 </ProtectedRoutes>
             }/>
+            <Route path="/owner/bookings" element={
+                <ProtectedRoutes allowedRoles={["OWNER"]}>
+                    <OwnerBookings />
+                </ProtectedRoutes>}/>
             <Route path="/owner/request" element={
                 <ProtectedRoutes allowedRoles={["OWNER"]}>
                 <OwnerRequests/>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-const { getIO } = require("../../../socket");
 import TableVisual from "../Tables/TableVisual";
 
 export default function ManualCheckIn() {

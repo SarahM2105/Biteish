@@ -1,6 +1,4 @@
 const {prisma} = require('../prismaClient');
-const {updateReservation} = require("./bookingController");
-
 async function upsertOpeningHours(req, res) {
     try{
         const {restaurantId} = req.params;

@@ -1,6 +1,7 @@
 const { prisma } = require("../../../prismaClient");
 const { getIO } = require("../../../socket");
 const { getRestaurantOccupancy } = require("../../../utils/occupancy");
+const { bookingsOverlap } = require("../../../utils/bookingsOverlap");
 
 async function manualCheckIn(req, res) {
     try {
@@ -47,13 +48,16 @@ async function manualCheckIn(req, res) {
             include: {
                 reservations: {
                     where: {
-                        status: "CONFIRMED",
+                        status: {
+                            in: ["PENDING", "CONFIRMED"],
+                        },
                     },
                     select: {
                         id: true,
                         startsAt: true,
                         endsAt: true,
                         checkedInAt: true,
+                        status: true,
                     },
                 },
             },
@@ -66,7 +70,9 @@ async function manualCheckIn(req, res) {
         }
 
         const now = new Date();
-        const reservedSoonThreshold = new Date(now.getTime() + 10 * 60 * 1000);
+        const slotMinutes = restaurant.bookingRule?.slotMinutes ?? 90;
+        const turnoverMinutes = restaurant.bookingRule?.turnoverMinutes ?? 15;
+        const endsAt = new Date(now.getTime() + slotMinutes * 60 * 1000);
 
         const occupied = table.reservations.some(
             (reservation) => reservation.checkedInAt
@@ -78,21 +84,20 @@ async function manualCheckIn(req, res) {
             });
         }
 
-        const reservedSoon = table.reservations.some(
-            (reservation) =>
-                !reservation.checkedInAt &&
-                new Date(reservation.startsAt) >= now &&
-                new Date(reservation.startsAt) <= reservedSoonThreshold
+        const walkInConflict = table.reservations.some((reservation) =>
+            bookingsOverlap(
+                now,
+                endsAt,
+                new Date(new Date(reservation.startsAt).getTime() - turnoverMinutes * 60000),
+                new Date(new Date(reservation.endsAt).getTime() + turnoverMinutes * 60000)
+            )
         );
 
-        if (reservedSoon) {
+        if (walkInConflict) {
             return res.status(400).json({
-                error: "That table is reserved soon and cannot be used for a walk-in right now",
+                error: "That table is not available for a walk-in during that time",
             });
         }
-
-        const slotMinutes = restaurant.bookingRule?.slotMinutes ?? 90;
-        const endsAt = new Date(now.getTime() + slotMinutes * 60 * 1000);
 
         const reservation = await prisma.reservation.create({
             data: {

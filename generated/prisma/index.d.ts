@@ -2884,11 +2884,13 @@ export namespace Prisma {
   export type TableCountOutputType = {
     reservations: number
     unavailability: number
+    requestedInChanges: number
   }
 
   export type TableCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reservations?: boolean | TableCountOutputTypeCountReservationsArgs
     unavailability?: boolean | TableCountOutputTypeCountUnavailabilityArgs
+    requestedInChanges?: boolean | TableCountOutputTypeCountRequestedInChangesArgs
   }
 
   // Custom InputTypes
@@ -2914,6 +2916,13 @@ export namespace Prisma {
    */
   export type TableCountOutputTypeCountUnavailabilityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TableUnavailabilityWhereInput
+  }
+
+  /**
+   * TableCountOutputType without action
+   */
+  export type TableCountOutputTypeCountRequestedInChangesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservationChangeRequestWhereInput
   }
 
 
@@ -7000,6 +7009,7 @@ export namespace Prisma {
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     zone?: boolean | ZoneDefaultArgs<ExtArgs>
     unavailability?: boolean | Table$unavailabilityArgs<ExtArgs>
+    requestedInChanges?: boolean | Table$requestedInChangesArgs<ExtArgs>
     _count?: boolean | TableCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
 
@@ -7043,6 +7053,7 @@ export namespace Prisma {
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     zone?: boolean | ZoneDefaultArgs<ExtArgs>
     unavailability?: boolean | Table$unavailabilityArgs<ExtArgs>
+    requestedInChanges?: boolean | Table$requestedInChangesArgs<ExtArgs>
     _count?: boolean | TableCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TableIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7061,6 +7072,7 @@ export namespace Prisma {
       restaurant: Prisma.$RestaurantPayload<ExtArgs>
       zone: Prisma.$ZonePayload<ExtArgs>
       unavailability: Prisma.$TableUnavailabilityPayload<ExtArgs>[]
+      requestedInChanges: Prisma.$ReservationChangeRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7468,6 +7480,7 @@ export namespace Prisma {
     restaurant<T extends RestaurantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RestaurantDefaultArgs<ExtArgs>>): Prisma__RestaurantClient<$Result.GetResult<Prisma.$RestaurantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     zone<T extends ZoneDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ZoneDefaultArgs<ExtArgs>>): Prisma__ZoneClient<$Result.GetResult<Prisma.$ZonePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     unavailability<T extends Table$unavailabilityArgs<ExtArgs> = {}>(args?: Subset<T, Table$unavailabilityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TableUnavailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    requestedInChanges<T extends Table$requestedInChangesArgs<ExtArgs> = {}>(args?: Subset<T, Table$requestedInChangesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7945,6 +7958,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TableUnavailabilityScalarFieldEnum | TableUnavailabilityScalarFieldEnum[]
+  }
+
+  /**
+   * Table.requestedInChanges
+   */
+  export type Table$requestedInChangesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationChangeRequest
+     */
+    select?: ReservationChangeRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationChangeRequest
+     */
+    omit?: ReservationChangeRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationChangeRequestInclude<ExtArgs> | null
+    where?: ReservationChangeRequestWhereInput
+    orderBy?: ReservationChangeRequestOrderByWithRelationInput | ReservationChangeRequestOrderByWithRelationInput[]
+    cursor?: ReservationChangeRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReservationChangeRequestScalarFieldEnum | ReservationChangeRequestScalarFieldEnum[]
   }
 
   /**
@@ -10364,6 +10401,7 @@ export namespace Prisma {
     newStartsAt: Date | null
     newEndsAt: Date | null
     newPartySize: number | null
+    newTableId: string | null
     newNotes: string | null
     createdAt: Date | null
     reviewedAt: Date | null
@@ -10377,6 +10415,7 @@ export namespace Prisma {
     newStartsAt: Date | null
     newEndsAt: Date | null
     newPartySize: number | null
+    newTableId: string | null
     newNotes: string | null
     createdAt: Date | null
     reviewedAt: Date | null
@@ -10390,6 +10429,7 @@ export namespace Prisma {
     newStartsAt: number
     newEndsAt: number
     newPartySize: number
+    newTableId: number
     newNotes: number
     createdAt: number
     reviewedAt: number
@@ -10413,6 +10453,7 @@ export namespace Prisma {
     newStartsAt?: true
     newEndsAt?: true
     newPartySize?: true
+    newTableId?: true
     newNotes?: true
     createdAt?: true
     reviewedAt?: true
@@ -10426,6 +10467,7 @@ export namespace Prisma {
     newStartsAt?: true
     newEndsAt?: true
     newPartySize?: true
+    newTableId?: true
     newNotes?: true
     createdAt?: true
     reviewedAt?: true
@@ -10439,6 +10481,7 @@ export namespace Prisma {
     newStartsAt?: true
     newEndsAt?: true
     newPartySize?: true
+    newTableId?: true
     newNotes?: true
     createdAt?: true
     reviewedAt?: true
@@ -10539,6 +10582,7 @@ export namespace Prisma {
     newStartsAt: Date | null
     newEndsAt: Date | null
     newPartySize: number | null
+    newTableId: string | null
     newNotes: string | null
     createdAt: Date
     reviewedAt: Date | null
@@ -10571,11 +10615,13 @@ export namespace Prisma {
     newStartsAt?: boolean
     newEndsAt?: boolean
     newPartySize?: boolean
+    newTableId?: boolean
     newNotes?: boolean
     createdAt?: boolean
     reviewedAt?: boolean
     reservation?: boolean | ReservationDefaultArgs<ExtArgs>
     requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    newTable?: boolean | ReservationChangeRequest$newTableArgs<ExtArgs>
   }, ExtArgs["result"]["reservationChangeRequest"]>
 
   export type ReservationChangeRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10586,11 +10632,13 @@ export namespace Prisma {
     newStartsAt?: boolean
     newEndsAt?: boolean
     newPartySize?: boolean
+    newTableId?: boolean
     newNotes?: boolean
     createdAt?: boolean
     reviewedAt?: boolean
     reservation?: boolean | ReservationDefaultArgs<ExtArgs>
     requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    newTable?: boolean | ReservationChangeRequest$newTableArgs<ExtArgs>
   }, ExtArgs["result"]["reservationChangeRequest"]>
 
   export type ReservationChangeRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10601,11 +10649,13 @@ export namespace Prisma {
     newStartsAt?: boolean
     newEndsAt?: boolean
     newPartySize?: boolean
+    newTableId?: boolean
     newNotes?: boolean
     createdAt?: boolean
     reviewedAt?: boolean
     reservation?: boolean | ReservationDefaultArgs<ExtArgs>
     requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    newTable?: boolean | ReservationChangeRequest$newTableArgs<ExtArgs>
   }, ExtArgs["result"]["reservationChangeRequest"]>
 
   export type ReservationChangeRequestSelectScalar = {
@@ -10616,23 +10666,27 @@ export namespace Prisma {
     newStartsAt?: boolean
     newEndsAt?: boolean
     newPartySize?: boolean
+    newTableId?: boolean
     newNotes?: boolean
     createdAt?: boolean
     reviewedAt?: boolean
   }
 
-  export type ReservationChangeRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reservationId" | "requestedById" | "status" | "newStartsAt" | "newEndsAt" | "newPartySize" | "newNotes" | "createdAt" | "reviewedAt", ExtArgs["result"]["reservationChangeRequest"]>
+  export type ReservationChangeRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reservationId" | "requestedById" | "status" | "newStartsAt" | "newEndsAt" | "newPartySize" | "newTableId" | "newNotes" | "createdAt" | "reviewedAt", ExtArgs["result"]["reservationChangeRequest"]>
   export type ReservationChangeRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reservation?: boolean | ReservationDefaultArgs<ExtArgs>
     requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    newTable?: boolean | ReservationChangeRequest$newTableArgs<ExtArgs>
   }
   export type ReservationChangeRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reservation?: boolean | ReservationDefaultArgs<ExtArgs>
     requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    newTable?: boolean | ReservationChangeRequest$newTableArgs<ExtArgs>
   }
   export type ReservationChangeRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reservation?: boolean | ReservationDefaultArgs<ExtArgs>
     requestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    newTable?: boolean | ReservationChangeRequest$newTableArgs<ExtArgs>
   }
 
   export type $ReservationChangeRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10640,6 +10694,7 @@ export namespace Prisma {
     objects: {
       reservation: Prisma.$ReservationPayload<ExtArgs>
       requestedBy: Prisma.$UserPayload<ExtArgs>
+      newTable: Prisma.$TablePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10649,6 +10704,7 @@ export namespace Prisma {
       newStartsAt: Date | null
       newEndsAt: Date | null
       newPartySize: number | null
+      newTableId: string | null
       newNotes: string | null
       createdAt: Date
       reviewedAt: Date | null
@@ -11048,6 +11104,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     reservation<T extends ReservationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ReservationDefaultArgs<ExtArgs>>): Prisma__ReservationClient<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     requestedBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    newTable<T extends ReservationChangeRequest$newTableArgs<ExtArgs> = {}>(args?: Subset<T, ReservationChangeRequest$newTableArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11084,6 +11141,7 @@ export namespace Prisma {
     readonly newStartsAt: FieldRef<"ReservationChangeRequest", 'DateTime'>
     readonly newEndsAt: FieldRef<"ReservationChangeRequest", 'DateTime'>
     readonly newPartySize: FieldRef<"ReservationChangeRequest", 'Int'>
+    readonly newTableId: FieldRef<"ReservationChangeRequest", 'String'>
     readonly newNotes: FieldRef<"ReservationChangeRequest", 'String'>
     readonly createdAt: FieldRef<"ReservationChangeRequest", 'DateTime'>
     readonly reviewedAt: FieldRef<"ReservationChangeRequest", 'DateTime'>
@@ -11480,6 +11538,25 @@ export namespace Prisma {
      * Limit how many ReservationChangeRequests to delete.
      */
     limit?: number
+  }
+
+  /**
+   * ReservationChangeRequest.newTable
+   */
+  export type ReservationChangeRequest$newTableArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableInclude<ExtArgs> | null
+    where?: TableWhereInput
   }
 
   /**
@@ -18024,6 +18101,7 @@ export namespace Prisma {
     maxPartySize: number | null
     daysAhead: number | null
     slotMinutes: number | null
+    turnoverMinutes: number | null
     cancellationCutoffMinutes: number | null
     graceMinutes: number | null
   }
@@ -18032,6 +18110,7 @@ export namespace Prisma {
     maxPartySize: number | null
     daysAhead: number | null
     slotMinutes: number | null
+    turnoverMinutes: number | null
     cancellationCutoffMinutes: number | null
     graceMinutes: number | null
   }
@@ -18042,6 +18121,7 @@ export namespace Prisma {
     maxPartySize: number | null
     daysAhead: number | null
     slotMinutes: number | null
+    turnoverMinutes: number | null
     cancellationCutoffMinutes: number | null
     graceMinutes: number | null
   }
@@ -18052,6 +18132,7 @@ export namespace Prisma {
     maxPartySize: number | null
     daysAhead: number | null
     slotMinutes: number | null
+    turnoverMinutes: number | null
     cancellationCutoffMinutes: number | null
     graceMinutes: number | null
   }
@@ -18062,6 +18143,7 @@ export namespace Prisma {
     maxPartySize: number
     daysAhead: number
     slotMinutes: number
+    turnoverMinutes: number
     cancellationCutoffMinutes: number
     graceMinutes: number
     _all: number
@@ -18072,6 +18154,7 @@ export namespace Prisma {
     maxPartySize?: true
     daysAhead?: true
     slotMinutes?: true
+    turnoverMinutes?: true
     cancellationCutoffMinutes?: true
     graceMinutes?: true
   }
@@ -18080,6 +18163,7 @@ export namespace Prisma {
     maxPartySize?: true
     daysAhead?: true
     slotMinutes?: true
+    turnoverMinutes?: true
     cancellationCutoffMinutes?: true
     graceMinutes?: true
   }
@@ -18090,6 +18174,7 @@ export namespace Prisma {
     maxPartySize?: true
     daysAhead?: true
     slotMinutes?: true
+    turnoverMinutes?: true
     cancellationCutoffMinutes?: true
     graceMinutes?: true
   }
@@ -18100,6 +18185,7 @@ export namespace Prisma {
     maxPartySize?: true
     daysAhead?: true
     slotMinutes?: true
+    turnoverMinutes?: true
     cancellationCutoffMinutes?: true
     graceMinutes?: true
   }
@@ -18110,6 +18196,7 @@ export namespace Prisma {
     maxPartySize?: true
     daysAhead?: true
     slotMinutes?: true
+    turnoverMinutes?: true
     cancellationCutoffMinutes?: true
     graceMinutes?: true
     _all?: true
@@ -18207,6 +18294,7 @@ export namespace Prisma {
     maxPartySize: number
     daysAhead: number
     slotMinutes: number
+    turnoverMinutes: number
     cancellationCutoffMinutes: number
     graceMinutes: number
     _count: BookingRuleCountAggregateOutputType | null
@@ -18236,6 +18324,7 @@ export namespace Prisma {
     maxPartySize?: boolean
     daysAhead?: boolean
     slotMinutes?: boolean
+    turnoverMinutes?: boolean
     cancellationCutoffMinutes?: boolean
     graceMinutes?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
@@ -18247,6 +18336,7 @@ export namespace Prisma {
     maxPartySize?: boolean
     daysAhead?: boolean
     slotMinutes?: boolean
+    turnoverMinutes?: boolean
     cancellationCutoffMinutes?: boolean
     graceMinutes?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
@@ -18258,6 +18348,7 @@ export namespace Prisma {
     maxPartySize?: boolean
     daysAhead?: boolean
     slotMinutes?: boolean
+    turnoverMinutes?: boolean
     cancellationCutoffMinutes?: boolean
     graceMinutes?: boolean
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
@@ -18269,11 +18360,12 @@ export namespace Prisma {
     maxPartySize?: boolean
     daysAhead?: boolean
     slotMinutes?: boolean
+    turnoverMinutes?: boolean
     cancellationCutoffMinutes?: boolean
     graceMinutes?: boolean
   }
 
-  export type BookingRuleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "restaurantId" | "maxPartySize" | "daysAhead" | "slotMinutes" | "cancellationCutoffMinutes" | "graceMinutes", ExtArgs["result"]["bookingRule"]>
+  export type BookingRuleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "restaurantId" | "maxPartySize" | "daysAhead" | "slotMinutes" | "turnoverMinutes" | "cancellationCutoffMinutes" | "graceMinutes", ExtArgs["result"]["bookingRule"]>
   export type BookingRuleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
   }
@@ -18295,6 +18387,7 @@ export namespace Prisma {
       maxPartySize: number
       daysAhead: number
       slotMinutes: number
+      turnoverMinutes: number
       cancellationCutoffMinutes: number
       graceMinutes: number
     }, ExtArgs["result"]["bookingRule"]>
@@ -18726,6 +18819,7 @@ export namespace Prisma {
     readonly maxPartySize: FieldRef<"BookingRule", 'Int'>
     readonly daysAhead: FieldRef<"BookingRule", 'Int'>
     readonly slotMinutes: FieldRef<"BookingRule", 'Int'>
+    readonly turnoverMinutes: FieldRef<"BookingRule", 'Int'>
     readonly cancellationCutoffMinutes: FieldRef<"BookingRule", 'Int'>
     readonly graceMinutes: FieldRef<"BookingRule", 'Int'>
   }
@@ -25588,6 +25682,7 @@ export namespace Prisma {
     newStartsAt: 'newStartsAt',
     newEndsAt: 'newEndsAt',
     newPartySize: 'newPartySize',
+    newTableId: 'newTableId',
     newNotes: 'newNotes',
     createdAt: 'createdAt',
     reviewedAt: 'reviewedAt'
@@ -25672,6 +25767,7 @@ export namespace Prisma {
     maxPartySize: 'maxPartySize',
     daysAhead: 'daysAhead',
     slotMinutes: 'slotMinutes',
+    turnoverMinutes: 'turnoverMinutes',
     cancellationCutoffMinutes: 'cancellationCutoffMinutes',
     graceMinutes: 'graceMinutes'
   };
@@ -26143,6 +26239,7 @@ export namespace Prisma {
     restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
     zone?: XOR<ZoneScalarRelationFilter, ZoneWhereInput>
     unavailability?: TableUnavailabilityListRelationFilter
+    requestedInChanges?: ReservationChangeRequestListRelationFilter
   }
 
   export type TableOrderByWithRelationInput = {
@@ -26157,6 +26254,7 @@ export namespace Prisma {
     restaurant?: RestaurantOrderByWithRelationInput
     zone?: ZoneOrderByWithRelationInput
     unavailability?: TableUnavailabilityOrderByRelationAggregateInput
+    requestedInChanges?: ReservationChangeRequestOrderByRelationAggregateInput
   }
 
   export type TableWhereUniqueInput = Prisma.AtLeast<{
@@ -26175,6 +26273,7 @@ export namespace Prisma {
     restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
     zone?: XOR<ZoneScalarRelationFilter, ZoneWhereInput>
     unavailability?: TableUnavailabilityListRelationFilter
+    requestedInChanges?: ReservationChangeRequestListRelationFilter
   }, "id" | "restaurantId_name">
 
   export type TableOrderByWithAggregationInput = {
@@ -26383,11 +26482,13 @@ export namespace Prisma {
     newStartsAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
     newEndsAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
     newPartySize?: IntNullableFilter<"ReservationChangeRequest"> | number | null
+    newTableId?: StringNullableFilter<"ReservationChangeRequest"> | string | null
     newNotes?: StringNullableFilter<"ReservationChangeRequest"> | string | null
     createdAt?: DateTimeFilter<"ReservationChangeRequest"> | Date | string
     reviewedAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
     reservation?: XOR<ReservationScalarRelationFilter, ReservationWhereInput>
     requestedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    newTable?: XOR<TableNullableScalarRelationFilter, TableWhereInput> | null
   }
 
   export type ReservationChangeRequestOrderByWithRelationInput = {
@@ -26398,11 +26499,13 @@ export namespace Prisma {
     newStartsAt?: SortOrderInput | SortOrder
     newEndsAt?: SortOrderInput | SortOrder
     newPartySize?: SortOrderInput | SortOrder
+    newTableId?: SortOrderInput | SortOrder
     newNotes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     reviewedAt?: SortOrderInput | SortOrder
     reservation?: ReservationOrderByWithRelationInput
     requestedBy?: UserOrderByWithRelationInput
+    newTable?: TableOrderByWithRelationInput
   }
 
   export type ReservationChangeRequestWhereUniqueInput = Prisma.AtLeast<{
@@ -26416,11 +26519,13 @@ export namespace Prisma {
     newStartsAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
     newEndsAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
     newPartySize?: IntNullableFilter<"ReservationChangeRequest"> | number | null
+    newTableId?: StringNullableFilter<"ReservationChangeRequest"> | string | null
     newNotes?: StringNullableFilter<"ReservationChangeRequest"> | string | null
     createdAt?: DateTimeFilter<"ReservationChangeRequest"> | Date | string
     reviewedAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
     reservation?: XOR<ReservationScalarRelationFilter, ReservationWhereInput>
     requestedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    newTable?: XOR<TableNullableScalarRelationFilter, TableWhereInput> | null
   }, "id">
 
   export type ReservationChangeRequestOrderByWithAggregationInput = {
@@ -26431,6 +26536,7 @@ export namespace Prisma {
     newStartsAt?: SortOrderInput | SortOrder
     newEndsAt?: SortOrderInput | SortOrder
     newPartySize?: SortOrderInput | SortOrder
+    newTableId?: SortOrderInput | SortOrder
     newNotes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     reviewedAt?: SortOrderInput | SortOrder
@@ -26452,6 +26558,7 @@ export namespace Prisma {
     newStartsAt?: DateTimeNullableWithAggregatesFilter<"ReservationChangeRequest"> | Date | string | null
     newEndsAt?: DateTimeNullableWithAggregatesFilter<"ReservationChangeRequest"> | Date | string | null
     newPartySize?: IntNullableWithAggregatesFilter<"ReservationChangeRequest"> | number | null
+    newTableId?: StringNullableWithAggregatesFilter<"ReservationChangeRequest"> | string | null
     newNotes?: StringNullableWithAggregatesFilter<"ReservationChangeRequest"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ReservationChangeRequest"> | Date | string
     reviewedAt?: DateTimeNullableWithAggregatesFilter<"ReservationChangeRequest"> | Date | string | null
@@ -26831,6 +26938,7 @@ export namespace Prisma {
     maxPartySize?: IntFilter<"BookingRule"> | number
     daysAhead?: IntFilter<"BookingRule"> | number
     slotMinutes?: IntFilter<"BookingRule"> | number
+    turnoverMinutes?: IntFilter<"BookingRule"> | number
     cancellationCutoffMinutes?: IntFilter<"BookingRule"> | number
     graceMinutes?: IntFilter<"BookingRule"> | number
     restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
@@ -26842,6 +26950,7 @@ export namespace Prisma {
     maxPartySize?: SortOrder
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
+    turnoverMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
     graceMinutes?: SortOrder
     restaurant?: RestaurantOrderByWithRelationInput
@@ -26856,6 +26965,7 @@ export namespace Prisma {
     maxPartySize?: IntFilter<"BookingRule"> | number
     daysAhead?: IntFilter<"BookingRule"> | number
     slotMinutes?: IntFilter<"BookingRule"> | number
+    turnoverMinutes?: IntFilter<"BookingRule"> | number
     cancellationCutoffMinutes?: IntFilter<"BookingRule"> | number
     graceMinutes?: IntFilter<"BookingRule"> | number
     restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
@@ -26867,6 +26977,7 @@ export namespace Prisma {
     maxPartySize?: SortOrder
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
+    turnoverMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
     graceMinutes?: SortOrder
     _count?: BookingRuleCountOrderByAggregateInput
@@ -26885,6 +26996,7 @@ export namespace Prisma {
     maxPartySize?: IntWithAggregatesFilter<"BookingRule"> | number
     daysAhead?: IntWithAggregatesFilter<"BookingRule"> | number
     slotMinutes?: IntWithAggregatesFilter<"BookingRule"> | number
+    turnoverMinutes?: IntWithAggregatesFilter<"BookingRule"> | number
     cancellationCutoffMinutes?: IntWithAggregatesFilter<"BookingRule"> | number
     graceMinutes?: IntWithAggregatesFilter<"BookingRule"> | number
   }
@@ -27453,6 +27565,7 @@ export namespace Prisma {
     restaurant: RestaurantCreateNestedOneWithoutTablesInput
     zone: ZoneCreateNestedOneWithoutTablesInput
     unavailability?: TableUnavailabilityCreateNestedManyWithoutTableInput
+    requestedInChanges?: ReservationChangeRequestCreateNestedManyWithoutNewTableInput
   }
 
   export type TableUncheckedCreateInput = {
@@ -27465,6 +27578,7 @@ export namespace Prisma {
     reservable?: boolean
     reservations?: ReservationUncheckedCreateNestedManyWithoutTableInput
     unavailability?: TableUnavailabilityUncheckedCreateNestedManyWithoutTableInput
+    requestedInChanges?: ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput
   }
 
   export type TableUpdateInput = {
@@ -27477,6 +27591,7 @@ export namespace Prisma {
     restaurant?: RestaurantUpdateOneRequiredWithoutTablesNestedInput
     zone?: ZoneUpdateOneRequiredWithoutTablesNestedInput
     unavailability?: TableUnavailabilityUpdateManyWithoutTableNestedInput
+    requestedInChanges?: ReservationChangeRequestUpdateManyWithoutNewTableNestedInput
   }
 
   export type TableUncheckedUpdateInput = {
@@ -27489,6 +27604,7 @@ export namespace Prisma {
     reservable?: BoolFieldUpdateOperationsInput | boolean
     reservations?: ReservationUncheckedUpdateManyWithoutTableNestedInput
     unavailability?: TableUnavailabilityUncheckedUpdateManyWithoutTableNestedInput
+    requestedInChanges?: ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput
   }
 
   export type TableCreateManyInput = {
@@ -27706,6 +27822,7 @@ export namespace Prisma {
     reviewedAt?: Date | string | null
     reservation: ReservationCreateNestedOneWithoutReservationChangeRequestInput
     requestedBy: UserCreateNestedOneWithoutReservationChangeRequestInput
+    newTable?: TableCreateNestedOneWithoutRequestedInChangesInput
   }
 
   export type ReservationChangeRequestUncheckedCreateInput = {
@@ -27716,6 +27833,7 @@ export namespace Prisma {
     newStartsAt?: Date | string | null
     newEndsAt?: Date | string | null
     newPartySize?: number | null
+    newTableId?: string | null
     newNotes?: string | null
     createdAt?: Date | string
     reviewedAt?: Date | string | null
@@ -27732,6 +27850,7 @@ export namespace Prisma {
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reservation?: ReservationUpdateOneRequiredWithoutReservationChangeRequestNestedInput
     requestedBy?: UserUpdateOneRequiredWithoutReservationChangeRequestNestedInput
+    newTable?: TableUpdateOneWithoutRequestedInChangesNestedInput
   }
 
   export type ReservationChangeRequestUncheckedUpdateInput = {
@@ -27742,6 +27861,7 @@ export namespace Prisma {
     newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newTableId?: NullableStringFieldUpdateOperationsInput | string | null
     newNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27755,6 +27875,7 @@ export namespace Prisma {
     newStartsAt?: Date | string | null
     newEndsAt?: Date | string | null
     newPartySize?: number | null
+    newTableId?: string | null
     newNotes?: string | null
     createdAt?: Date | string
     reviewedAt?: Date | string | null
@@ -27779,6 +27900,7 @@ export namespace Prisma {
     newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newTableId?: NullableStringFieldUpdateOperationsInput | string | null
     newNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28148,6 +28270,7 @@ export namespace Prisma {
     maxPartySize: number
     daysAhead: number
     slotMinutes: number
+    turnoverMinutes?: number
     cancellationCutoffMinutes: number
     graceMinutes?: number
     restaurant: RestaurantCreateNestedOneWithoutBookingRuleInput
@@ -28159,6 +28282,7 @@ export namespace Prisma {
     maxPartySize: number
     daysAhead: number
     slotMinutes: number
+    turnoverMinutes?: number
     cancellationCutoffMinutes: number
     graceMinutes?: number
   }
@@ -28168,6 +28292,7 @@ export namespace Prisma {
     maxPartySize?: IntFieldUpdateOperationsInput | number
     daysAhead?: IntFieldUpdateOperationsInput | number
     slotMinutes?: IntFieldUpdateOperationsInput | number
+    turnoverMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
     graceMinutes?: IntFieldUpdateOperationsInput | number
     restaurant?: RestaurantUpdateOneRequiredWithoutBookingRuleNestedInput
@@ -28179,6 +28304,7 @@ export namespace Prisma {
     maxPartySize?: IntFieldUpdateOperationsInput | number
     daysAhead?: IntFieldUpdateOperationsInput | number
     slotMinutes?: IntFieldUpdateOperationsInput | number
+    turnoverMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
     graceMinutes?: IntFieldUpdateOperationsInput | number
   }
@@ -28189,6 +28315,7 @@ export namespace Prisma {
     maxPartySize: number
     daysAhead: number
     slotMinutes: number
+    turnoverMinutes?: number
     cancellationCutoffMinutes: number
     graceMinutes?: number
   }
@@ -28198,6 +28325,7 @@ export namespace Prisma {
     maxPartySize?: IntFieldUpdateOperationsInput | number
     daysAhead?: IntFieldUpdateOperationsInput | number
     slotMinutes?: IntFieldUpdateOperationsInput | number
+    turnoverMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
     graceMinutes?: IntFieldUpdateOperationsInput | number
   }
@@ -28208,6 +28336,7 @@ export namespace Prisma {
     maxPartySize?: IntFieldUpdateOperationsInput | number
     daysAhead?: IntFieldUpdateOperationsInput | number
     slotMinutes?: IntFieldUpdateOperationsInput | number
+    turnoverMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
     graceMinutes?: IntFieldUpdateOperationsInput | number
   }
@@ -29126,6 +29255,11 @@ export namespace Prisma {
     isNot?: ReservationWhereInput
   }
 
+  export type TableNullableScalarRelationFilter = {
+    is?: TableWhereInput | null
+    isNot?: TableWhereInput | null
+  }
+
   export type ReservationChangeRequestCountOrderByAggregateInput = {
     id?: SortOrder
     reservationId?: SortOrder
@@ -29134,6 +29268,7 @@ export namespace Prisma {
     newStartsAt?: SortOrder
     newEndsAt?: SortOrder
     newPartySize?: SortOrder
+    newTableId?: SortOrder
     newNotes?: SortOrder
     createdAt?: SortOrder
     reviewedAt?: SortOrder
@@ -29151,6 +29286,7 @@ export namespace Prisma {
     newStartsAt?: SortOrder
     newEndsAt?: SortOrder
     newPartySize?: SortOrder
+    newTableId?: SortOrder
     newNotes?: SortOrder
     createdAt?: SortOrder
     reviewedAt?: SortOrder
@@ -29164,6 +29300,7 @@ export namespace Prisma {
     newStartsAt?: SortOrder
     newEndsAt?: SortOrder
     newPartySize?: SortOrder
+    newTableId?: SortOrder
     newNotes?: SortOrder
     createdAt?: SortOrder
     reviewedAt?: SortOrder
@@ -29411,6 +29548,7 @@ export namespace Prisma {
     maxPartySize?: SortOrder
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
+    turnoverMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
     graceMinutes?: SortOrder
   }
@@ -29419,6 +29557,7 @@ export namespace Prisma {
     maxPartySize?: SortOrder
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
+    turnoverMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
     graceMinutes?: SortOrder
   }
@@ -29429,6 +29568,7 @@ export namespace Prisma {
     maxPartySize?: SortOrder
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
+    turnoverMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
     graceMinutes?: SortOrder
   }
@@ -29439,6 +29579,7 @@ export namespace Prisma {
     maxPartySize?: SortOrder
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
+    turnoverMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
     graceMinutes?: SortOrder
   }
@@ -29447,6 +29588,7 @@ export namespace Prisma {
     maxPartySize?: SortOrder
     daysAhead?: SortOrder
     slotMinutes?: SortOrder
+    turnoverMinutes?: SortOrder
     cancellationCutoffMinutes?: SortOrder
     graceMinutes?: SortOrder
   }
@@ -30408,6 +30550,13 @@ export namespace Prisma {
     connect?: TableUnavailabilityWhereUniqueInput | TableUnavailabilityWhereUniqueInput[]
   }
 
+  export type ReservationChangeRequestCreateNestedManyWithoutNewTableInput = {
+    create?: XOR<ReservationChangeRequestCreateWithoutNewTableInput, ReservationChangeRequestUncheckedCreateWithoutNewTableInput> | ReservationChangeRequestCreateWithoutNewTableInput[] | ReservationChangeRequestUncheckedCreateWithoutNewTableInput[]
+    connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutNewTableInput | ReservationChangeRequestCreateOrConnectWithoutNewTableInput[]
+    createMany?: ReservationChangeRequestCreateManyNewTableInputEnvelope
+    connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+  }
+
   export type ReservationUncheckedCreateNestedManyWithoutTableInput = {
     create?: XOR<ReservationCreateWithoutTableInput, ReservationUncheckedCreateWithoutTableInput> | ReservationCreateWithoutTableInput[] | ReservationUncheckedCreateWithoutTableInput[]
     connectOrCreate?: ReservationCreateOrConnectWithoutTableInput | ReservationCreateOrConnectWithoutTableInput[]
@@ -30420,6 +30569,13 @@ export namespace Prisma {
     connectOrCreate?: TableUnavailabilityCreateOrConnectWithoutTableInput | TableUnavailabilityCreateOrConnectWithoutTableInput[]
     createMany?: TableUnavailabilityCreateManyTableInputEnvelope
     connect?: TableUnavailabilityWhereUniqueInput | TableUnavailabilityWhereUniqueInput[]
+  }
+
+  export type ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput = {
+    create?: XOR<ReservationChangeRequestCreateWithoutNewTableInput, ReservationChangeRequestUncheckedCreateWithoutNewTableInput> | ReservationChangeRequestCreateWithoutNewTableInput[] | ReservationChangeRequestUncheckedCreateWithoutNewTableInput[]
+    connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutNewTableInput | ReservationChangeRequestCreateOrConnectWithoutNewTableInput[]
+    createMany?: ReservationChangeRequestCreateManyNewTableInputEnvelope
+    connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -30474,6 +30630,20 @@ export namespace Prisma {
     deleteMany?: TableUnavailabilityScalarWhereInput | TableUnavailabilityScalarWhereInput[]
   }
 
+  export type ReservationChangeRequestUpdateManyWithoutNewTableNestedInput = {
+    create?: XOR<ReservationChangeRequestCreateWithoutNewTableInput, ReservationChangeRequestUncheckedCreateWithoutNewTableInput> | ReservationChangeRequestCreateWithoutNewTableInput[] | ReservationChangeRequestUncheckedCreateWithoutNewTableInput[]
+    connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutNewTableInput | ReservationChangeRequestCreateOrConnectWithoutNewTableInput[]
+    upsert?: ReservationChangeRequestUpsertWithWhereUniqueWithoutNewTableInput | ReservationChangeRequestUpsertWithWhereUniqueWithoutNewTableInput[]
+    createMany?: ReservationChangeRequestCreateManyNewTableInputEnvelope
+    set?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    disconnect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    delete?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    update?: ReservationChangeRequestUpdateWithWhereUniqueWithoutNewTableInput | ReservationChangeRequestUpdateWithWhereUniqueWithoutNewTableInput[]
+    updateMany?: ReservationChangeRequestUpdateManyWithWhereWithoutNewTableInput | ReservationChangeRequestUpdateManyWithWhereWithoutNewTableInput[]
+    deleteMany?: ReservationChangeRequestScalarWhereInput | ReservationChangeRequestScalarWhereInput[]
+  }
+
   export type ReservationUncheckedUpdateManyWithoutTableNestedInput = {
     create?: XOR<ReservationCreateWithoutTableInput, ReservationUncheckedCreateWithoutTableInput> | ReservationCreateWithoutTableInput[] | ReservationUncheckedCreateWithoutTableInput[]
     connectOrCreate?: ReservationCreateOrConnectWithoutTableInput | ReservationCreateOrConnectWithoutTableInput[]
@@ -30500,6 +30670,20 @@ export namespace Prisma {
     update?: TableUnavailabilityUpdateWithWhereUniqueWithoutTableInput | TableUnavailabilityUpdateWithWhereUniqueWithoutTableInput[]
     updateMany?: TableUnavailabilityUpdateManyWithWhereWithoutTableInput | TableUnavailabilityUpdateManyWithWhereWithoutTableInput[]
     deleteMany?: TableUnavailabilityScalarWhereInput | TableUnavailabilityScalarWhereInput[]
+  }
+
+  export type ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput = {
+    create?: XOR<ReservationChangeRequestCreateWithoutNewTableInput, ReservationChangeRequestUncheckedCreateWithoutNewTableInput> | ReservationChangeRequestCreateWithoutNewTableInput[] | ReservationChangeRequestUncheckedCreateWithoutNewTableInput[]
+    connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutNewTableInput | ReservationChangeRequestCreateOrConnectWithoutNewTableInput[]
+    upsert?: ReservationChangeRequestUpsertWithWhereUniqueWithoutNewTableInput | ReservationChangeRequestUpsertWithWhereUniqueWithoutNewTableInput[]
+    createMany?: ReservationChangeRequestCreateManyNewTableInputEnvelope
+    set?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    disconnect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    delete?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+    update?: ReservationChangeRequestUpdateWithWhereUniqueWithoutNewTableInput | ReservationChangeRequestUpdateWithWhereUniqueWithoutNewTableInput[]
+    updateMany?: ReservationChangeRequestUpdateManyWithWhereWithoutNewTableInput | ReservationChangeRequestUpdateManyWithWhereWithoutNewTableInput[]
+    deleteMany?: ReservationChangeRequestScalarWhereInput | ReservationChangeRequestScalarWhereInput[]
   }
 
   export type TableCreateNestedOneWithoutUnavailabilityInput = {
@@ -30700,6 +30884,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type TableCreateNestedOneWithoutRequestedInChangesInput = {
+    create?: XOR<TableCreateWithoutRequestedInChangesInput, TableUncheckedCreateWithoutRequestedInChangesInput>
+    connectOrCreate?: TableCreateOrConnectWithoutRequestedInChangesInput
+    connect?: TableWhereUniqueInput
+  }
+
   export type EnumChangeStatusFieldUpdateOperationsInput = {
     set?: $Enums.ChangeStatus
   }
@@ -30726,6 +30916,16 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutReservationChangeRequestInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReservationChangeRequestInput, UserUpdateWithoutReservationChangeRequestInput>, UserUncheckedUpdateWithoutReservationChangeRequestInput>
+  }
+
+  export type TableUpdateOneWithoutRequestedInChangesNestedInput = {
+    create?: XOR<TableCreateWithoutRequestedInChangesInput, TableUncheckedCreateWithoutRequestedInChangesInput>
+    connectOrCreate?: TableCreateOrConnectWithoutRequestedInChangesInput
+    upsert?: TableUpsertWithoutRequestedInChangesInput
+    disconnect?: TableWhereInput | boolean
+    delete?: TableWhereInput | boolean
+    connect?: TableWhereUniqueInput
+    update?: XOR<XOR<TableUpdateToOneWithWhereWithoutRequestedInChangesInput, TableUpdateWithoutRequestedInChangesInput>, TableUncheckedUpdateWithoutRequestedInChangesInput>
   }
 
   export type ReservationCreateNestedOneWithoutQrTokenInput = {
@@ -31648,6 +31848,7 @@ export namespace Prisma {
     createdAt?: Date | string
     reviewedAt?: Date | string | null
     reservation: ReservationCreateNestedOneWithoutReservationChangeRequestInput
+    newTable?: TableCreateNestedOneWithoutRequestedInChangesInput
   }
 
   export type ReservationChangeRequestUncheckedCreateWithoutRequestedByInput = {
@@ -31657,6 +31858,7 @@ export namespace Prisma {
     newStartsAt?: Date | string | null
     newEndsAt?: Date | string | null
     newPartySize?: number | null
+    newTableId?: string | null
     newNotes?: string | null
     createdAt?: Date | string
     reviewedAt?: Date | string | null
@@ -31878,6 +32080,7 @@ export namespace Prisma {
     newStartsAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
     newEndsAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
     newPartySize?: IntNullableFilter<"ReservationChangeRequest"> | number | null
+    newTableId?: StringNullableFilter<"ReservationChangeRequest"> | string | null
     newNotes?: StringNullableFilter<"ReservationChangeRequest"> | string | null
     createdAt?: DateTimeFilter<"ReservationChangeRequest"> | Date | string
     reviewedAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
@@ -31888,6 +32091,7 @@ export namespace Prisma {
     maxPartySize: number
     daysAhead: number
     slotMinutes: number
+    turnoverMinutes?: number
     cancellationCutoffMinutes: number
     graceMinutes?: number
   }
@@ -31897,6 +32101,7 @@ export namespace Prisma {
     maxPartySize: number
     daysAhead: number
     slotMinutes: number
+    turnoverMinutes?: number
     cancellationCutoffMinutes: number
     graceMinutes?: number
   }
@@ -32112,6 +32317,7 @@ export namespace Prisma {
     reservations?: ReservationCreateNestedManyWithoutTableInput
     zone: ZoneCreateNestedOneWithoutTablesInput
     unavailability?: TableUnavailabilityCreateNestedManyWithoutTableInput
+    requestedInChanges?: ReservationChangeRequestCreateNestedManyWithoutNewTableInput
   }
 
   export type TableUncheckedCreateWithoutRestaurantInput = {
@@ -32123,6 +32329,7 @@ export namespace Prisma {
     reservable?: boolean
     reservations?: ReservationUncheckedCreateNestedManyWithoutTableInput
     unavailability?: TableUnavailabilityUncheckedCreateNestedManyWithoutTableInput
+    requestedInChanges?: ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput
   }
 
   export type TableCreateOrConnectWithoutRestaurantInput = {
@@ -32175,6 +32382,7 @@ export namespace Prisma {
     maxPartySize?: IntFieldUpdateOperationsInput | number
     daysAhead?: IntFieldUpdateOperationsInput | number
     slotMinutes?: IntFieldUpdateOperationsInput | number
+    turnoverMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
     graceMinutes?: IntFieldUpdateOperationsInput | number
   }
@@ -32184,6 +32392,7 @@ export namespace Prisma {
     maxPartySize?: IntFieldUpdateOperationsInput | number
     daysAhead?: IntFieldUpdateOperationsInput | number
     slotMinutes?: IntFieldUpdateOperationsInput | number
+    turnoverMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
     graceMinutes?: IntFieldUpdateOperationsInput | number
   }
@@ -32417,6 +32626,7 @@ export namespace Prisma {
     reservations?: ReservationCreateNestedManyWithoutTableInput
     restaurant: RestaurantCreateNestedOneWithoutTablesInput
     unavailability?: TableUnavailabilityCreateNestedManyWithoutTableInput
+    requestedInChanges?: ReservationChangeRequestCreateNestedManyWithoutNewTableInput
   }
 
   export type TableUncheckedCreateWithoutZoneInput = {
@@ -32428,6 +32638,7 @@ export namespace Prisma {
     reservable?: boolean
     reservations?: ReservationUncheckedCreateNestedManyWithoutTableInput
     unavailability?: TableUnavailabilityUncheckedCreateNestedManyWithoutTableInput
+    requestedInChanges?: ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput
   }
 
   export type TableCreateOrConnectWithoutZoneInput = {
@@ -32680,6 +32891,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ReservationChangeRequestCreateWithoutNewTableInput = {
+    id?: string
+    status?: $Enums.ChangeStatus
+    newStartsAt?: Date | string | null
+    newEndsAt?: Date | string | null
+    newPartySize?: number | null
+    newNotes?: string | null
+    createdAt?: Date | string
+    reviewedAt?: Date | string | null
+    reservation: ReservationCreateNestedOneWithoutReservationChangeRequestInput
+    requestedBy: UserCreateNestedOneWithoutReservationChangeRequestInput
+  }
+
+  export type ReservationChangeRequestUncheckedCreateWithoutNewTableInput = {
+    id?: string
+    reservationId: string
+    requestedById: string
+    status?: $Enums.ChangeStatus
+    newStartsAt?: Date | string | null
+    newEndsAt?: Date | string | null
+    newPartySize?: number | null
+    newNotes?: string | null
+    createdAt?: Date | string
+    reviewedAt?: Date | string | null
+  }
+
+  export type ReservationChangeRequestCreateOrConnectWithoutNewTableInput = {
+    where: ReservationChangeRequestWhereUniqueInput
+    create: XOR<ReservationChangeRequestCreateWithoutNewTableInput, ReservationChangeRequestUncheckedCreateWithoutNewTableInput>
+  }
+
+  export type ReservationChangeRequestCreateManyNewTableInputEnvelope = {
+    data: ReservationChangeRequestCreateManyNewTableInput | ReservationChangeRequestCreateManyNewTableInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ReservationUpsertWithWhereUniqueWithoutTableInput = {
     where: ReservationWhereUniqueInput
     update: XOR<ReservationUpdateWithoutTableInput, ReservationUncheckedUpdateWithoutTableInput>
@@ -32797,6 +33044,22 @@ export namespace Prisma {
     reason?: StringFilter<"TableUnavailability"> | string
   }
 
+  export type ReservationChangeRequestUpsertWithWhereUniqueWithoutNewTableInput = {
+    where: ReservationChangeRequestWhereUniqueInput
+    update: XOR<ReservationChangeRequestUpdateWithoutNewTableInput, ReservationChangeRequestUncheckedUpdateWithoutNewTableInput>
+    create: XOR<ReservationChangeRequestCreateWithoutNewTableInput, ReservationChangeRequestUncheckedCreateWithoutNewTableInput>
+  }
+
+  export type ReservationChangeRequestUpdateWithWhereUniqueWithoutNewTableInput = {
+    where: ReservationChangeRequestWhereUniqueInput
+    data: XOR<ReservationChangeRequestUpdateWithoutNewTableInput, ReservationChangeRequestUncheckedUpdateWithoutNewTableInput>
+  }
+
+  export type ReservationChangeRequestUpdateManyWithWhereWithoutNewTableInput = {
+    where: ReservationChangeRequestScalarWhereInput
+    data: XOR<ReservationChangeRequestUpdateManyMutationInput, ReservationChangeRequestUncheckedUpdateManyWithoutNewTableInput>
+  }
+
   export type TableCreateWithoutUnavailabilityInput = {
     id?: string
     capacity: number
@@ -32806,6 +33069,7 @@ export namespace Prisma {
     reservations?: ReservationCreateNestedManyWithoutTableInput
     restaurant: RestaurantCreateNestedOneWithoutTablesInput
     zone: ZoneCreateNestedOneWithoutTablesInput
+    requestedInChanges?: ReservationChangeRequestCreateNestedManyWithoutNewTableInput
   }
 
   export type TableUncheckedCreateWithoutUnavailabilityInput = {
@@ -32817,6 +33081,7 @@ export namespace Prisma {
     name: string
     reservable?: boolean
     reservations?: ReservationUncheckedCreateNestedManyWithoutTableInput
+    requestedInChanges?: ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput
   }
 
   export type TableCreateOrConnectWithoutUnavailabilityInput = {
@@ -32844,6 +33109,7 @@ export namespace Prisma {
     reservations?: ReservationUpdateManyWithoutTableNestedInput
     restaurant?: RestaurantUpdateOneRequiredWithoutTablesNestedInput
     zone?: ZoneUpdateOneRequiredWithoutTablesNestedInput
+    requestedInChanges?: ReservationChangeRequestUpdateManyWithoutNewTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutUnavailabilityInput = {
@@ -32855,6 +33121,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     reservable?: BoolFieldUpdateOperationsInput | boolean
     reservations?: ReservationUncheckedUpdateManyWithoutTableNestedInput
+    requestedInChanges?: ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput
   }
 
   export type NotificationCreateWithoutReservationInput = {
@@ -32958,6 +33225,7 @@ export namespace Prisma {
     restaurant: RestaurantCreateNestedOneWithoutTablesInput
     zone: ZoneCreateNestedOneWithoutTablesInput
     unavailability?: TableUnavailabilityCreateNestedManyWithoutTableInput
+    requestedInChanges?: ReservationChangeRequestCreateNestedManyWithoutNewTableInput
   }
 
   export type TableUncheckedCreateWithoutReservationsInput = {
@@ -32969,6 +33237,7 @@ export namespace Prisma {
     name: string
     reservable?: boolean
     unavailability?: TableUnavailabilityUncheckedCreateNestedManyWithoutTableInput
+    requestedInChanges?: ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput
   }
 
   export type TableCreateOrConnectWithoutReservationsInput = {
@@ -33019,6 +33288,7 @@ export namespace Prisma {
     createdAt?: Date | string
     reviewedAt?: Date | string | null
     requestedBy: UserCreateNestedOneWithoutReservationChangeRequestInput
+    newTable?: TableCreateNestedOneWithoutRequestedInChangesInput
   }
 
   export type ReservationChangeRequestUncheckedCreateWithoutReservationInput = {
@@ -33028,6 +33298,7 @@ export namespace Prisma {
     newStartsAt?: Date | string | null
     newEndsAt?: Date | string | null
     newPartySize?: number | null
+    newTableId?: string | null
     newNotes?: string | null
     createdAt?: Date | string
     reviewedAt?: Date | string | null
@@ -33153,6 +33424,7 @@ export namespace Prisma {
     restaurant?: RestaurantUpdateOneRequiredWithoutTablesNestedInput
     zone?: ZoneUpdateOneRequiredWithoutTablesNestedInput
     unavailability?: TableUnavailabilityUpdateManyWithoutTableNestedInput
+    requestedInChanges?: ReservationChangeRequestUpdateManyWithoutNewTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutReservationsInput = {
@@ -33164,6 +33436,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     reservable?: BoolFieldUpdateOperationsInput | boolean
     unavailability?: TableUnavailabilityUncheckedUpdateManyWithoutTableNestedInput
+    requestedInChanges?: ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput
   }
 
   export type UserUpsertWithoutReservationsInput = {
@@ -33295,6 +33568,35 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutReservationChangeRequestInput, UserUncheckedCreateWithoutReservationChangeRequestInput>
   }
 
+  export type TableCreateWithoutRequestedInChangesInput = {
+    id?: string
+    capacity: number
+    active?: boolean
+    name: string
+    reservable?: boolean
+    reservations?: ReservationCreateNestedManyWithoutTableInput
+    restaurant: RestaurantCreateNestedOneWithoutTablesInput
+    zone: ZoneCreateNestedOneWithoutTablesInput
+    unavailability?: TableUnavailabilityCreateNestedManyWithoutTableInput
+  }
+
+  export type TableUncheckedCreateWithoutRequestedInChangesInput = {
+    id?: string
+    zoneId: string
+    restaurantId: string
+    capacity: number
+    active?: boolean
+    name: string
+    reservable?: boolean
+    reservations?: ReservationUncheckedCreateNestedManyWithoutTableInput
+    unavailability?: TableUnavailabilityUncheckedCreateNestedManyWithoutTableInput
+  }
+
+  export type TableCreateOrConnectWithoutRequestedInChangesInput = {
+    where: TableWhereUniqueInput
+    create: XOR<TableCreateWithoutRequestedInChangesInput, TableUncheckedCreateWithoutRequestedInChangesInput>
+  }
+
   export type ReservationUpsertWithoutReservationChangeRequestInput = {
     update: XOR<ReservationUpdateWithoutReservationChangeRequestInput, ReservationUncheckedUpdateWithoutReservationChangeRequestInput>
     create: XOR<ReservationCreateWithoutReservationChangeRequestInput, ReservationUncheckedCreateWithoutReservationChangeRequestInput>
@@ -33379,6 +33681,41 @@ export namespace Prisma {
     reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type TableUpsertWithoutRequestedInChangesInput = {
+    update: XOR<TableUpdateWithoutRequestedInChangesInput, TableUncheckedUpdateWithoutRequestedInChangesInput>
+    create: XOR<TableCreateWithoutRequestedInChangesInput, TableUncheckedCreateWithoutRequestedInChangesInput>
+    where?: TableWhereInput
+  }
+
+  export type TableUpdateToOneWithWhereWithoutRequestedInChangesInput = {
+    where?: TableWhereInput
+    data: XOR<TableUpdateWithoutRequestedInChangesInput, TableUncheckedUpdateWithoutRequestedInChangesInput>
+  }
+
+  export type TableUpdateWithoutRequestedInChangesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    name?: StringFieldUpdateOperationsInput | string
+    reservable?: BoolFieldUpdateOperationsInput | boolean
+    reservations?: ReservationUpdateManyWithoutTableNestedInput
+    restaurant?: RestaurantUpdateOneRequiredWithoutTablesNestedInput
+    zone?: ZoneUpdateOneRequiredWithoutTablesNestedInput
+    unavailability?: TableUnavailabilityUpdateManyWithoutTableNestedInput
+  }
+
+  export type TableUncheckedUpdateWithoutRequestedInChangesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    zoneId?: StringFieldUpdateOperationsInput | string
+    restaurantId?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    name?: StringFieldUpdateOperationsInput | string
+    reservable?: BoolFieldUpdateOperationsInput | boolean
+    reservations?: ReservationUncheckedUpdateManyWithoutTableNestedInput
+    unavailability?: TableUnavailabilityUncheckedUpdateManyWithoutTableNestedInput
   }
 
   export type ReservationCreateWithoutQrTokenInput = {
@@ -34810,6 +35147,7 @@ export namespace Prisma {
     newStartsAt?: Date | string | null
     newEndsAt?: Date | string | null
     newPartySize?: number | null
+    newTableId?: string | null
     newNotes?: string | null
     createdAt?: Date | string
     reviewedAt?: Date | string | null
@@ -35028,6 +35366,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reservation?: ReservationUpdateOneRequiredWithoutReservationChangeRequestNestedInput
+    newTable?: TableUpdateOneWithoutRequestedInChangesNestedInput
   }
 
   export type ReservationChangeRequestUncheckedUpdateWithoutRequestedByInput = {
@@ -35037,6 +35376,7 @@ export namespace Prisma {
     newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newTableId?: NullableStringFieldUpdateOperationsInput | string | null
     newNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35049,6 +35389,7 @@ export namespace Prisma {
     newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newTableId?: NullableStringFieldUpdateOperationsInput | string | null
     newNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35278,6 +35619,7 @@ export namespace Prisma {
     reservations?: ReservationUpdateManyWithoutTableNestedInput
     zone?: ZoneUpdateOneRequiredWithoutTablesNestedInput
     unavailability?: TableUnavailabilityUpdateManyWithoutTableNestedInput
+    requestedInChanges?: ReservationChangeRequestUpdateManyWithoutNewTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutRestaurantInput = {
@@ -35289,6 +35631,7 @@ export namespace Prisma {
     reservable?: BoolFieldUpdateOperationsInput | boolean
     reservations?: ReservationUncheckedUpdateManyWithoutTableNestedInput
     unavailability?: TableUnavailabilityUncheckedUpdateManyWithoutTableNestedInput
+    requestedInChanges?: ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput
   }
 
   export type TableUncheckedUpdateManyWithoutRestaurantInput = {
@@ -35338,6 +35681,7 @@ export namespace Prisma {
     reservations?: ReservationUpdateManyWithoutTableNestedInput
     restaurant?: RestaurantUpdateOneRequiredWithoutTablesNestedInput
     unavailability?: TableUnavailabilityUpdateManyWithoutTableNestedInput
+    requestedInChanges?: ReservationChangeRequestUpdateManyWithoutNewTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutZoneInput = {
@@ -35349,6 +35693,7 @@ export namespace Prisma {
     reservable?: BoolFieldUpdateOperationsInput | boolean
     reservations?: ReservationUncheckedUpdateManyWithoutTableNestedInput
     unavailability?: TableUnavailabilityUncheckedUpdateManyWithoutTableNestedInput
+    requestedInChanges?: ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput
   }
 
   export type TableUncheckedUpdateManyWithoutZoneInput = {
@@ -35380,6 +35725,19 @@ export namespace Prisma {
     startsAt: Date | string
     endsAt: Date | string
     reason: string
+  }
+
+  export type ReservationChangeRequestCreateManyNewTableInput = {
+    id?: string
+    reservationId: string
+    requestedById: string
+    status?: $Enums.ChangeStatus
+    newStartsAt?: Date | string | null
+    newEndsAt?: Date | string | null
+    newPartySize?: number | null
+    newNotes?: string | null
+    createdAt?: Date | string
+    reviewedAt?: Date | string | null
   }
 
   export type ReservationUpdateWithoutTableInput = {
@@ -35454,6 +35812,45 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ReservationChangeRequestUpdateWithoutNewTableInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reservation?: ReservationUpdateOneRequiredWithoutReservationChangeRequestNestedInput
+    requestedBy?: UserUpdateOneRequiredWithoutReservationChangeRequestNestedInput
+  }
+
+  export type ReservationChangeRequestUncheckedUpdateWithoutNewTableInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
+    requestedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReservationChangeRequestUncheckedUpdateManyWithoutNewTableInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
+    requestedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumChangeStatusFieldUpdateOperationsInput | $Enums.ChangeStatus
+    newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type NotificationCreateManyReservationInput = {
     id?: string
     userId: string
@@ -35471,6 +35868,7 @@ export namespace Prisma {
     newStartsAt?: Date | string | null
     newEndsAt?: Date | string | null
     newPartySize?: number | null
+    newTableId?: string | null
     newNotes?: string | null
     createdAt?: Date | string
     reviewedAt?: Date | string | null
@@ -35516,6 +35914,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     requestedBy?: UserUpdateOneRequiredWithoutReservationChangeRequestNestedInput
+    newTable?: TableUpdateOneWithoutRequestedInChangesNestedInput
   }
 
   export type ReservationChangeRequestUncheckedUpdateWithoutReservationInput = {
@@ -35525,6 +35924,7 @@ export namespace Prisma {
     newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newTableId?: NullableStringFieldUpdateOperationsInput | string | null
     newNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35537,6 +35937,7 @@ export namespace Prisma {
     newStartsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     newEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     newPartySize?: NullableIntFieldUpdateOperationsInput | number | null
+    newTableId?: NullableStringFieldUpdateOperationsInput | string | null
     newNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

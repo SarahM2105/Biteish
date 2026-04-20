@@ -1,0 +1,39 @@
+.dark-mode .edit-booking-current__status {
+    color: #86efac;
+}
+
+.light-mode .edit-booking-header {
+    background:
+            radial-gradient(circle at top left, rgba(255, 106, 0, 0.14), transparent 28%),
+            radial-gradient(circle at right center, rgba(255, 60, 172, 0.10), transparent 30%),
+            linear-gradient(135deg, #fff4ec 0%, #ffeef7 48%, #fff4ea 100%);
+    border: 1px solid #e6d2c5;
+    box-shadow: 0 16px 34px rgba(120, 72, 32, 0.10);
+}
+
+.light-mode .edit-booking-current,
+.light-mode .edit-booking-form-card,
+.light-mode .edit-booking-feedback {
+    background: #fffefd;
+    border: 1px solid #e7d9cf;
+    box-shadow: 0 14px 30px rgba(108, 73, 36, 0.08);
+}
+
+.light-mode .edit-booking-current__item,
+.light-mode .edit-booking-notice {
+    background: #f9ede2;
+    border: 1px solid #e8d2c3;
+}
+
+.light-mode .edit-booking-field__input {
+    background: #ffffff;
+    border: 1px solid #e4d6cc;
+}
+
+.light-mode .edit-booking-header__text {
+    color: #5f687c;
+}
+
+.light-mode .edit-booking-current__label {
+    color: #7b6f7b;
+}

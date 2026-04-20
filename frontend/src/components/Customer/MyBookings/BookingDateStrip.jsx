@@ -1,80 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-
-function toDateKey(date) {
-    const year = date.getFullYear();
-    const month = `${date.getMonth() + 1}`.padStart(2, "0");
-    const day = `${date.getDate()}`.padStart(2, "0");
-    return `${year}-${month}-${day}`;
-}
-
-function fromDateKey(value) {
-    const [year, month, day] = value.split("-").map(Number);
-    return new Date(year, month - 1, day);
-}
-
-function formatMonthLabel(date) {
-    return date.toLocaleDateString("en-GB", {
-        month: "long",
-        year: "numeric",
-    });
-}
-
-function getDayLabel(date, index) {
-    if (index === 0) return "Today";
-    if (index === 1) return "Tomorrow";
-
-    return date.toLocaleDateString("en-GB", {
-        weekday: "short",
-    });
-}
-
-function getDateLabel(date) {
-    return date.toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "short",
-    });
-}
-
-function isSameMonth(date, monthDate) {
-    return (
-        date.getFullYear() === monthDate.getFullYear() &&
-        date.getMonth() === monthDate.getMonth()
-    );
-}
-
-function buildCalendarDays(monthDate) {
-    const year = monthDate.getFullYear();
-    const month = monthDate.getMonth();
-    const firstDayOfMonth = new Date(year, month, 1);
-    const startOffset = (firstDayOfMonth.getDay() + 6) % 7;
-    const gridStart = new Date(year, month, 1 - startOffset);
-
-    return Array.from({ length: 42 }, (_, index) => {
-        const date = new Date(gridStart);
-        date.setDate(gridStart.getDate() + index);
-        return date;
-    });
-}
-
-function getMarkers(daySummary) {
-    if (!daySummary) return [];
-
-    const markers = [];
-
-    if (daySummary.confirmed > 0) {
-        markers.push("confirmed");
-    }
-
-    if (daySummary.pending > 0) {
-        markers.push("pending");
-    }
-
-    if (daySummary.completed > 0) {
-        markers.push("completed");
-    }
-
-    return markers.slice(0, 3);
-}
+import {
+    buildCalendarDays,
+    formatMonthLabel,
+    fromDateKey,
+    getDateLabel,
+    getDayLabel,
+    isSameMonth,
+    toDateKey,
+} from "./dateHelpers";
+import { getMarkers } from "./bookingHelpers";
 
 export default function BookingDateStrip({
                                              summary,
@@ -86,12 +20,15 @@ export default function BookingDateStrip({
         const today = new Date();
         return new Date(today.getFullYear(), today.getMonth(), today.getDate());
     });
+
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
     const [calendarMonth, setCalendarMonth] = useState(() => {
         if (selectedDate) {
             const selected = fromDateKey(selectedDate);
             return new Date(selected.getFullYear(), selected.getMonth(), 1);
         }
+
         const today = new Date();
         return new Date(today.getFullYear(), today.getMonth(), 1);
     });
@@ -106,7 +43,10 @@ export default function BookingDateStrip({
         });
     }, [rangeStart]);
 
-    const calendarDays = useMemo(() => buildCalendarDays(calendarMonth), [calendarMonth]);
+    const calendarDays = useMemo(
+        () => buildCalendarDays(calendarMonth),
+        [calendarMonth]
+    );
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -116,6 +56,7 @@ export default function BookingDateStrip({
         }
 
         document.addEventListener("mousedown", handleClickOutside);
+
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
@@ -125,7 +66,12 @@ export default function BookingDateStrip({
         if (!selectedDate) return;
 
         const selected = fromDateKey(selectedDate);
-        const aligned = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
+        const aligned = new Date(
+            selected.getFullYear(),
+            selected.getMonth(),
+            selected.getDate()
+        );
+
         setCalendarMonth(new Date(selected.getFullYear(), selected.getMonth(), 1));
 
         const end = new Date(rangeStart);
@@ -134,7 +80,7 @@ export default function BookingDateStrip({
         if (selected < rangeStart || selected > end) {
             setRangeStart(aligned);
         }
-    }, [selectedDate]);
+    }, [selectedDate, rangeStart]);
 
     function shiftRange(daysToMove) {
         setRangeStart((prev) => {
@@ -311,9 +257,15 @@ export default function BookingDateStrip({
                                     type="button"
                                     className={[
                                         "booking-date-strip__calendar-day",
-                                        isSelected ? "booking-date-strip__calendar-day--selected" : "",
-                                        total > 0 ? "booking-date-strip__calendar-day--active" : "",
-                                        isMuted ? "booking-date-strip__calendar-day--muted" : "",
+                                        isSelected
+                                            ? "booking-date-strip__calendar-day--selected"
+                                            : "",
+                                        total > 0
+                                            ? "booking-date-strip__calendar-day--active"
+                                            : "",
+                                        isMuted
+                                            ? "booking-date-strip__calendar-day--muted"
+                                            : "",
                                     ]
                                         .filter(Boolean)
                                         .join(" ")}

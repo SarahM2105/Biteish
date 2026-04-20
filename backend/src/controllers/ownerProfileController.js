@@ -72,14 +72,47 @@ async function updateOwnerRestaurantProfile(req, res) {
         };
 
         if (bookingRule) {
+            const bookingRuleData = {
+                maxPartySize:
+                    bookingRule.maxPartySize !== undefined
+                        ? Number(bookingRule.maxPartySize)
+                        : undefined,
+                daysAhead:
+                    bookingRule.daysAhead !== undefined
+                        ? Number(bookingRule.daysAhead)
+                        : undefined,
+                slotMinutes:
+                    bookingRule.slotMinutes !== undefined
+                        ? Number(bookingRule.slotMinutes)
+                        : undefined,
+                turnoverMinutes:
+                    bookingRule.turnoverMinutes !== undefined
+                        ? Number(bookingRule.turnoverMinutes)
+                        : undefined,
+                cancellationCutoffMinutes:
+                    bookingRule.cancellationCutoffMinutes !== undefined
+                        ? Number(bookingRule.cancellationCutoffMinutes)
+                        : undefined,
+                graceMinutes:
+                    bookingRule.graceMinutes !== undefined
+                        ? Number(bookingRule.graceMinutes)
+                        : undefined,
+            };
+
             if (restaurant.bookingRule) {
                 updateData.bookingRule = {
-                    update: {
-                        daysAhead: Number(bookingRule.daysAhead),
-                        slotMinutes: Number(bookingRule.slotMinutes),
-                        cancellationCutoffMinutes: Number(
-                            bookingRule.cancellationCutoffMinutes
-                        ),
+                    update: bookingRuleData,
+                };
+            } else {
+                updateData.bookingRule = {
+                    create: {
+                        maxPartySize: bookingRuleData.maxPartySize ?? 6,
+                        daysAhead: bookingRuleData.daysAhead ?? 30,
+                        slotMinutes: bookingRuleData.slotMinutes ?? 120,
+                        turnoverMinutes: bookingRuleData.turnoverMinutes ?? 15,
+                        cancellationCutoffMinutes:
+                            bookingRuleData.cancellationCutoffMinutes ?? 120,
+                        graceMinutes: bookingRuleData.graceMinutes ?? 15,
                     },
                 };
             }

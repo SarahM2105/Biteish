@@ -188,6 +188,7 @@ exports.Prisma.ReservationChangeRequestScalarFieldEnum = {
   newStartsAt: 'newStartsAt',
   newEndsAt: 'newEndsAt',
   newPartySize: 'newPartySize',
+  newTableId: 'newTableId',
   newNotes: 'newNotes',
   createdAt: 'createdAt',
   reviewedAt: 'reviewedAt'
@@ -251,6 +252,7 @@ exports.Prisma.BookingRuleScalarFieldEnum = {
   maxPartySize: 'maxPartySize',
   daysAhead: 'daysAhead',
   slotMinutes: 'slotMinutes',
+  turnoverMinutes: 'turnoverMinutes',
   cancellationCutoffMinutes: 'cancellationCutoffMinutes',
   graceMinutes: 'graceMinutes'
 };

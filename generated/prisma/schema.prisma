@@ -53,17 +53,18 @@ model Zone {
 }
 
 model Table {
-  id             String                @id @default(uuid())
-  zoneId         String
-  restaurantId   String
-  capacity       Int
-  active         Boolean               @default(true)
-  name           String
-  reservable     Boolean               @default(true)
-  reservations   Reservation[]
-  restaurant     Restaurant            @relation(fields: [restaurantId], references: [id])
-  zone           Zone                  @relation(fields: [zoneId], references: [id])
-  unavailability TableUnavailability[]
+  id                 String                     @id @default(uuid())
+  zoneId             String
+  restaurantId       String
+  capacity           Int
+  active             Boolean                    @default(true)
+  name               String
+  reservable         Boolean                    @default(true)
+  reservations       Reservation[]
+  restaurant         Restaurant                 @relation(fields: [restaurantId], references: [id])
+  zone               Zone                       @relation(fields: [zoneId], references: [id])
+  unavailability     TableUnavailability[]
+  requestedInChanges ReservationChangeRequest[] @relation("RequestedChangeTable")
 
   @@unique([restaurantId, name])
 }
@@ -107,12 +108,14 @@ model ReservationChangeRequest {
   newStartsAt   DateTime?
   newEndsAt     DateTime?
   newPartySize  Int?
+  newTableId    String?
   newNotes      String?
   createdAt     DateTime     @default(now())
   reviewedAt    DateTime?
 
   reservation Reservation @relation(fields: [reservationId], references: [id])
   requestedBy User        @relation(fields: [requestedById], references: [id])
+  newTable    Table?      @relation("RequestedChangeTable", fields: [newTableId], references: [id])
 }
 
 model QrToken {
@@ -185,6 +188,7 @@ model BookingRule {
   maxPartySize              Int
   daysAhead                 Int
   slotMinutes               Int
+  turnoverMinutes           Int        @default(15)
   cancellationCutoffMinutes Int
   graceMinutes              Int        @default(15)
   restaurant                Restaurant @relation(fields: [restaurantId], references: [id])

@@ -1,4 +1,5 @@
 const { prisma } = require("../../../prismaClient");
+const { bookingsOverlap } = require("../../../utils/bookingsOverlap");
 
 async function listAvailableTablesForManualCheckIn(req, res) {
     try {
@@ -7,7 +8,9 @@ async function listAvailableTablesForManualCheckIn(req, res) {
 
         const restaurant = await prisma.restaurant.findFirst({
             where: { ownerId },
-            select: { id: true },
+            include: {
+                bookingRule: true,
+            },
         });
 
         if (!restaurant) {
@@ -17,7 +20,9 @@ async function listAvailableTablesForManualCheckIn(req, res) {
         }
 
         const now = new Date();
-        const reservedSoonThreshold = new Date(now.getTime() + 10 * 60 * 1000);
+        const slotMinutes = restaurant.bookingRule?.slotMinutes ?? 90;
+        const turnoverMinutes = restaurant.bookingRule?.turnoverMinutes ?? 15;
+        const walkInEndsAt = new Date(now.getTime() + slotMinutes * 60 * 1000);
 
         const tables = await prisma.table.findMany({
             where: {
@@ -39,7 +44,9 @@ async function listAvailableTablesForManualCheckIn(req, res) {
                 capacity: true,
                 reservations: {
                     where: {
-                        status: "CONFIRMED",
+                        status: {
+                            in: ["PENDING", "CONFIRMED"],
+                        },
                     },
                     orderBy: {
                         startsAt: "asc",
@@ -49,6 +56,7 @@ async function listAvailableTablesForManualCheckIn(req, res) {
                         startsAt: true,
                         endsAt: true,
                         checkedInAt: true,
+                        status: true,
                     },
                 },
             },
@@ -63,14 +71,16 @@ async function listAvailableTablesForManualCheckIn(req, res) {
                 return false;
             }
 
-            const reservedSoon = table.reservations.some(
-                (reservation) =>
-                    !reservation.checkedInAt &&
-                    new Date(reservation.startsAt) >= now &&
-                    new Date(reservation.startsAt) <= reservedSoonThreshold
+            const conflictingReservation = table.reservations.some((reservation) =>
+                bookingsOverlap(
+                    now,
+                    walkInEndsAt,
+                    new Date(new Date(reservation.startsAt).getTime() - turnoverMinutes * 60000),
+                    new Date(new Date(reservation.endsAt).getTime() + turnoverMinutes * 60000)
+                )
             );
 
-            return !reservedSoon;
+            return !conflictingReservation;
         });
 
         return res.json({
