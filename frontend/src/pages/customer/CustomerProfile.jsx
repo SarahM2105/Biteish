@@ -2,23 +2,23 @@ import React, { useState } from "react";
 import AppLayout from "../../layouts/AppLayout";
 import CustomerSideNav from "../../components/CustomerSideNav";
 import useCustomerProfile from "../../hooks/useCustomerProfile";
-import ProfileHeader from "../../components/Customer/Profile/Header";
-import ProfileMenu from "../../components/Customer/Profile/Menu";
-import ProfileInfo from "../../components/Customer/Profile/Info";
-import ProfileSecurity from "../../components/Customer/Profile/Security";
-import ProfileActions from "../../components/Customer/Profile/Actions";
-import "../../components/Customer/Profile/css/ProfileAction.css";
-import "../../components/Customer/Profile/css/ProfileBase.css";
-import "../../components/Customer/Profile/css/ProfileDetail.css";
-import "../../components/Customer/Profile/css/ProfileHeader.css";
-import "../../components/Customer/Profile/css/ProfileResponsive.css";
-import "../../components/Customer/Profile/css/ProfileMenu.css";
+import ProfileHeader from "../../components/Profile/Header";
+import ProfileMenu from "../../components/Profile/Menu";
+import ProfileInfo from "../../components/Profile/Info";
+import ProfileSecurity from "../../components/Profile/Security";
+import ProfileActions from "../../components/Profile/Actions";
+import "../../components/Profile/css/ProfileAction.css";
+import "../../components/Profile/css/ProfileBase.css";
+import "../../components/Profile/css/ProfileDetail.css";
+import "../../components/Profile/css/ProfileHeader.css";
+import "../../components/Profile/css/ProfileResponsive.css";
+import "../../components/Profile/css/ProfileMenu.css";
 import { useTheme } from "../../ThemeContext";
 
 export default function CustomerProfile() {
     const [collapsed, setCollapsed] = useState(false);
     const [active, setActive] = useState("Profile and Preferences");
-    const {isDarkMode, setIsDarkMode} = useTheme();
+    const { isDarkMode, setIsDarkMode } = useTheme();
 
     const profile = useCustomerProfile();
 
@@ -40,11 +40,11 @@ export default function CustomerProfile() {
                 />
             }
         >
-            <div className="customer-profile-page">
+            <div className="profile-page">
                 <h1 className="page-title">Profile & Preferences</h1>
 
-                {profile.loading && <div className="customer-profile__banner">Loading profile...</div>}
-                {profile.loadStatus && <div className="customer-profile__banner">{profile.loadStatus}</div>}
+                {profile.loading && <div className="profile__banner">Loading profile...</div>}
+                {profile.loadStatus && <div className="profile__banner">{profile.loadStatus}</div>}
 
                 <ProfileHeader
                     avatarLetter={profile.avatarLetter}

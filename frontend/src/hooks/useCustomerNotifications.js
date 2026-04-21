@@ -6,7 +6,7 @@ function buildNotificationFromReservation(reservation) {
     const startsAtMs = new Date(reservation.startsAt).getTime();
     const hoursUntilBooking = (startsAtMs - now) / (1000 * 60 * 60);
 
-    const restaurantName = reservation.restaurant?.name || "your restaurant";
+    const restaurantName = reservation.restaurant?.name || "Your restaurant";
     const bookingDate = new Date(reservation.startsAt).toLocaleDateString("en-GB", {
         weekday: "short",
         day: "numeric",
@@ -29,16 +29,25 @@ function buildNotificationFromReservation(reservation) {
         createdAt: reservation.createdAt,
         tableName: reservation.table?.name || "Table",
         partySize: reservation.partySize,
+        meta: [restaurantName, bookingDate, bookingTime],
+        details: [
+            `Table: ${reservation.table?.name || "Table"}`,
+            `Party size: ${reservation.partySize}`,
+            `Status: ${reservation.status}`,
+        ],
     };
 
     if (reservation.checkedInAt) {
         return {
             ...base,
             kind: "checked-in",
+            badgeLabel: "Checked in",
             title: "Checked in successfully",
             message: `You have been checked in at ${restaurantName}.`,
-            actionLabel: "View booking",
-            actionTarget: "/customer/myBookings",
+            primaryAction: {
+                label: "View booking",
+                target: "/customer/myBookings",
+            },
             sortAt: reservation.checkedInAt,
         };
     }
@@ -47,10 +56,13 @@ function buildNotificationFromReservation(reservation) {
         return {
             ...base,
             kind: "pending",
+            badgeLabel: "Pending",
             title: "Booking request sent",
             message: `Your booking for ${restaurantName} on ${bookingDate} at ${bookingTime} is waiting for restaurant approval.`,
-            actionLabel: "View booking",
-            actionTarget: "/customer/myBookings",
+            primaryAction: {
+                label: "View booking",
+                target: "/customer/myBookings",
+            },
             sortAt: reservation.createdAt,
         };
     }
@@ -59,10 +71,17 @@ function buildNotificationFromReservation(reservation) {
         return {
             ...base,
             kind: "upcoming",
+            badgeLabel: "Reminder",
             title: "Booking coming up soon",
             message: `Reminder: you have a confirmed booking at ${restaurantName} on ${bookingDate} at ${bookingTime}.`,
-            actionLabel: "View booking",
-            actionTarget: "/customer/myBookings",
+            primaryAction: {
+                label: "View booking",
+                target: "/customer/myBookings",
+            },
+            secondaryAction: {
+                label: "Show QR",
+                target: "/customer/myBookings",
+            },
             sortAt: reservation.startsAt,
         };
     }
@@ -71,10 +90,17 @@ function buildNotificationFromReservation(reservation) {
         return {
             ...base,
             kind: "confirmed",
+            badgeLabel: "Confirmed",
             title: "Booking confirmed",
             message: `Your booking at ${restaurantName} for ${bookingDate} at ${bookingTime} is confirmed.`,
-            actionLabel: "View booking",
-            actionTarget: "/customer/myBookings",
+            primaryAction: {
+                label: "View booking",
+                target: "/customer/myBookings",
+            },
+            secondaryAction: {
+                label: "Show QR",
+                target: "/customer/myBookings",
+            },
             sortAt: reservation.startsAt,
         };
     }
@@ -83,10 +109,13 @@ function buildNotificationFromReservation(reservation) {
         return {
             ...base,
             kind: "declined",
+            badgeLabel: "Declined",
             title: "Booking declined",
             message: `Your booking request for ${restaurantName} on ${bookingDate} at ${bookingTime} was declined.`,
-            actionLabel: "Browse restaurants",
-            actionTarget: "/customer/search",
+            primaryAction: {
+                label: "Browse restaurants",
+                target: "/customer/search",
+            },
             sortAt: reservation.createdAt,
         };
     }
@@ -95,10 +124,13 @@ function buildNotificationFromReservation(reservation) {
         return {
             ...base,
             kind: "cancelled",
+            badgeLabel: "Cancelled",
             title: "Booking cancelled",
             message: `Your booking at ${restaurantName} on ${bookingDate} at ${bookingTime} has been cancelled.`,
-            actionLabel: "Browse restaurants",
-            actionTarget: "/customer/search",
+            primaryAction: {
+                label: "Browse restaurants",
+                target: "/customer/search",
+            },
             sortAt: reservation.createdAt,
         };
     }
@@ -184,7 +216,12 @@ export default function useCustomerNotifications() {
         const upcoming = notifications.filter(
             (item) => item.kind === "confirmed" || item.kind === "upcoming"
         ).length;
-        const updates = notifications.filter((item) => item.kind === "update").length;
+        const updates = notifications.filter(
+            (item) =>
+                item.kind === "declined" ||
+                item.kind === "cancelled" ||
+                item.kind === "checked-in"
+        ).length;
 
         return {
             pending,

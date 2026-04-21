@@ -76,6 +76,12 @@ const { getOwnerDashboard } = require("../controllers/ownerDashboardController")
 const { getLateArrivals } = require("../controllers/LateArrivalsController");
 const { markNoShow } = require("../controllers/noShowController");
 
+const {
+    getMe,
+    updateMe,
+    updateMyPassword,
+} = require("../controllers/userController");
+
 const router = express.Router();
 
 router.use(authenticateToken);
@@ -128,7 +134,12 @@ router.get("/manual-check-out/options", listOccupiedTablesForManualCheckOut);
 router.post("/manual-check-out", manualCheckOut);
 router.post("/no-shows/mark", markNoShow);
 router.get("/occupancy", getOwnerOccupancy);
+//restaurant profile
 router.get("/restaurant/profile", getOwnerRestaurantProfile);
 router.patch("/restaurant/profile", updateOwnerRestaurantProfile);
+// owner profile
+router.get("/me", getMe);
+router.patch("/me", updateMe);
+router.patch("/me/password", updateMyPassword);
 
 module.exports = router;

@@ -1,202 +1,106 @@
-import React, {useState, useEffect } from 'react';
-import AppLayout from '../../layouts/AppLayout';
+import React, { useState } from "react";
+import AppLayout from "../../layouts/AppLayout";
 import OwnerSideNav from "../../components/OwnerSideNav";
+import useOwnerProfile from "../../hooks/useOwnerProfile";
+import ProfileHeader from "../../components/Profile/Header";
+import ProfileMenu from "../../components/Profile/Menu";
+import ProfileInfo from "../../components/Profile/Info";
+import ProfileSecurity from "../../components/Profile/Security";
+import ProfileActions from "../../components/Profile/Actions";
+import "../../components/Profile/css/ProfileAction.css";
+import "../../components/Profile/css/ProfileBase.css";
+import "../../components/Profile/css/ProfileDetail.css";
+import "../../components/Profile/css/ProfileHeader.css";
+import "../../components/Profile/css/ProfileResponsive.css";
+import "../../components/Profile/css/ProfileMenu.css";
+import { useTheme } from "../../ThemeContext";
 
-export default function OwnerProfilePreference() {
-    const [loading, setLoading] = useState(true);
-    const[saving, setSaving] = useState(false);
-    const [status, setStatus] = useState("");
-    const [profile, setProfile] = useState({
-        name: "",
-        email: "",
-        role: "OWNER",
-    });
-    const [preferences, setPreferences] = useState({
-        emailNotifications: true,
-        bookingAlerts: true,
-        changeRequestAlerts: true,
-        dashboardTips: true,
-        compactDashboard: false
-    });
-    const [passwordForm, setPasswordForm] = useState({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-    });
-    useEffect(() => {
-        async function loadProfilePreferences() {
-            setLoading(true);
-            setStatus("");
-            try {
-                const storedName = localStorage.getItem("name") || "owner";
-                const storedRole = localStorage.getItem("role") || "OWNER";
-                const storedEmail = localStorage.getItem("email") || "";
-                setProfile({
-                    name: storedName,
-                    email: storedEmail,
-                    role: storedRole,
-                });
-            } catch (error) {
-                console.log(error);
-                setStatus("Failed to load profile preferences");
-            } finally {
-                setLoading(false);
-            }
-        }
+export default function OwnerProfilePreferences() {
+    const [collapsed, setCollapsed] = useState(false);
+    const [active, setActive] = useState("Profile and Preferences");
+    const { isDarkMode, setIsDarkMode } = useTheme();
 
-        loadProfilePreferences();
+    const profile = useOwnerProfile();
 
-    }, []);
-    function handleProfileChange(e) {
-        const { name, value } = e.target;
-        setProfile((prev)=> ({
-            ...prev,
-            [name]: value,
-        }));
+    function handleNavigate(label) {
+        setActive(label);
     }
-    function handlePreferenceToggle(field){
-        setPreferences((prev)=> ({
-            ...prev,
-            [field]: !prev[field],
-        }));
-    }
-    function handlePasswordChange(e) {
-        const { name, value } = e.target;
-        setPasswordForm((prev)=>({
-            ...prev,
-            [name]: value,
-        }));
-    }
-    function handlePlaceholderSave(){
-        setSaving(true);
-        setStatus("");
-        setTimeout(() => {
-            localStorage.setItem("name", profile.name);
-            setSaving(false);
-            setStatus("Profile and preference changes saved locally for now");
-        }, 300);
-    }
+
     return (
         <AppLayout
-            name={profile.name|| "owner"}
-            sideNav={<OwnerSideNav active="Profile Preference"/>}
-            >
-            <div style={{ marginBottom: 24 }}>
-                <h1 style={{ marginBottom: 8 }}>Profile and Preferences</h1>
-                <p style={{ marginBottom: 8 }}>
-                    Manage your owner account details and profile preferences.
-                </p>
+            collapsed={collapsed}
+            onToggleSidebar={() => setCollapsed((prev) => !prev)}
+            isDarkMode={isDarkMode}
+            onToggleTheme={() => setIsDarkMode((prev) => !prev)}
+            sideNav={
+                <OwnerSideNav
+                    active={active}
+                    onNavigate={handleNavigate}
+                    collapsed={collapsed}
+                />
+            }
+        >
+            <div className="profile-page">
+                <h1 className="page-title">Profile & Preferences</h1>
+
+                {profile.loading && (
+                    <div className="profile__banner">Loading profile...</div>
+                )}
+
+                {profile.loadStatus && (
+                    <div className="profile__banner">{profile.loadStatus}</div>
+                )}
+
+                <ProfileHeader
+                    avatarLetter={profile.avatarLetter}
+                    name={profile.me.name}
+                    email={profile.me.email}
+                    role={profile.me.role}
+                />
+
+                {profile.currentView === "menu" && (
+                    <ProfileMenu openView={profile.openView} />
+                )}
+
+                {profile.currentView === "personal" && (
+                    <ProfileInfo
+                        me={profile.me}
+                        profileForm={profile.profileForm}
+                        isEditingProfile={profile.isEditingProfile}
+                        profileStatus={profile.profileStatus}
+                        setIsEditingProfile={profile.setIsEditingProfile}
+                        setCurrentView={profile.setCurrentView}
+                        handleProfileChange={profile.handleProfileChange}
+                        handleCancelEdit={profile.handleCancelEdit}
+                        handleSaveProfile={profile.handleSaveProfile}
+                    />
+                )}
+
+                {profile.currentView === "security" && (
+                    <ProfileSecurity
+                        passwordForm={profile.passwordForm}
+                        passwordStatus={profile.passwordStatus}
+                        setCurrentView={profile.setCurrentView}
+                        handlePasswordChange={profile.handlePasswordChange}
+                        handleUpdatePassword={profile.handleUpdatePassword}
+                    />
+                )}
+
+                {profile.currentView === "actions" && (
+                    <ProfileActions
+                        issueOpen={profile.issueOpen}
+                        issueForm={profile.issueForm}
+                        issueStatus={profile.issueStatus}
+                        actionStatus={profile.actionStatus}
+                        setCurrentView={profile.setCurrentView}
+                        setIssueOpen={profile.setIssueOpen}
+                        setIssueStatus={profile.setIssueStatus}
+                        setActionStatus={profile.setActionStatus}
+                        handleIssueChange={profile.handleIssueChange}
+                        handleSubmitIssue={profile.handleSubmitIssue}
+                    />
+                )}
             </div>
-            {loading && <div className="dashboard-panel">Loading profile preferences...</div>}
-            {status && <div className="dashboard-panel">{status}</div>}
-            {!loading && (
-                <>
-                    <section className="dashboard-panel">
-                        <h3> Profile Details</h3>
-                        <label>Name</label>
-                        <input
-                        type="text"
-                        name="name"
-                        value={profile.name}
-                        onChange={handleProfileChange}
-                    style={{ width: "100%", margin: "8px 0 12px 0" }}/>
-                        <label>Email</label>
-                        <input
-                        type="email"
-                        name="email"
-                        value={profile.email}
-                        onChange={handlePreferenceToggle}
-                        style={{ width: "100%", margin: "8px 0 12px 0" }}
-                        />
-                        <div>
-                            <strong>Role:</strong> {profile.role}
-                        </div>
-                    </section>
-                    <section className="dashboard-panel">
-                        <h3>Notification Preferences</h3>
-                        <label style={{ display: "block" , marginBottom: 12}}>
-                               <input
-                                   type="checkbox"
-                                   checked={preferences.emailNotifications}
-                                   onChange={()=>handlePreferenceToggle("emailNotifications")}
-                                   style={{marginRight: 8}}
-                                   />
-                            Recieve email notifications
-                            </label>
-                        <label style={{display: "block" , marginBottom: 12}}>
-                            <input
-                            type="checkbox"
-                            checked={preferences.bookingAlerts}
-                            onChange={()=>handlePreferenceToggle("bookingAlerts")}
-                            style={{marginRight: 8}}
-                            />
-                            Receive booking request alerts
-                        </label>
-                        <label style={{ display: "block" , marginBottom: 12}}>
-                        <input
-                            type="checkbox"
-                            checked={preferences.changeRequestAlerts}
-                            onChange={()=>handlePreferenceToggle("changeRequestAlerts")}
-                            style={{marginRight: 8}}
-                            />
-                        Recieve change request alerts
-                        </label>
-                    </section>
-                    <section className="dashboard-panel">
-                        <h3> Display Preferences</h3>
-                        <label style={{ display: "block" , marginBottom: 12}}>
-                            <input
-                                type="checkbox"
-                                checked={preferences.dashboardTips}
-                                onChange={()=> handlePreferenceToggle("dashboardTips")}
-                                style={{marginRight:8}}
-                                />
-                            Show dashboard tips
-                        </label>
-                        <label style={{ display: "block" , marginBottom: 12}}>
-                            <input
-                            type="checkbox"
-                            checked={preferences.compactDashboard}
-                            onChange={()=>handlePreferenceToggle("compactDashboard")}
-                            style={{marginRight:8}}
-                            />
-                            use compact dashboard layout
-                        </label>
-                    </section>
-                    <section className="dashboard-panel">
-                        <h3>Security</h3>
-                        <label>Current password</label>
-                        <input
-                            type="password"
-                            name="currentPassword"
-                            value={passwordForm.currentPassword}
-                            onChange={handlePasswordChange}
-                            style={{ width: "100%", margin: "8px 0 12px 0" }}
-                            />
-                        <label>New Password</label>
-                        <input
-                        type="password"
-                        name="newPassword"
-                        value={passwordForm.newPassword}
-                        onChange={handlePasswordChange}
-                        style={{ width: "100%", margin: "8px 0 12px 0" }}
-                        />
-                        <div style={{fontSize: 14, opacity:0.8}}>
-                            Password update is a placeholder for now.
-                        </div>
-                    </section>
-                    <section className="dashboard-panel">
-                        <button
-                            type="button"
-                            className="sf-filterBtn"
-                            onClick={handlePlaceholderSave}
-                            disabled={saving}
-                            >
-                            {saving ? "Saving..." : "Save Preferences"}
-                        </button>
-                    </section>
-                </>
-            )}
         </AppLayout>
     );
 }

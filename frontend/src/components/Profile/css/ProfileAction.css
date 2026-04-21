@@ -1,0 +1,47 @@
+.profile__action-stack {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+}
+
+.profile__action-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 22px;
+    padding: 18px;
+}
+
+.profile__action-item h4 {
+    margin: 0 0 6px;
+    color: var(--text-main);
+    font-size: 1rem;
+}
+
+.profile__action-item p {
+    margin: 0;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.profile__action-item--column {
+    display: grid;
+    gap: 16px;
+    align-items: stretch;
+}
+
+.profile__action-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.profile__issue-form {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+}

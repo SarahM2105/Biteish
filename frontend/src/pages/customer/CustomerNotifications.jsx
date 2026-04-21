@@ -4,15 +4,19 @@ import AppLayout from "../../layouts/AppLayout";
 import CustomerSideNav from "../../components/CustomerSideNav";
 import { logout } from "../../components/utils/logout";
 import useCustomerNotifications from "../../hooks/useCustomerNotifications";
-import "../../components/Customer/Notifications/CustomerNotifications.css";
+import NotificationsHeader from "../../components/Notifications/Header";
+import NotificationsSummaryCards from "../../components/Notifications/SummaryCards";
+import FilterTabs from "../../components/Notifications/FilterTabs";
+import NotificationCard from "../../components/Notifications/NotificationCard";
+import NotificationsEmptyState from "../../components/Notifications/EmptyState";
+import "../../components/Notifications/Notifications.css";
 import { useTheme } from "../../ThemeContext";
 
 export default function CustomerNotifications() {
-    const name = localStorage.getItem("name") || "customer";
     const navigate = useNavigate();
     const [active, setActive] = useState("Notifications");
     const [collapsed, setCollapsed] = useState(false);
-    const {isDarkMode, setIsDarkMode} = useTheme();
+    const { isDarkMode, setIsDarkMode } = useTheme();
     const [filter, setFilter] = useState("all");
 
     const { notifications, loading, status, summary } = useCustomerNotifications();
@@ -24,6 +28,20 @@ export default function CustomerNotifications() {
         }
         setActive(label);
     }
+
+    const filters = [
+        { key: "all", label: "All" },
+        { key: "pending", label: "Pending" },
+        { key: "upcoming", label: "Upcoming" },
+        { key: "updates", label: "Updates" },
+    ];
+
+    const summaryCards = [
+        { label: "Total", value: summary.total },
+        { label: "Pending", value: summary.pending },
+        { label: "Upcoming", value: summary.upcoming },
+        { label: "Updates", value: summary.updates },
+    ];
 
     const filteredNotifications = useMemo(() => {
         if (filter === "pending") {
@@ -48,6 +66,18 @@ export default function CustomerNotifications() {
         return notifications;
     }, [filter, notifications]);
 
+    function handlePrimaryAction(item) {
+        if (item.primaryAction?.target) {
+            navigate(item.primaryAction.target);
+        }
+    }
+
+    function handleSecondaryAction(item) {
+        if (item.secondaryAction?.target) {
+            navigate(item.secondaryAction.target);
+        }
+    }
+
     return (
         <AppLayout
             collapsed={collapsed}
@@ -62,156 +92,56 @@ export default function CustomerNotifications() {
                 />
             }
         >
-            <div className="customer-notifications-page">
-                <section className="dashboard-panel customer-notifications-hero">
-                    <div>
-                        <h1 className="customer-notifications-hero__title">Notifications</h1>
-                        <p className="customer-notifications-hero__subtitle">
-                            Stay updated on booking requests, confirmations, reminders and changes.
-                        </p>
-                    </div>
+            <div className="notifications-page">
+                <NotificationsHeader
+                    title="Notifications"
+                    subtitle="Stay updated on booking requests, confirmations, reminders and changes."
+                />
 
-                    <div className="customer-notifications-summary">
-                        <div className="customer-notifications-summary__card">
-                            <span className="customer-notifications-summary__value">{summary.total}</span>
-                            <span className="customer-notifications-summary__label">Total</span>
-                        </div>
-                        <div className="customer-notifications-summary__card">
-                            <span className="customer-notifications-summary__value">{summary.pending}</span>
-                            <span className="customer-notifications-summary__label">Pending</span>
-                        </div>
-                        <div className="customer-notifications-summary__card">
-                            <span className="customer-notifications-summary__value">{summary.upcoming}</span>
-                            <span className="customer-notifications-summary__label">Upcoming</span>
-                        </div>
-                        <div className="customer-notifications-summary__card">
-                            <span className="customer-notifications-summary__value">{summary.updates}</span>
-                            <span className="customer-notifications-summary__label">Updates</span>
-                        </div>
-                    </div>
-                </section>
+                <NotificationsSummaryCards cards={summaryCards} />
 
-                <section className="dashboard-panel customer-notifications-toolbar">
-                    <div className="customer-notifications-filters">
-                        <button
-                            type="button"
-                            className={`customer-notifications-filter ${filter === "all" ? "is-active" : ""}`}
-                            onClick={() => setFilter("all")}
-                        >
-                            All
-                        </button>
-                        <button
-                            type="button"
-                            className={`customer-notifications-filter ${filter === "pending" ? "is-active" : ""}`}
-                            onClick={() => setFilter("pending")}
-                        >
-                            Pending
-                        </button>
-                        <button
-                            type="button"
-                            className={`customer-notifications-filter ${filter === "upcoming" ? "is-active" : ""}`}
-                            onClick={() => setFilter("upcoming")}
-                        >
-                            Upcoming
-                        </button>
-                        <button
-                            type="button"
-                            className={`customer-notifications-filter ${filter === "updates" ? "is-active" : ""}`}
-                            onClick={() => setFilter("updates")}
-                        >
-                            Updates
-                        </button>
-                    </div>
-                </section>
+                <FilterTabs
+                    filters={filters}
+                    activeFilter={filter}
+                    onChange={setFilter}
+                />
 
                 {status && (
-                    <div className="dashboard-panel customer-notifications-status">
+                    <div className="dashboard-panel notifications-status">
                         {status}
                     </div>
                 )}
 
                 {loading ? (
-                    <div className="dashboard-panel customer-notifications-empty">
+                    <div className="dashboard-panel notifications-empty">
                         Loading notifications...
                     </div>
                 ) : filteredNotifications.length === 0 ? (
-                    <section className="dashboard-panel customer-notifications-empty">
-                        <h2>You’re all caught up</h2>
-                        <p>
-                            There are no customer notifications in this view right now.
-                        </p>
-                        <div className="customer-notifications-empty__actions">
-                            <button
-                                type="button"
-                                className="customer-notifications-action customer-notifications-action--primary"
-                                onClick={() => navigate("/customer/search")}
-                            >
-                                Browse restaurants
-                            </button>
-                            <button
-                                type="button"
-                                className="customer-notifications-action customer-notifications-action--secondary"
-                                onClick={() => navigate("/customer/myBookings")}
-                            >
-                                View my bookings
-                            </button>
-                        </div>
-                    </section>
+                    <NotificationsEmptyState
+                        title="You’re all caught up"
+                        text="There are no notifications in this view right now."
+                        actions={[
+                            {
+                                label: "Browse restaurants",
+                                variant: "primary",
+                                onClick: () => navigate("/customer/search"),
+                            },
+                            {
+                                label: "View my bookings",
+                                variant: "secondary",
+                                onClick: () => navigate("/customer/myBookings"),
+                            },
+                        ]}
+                    />
                 ) : (
-                    <div className="customer-notifications-list">
+                    <div className="notifications-list">
                         {filteredNotifications.map((item) => (
-                            <article
+                            <NotificationCard
                                 key={`${item.kind}-${item.id}`}
-                                className={`dashboard-panel customer-notification-card customer-notification-card--${item.kind}`}
-                            >
-                                <div className="customer-notification-card__top">
-                                    <div className="customer-notification-card__heading">
-                                        <span className="customer-notification-card__badge">
-                                            {item.kind === "pending" && "Pending"}
-                                            {item.kind === "confirmed" && "Confirmed"}
-                                            {item.kind === "upcoming" && "Reminder"}
-                                            {item.kind === "declined" && "Declined"}
-                                            {item.kind === "cancelled" && "Cancelled"}
-                                            {item.kind === "checked-in" && "Checked in"}
-                                        </span>
-                                        <h2>{item.title}</h2>
-                                    </div>
-
-                                    <div className="customer-notification-card__meta">
-                                        <span>{item.restaurantName}</span>
-                                        <span>{item.bookingDate}</span>
-                                        <span>{item.bookingTime}</span>
-                                    </div>
-                                </div>
-
-                                <p className="customer-notification-card__message">{item.message}</p>
-
-                                <div className="customer-notification-card__details">
-                                    <span>Table: {item.tableName}</span>
-                                    <span>Party size: {item.partySize}</span>
-                                    <span>Status: {item.status}</span>
-                                </div>
-
-                                <div className="customer-notification-card__actions">
-                                    <button
-                                        type="button"
-                                        className="customer-notifications-action customer-notifications-action--primary"
-                                        onClick={() => navigate(item.actionTarget)}
-                                    >
-                                        {item.actionLabel}
-                                    </button>
-
-                                    {item.status === "CONFIRMED" && (
-                                        <button
-                                            type="button"
-                                            className="customer-notifications-action customer-notifications-action--secondary"
-                                            onClick={() => navigate("/customer/myBookings")}
-                                        >
-                                            Show QR
-                                        </button>
-                                    )}
-                                </div>
-                            </article>
+                                item={item}
+                                onPrimaryAction={handlePrimaryAction}
+                                onSecondaryAction={handleSecondaryAction}
+                            />
                         ))}
                     </div>
                 )}
