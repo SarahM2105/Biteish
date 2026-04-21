@@ -1,11 +1,15 @@
 const { prisma } = require("../prismaClient");
 
 async function getRestaurantOccupancy(restaurantId) {
+    const now = new Date();
+
     const activeReservations = await prisma.reservation.findMany({
         where: {
             restaurantId,
             status: "CONFIRMED",
             checkedInAt: { not: null },
+            startsAt: { lte: now },
+            endsAt: { gt: now },
         },
         select: {
             id: true,
