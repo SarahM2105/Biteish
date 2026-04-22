@@ -1,5 +1,16 @@
 import React from "react";
 
+function renderPriceGuide(restaurant) {
+    const min = restaurant?.estimatedSpendMin;
+    const max = restaurant?.estimatedSpendMax;
+
+    if (min != null && max != null) {
+        return `Est. £${min}–£${max} pp`;
+    }
+
+    return restaurant?.priceRange || null;
+}
+
 export default function RestaurantCard({
                                            restaurant,
                                            isSelected = false,
@@ -14,12 +25,13 @@ export default function RestaurantCard({
         location,
         cuisine,
         averageRating,
-        priceRange,
         nextSlot,
         accessibilityOptions = [],
         dietaryOptions = [],
         tags = [],
         isFavourite = false,
+        imageUrl,
+        imageAltText,
     } = restaurant;
 
     const badges = [...dietaryOptions, ...accessibilityOptions, ...tags].slice(0, 3);
@@ -31,6 +43,7 @@ export default function RestaurantCard({
 
     const fullStars = Math.round(numericRating);
     const totalStars = 5;
+    const priceGuide = renderPriceGuide(restaurant);
 
     function handleKeyDown(e) {
         if (e.key === "Enter" || e.key === " ") {
@@ -48,7 +61,15 @@ export default function RestaurantCard({
             onKeyDown={handleKeyDown}
         >
             <div className="restaurant-card-image">
-                <span className="restaurant-card-badge">Featured</span>
+                {imageUrl ? (
+                    <img
+                        src={imageUrl}
+                        alt={imageAltText || `${name || "Restaurant"} preview`}
+                        className="restaurant-card-image__img"
+                    />
+                ) : (
+                    <div className="restaurant-card-image__placeholder" />
+                )}
 
                 <button
                     type="button"
@@ -84,7 +105,9 @@ export default function RestaurantCard({
                     </div>
                 </div>
 
-                {priceRange ? <div className="restaurant-card-price">{priceRange}</div> : null}
+                {priceGuide ? (
+                    <div className="restaurant-card-price">{priceGuide}</div>
+                ) : null}
 
                 {badges.length > 0 && (
                     <div className="restaurant-card-badges">

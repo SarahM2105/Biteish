@@ -136,7 +136,45 @@ exports.Prisma.RestaurantScalarFieldEnum = {
   location: 'location',
   latitude: 'latitude',
   longitude: 'longitude',
+  estimatedSpendMin: 'estimatedSpendMin',
+  estimatedSpendMax: 'estimatedSpendMax',
+  automaticSpendCalculation: 'automaticSpendCalculation',
   verified: 'verified'
+};
+
+exports.Prisma.RestaurantImageScalarFieldEnum = {
+  id: 'id',
+  restaurantId: 'restaurantId',
+  imageUrl: 'imageUrl',
+  altText: 'altText',
+  sortOrder: 'sortOrder',
+  isPrimary: 'isPrimary',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MenuSectionScalarFieldEnum = {
+  id: 'id',
+  restaurantId: 'restaurantId',
+  name: 'name',
+  description: 'description',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MenuItemScalarFieldEnum = {
+  id: 'id',
+  restaurantId: 'restaurantId',
+  sectionId: 'sectionId',
+  name: 'name',
+  description: 'description',
+  price: 'price',
+  dietaryInfo: 'dietaryInfo',
+  isAvailable: 'isAvailable',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ZoneScalarFieldEnum = {
@@ -298,6 +336,12 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   description: 'description'
 };
 
+exports.Prisma.TableTagScalarFieldEnum = {
+  id: 'id',
+  tableId: 'tableId',
+  tagId: 'tagId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -356,6 +400,9 @@ exports.AuditEntity = exports.$Enums.AuditEntity = {
 exports.Prisma.ModelName = {
   User: 'User',
   Restaurant: 'Restaurant',
+  RestaurantImage: 'RestaurantImage',
+  MenuSection: 'MenuSection',
+  MenuItem: 'MenuItem',
   Zone: 'Zone',
   Table: 'Table',
   TableUnavailability: 'TableUnavailability',
@@ -373,7 +420,8 @@ exports.Prisma.ModelName = {
   RestaurantTag: 'RestaurantTag',
   AccessibilityOption: 'AccessibilityOption',
   RestaurantAccessibility: 'RestaurantAccessibility',
-  AuditLog: 'AuditLog'
+  AuditLog: 'AuditLog',
+  TableTag: 'TableTag'
 };
 
 /**

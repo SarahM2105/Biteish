@@ -3,18 +3,18 @@
     gap: 22px;
 }
 
-.owner-requests-hero {
+.owner-requests-header {
     display: grid;
     gap: 18px;
 }
 
-.owner-requests-hero__copy {
+.owner-requests-header__copy {
     display: grid;
     gap: 10px;
     max-width: 760px;
 }
 
-.owner-requests-hero__eyebrow,
+.owner-requests-header__eyebrow,
 .owner-requests-section__eyebrow,
 .owner-request-card__kicker {
     margin: 0;
@@ -25,7 +25,7 @@
     font-weight: 800;
 }
 
-.owner-requests-hero__title {
+.owner-requests-header__title {
     margin: 0;
     color: var(--text-main);
     font-size: clamp(2rem, 3.8vw, 3rem);
@@ -34,14 +34,14 @@
     letter-spacing: -0.04em;
 }
 
-.owner-requests-hero__text {
+.owner-requests-header__text {
     margin: 0;
     color: var(--text-muted);
     font-size: 1rem;
     line-height: 1.7;
 }
 
-.owner-requests-hero__chips {
+.owner-requests-header__chips {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;

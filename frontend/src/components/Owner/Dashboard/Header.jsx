@@ -1,30 +1,28 @@
 import React from "react";
 
-export default function DashboardHero({ name, dashboard }) {
+export default function DashboardHeader({ name, dashboard }) {
+    const restaurantName = dashboard.restaurant?.name || "Your restaurant";
+    const restaurantLocation = dashboard.restaurant?.location || "";
+
     return (
         <section className="owner-dashboard-header">
             <div className="owner-dashboard-header__copy dashboard-panel">
-                <p className="owner-dashboard-header__eyebrow">Owner dashboard</p>
-                <h1 className="owner-dashboard-header__title">Welcome back, {name}</h1>
-                <p className="owner-dashboard-header__text">
-                    {dashboard.restaurant?.name
-                        ? `${dashboard.restaurant.name}${dashboard.restaurant.location ? ` · ${dashboard.restaurant.location}` : ""}`
-                        : "Your restaurant dashboard"}
-                </p>
+                <div className="owner-dashboard-header__copy-inner">
+                    <p className="owner-dashboard-header__eyebrow">Owner dashboard</p>
 
-                <div className="owner-dashboard-header__chips">
-                    <span className="owner-chip">
-                        {dashboard.summary.occupiedGuests} guests checked in
-                    </span>
-                    <span className="owner-chip">
-                        {dashboard.summary.occupiedTables} tables occupied
-                    </span>
-                    <span className="owner-chip">
-                        {dashboard.summary.pendingBookingsCount} pending bookings
-                    </span>
-                    <span className="owner-chip">
-                        {dashboard.summary.pendingChangeRequestsCount} change requests
-                    </span>
+                    <h1 className="owner-dashboard-header__title">
+                        Welcome back, {name}
+                    </h1>
+
+                    <p className="owner-dashboard-header__text">
+                        {restaurantName}
+                        {restaurantLocation ? ` · ${restaurantLocation}` : ""}
+                    </p>
+
+                    <p className="owner-dashboard-header__support">
+                        Manage bookings, monitor activity, and keep your restaurant
+                        running smoothly from one place.
+                    </p>
                 </div>
             </div>
 

@@ -7,10 +7,10 @@ function formatRoleLabel(role) {
 
 export default function ProfileHeader({ avatarLetter, name, email, role }) {
     return (
-        <section className="profile__hero">
+        <section className="profile__header">
             <div className="profile__avatar">{avatarLetter}</div>
 
-            <div className="profile__hero-text">
+            <div className="profile__header-text">
                 <p className="profile__eyebrow">{formatRoleLabel(role)} account</p>
                 <h2>{name}</h2>
                 <p>{email}</p>

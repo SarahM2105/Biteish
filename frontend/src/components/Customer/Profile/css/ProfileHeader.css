@@ -1,4 +1,4 @@
-.customer-profile__hero {
+.customer-profile__header {
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
@@ -26,19 +26,19 @@
     box-shadow: 0 14px 24px rgba(255, 60, 172, 0.16);
 }
 
-.customer-profile__heroText {
+.customer-profile__headerText {
     display: grid;
     gap: 6px;
 }
 
-.customer-profile__heroText h2 {
+.customer-profile__headerText h2 {
     margin: 0;
     color: var(--text-main);
     font-size: 1.8rem;
     line-height: 1.1;
 }
 
-.customer-profile__heroText p {
+.customer-profile__headerText p {
     margin: 0;
     color: var(--text-muted);
     font-size: 0.98rem;

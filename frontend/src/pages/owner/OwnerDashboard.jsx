@@ -5,7 +5,7 @@ import OwnerSideNav from "../../components/OwnerSideNav";
 import "../../components/Owner/Dashboard/css/Dashboard.css";
 import { useTheme } from "../../ThemeContext";
 import useOwnerDashboard from "../../hooks/useOwnerDashboard";
-import DashboardHero from "../../components/Owner/Dashboard/Header";
+import DashboardHeader from "../../components/Owner/Dashboard/Header";
 import TableLayoutPanel from "../../components/Owner/Dashboard/TableLayoutPanel";
 import ExpectedCustomersPanel from "../../components/Owner/Dashboard/ExpectedCustomersPanel";
 import PendingActivityPanel from "../../components/Owner/Dashboard/PendingActivityPanel";
@@ -52,7 +52,7 @@ function OwnerDashboard() {
                     </section>
                 ) : (
                     <>
-                        <DashboardHero name={name} dashboard={dashboard} />
+                        <DashboardHeader name={name} dashboard={dashboard} />
 
                         {status && (
                             <section className="dashboard-panel">

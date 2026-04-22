@@ -138,6 +138,12 @@ function buildNotificationFromReservation(reservation) {
     return null;
 }
 
+function getNotificationPriority(item) {
+    if (item.kind === "pending") return 1;
+    if (item.kind === "upcoming" || item.kind === "confirmed") return 2;
+    return 3;
+}
+
 export default function useCustomerNotifications() {
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -168,7 +174,16 @@ export default function useCustomerNotifications() {
                 ? data
                     .map(buildNotificationFromReservation)
                     .filter(Boolean)
-                    .sort((a, b) => new Date(b.sortAt).getTime() - new Date(a.sortAt).getTime())
+                    .sort((a, b) => {
+                        const priorityDiff =
+                            getNotificationPriority(a) - getNotificationPriority(b);
+
+                        if (priorityDiff !== 0) {
+                            return priorityDiff;
+                        }
+
+                        return new Date(b.sortAt).getTime() - new Date(a.sortAt).getTime();
+                    })
                 : [];
 
             setNotifications(items);

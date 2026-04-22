@@ -10,6 +10,7 @@ import DeleteConfirmModal from "./DeleteConfirmModal";
 export default function TablesContent({
                                           restaurant,
                                           zones,
+                                          tableFeatureTags,
                                           loading,
                                           pageStatus,
                                           zoneModalStatus,
@@ -70,7 +71,10 @@ export default function TablesContent({
                 <section className="owner-tables-shell">
                     <div className="owner-tables-empty">
                         <h3>No restaurant found</h3>
-                        <p>Create your restaurant profile first, then come back to manage zones and tables.</p>
+                        <p>
+                            Create your restaurant profile first, then come back to
+                            manage zones and tables.
+                        </p>
                     </div>
                 </section>
             ) : (
@@ -167,6 +171,7 @@ export default function TablesContent({
                 table={tableModal.table}
                 zones={zones}
                 initialZoneId={tableModal.zoneId}
+                tableFeatureTags={tableFeatureTags}
                 saving={saving}
                 status={tableModalStatus}
                 onClose={() => {

@@ -22,36 +22,51 @@ function createNumberedIcon(number, isSelected) {
         popupAnchor: [0, -30],
     });
 }
+
+function renderPriceGuide(restaurant) {
+    const min = restaurant?.estimatedSpendMin;
+    const max = restaurant?.estimatedSpendMax;
+
+    if (min != null && max != null) {
+        return `Est. £${min}–£${max} pp`;
+    }
+
+    return restaurant?.priceRange || null;
+}
+
 function FitMapToMarkers({ restaurants, selected }) {
     const map = useMap();
+
     useEffect(() => {
         const validRestaurants = restaurants.filter(
             (r) =>
-                r.latitude !== null &&
-                r.latitude !== undefined &&
-                r.longitude !== null &&
-                r.longitude !== undefined
+                r.latitude != null &&
+                r.longitude != null
         );
-        if (validRestaurants.length === 0) return;
+
+        if (!validRestaurants.length) return;
+
         if (
             selected &&
-            selected.latitude !== null &&
-            selected.latitude !== undefined &&
-            selected.longitude !== null &&
-            selected.longitude !== undefined
+            selected.latitude != null &&
+            selected.longitude != null
         ) {
             map.flyTo([selected.latitude, selected.longitude], 15, {
                 duration: 0.8,
             });
             return;
         }
+
         const bounds = L.latLngBounds(
             validRestaurants.map((r) => [r.latitude, r.longitude])
         );
+
         map.fitBounds(bounds, { padding: [40, 40] });
     }, [map, restaurants, selected]);
+
     return null;
 }
+
 export default function RestaurantMap({
                                           restaurants = [],
                                           selected,
@@ -61,29 +76,48 @@ export default function RestaurantMap({
     const validRestaurants = useMemo(() => {
         return restaurants.filter(
             (r) =>
-                r.latitude !== null &&
-                r.latitude !== undefined &&
-                r.longitude !== null &&
-                r.longitude !== undefined
+                r.latitude != null &&
+                r.longitude != null
         );
     }, [restaurants]);
+
     const defaultCenter = useMemo(() => {
         if (
-            selected?.latitude !== null &&
-            selected?.latitude !== undefined &&
-            selected?.longitude !== null &&
-            selected?.longitude !== undefined
+            selected?.latitude != null &&
+            selected?.longitude != null
         ) {
             return [selected.latitude, selected.longitude];
         }
+
         if (validRestaurants.length > 0) {
+            const totals = validRestaurants.reduce(
+                (acc, restaurant) => {
+                    acc.latitude += Number(restaurant.latitude) || 0;
+                    acc.longitude += Number(restaurant.longitude) || 0;
+                    return acc;
+                },
+                { latitude: 0, longitude: 0 }
+            );
+
             return [
-                validRestaurants[0].latitude,
-                validRestaurants[0].longitude,
+                totals.latitude / validRestaurants.length,
+                totals.longitude / validRestaurants.length,
             ];
         }
-        return [52.6369, -1.1398];
+
+        return null;
     }, [selected, validRestaurants]);
+
+    if (!defaultCenter) {
+        return (
+            <div className="restaurant-map">
+                <div className="restaurant-map__empty">
+                    No restaurant locations available yet.
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="restaurant-map">
             <MapContainer
@@ -106,19 +140,18 @@ export default function RestaurantMap({
                     const isSelected = selected?.id === restaurant.id;
 
                     const numericRating =
-                        restaurant.rating !== null &&
-                        restaurant.rating !== undefined &&
-                        restaurant.rating !== ""
-                            ? Number(restaurant.rating)
+                        restaurant.averageRating !== null &&
+                        restaurant.averageRating !== undefined &&
+                        restaurant.averageRating !== ""
+                            ? Number(restaurant.averageRating)
                             : 0;
+
+                    const priceGuide = renderPriceGuide(restaurant);
 
                     return (
                         <Marker
                             key={restaurant.id}
-                            position={[
-                                restaurant.latitude,
-                                restaurant.longitude,
-                            ]}
+                            position={[restaurant.latitude, restaurant.longitude]}
                             icon={createNumberedIcon(index + 1, isSelected)}
                             eventHandlers={{
                                 click: () => {
@@ -146,6 +179,12 @@ export default function RestaurantMap({
                                         <span className="restaurant-map__popup-badge">
                                             ⭐ {numericRating.toFixed(1)}
                                         </span>
+
+                                        {priceGuide ? (
+                                            <span className="restaurant-map__popup-badge">
+                                                {priceGuide}
+                                            </span>
+                                        ) : null}
                                     </div>
 
                                     <div className="restaurant-map__popup-actions">

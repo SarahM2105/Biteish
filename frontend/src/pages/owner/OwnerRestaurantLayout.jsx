@@ -3,7 +3,7 @@ import AppLayout from "../../layouts/AppLayout";
 import OwnerSideNav from "../../components/OwnerSideNav";
 import { useTheme } from "../../ThemeContext";
 import TablesContent from "../../components/Owner/Tables/TablesContent";
-import useOwnerTables from "../../hooks/useOwnerTables";
+import useOwnerTables from "../../hooks/ownerTables/useOwnerTables";
 import "../../components/Owner/Tables/css/TablesLayout.css";
 import "../../components/Owner/Tables/css/TablesHeader.css";
 import "../../components/Owner/Tables/css/ZoneTabs.css";

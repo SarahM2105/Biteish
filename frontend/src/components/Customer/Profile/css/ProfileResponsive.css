@@ -9,7 +9,7 @@
 }
 
 @media (max-width: 920px) {
-    .customer-profile__hero {
+    .customer-profile__header {
         grid-template-columns: 1fr;
         justify-items: start;
     }
@@ -41,7 +41,7 @@
 }
 
 @media (max-width: 640px) {
-    .customer-profile__hero {
+    .customer-profile__header {
         padding: 20px;
         border-radius: 24px;
     }
@@ -53,7 +53,7 @@
         font-size: 1.7rem;
     }
 
-    .customer-profile__heroText h2 {
+    .customer-profile__headerText h2 {
         font-size: 1.45rem;
     }
 

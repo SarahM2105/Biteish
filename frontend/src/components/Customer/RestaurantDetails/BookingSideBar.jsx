@@ -5,7 +5,7 @@ export default function BookingSideBar({ restaurant }) {
     const navigate = useNavigate();
 
     function handleBookNow() {
-        navigate("/customer/restaurants/${restaurant.id}/book");
+        navigate(`/customer/restaurants/${restaurant.id}/book`);
     }
 
     return (

@@ -19,8 +19,19 @@ const {
     createTable,
     listTablesByZone,
     updateTable,
-    deleteTable
-} = require('../controllers/tableController');
+    deleteTable,
+    listTableFeatureTags
+} = require('../controllers/Owner/tables/tableController');
+
+const {
+    getOwnerMenu,
+    createMenuSection,
+    updateMenuSection,
+    deleteMenuSection,
+    createMenuItem,
+    updateMenuItem,
+    deleteMenuItem,
+} = require("../controllers/Owner/menu/ownerMenuController");
 
 const {
     addUnavailability,
@@ -70,7 +81,12 @@ const { getOwnerOccupancy } = require("../controllers/occupancyController");
 const {
     getOwnerRestaurantProfile,
     updateOwnerRestaurantProfile,
-} = require("../controllers/ownerProfileController");
+    getOwnerRestaurantImages,
+    addOwnerRestaurantImages,
+    setPrimaryRestaurantImage,
+    deleteOwnerRestaurantImage,
+} = require("../controllers/Owner/restaurantProfile/ownerProfileController");
+const uploadRestaurantImages = require("../middleware/uploadRestaurantImages");
 
 const { getOwnerDashboard } = require("../controllers/ownerDashboardController");
 const { getLateArrivals } = require("../controllers/LateArrivalsController");
@@ -103,6 +119,15 @@ router.post("/zones/:zoneId/tables", createTable);
 router.get("/zones/:zoneId/tables", listTablesByZone);
 router.put("/tables/:tableId", updateTable);
 router.delete("/tables/:tableId", deleteTable);
+router.get("/table-tags", listTableFeatureTags);
+// menu
+router.get("/menu", getOwnerMenu);
+router.post("/menu/sections", createMenuSection);
+router.patch("/menu/sections/:sectionId", updateMenuSection);
+router.delete("/menu/sections/:sectionId", deleteMenuSection);
+router.post("/menu/items", createMenuItem);
+router.patch("/menu/items/:itemId", updateMenuItem);
+router.delete("/menu/items/:itemId", deleteMenuItem);
 // table unavailability
 router.post("/tables/:tableId/unavailability", addUnavailability);
 router.get("/tables/:tableId/unavailability", listUnavailability);
@@ -137,6 +162,14 @@ router.get("/occupancy", getOwnerOccupancy);
 //restaurant profile
 router.get("/restaurant/profile", getOwnerRestaurantProfile);
 router.patch("/restaurant/profile", updateOwnerRestaurantProfile);
+router.get("/restaurant/images", getOwnerRestaurantImages);
+router.post(
+    "/restaurant/images",
+    uploadRestaurantImages.array("images", 8),
+    addOwnerRestaurantImages
+);
+router.patch("/restaurant/images/:imageId/primary", setPrimaryRestaurantImage);
+router.delete("/restaurant/images/:imageId", deleteOwnerRestaurantImage);
 // owner profile
 router.get("/me", getMe);
 router.patch("/me", updateMe);

@@ -117,7 +117,7 @@ export default function useOwnerBookingsPage() {
             )
             .filter((booking) => matchesStatusFilter(booking, browserStatusFilter))
             .filter((booking) => matchesSpecificTime(booking, browserTimeFilter))
-            .sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt));
+            .sort((a, b) => new Date(b.startsAt) - new Date(a.startsAt));
     }, [bookings, selectedBrowserDate, browserStatusFilter, browserTimeFilter]);
 
     const selectedBrowserLabel = useMemo(() => {

@@ -3,7 +3,7 @@ import AppLayout from "../../layouts/AppLayout";
 import OwnerSideNav from "../../components/OwnerSideNav";
 import { useTheme } from "../../ThemeContext";
 import useOwnerRequests from "../../hooks/useOwnerRequests";
-import RequestsHero from "../../components/Owner/Requests/Hero";
+import RequestsHeader from "../../components/Owner/Requests/Header";
 import RequestsSection from "../../components/Owner/Requests/RequestsSection";
 import NewBookingCard from "../../components/Owner/Requests/NewBookingCard";
 import ChangeRequestCard from "../../components/Owner/Requests/ChangeRequestCard";
@@ -56,7 +56,7 @@ export default function Request() {
             }
         >
             <div className="owner-requests-page">
-                <RequestsHero
+                <RequestsHeader
                     pendingNewCount={pendingNew.length}
                     pendingChangesCount={pendingChanges.length}
                 />

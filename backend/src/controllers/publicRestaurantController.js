@@ -20,10 +20,45 @@ async function listRestaurants(req, res) {
             select: {
                 id: true,
                 name: true,
+                description: true,
                 location: true,
                 latitude: true,
                 longitude: true,
                 verified: true,
+                estimatedSpendMin: true,
+                estimatedSpendMax: true,
+                automaticSpendCalculation: true,
+                bookingRule: {
+                    select: {
+                        daysAhead: true,
+                        slotMinutes: true,
+                        cancellationCutoffMinutes: true,
+                    },
+                },
+                zones: {
+                    select: {
+                        tables: {
+                            where: {
+                                active: true,
+                                reservable: true,
+                            },
+                            select: {
+                                capacity: true,
+                            },
+                        },
+                    },
+                },
+                images: {
+                    where: {
+                        isPrimary: true,
+                    },
+                    select: {
+                        id: true,
+                        imageUrl: true,
+                        altText: true,
+                    },
+                    take: 1,
+                },
                 tags: {
                     select: {
                         tag: {
@@ -65,23 +100,50 @@ async function listRestaurants(req, res) {
             const reviewCount = restaurant.reviews.length;
             const averageRating =
                 reviewCount > 0
-                    ? restaurant.reviews.reduce((sum, review) => sum + review.rating, 0) / reviewCount
+                    ? restaurant.reviews.reduce(
+                    (sum, review) => sum + review.rating,
+                    0
+                ) / reviewCount
                     : 0;
+
+            const allTables = (restaurant.zones || []).flatMap(
+                (zone) => zone.tables || []
+            );
+
+            const largestTableCapacity =
+                allTables.length > 0
+                    ? Math.max(...allTables.map((table) => Number(table.capacity) || 0))
+                    : null;
 
             return {
                 id: restaurant.id,
                 name: restaurant.name,
+                description: restaurant.description,
                 location: restaurant.location,
                 latitude: restaurant.latitude,
                 longitude: restaurant.longitude,
                 verified: restaurant.verified,
+                estimatedSpendMin: restaurant.estimatedSpendMin,
+                estimatedSpendMax: restaurant.estimatedSpendMax,
+                automaticSpendCalculation: restaurant.automaticSpendCalculation,
+                bookingRule: {
+                    daysAhead: restaurant.bookingRule?.daysAhead ?? null,
+                    slotMinutes: restaurant.bookingRule?.slotMinutes ?? null,
+                    cancellationCutoffMinutes:
+                        restaurant.bookingRule?.cancellationCutoffMinutes ?? null,
+                },
+                maxPartySize: largestTableCapacity,
+                imageUrl: restaurant.images[0]?.imageUrl || null,
+                imageAltText: restaurant.images[0]?.altText || null,
                 tags: restaurant.tags.map((item) => item.tag.name),
                 accessibilityOptions: restaurant.accessibility.map(
                     (item) => item.option.optionName
                 ),
                 averageRating: Number(averageRating.toFixed(1)),
                 reviewCount,
-                isFavourite: Array.isArray(restaurant.favorites) && restaurant.favorites.length > 0,
+                isFavourite:
+                    Array.isArray(restaurant.favorites) &&
+                    restaurant.favorites.length > 0,
             };
         });
 

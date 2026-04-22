@@ -1,25 +1,15 @@
-const { prisma } = require("../../prismaClient");
-const cloudinary = require("../../config/cloudinary");
-const streamifier = require("streamifier");
-
-function uploadBufferToCloudinary(buffer, folder= "restaurant-reviews") {
-    return new Promise((resolve, reject)=> {
-        const uploadStream = cloudinary.uploader.upload_stream(
-            { folder },
-            (error, result) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                resolve(result);
-            });
-        streamifier.createReadStream(buffer).pipe(uploadStream);
-    });
-}
+const { prisma } = require("../../../prismaClient");
+const {
+    buildTableResponse,
+    buildReviewResponse,
+    buildRestaurantDetailsResponse,
+} = require("./restaurantResponseHelpers");
+const { uploadReviewImages } = require("./reviewImageHelpers");
 
 async function listZonesForRestaurant(req, res) {
     try {
         const { restaurantId } = req.params;
+
         const zones = await prisma.zone.findMany({
             where: { restaurantId },
             select: {
@@ -28,6 +18,7 @@ async function listZonesForRestaurant(req, res) {
             },
             orderBy: { name: "asc" },
         });
+
         return res.json(zones);
     } catch (error) {
         console.error(error);
@@ -38,20 +29,29 @@ async function listZonesForRestaurant(req, res) {
 async function listTablesForZone(req, res) {
     try {
         const { zoneId } = req.params;
+
         const tables = await prisma.table.findMany({
             where: {
                 zoneId,
                 active: true,
                 reservable: true,
             },
-            select:{
-                id: true,
-                name: true,
-                capacity: true,
+            include: {
+                tableTags: {
+                    include: {
+                        tag: {
+                            select: {
+                                id: true,
+                                name: true,
+                            },
+                        },
+                    },
+                },
             },
-            orderBy: { name: "asc" },
+            orderBy: [{ capacity: "asc" }, { name: "asc" }],
         });
-        return res.json(tables);
+
+        return res.json(tables.map(buildTableResponse));
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Server error" });
@@ -60,9 +60,9 @@ async function listTablesForZone(req, res) {
 
 async function getRestaurantDetails(req, res) {
     try {
-        const { restaurantId }= req.params;
+        const { restaurantId } = req.params;
 
-        const restaurant= await prisma.restaurant.findFirst({
+        const restaurant = await prisma.restaurant.findFirst({
             where: {
                 id: restaurantId,
                 verified: true,
@@ -82,6 +82,13 @@ async function getRestaurantDetails(req, res) {
                         tag: true,
                     },
                 },
+                images: {
+                    orderBy: [
+                        { isPrimary: "desc" },
+                        { sortOrder: "asc" },
+                        { createdAt: "asc" },
+                    ],
+                },
                 reviews: {
                     include: {
                         user: {
@@ -95,68 +102,56 @@ async function getRestaurantDetails(req, res) {
                         createdAt: "desc",
                     },
                 },
+                menuSections: {
+                    where: {
+                        isActive: true,
+                    },
+                    orderBy: {
+                        sortOrder: "asc",
+                    },
+                    include: {
+                        items: {
+                            where: {
+                                isAvailable: true,
+                            },
+                            orderBy: {
+                                sortOrder: "asc",
+                            },
+                        },
+                    },
+                },
             },
         });
+
         if (!restaurant) {
             return res.status(404).json({ message: "Restaurant not found" });
         }
-        const averageRating =
-            restaurant.reviews.length > 0
-                ? restaurant.reviews.reduce((sum, review) => sum + review.rating, 0) / restaurant.reviews.length
-                : 0;
-        return res.json({
-            id: restaurant.id,
-            name: restaurant.name,
-            location: restaurant.location,
-            latitude: restaurant.latitude,
-            longitude: restaurant.longitude,
-            verified: restaurant.verified,
-            bookingRule: restaurant.bookingRule,
-            openingHours: restaurant.openingHours,
-            accessibilityOptions: restaurant.accessibility.map((item) => ({
-                id: item.option.id,
-                name: item.option.optionName,
-                description: item.option.description,
-                icon: item.option.icon,
-            })),
-            tags: restaurant.tags.map((item)=> ({
-                id: item.tag.id,
-                name: item.tag.name,
-            })),
-            reviews: restaurant.reviews.map((review)=> ({
-                id: review.id,
-                rating: review.rating,
-                comment: review.comment,
-                verifiedVisit: review.verifiedVisit,
-                createdAt: review.createdAt,
-                userName: review.user?.name || "Anonymous",
-                images: review.images.map((image)=> ({
-                    id: image.id,
-                    imageUrl: image.imageUrl,
-                })),
-            })),
-            averageRating: Number(averageRating.toFixed(1)),
-            reviewCount: restaurant.reviews.length,
-        });
+
+        return res.json(buildRestaurantDetailsResponse(restaurant));
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Server error" });
     }
 }
 
-async function createRestaurantReview(req, res){
+async function createRestaurantReview(req, res) {
     try {
         const userId = req.user.userId;
         const { restaurantId } = req.params;
         const { rating, comment } = req.body;
         const numericRating = Number(rating);
+
         if (!numericRating || numericRating < 1 || numericRating > 5) {
-            return res.status(400).json({ message: "Rating must be between 1 and 5" });
+            return res.status(400).json({
+                message: "Rating must be between 1 and 5",
+            });
         }
+
         const restaurant = await prisma.restaurant.findUnique({
             where: { id: restaurantId },
             select: { id: true },
         });
+
         if (!restaurant) {
             return res.status(404).json({ message: "Restaurant not found" });
         }
@@ -170,6 +165,7 @@ async function createRestaurantReview(req, res){
                 id: true,
             },
         });
+
         if (existingReview) {
             return res.status(409).json({
                 message: "You have already reviewed this restaurant",
@@ -186,12 +182,9 @@ async function createRestaurantReview(req, res){
                 id: true,
             },
         });
-        let uploadedImages = [];
-        if (Array.isArray(req.files) && req.files.length > 0) {
-            uploadedImages = await Promise.all(
-                req.files.map((file) => uploadBufferToCloudinary(file.buffer))
-            );
-        }
+
+        const uploadedImages = await uploadReviewImages(req.files);
+
         const review = await prisma.review.create({
             data: {
                 userId,
@@ -219,18 +212,7 @@ async function createRestaurantReview(req, res){
 
         return res.status(201).json({
             message: "Review created successfully",
-            review: {
-                id: review.id,
-                rating: review.rating,
-                comment: review.comment,
-                verifiedVisit: review.verifiedVisit,
-                createdAt: review.createdAt,
-                userName: review.user?.name || "Anonymous",
-                images: review.images.map((image) => ({
-                    id: image.id,
-                    imageUrl: image.imageUrl,
-                })),
-            },
+            review: buildReviewResponse(review),
         });
     } catch (error) {
         console.error(error);
@@ -238,16 +220,22 @@ async function createRestaurantReview(req, res){
     }
 }
 
-async function getMyRestaurantReview(req, res){
+async function getMyRestaurantReview(req, res) {
     try {
         const userId = req.user.userId;
         const { restaurantId } = req.params;
+
         const review = await prisma.review.findFirst({
             where: {
                 userId,
                 restaurantId,
             },
             include: {
+                user: {
+                    select: {
+                        name: true,
+                    },
+                },
                 images: true,
             },
         });
@@ -256,16 +244,7 @@ async function getMyRestaurantReview(req, res){
             return res.status(404).json({ message: "Review not found" });
         }
 
-        return res.json({
-            id: review.id,
-            rating: review.rating,
-            comment: review.comment,
-            verifiedVisit: review.verifiedVisit,
-            images: review.images.map((image) => ({
-                id: image.id,
-                imageUrl: image.imageUrl,
-            })),
-        });
+        return res.json(buildReviewResponse(review));
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Server error" });
@@ -277,11 +256,12 @@ async function updateRestaurantReview(req, res) {
         const userId = req.user.userId;
         const { restaurantId } = req.params;
         const { rating, comment } = req.body;
-
         const numericRating = Number(rating);
 
         if (!numericRating || numericRating < 1 || numericRating > 5) {
-            return res.status(400).json({ message: "Rating must be between 1 and 5" });
+            return res.status(400).json({
+                message: "Rating must be between 1 and 5",
+            });
         }
 
         const existingReview = await prisma.review.findFirst({
@@ -303,13 +283,7 @@ async function updateRestaurantReview(req, res) {
             return res.status(404).json({ message: "Review not found" });
         }
 
-        let uploadedImages = [];
-
-        if (Array.isArray(req.files) && req.files.length > 0) {
-            uploadedImages = await Promise.all(
-                req.files.map((file) => uploadBufferToCloudinary(file.buffer))
-            );
-        }
+        const uploadedImages = await uploadReviewImages(req.files);
 
         const updatedReview = await prisma.review.update({
             where: {
@@ -339,18 +313,7 @@ async function updateRestaurantReview(req, res) {
 
         return res.json({
             message: "Review updated successfully",
-            review: {
-                id: updatedReview.id,
-                rating: updatedReview.rating,
-                comment: updatedReview.comment,
-                verifiedVisit: updatedReview.verifiedVisit,
-                createdAt: updatedReview.createdAt,
-                userName: updatedReview.user?.name || "Anonymous",
-                images: updatedReview.images.map((image) => ({
-                    id: image.id,
-                    imageUrl: image.imageUrl,
-                })),
-            },
+            review: buildReviewResponse(updatedReview),
         });
     } catch (error) {
         console.error(error);

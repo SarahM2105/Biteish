@@ -27,7 +27,7 @@ const {
     createRestaurantReview,
     getMyRestaurantReview,
     updateRestaurantReview,
-} = require("../controllers/customer/customerBrowseController");
+} = require("../controllers/customer/restaurant/customerBrowseController");
 
 const {
     listFavouriteRestaurants,

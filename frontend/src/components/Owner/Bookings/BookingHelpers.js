@@ -121,7 +121,9 @@ export function matchesStatusFilter(booking, filterValue) {
     if (filterValue === "ALL") return true;
     if (filterValue === "WALK_IN") return Boolean(booking.isWalkIn || booking.guestName);
     if (filterValue === "ONLINE") return !booking.isWalkIn && !booking.guestName;
-    if (filterValue === "CHECKED_IN") return Boolean(booking.checkedInAt);
+    if (filterValue === "CHECKED_IN") {
+        return Boolean(booking.checkedInAt) && booking.status === "CONFIRMED";
+    }
     if (filterValue === "CONFIRMED") return booking.status === "CONFIRMED" && !booking.checkedInAt;
     if (filterValue === "COMPLETED") return booking.status === "COMPLETED";
     if (filterValue === "NO_SHOW") return booking.status === "NO_SHOW";

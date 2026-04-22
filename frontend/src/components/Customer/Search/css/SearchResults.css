@@ -1,0 +1,118 @@
+.search-results__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.search-map-layout {
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.search-map-list {
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+    border-radius: 26px;
+    padding: 14px;
+    max-height: 620px;
+    overflow: hidden;
+}
+
+.search-map-list__items {
+    display: grid;
+    gap: 12px;
+    max-height: 592px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.search-map-list__item {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 14px;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 12px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.search-map-list__item.is-selected {
+    border-color: rgba(255, 138, 61, 0.35);
+    box-shadow: 0 0 0 1px rgba(255, 138, 61, 0.18);
+    background: rgba(255, 138, 61, 0.08);
+}
+
+.search-map-list__number {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    background: linear-gradient(135deg, rgba(255, 138, 61, 0.18), rgba(255, 105, 199, 0.14));
+    color: var(--text-main);
+}
+
+.search-map-list__content h4 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    color: var(--text-main);
+}
+
+.search-map-list__content p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.search-map-list__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.search-map-list__chip,
+.search-map-list__rating {
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.search-map-list__chip {
+    background: rgba(255, 138, 61, 0.12);
+    border: 1px solid rgba(255, 138, 61, 0.18);
+    color: #ffb07d;
+}
+
+.search-map-list__rating {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+}
+
+.search-map-panel {
+    min-height: 620px;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 26px;
+}
+
+@media (max-width: 1200px) {
+    .search-map-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 950px) {
+    .search-results__grid {
+        grid-template-columns: 1fr;
+    }
+}

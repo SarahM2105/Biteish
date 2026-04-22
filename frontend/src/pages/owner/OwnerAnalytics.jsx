@@ -42,11 +42,11 @@ export default function OwnerAnalytics() {
             }
         >
             <div className="owner-analytics-page">
-                <section className="owner-analytics-hero">
-                    <div className="owner-analytics-hero__content">
-                        <p className="owner-analytics-hero__eyebrow">{restaurantName}</p>
-                        <h1 className="owner-analytics-hero__title">Analytics</h1>
-                        <p className="owner-analytics-hero__text">
+                <section className="owner-analytics-header">
+                    <div className="owner-analytics-header__content">
+                        <p className="owner-analytics-header__eyebrow">{restaurantName}</p>
+                        <h1 className="owner-analytics-header__title">Analytics</h1>
+                        <p className="owner-analytics-header__text">
                             A cleaner analytics view focused on live restaurant activity,
                             owner-side booking queues, and today’s reservation metrics.
                         </p>

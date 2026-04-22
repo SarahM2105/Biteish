@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import TableVisual from "./TableVisual";
 
 export default function TableModal({
@@ -7,6 +7,7 @@ export default function TableModal({
                                        table,
                                        zones,
                                        initialZoneId,
+                                       tableFeatureTags = [],
                                        saving,
                                        status,
                                        onClose,
@@ -17,6 +18,7 @@ export default function TableModal({
     const [zoneId, setZoneId] = useState("");
     const [reservable, setReservable] = useState(true);
     const [active, setActive] = useState(true);
+    const [selectedTagIds, setSelectedTagIds] = useState([]);
 
     useEffect(() => {
         if (open) {
@@ -25,10 +27,28 @@ export default function TableModal({
             setZoneId(table?.zoneId || initialZoneId || zones[0]?.id || "");
             setReservable(typeof table?.reservable === "boolean" ? table.reservable : true);
             setActive(typeof table?.active === "boolean" ? table.active : true);
+            setSelectedTagIds(
+                Array.isArray(table?.tags) ? table.tags.map((tag) => tag.id) : []
+            );
         }
     }, [open, table, initialZoneId, zones]);
 
+    const selectedTagNames = useMemo(() => {
+        const selectedSet = new Set(selectedTagIds);
+        return tableFeatureTags
+            .filter((tag) => selectedSet.has(tag.id))
+            .map((tag) => tag.name);
+    }, [selectedTagIds, tableFeatureTags]);
+
     if (!open) return null;
+
+    function handleToggleTag(tagId) {
+        setSelectedTagIds((prev) =>
+            prev.includes(tagId)
+                ? prev.filter((id) => id !== tagId)
+                : [...prev, tagId]
+        );
+    }
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -39,6 +59,7 @@ export default function TableModal({
             zoneId,
             reservable,
             active,
+            tagIds: selectedTagIds,
         });
     }
 
@@ -49,6 +70,10 @@ export default function TableModal({
         active,
         reservable,
         zoneId,
+        tags: selectedTagNames.map((tagName, index) => ({
+            id: `preview-tag-${index}`,
+            name: tagName,
+        })),
     };
 
     return (
@@ -110,6 +135,35 @@ export default function TableModal({
                                 ))}
                             </select>
                         </label>
+
+                        <div className="owner-modal__field">
+                            <span>Table features</span>
+
+                            {tableFeatureTags.length > 0 ? (
+                                <div className="owner-modal__tag-grid">
+                                    {tableFeatureTags.map((tag) => {
+                                        const isSelected = selectedTagIds.includes(tag.id);
+
+                                        return (
+                                            <button
+                                                key={tag.id}
+                                                type="button"
+                                                className={`owner-modal__tag ${
+                                                    isSelected ? "is-selected" : ""
+                                                }`}
+                                                onClick={() => handleToggleTag(tag.id)}
+                                            >
+                                                {tag.name}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            ) : (
+                                <p className="owner-modal__helper">
+                                    No table feature tags available yet.
+                                </p>
+                            )}
+                        </div>
 
                         <label className="owner-modal__toggle">
                             <input

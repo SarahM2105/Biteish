@@ -36,7 +36,7 @@ export default function OwnerCheckIn() {
         >
             <div className="checkin-wrapper">
                 <div className="checkin-header">
-                    <h1>Service Desk</h1>
+                    <h1>Check In Users</h1>
                     <p>Manage guest check-ins and check-outs from one place.</p>
                 </div>
 

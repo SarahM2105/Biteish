@@ -3,19 +3,19 @@
     gap: 22px;
 }
 
-.notifications-hero {
+.notifications-header {
     display: grid;
     gap: 20px;
 }
 
-.notifications-hero__title {
+.notifications-header__title {
     margin: 0 0 8px;
     font-size: clamp(1.9rem, 3vw, 2.5rem);
     line-height: 1.1;
     color: var(--text-main);
 }
 
-.notifications-hero__subtitle {
+.notifications-header__subtitle {
     margin: 0;
     max-width: 720px;
     color: var(--text-muted);

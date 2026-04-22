@@ -33,16 +33,16 @@ export default function OwnerBookingsContent() {
     return (
         <>
             <div className="owner-bookings-page">
-                <section className="owner-bookings-hero">
-                    <div className="owner-bookings-hero__content">
-                        <p className="owner-bookings-hero__eyebrow">Bookings</p>
+                <section className="owner-bookings-header">
+                    <div className="owner-bookings-header__content">
+                        <p className="owner-bookings-header__eyebrow">Bookings</p>
                         <h1>Manage your restaurant bookings</h1>
                         <p>
                             Keep today and upcoming bookings separate, then browse older or future service days with filters.
                         </p>
                     </div>
 
-                    <div className="owner-bookings-hero__stats">
+                    <div className="owner-bookings-header__stats">
                         <div className="owner-bookings-stat">
                             <span>Today</span>
                             <strong>{todayBookings.length}</strong>

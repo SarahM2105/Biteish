@@ -2,10 +2,10 @@ import React from "react";
 
 export default function ProfileHeader({ avatarLetter, name, email, role }) {
     return (
-        <section className="customer-profile__hero">
+        <section className="customer-profile__header">
             <div className="customer-profile__avatar">{avatarLetter}</div>
 
-            <div className="customer-profile__heroText">
+            <div className="customer-profile__headerText">
                 <p className="customer-profile__eyebrow">Customer account</p>
                 <h2>{name}</h2>
                 <p>{email}</p>

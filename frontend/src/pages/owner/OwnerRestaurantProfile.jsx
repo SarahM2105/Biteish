@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import AppLayout from "../../layouts/AppLayout";
 import OwnerSideNav from "../../components/OwnerSideNav";
 import ProfileHeader from "../../components/Owner/RestaurantProfile/Header";
@@ -6,7 +6,7 @@ import ProfileInfo from "../../components/Owner/RestaurantProfile/Info";
 import ProfileOpeningHours from "../../components/Owner/RestaurantProfile/OpeningHours";
 import ProfileBookingRules from "../../components/Owner/RestaurantProfile/BookingRules";
 import ProfileAccessibility from "../../components/Owner/RestaurantProfile/AccessibilityInfo";
-import "../../components/Owner/RestaurantProfile/Profile.css";
+import "../../components/Owner/RestaurantProfile/css/ProfileLayout.css";
 import { useTheme } from "../../ThemeContext";
 import { logout } from "../../components/utils/logout";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +40,7 @@ export default function OwnerRestaurantProfile() {
                     },
                 });
 
-                const data = await res.json();
+                const data = await res.json().catch(() => null);
 
                 if (!res.ok) {
                     setStatus(data?.error || "Failed to load profile");
@@ -60,6 +60,10 @@ export default function OwnerRestaurantProfile() {
 
         loadProfile();
     }, []);
+
+    const images = useMemo(() => {
+        return Array.isArray(restaurant?.images) ? restaurant.images : [];
+    }, [restaurant]);
 
     return (
         <AppLayout
@@ -83,6 +87,65 @@ export default function OwnerRestaurantProfile() {
                 {restaurant && !loading && (
                     <>
                         <ProfileHeader restaurant={restaurant} />
+
+                        <div className="profile-card">
+                            <div className="profile-gallery">
+                                <div className="profile-gallery__header">
+                                    <div className="profile-gallery__header-copy">
+                                        <h3>Restaurant Photos</h3>
+                                        <p>
+                                            These photos are shown to customers on the search page
+                                            and restaurant details page.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {images.length > 0 ? (
+                                    <div className="profile-gallery__grid">
+                                        {images.map((image, index) => (
+                                            <div
+                                                key={image.id}
+                                                className="profile-gallery__card"
+                                            >
+                                                <div className="profile-gallery__media">
+                                                    <img
+                                                        src={image.imageUrl}
+                                                        alt={
+                                                            image.altText ||
+                                                            `${restaurant.name || "Restaurant"} image ${index + 1}`
+                                                        }
+                                                        className="profile-gallery__image"
+                                                    />
+
+                                                    {image.isPrimary ? (
+                                                        <span className="profile-gallery__primary-badge">
+                                                            Primary
+                                                        </span>
+                                                    ) : null}
+                                                </div>
+
+                                                <div className="profile-gallery__meta">
+                                                    <strong>
+                                                        {image.isPrimary
+                                                            ? "Main preview image"
+                                                            : `Gallery image ${index + 1}`}
+                                                    </strong>
+                                                    <span>
+                                                        {image.altText ||
+                                                            "No image description added yet."}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="profile-gallery__empty">
+                                        No restaurant photos have been uploaded yet.
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
                         <ProfileInfo restaurant={restaurant} />
                         <ProfileOpeningHours hours={restaurant.openingHours} />
                         <ProfileBookingRules rule={restaurant.bookingRule} />

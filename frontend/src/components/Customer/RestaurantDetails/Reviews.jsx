@@ -19,13 +19,16 @@ export default function Reviews({ reviews = [], averageRating = 0, reviewCount =
         2: 0,
         1: 0,
     };
+
     reviews.forEach((review) => {
         const value = Number(review.rating);
         if (ratingCounts[value] !== undefined) {
             ratingCounts[value] += 1;
         }
     });
+
     const verifiedCount = reviews.filter((review) => review.verifiedVisit).length;
+
     return (
         <section className="restaurant-details-card">
             <div className="restaurant-section-header">
@@ -34,23 +37,19 @@ export default function Reviews({ reviews = [], averageRating = 0, reviewCount =
                     <p>{reviewCount} review{reviewCount === 1 ? "" : "s"}</p>
                 </div>
 
-                <div className="reviews-header-rating">
-                    {reviewCount > 0 ? (
-                        <>
-                            <span className="reviews-header-rating__stars">
-                                {renderStars(averageRating)}
-                            </span>
-                            <span className="reviews-header-rating__number">
-                                {Number(averageRating).toFixed(1)}
-                            </span>
-                            <span className="reviews-header-rating__count">
-                                ({reviewCount})
-                            </span>
-                        </>
-                    ) : (
-                        <strong className="restaurant-rating-pill">New</strong>
-                    )}
-                </div>
+                {reviewCount > 0 ? (
+                    <div className="reviews-header-rating">
+                        <span className="reviews-header-rating__stars">
+                            {renderStars(averageRating)}
+                        </span>
+                        <span className="reviews-header-rating__number">
+                            {Number(averageRating).toFixed(1)}
+                        </span>
+                        <span className="reviews-header-rating__count">
+                            ({reviewCount})
+                        </span>
+                    </div>
+                ) : null}
             </div>
 
             {reviewCount > 0 && (

@@ -17,12 +17,13 @@ import "../../components/Customer/RestaurantDetails/css/RestaurantReviewForm.css
 import "../../components/Customer/RestaurantDetails/css/RestaurantReviews.css";
 import "../../components/Customer/RestaurantDetails/css/RestaurantDetailsHeader.css";
 import "../../components/Customer/RestaurantDetails/css/RestaurantDetailsLayout.css";
+import "../../components/Customer/RestaurantDetails/css/Menu.css";
 import { useTheme } from "../../ThemeContext";
 
 export default function CustomerRestaurantDetails() {
     const [collapsed, setCollapsed] = useState(false);
     const [active, setActive] = useState("Search and Filter");
-    const {isDarkMode, setIsDarkMode} = useTheme();
+    const { isDarkMode, setIsDarkMode } = useTheme();
 
     const navigate = useNavigate();
     const { restaurantId } = useParams();
@@ -62,7 +63,7 @@ export default function CustomerRestaurantDetails() {
                             <div className="restaurant-details-main">
                                 <About restaurant={restaurant} />
                                 <OpeningHours openingHours={restaurant.openingHours} />
-                                <Menu />
+                                <Menu menuSections={restaurant.menuSections || []} />
                                 <Reviews
                                     reviews={restaurant.reviews}
                                     averageRating={restaurant.averageRating}

@@ -15,6 +15,8 @@ export default function TableDetailsPanel({
         0
     );
 
+    const tableTags = Array.isArray(table?.tags) ? table.tags : [];
+
     return (
         <aside className="table-details-panel">
             {table ? (
@@ -44,6 +46,25 @@ export default function TableDetailsPanel({
                         <div className="table-details-card">
                             <span>Status</span>
                             <strong>{table.active ? "Active" : "Inactive"}</strong>
+                        </div>
+
+                        <div className="table-details-card">
+                            <span>Table features</span>
+
+                            {tableTags.length > 0 ? (
+                                <div className="table-details-card__tags">
+                                    {tableTags.map((tag) => (
+                                        <span
+                                            key={tag.id || tag.name}
+                                            className="table-details-card__tag"
+                                        >
+                                            {tag.name}
+                                        </span>
+                                    ))}
+                                </div>
+                            ) : (
+                                <strong>No features added</strong>
+                            )}
                         </div>
                     </div>
 

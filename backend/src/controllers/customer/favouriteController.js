@@ -23,6 +23,19 @@ async function listFavouriteRestaurants(req, res) {
                         latitude: true,
                         longitude: true,
                         verified: true,
+                        estimatedSpendMin: true,
+                        estimatedSpendMax: true,
+                        images: {
+                            where: {
+                                isPrimary: true,
+                            },
+                            select: {
+                                id: true,
+                                imageUrl: true,
+                                altText: true,
+                            },
+                            take: 1,
+                        },
                         tags: {
                             select: {
                                 tag: {
@@ -55,7 +68,10 @@ async function listFavouriteRestaurants(req, res) {
             const reviewCount = item.restaurant.reviews.length;
             const averageRating =
                 reviewCount > 0
-                    ? item.restaurant.reviews.reduce((sum, review) => sum + review.rating, 0) / reviewCount
+                    ? item.restaurant.reviews.reduce(
+                    (sum, review) => sum + review.rating,
+                    0
+                ) / reviewCount
                     : 0;
 
             return {
@@ -67,6 +83,10 @@ async function listFavouriteRestaurants(req, res) {
                 latitude: item.restaurant.latitude,
                 longitude: item.restaurant.longitude,
                 verified: item.restaurant.verified,
+                estimatedSpendMin: item.restaurant.estimatedSpendMin,
+                estimatedSpendMax: item.restaurant.estimatedSpendMax,
+                imageUrl: item.restaurant.images[0]?.imageUrl || null,
+                imageAltText: item.restaurant.images[0]?.altText || null,
                 tags: item.restaurant.tags.map((tagItem) => tagItem.tag.name),
                 accessibilityOptions: item.restaurant.accessibility.map(
                     (accessItem) => accessItem.option.optionName

@@ -23,24 +23,80 @@ model User {
 }
 
 model Restaurant {
-  id            String                    @id @default(uuid())
-  ownerId       String
-  name          String
-  description   String?
-  location      String
-  latitude      Float?
-  longitude     Float?
-  verified      Boolean                   @default(false)
-  bookingRule   BookingRule?
-  favorites     Favorite[]
-  openingHours  OpeningHour[]
-  reservations  Reservation[]
-  owner         User                      @relation(fields: [ownerId], references: [id])
-  accessibility RestaurantAccessibility[]
-  tags          RestaurantTag[]
-  reviews       Review[]
-  tables        Table[]
-  zones         Zone[]
+  id                        String                    @id @default(uuid())
+  ownerId                   String
+  name                      String
+  description               String?
+  location                  String
+  latitude                  Float?
+  longitude                 Float?
+  estimatedSpendMin         Int?
+  estimatedSpendMax         Int?
+  automaticSpendCalculation Boolean                   @default(true)
+  verified                  Boolean                   @default(false)
+  bookingRule               BookingRule?
+  menuSections              MenuSection[]
+  menuItems                 MenuItem[]
+  favorites                 Favorite[]
+  openingHours              OpeningHour[]
+  reservations              Reservation[]
+  owner                     User                      @relation(fields: [ownerId], references: [id])
+  accessibility             RestaurantAccessibility[]
+  tags                      RestaurantTag[]
+  reviews                   Review[]
+  tables                    Table[]
+  zones                     Zone[]
+  images                    RestaurantImage[]
+}
+
+model RestaurantImage {
+  id           String   @id @default(cuid())
+  restaurantId String
+  imageUrl     String
+  altText      String?
+  sortOrder    Int      @default(0)
+  isPrimary    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+
+  @@index([restaurantId, sortOrder])
+}
+
+model MenuSection {
+  id           String   @id @default(uuid())
+  restaurantId String
+  name         String
+  description  String?
+  sortOrder    Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  items      MenuItem[]
+
+  @@unique([restaurantId, name])
+  @@index([restaurantId, sortOrder])
+}
+
+model MenuItem {
+  id           String   @id @default(uuid())
+  restaurantId String
+  sectionId    String
+  name         String
+  description  String?
+  price        Decimal  @db.Decimal(10, 2)
+  dietaryInfo  String?
+  isAvailable  Boolean  @default(true)
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  restaurant Restaurant  @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  section    MenuSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@index([restaurantId, sectionId, sortOrder])
 }
 
 model Zone {
@@ -65,6 +121,7 @@ model Table {
   zone               Zone                       @relation(fields: [zoneId], references: [id])
   unavailability     TableUnavailability[]
   requestedInChanges ReservationChangeRequest[] @relation("RequestedChangeTable")
+  tableTags          TableTag[]
 
   @@unique([restaurantId, name])
 }
@@ -207,6 +264,7 @@ model Tag {
   name        String          @unique
   restaurants RestaurantTag[]
   category    TagCategory     @relation(fields: [categoryId], references: [id])
+  tableTags   TableTag[]
 }
 
 model RestaurantTag {
@@ -246,6 +304,17 @@ model AuditLog {
   entityId    String?
   description String
   user        User?       @relation(fields: [userId], references: [id])
+}
+
+model TableTag {
+  id      String @id @default(uuid())
+  tableId String
+  tagId   String
+
+  table Table @relation(fields: [tableId], references: [id], onDelete: Cascade)
+  tag   Tag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([tableId, tagId])
 }
 
 enum AuditEntity {

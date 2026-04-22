@@ -6,12 +6,23 @@ import { logout } from "../../components/utils/logout";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../ThemeContext";
 
+function renderPriceGuide(restaurant) {
+    const min = restaurant?.estimatedSpendMin;
+    const max = restaurant?.estimatedSpendMax;
+
+    if (min != null && max != null) {
+        return `Est. £${min}–£${max} pp`;
+    }
+
+    return null;
+}
+
 export default function CustomerFavourites() {
     const name = localStorage.getItem("name") || "customer";
     const [status, setStatus] = useState("");
     const [active, setActive] = useState("Favourites");
     const [collapsed, setCollapsed] = useState(false);
-    const {isDarkMode, setIsDarkMode} = useTheme();
+    const { isDarkMode, setIsDarkMode } = useTheme();
     const [favouriteRestaurants, setFavouriteRestaurants] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -91,6 +102,10 @@ export default function CustomerFavourites() {
         navigate(`/customer/restaurants/${restaurantId}`);
     }
 
+    function handleBookRestaurant(restaurantId) {
+        navigate(`/customer/restaurants/${restaurantId}/book`);
+    }
+
     return (
         <AppLayout
             name={name}
@@ -139,62 +154,135 @@ export default function CustomerFavourites() {
                     </section>
                 ) : (
                     <div className="favourites-grid">
-                        {favouriteRestaurants.map((restaurant) => (
-                            <section
-                                key={restaurant.id}
-                                className="dashboard-panel favourite-card"
-                            >
-                                <div className="favourite-card__top">
-                                    <div>
-                                        <h3 className="favourite-card__title">{restaurant.name}</h3>
-                                        <p className="favourite-card__cuisine">
-                                            {restaurant.averageRating?.toFixed?.(1) || Number(restaurant.averageRating || 0).toFixed(1)} ★
-                                        </p>
+                        {favouriteRestaurants.map((restaurant) => {
+                            const numericRating =
+                                restaurant.averageRating !== null &&
+                                restaurant.averageRating !== undefined &&
+                                restaurant.averageRating !== ""
+                                    ? Number(restaurant.averageRating)
+                                    : 0;
+
+                            const fullStars = Math.round(numericRating);
+                            const totalStars = 5;
+                            const priceGuide = renderPriceGuide(restaurant);
+                            const previewTags = [
+                                ...(restaurant.tags || []),
+                                ...(restaurant.accessibilityOptions || []),
+                            ].slice(0, 4);
+
+                            return (
+                                <section
+                                    key={restaurant.id}
+                                    className="dashboard-panel favourite-card favourite-card--enhanced"
+                                >
+                                    <div className="favourite-card__media">
+                                        {restaurant.imageUrl ? (
+                                            <img
+                                                src={restaurant.imageUrl}
+                                                alt={
+                                                    restaurant.imageAltText ||
+                                                    `${restaurant.name} preview`
+                                                }
+                                                className="favourite-card__image"
+                                            />
+                                        ) : (
+                                            <div className="favourite-card__image-placeholder"></div>
+                                        )}
+
+                                        <button
+                                            type="button"
+                                            className="favourite-card__heart"
+                                            onClick={() =>
+                                                handleRemoveFavourite(restaurant.id)
+                                            }
+                                            aria-label="Remove favourite"
+                                            title="Remove favourite"
+                                        >
+                                            ♥
+                                        </button>
                                     </div>
-                                </div>
 
-                                <div className="favourite-card__details">
-                                    <div className="favourite-card__row">
-                                        <span className="favourite-card__label">Location</span>
-                                        <span className="favourite-card__value">{restaurant.location}</span>
+                                    <div className="favourite-card__content">
+                                        <div className="favourite-card__top">
+                                            <div className="favourite-card__title-wrap">
+                                                <h3 className="favourite-card__title">
+                                                    {restaurant.name}
+                                                </h3>
+                                                <p className="favourite-card__location">
+                                                    {restaurant.location}
+                                                </p>
+                                            </div>
+
+                                            <div className="favourite-card__rating">
+                                                <div className="favourite-card__stars">
+                                                    {Array.from({
+                                                        length: totalStars,
+                                                    }).map((_, i) => (
+                                                        <span key={i}>
+                                                            {i < fullStars ? "★" : "☆"}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                                <span className="favourite-card__rating-number">
+                                                    {numericRating.toFixed(1)}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {priceGuide ? (
+                                            <p className="favourite-card__price">
+                                                {priceGuide}
+                                            </p>
+                                        ) : null}
+
+                                        {previewTags.length > 0 ? (
+                                            <div className="favourite-card__chips">
+                                                {previewTags.map((item, index) => (
+                                                    <span
+                                                        key={`${item}-${index}`}
+                                                        className="favourite-card__chip"
+                                                    >
+                                                        {item}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        ) : null}
+
+                                        <div className="favourite-card__actions">
+                                            <button
+                                                type="button"
+                                                className="favourite-card__button favourite-card__button--primary"
+                                                onClick={() =>
+                                                    handleViewRestaurant(restaurant.id)
+                                                }
+                                            >
+                                                View restaurant
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                className="favourite-card__button favourite-card__button--secondary"
+                                                onClick={() =>
+                                                    handleBookRestaurant(restaurant.id)
+                                                }
+                                            >
+                                                Book now
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                className="favourite-card__button favourite-card__button--ghost"
+                                                onClick={() =>
+                                                    handleRemoveFavourite(restaurant.id)
+                                                }
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
                                     </div>
-
-                                    <div className="favourite-card__row">
-                                        <span className="favourite-card__label">Tags</span>
-                                        <span className="favourite-card__value">
-                                            {restaurant.tags?.length ? restaurant.tags.join(", ") : "No tags"}
-                                        </span>
-                                    </div>
-
-                                    <div className="favourite-card__row">
-                                        <span className="favourite-card__label">Accessibility</span>
-                                        <span className="favourite-card__value">
-                                            {restaurant.accessibilityOptions?.length
-                                                ? restaurant.accessibilityOptions.join(", ")
-                                                : "No accessibility options listed"}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="favourite-card__actions">
-                                    <button
-                                        type="button"
-                                        className="favourite-card__button favourite-card__button--primary"
-                                        onClick={() => handleViewRestaurant(restaurant.id)}
-                                    >
-                                        View Restaurant
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        className="favourite-card__button favourite-card__button--secondary"
-                                        onClick={() => handleRemoveFavourite(restaurant.id)}
-                                    >
-                                        Remove Favourite
-                                    </button>
-                                </div>
-                            </section>
-                        ))}
+                                </section>
+                            );
+                        })}
                     </div>
                 )}
             </div>
