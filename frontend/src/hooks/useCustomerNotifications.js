@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getSocket } from "../socket";
+import { authFetch } from "../components/utils/authFetch";
+import { getApiErrorMessage } from "../components/utils/getApiErrorMessage";
 
 function buildNotificationFromReservation(reservation) {
     const now = Date.now();
@@ -154,19 +156,15 @@ export default function useCustomerNotifications() {
             setLoading(true);
             setStatus("");
 
-            const token = localStorage.getItem("token");
-            const res = await fetch("/api/customer/reservations", {
-                headers: {
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-            });
-
+            const res = await authFetch("/api/customer/reservations");
             const text = await res.text();
-            const data = text ? JSON.parse(text) : [];
+            const data = text ? JSON.parse(text) : {};
 
             if (!res.ok) {
                 setNotifications([]);
-                setStatus(data?.error || data?.message || "Failed to load notifications");
+                setStatus(
+                    getApiErrorMessage(data, "Failed to load notifications")
+                );
                 return;
             }
 

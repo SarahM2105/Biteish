@@ -1,4 +1,4 @@
-const { checkinCustomer } = require("./checkinCustomer");
+const { checkinCustomer } = require("./checkInCustomer");
 const { checkOutCustomer } = require("./checkOutCustomer");
 const { listAvailableTablesForManualCheckIn } = require("./listAvailableTablesForManualCheckIn");
 const { listOccupiedTablesForManualCheckOut } = require("./listOccupiedTablesForManualCheckOut");

@@ -7,6 +7,8 @@ import {
     canShowQrForBooking,
     hasOutgoingChangeRequest,
 } from "../components/Customer/MyBookings/bookingHelpers";
+import { authFetch } from "../components/utils/authFetch";
+import { getApiErrorMessage } from "../components/utils/getApiErrorMessage";
 
 export default function useCustomerBookingsPage() {
     const userId = localStorage.getItem("userId");
@@ -58,14 +60,11 @@ export default function useCustomerBookingsPage() {
         setStatus("");
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch("/api/customer/reservations", {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            const data = await res.json();
+            const res = await authFetch("/api/customer/reservations");
+            const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || "Failed to load");
+                setStatus(getApiErrorMessage(data, "Failed to load bookings."));
                 setBookings([]);
                 return;
             }
@@ -73,7 +72,7 @@ export default function useCustomerBookingsPage() {
             setBookings(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error(error);
-            setStatus("Network error");
+            setStatus("Network/server error");
             setBookings([]);
         } finally {
             setLoading(false);
@@ -85,15 +84,15 @@ export default function useCustomerBookingsPage() {
         setIncomingStatus("");
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch("/api/customer/change-request", {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            const data = await res.json().catch(() => []);
+            const res = await authFetch("/api/customer/change-request");
+            const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
                 setIncomingStatus(
-                    data?.error || data?.message || "Failed to load booking change requests"
+                    getApiErrorMessage(
+                        data,
+                        "Failed to load booking change requests."
+                    )
                 );
                 setIncomingRequests([]);
                 return;
@@ -118,14 +117,11 @@ export default function useCustomerBookingsPage() {
         setStatus("");
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`/api/customer/reservations/${reservationId}/qr`, {
-                headers: token ? { Authorization: `Bearer ${token}` } : {},
-            });
+            const res = await authFetch(`/api/customer/reservations/${reservationId}/qr`);
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || data?.message || "Failed to load qr code");
+                setStatus(getApiErrorMessage(data, "Failed to load QR code."));
                 return;
             }
 
@@ -135,7 +131,7 @@ export default function useCustomerBookingsPage() {
             setShowQrModal(true);
         } catch (error) {
             console.error(error);
-            setStatus("Network/server error loading qr code");
+            setStatus("Network/server error loading QR code");
         }
     }
 
@@ -145,21 +141,22 @@ export default function useCustomerBookingsPage() {
         setStatus("");
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`/api/customer/reservations/${reservationId}/cancel`, {
+            const res = await authFetch(`/api/customer/reservations/${reservationId}/cancel`, {
                 method: "PATCH",
-                headers: token ? { Authorization: `Bearer ${token}` } : {},
             });
+
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || data?.message || "Cancel failed");
+                setStatus(getApiErrorMessage(data, "Cancel failed."));
                 return;
             }
 
             setBookings((prev) =>
                 prev.map((booking) =>
-                    booking.id === reservationId ? { ...booking, status: "CANCELLED" } : booking
+                    booking.id === reservationId
+                        ? { ...booking, status: "CANCELLED" }
+                        : booking
                 )
             );
         } catch (error) {
@@ -173,16 +170,15 @@ export default function useCustomerBookingsPage() {
         setActingIncomingKey(`approve:${requestId}`);
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`/api/customer/change-request/${requestId}/approve`, {
+            const res = await authFetch(`/api/customer/change-request/${requestId}/approve`, {
                 method: "PATCH",
-                headers: token ? { Authorization: `Bearer ${token}` } : {},
             });
+
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
                 setIncomingStatus(
-                    data?.error || data?.message || "Failed to approve change request"
+                    getApiErrorMessage(data, "Failed to approve change request.")
                 );
                 return;
             }
@@ -203,16 +199,15 @@ export default function useCustomerBookingsPage() {
         setActingIncomingKey(`decline:${requestId}`);
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`/api/customer/change-request/${requestId}/decline`, {
+            const res = await authFetch(`/api/customer/change-request/${requestId}/decline`, {
                 method: "PATCH",
-                headers: token ? { Authorization: `Bearer ${token}` } : {},
             });
+
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
                 setIncomingStatus(
-                    data?.error || data?.message || "Failed to decline change request"
+                    getApiErrorMessage(data, "Failed to decline change request.")
                 );
                 return;
             }
@@ -251,7 +246,10 @@ export default function useCustomerBookingsPage() {
     );
 
     const pastCount = useMemo(
-        () => bookings.filter((booking) => new Date(booking.startsAt).getTime() < now).length,
+        () =>
+            bookings.filter(
+                (booking) => new Date(booking.startsAt).getTime() < now
+            ).length,
         [bookings, now]
     );
 
@@ -263,7 +261,9 @@ export default function useCustomerBookingsPage() {
     const confirmedShown = useMemo(
         () =>
             selectedDate
-                ? upcomingConfirmed.filter((booking) => toDateKey(booking.startsAt) === selectedDate)
+                ? upcomingConfirmed.filter(
+                    (booking) => toDateKey(booking.startsAt) === selectedDate
+                )
                 : upcomingConfirmed,
         [upcomingConfirmed, selectedDate]
     );
@@ -271,7 +271,9 @@ export default function useCustomerBookingsPage() {
     const pendingShown = useMemo(
         () =>
             selectedDate
-                ? pendingBookings.filter((booking) => toDateKey(booking.startsAt) === selectedDate)
+                ? pendingBookings.filter(
+                    (booking) => toDateKey(booking.startsAt) === selectedDate
+                )
                 : pendingBookings,
         [pendingBookings, selectedDate]
     );
@@ -286,11 +288,17 @@ export default function useCustomerBookingsPage() {
 
             acc[key].total += 1;
 
-            if (booking.status === "CONFIRMED" && !hasOutgoingChangeRequest(booking, userId)) {
+            if (
+                booking.status === "CONFIRMED" &&
+                !hasOutgoingChangeRequest(booking, userId)
+            ) {
                 acc[key].confirmed += 1;
             }
 
-            if (booking.status === "PENDING" || hasOutgoingChangeRequest(booking, userId)) {
+            if (
+                booking.status === "PENDING" ||
+                hasOutgoingChangeRequest(booking, userId)
+            ) {
                 acc[key].pending += 1;
             }
 
@@ -302,7 +310,8 @@ export default function useCustomerBookingsPage() {
         }, {});
     }, [bookings, userId]);
 
-    const noResultsForDate = selectedDate && !confirmedShown.length && !pendingShown.length;
+    const noResultsForDate =
+        selectedDate && !confirmedShown.length && !pendingShown.length;
 
     return {
         status,

@@ -25,6 +25,7 @@ export default function RestaurantCard({
         location,
         cuisine,
         averageRating,
+        reviewCount,
         nextSlot,
         accessibilityOptions = [],
         dietaryOptions = [],
@@ -36,12 +37,13 @@ export default function RestaurantCard({
 
     const badges = [...dietaryOptions, ...accessibilityOptions, ...tags].slice(0, 3);
 
+    const hasReviews = Number(reviewCount) > 0;
     const numericRating =
         averageRating !== null && averageRating !== undefined && averageRating !== ""
             ? Number(averageRating)
             : 0;
 
-    const fullStars = Math.round(numericRating);
+    const fullStars = hasReviews ? Math.round(numericRating) : 0;
     const totalStars = 5;
     const priceGuide = renderPriceGuide(restaurant);
 
@@ -96,12 +98,18 @@ export default function RestaurantCard({
                     </div>
 
                     <div className="restaurant-card-rating">
-                        <div className="stars">
-                            {Array.from({ length: totalStars }).map((_, i) => (
-                                <span key={i}>{i < fullStars ? "★" : "☆"}</span>
-                            ))}
-                        </div>
-                        <span className="rating-number">{numericRating.toFixed(1)}</span>
+                        {hasReviews ? (
+                            <>
+                                <div className="stars">
+                                    {Array.from({length: totalStars}).map((_, i) => (
+                                        <span key={i}>{i < fullStars ? "★" : "☆"}</span>
+                                    ))}
+                                </div>
+                                <span className="rating-number">{numericRating.toFixed(1)}</span>
+                            </>
+                        ) : (
+                            <span className="rating-number">No reviews yet</span>
+                        )}
                     </div>
                 </div>
 

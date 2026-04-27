@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { authFetch } from "../components/utils/authFetch";
+import { getApiErrorMessage } from "../components/utils/getApiErrorMessage";
 
 export default function useCustomerProfile() {
     const fallbackName = localStorage.getItem("name") || "customer";
@@ -41,18 +43,13 @@ export default function useCustomerProfile() {
             setLoadStatus("");
 
             try {
-                const token = localStorage.getItem("token");
-
-                const res = await fetch("/api/customer/me", {
-                    headers: {
-                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                    },
-                });
-
+                const res = await authFetch("/api/customer/me");
                 const data = await res.json().catch(() => ({}));
 
                 if (!res.ok) {
-                    setLoadStatus(data?.error || data?.message || "Failed to load profile");
+                    setLoadStatus(
+                        getApiErrorMessage(data, "Failed to load profile")
+                    );
                     return;
                 }
 
@@ -79,7 +76,12 @@ export default function useCustomerProfile() {
     }, [fallbackName]);
 
     const avatarLetter = useMemo(() => {
-        return (profileForm.name || me.name || fallbackName).trim().charAt(0).toUpperCase() || "C";
+        return (
+            (profileForm.name || me.name || fallbackName)
+                .trim()
+                .charAt(0)
+                .toUpperCase() || "C"
+        );
     }, [profileForm.name, me.name, fallbackName]);
 
     function openView(view) {
@@ -152,13 +154,11 @@ export default function useCustomerProfile() {
 
         try {
             setProfileStatus("Saving...");
-            const token = localStorage.getItem("token");
 
-            const res = await fetch("/api/customer/me", {
+            const res = await authFetch("/api/customer/me", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({
                     name: profileForm.name,
@@ -169,7 +169,9 @@ export default function useCustomerProfile() {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setProfileStatus(data?.error || data?.message || "Failed to update profile.");
+                setProfileStatus(
+                    getApiErrorMessage(data, "Failed to update profile.")
+                );
                 return;
             }
 
@@ -197,20 +199,22 @@ export default function useCustomerProfile() {
     async function handleUpdatePassword(event) {
         event.preventDefault();
 
-        if (!passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword) {
+        if (
+            !passwordForm.currentPassword ||
+            !passwordForm.newPassword ||
+            !passwordForm.confirmPassword
+        ) {
             setPasswordStatus("Please complete all password fields.");
             return;
         }
 
         try {
             setPasswordStatus("Updating...");
-            const token = localStorage.getItem("token");
 
-            const res = await fetch("/api/customer/me/password", {
+            const res = await authFetch("/api/customer/me/password", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify(passwordForm),
             });
@@ -218,7 +222,9 @@ export default function useCustomerProfile() {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setPasswordStatus(data?.error || data?.message || "Failed to update password.");
+                setPasswordStatus(
+                    getApiErrorMessage(data, "Failed to update password.")
+                );
                 return;
             }
 

@@ -16,5 +16,6 @@ export function createEmptyItemForm(sectionId = "") {
         price: "",
         dietaryInfo: "",
         isAvailable: true,
+        tagIds: [],
     };
 }

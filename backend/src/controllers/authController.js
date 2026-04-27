@@ -6,6 +6,10 @@ async function register(req, res) {
     try{
         const {name, email, password, role} = req.body;
 
+        if (String(role).toUpperCase() === "ADMIN") {
+            return res.status(400).json({ error: "Admin accounts cannot be created through public registration" });
+        }
+
         if (!name){
             return res.status(400).json({error:"name is required"});
         }

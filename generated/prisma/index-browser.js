@@ -152,21 +152,9 @@ exports.Prisma.RestaurantImageScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.MenuSectionScalarFieldEnum = {
-  id: 'id',
-  restaurantId: 'restaurantId',
-  name: 'name',
-  description: 'description',
-  sortOrder: 'sortOrder',
-  isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.MenuItemScalarFieldEnum = {
   id: 'id',
   restaurantId: 'restaurantId',
-  sectionId: 'sectionId',
   name: 'name',
   description: 'description',
   price: 'price',
@@ -174,7 +162,8 @@ exports.Prisma.MenuItemScalarFieldEnum = {
   isAvailable: 'isAvailable',
   sortOrder: 'sortOrder',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  sectionId: 'sectionId'
 };
 
 exports.Prisma.ZoneScalarFieldEnum = {
@@ -342,9 +331,53 @@ exports.Prisma.TableTagScalarFieldEnum = {
   tagId: 'tagId'
 };
 
+exports.Prisma.MenuItemTagScalarFieldEnum = {
+  id: 'id',
+  menuItemId: 'menuItemId',
+  tagId: 'tagId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MenuSectionScalarFieldEnum = {
+  id: 'id',
+  restaurantId: 'restaurantId',
+  name: 'name',
+  description: 'description',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TableAccessibilityScalarFieldEnum = {
+  id: 'id',
+  tableId: 'tableId',
+  optionId: 'optionId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserInteractionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  restaurantId: 'restaurantId',
+  tagId: 'tagId',
+  optionId: 'optionId',
+  searchQuery: 'searchQuery',
+  eventType: 'eventType',
+  source: 'source',
+  weight: 'weight',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -355,6 +388,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.Role = exports.$Enums.Role = {
   CUSTOMER: 'CUSTOMER',
@@ -397,11 +436,31 @@ exports.AuditEntity = exports.$Enums.AuditEntity = {
   OPENING_HOUR: 'OPENING_HOUR'
 };
 
+exports.InteractionType = exports.$Enums.InteractionType = {
+  RESTAURANT_VIEW: 'RESTAURANT_VIEW',
+  RECOMMENDATION_CLICK: 'RECOMMENDATION_CLICK',
+  FAVOURITE_ADDED: 'FAVOURITE_ADDED',
+  FAVOURITE_REMOVED: 'FAVOURITE_REMOVED',
+  BOOKING_CREATED: 'BOOKING_CREATED',
+  BOOKING_COMPLETED: 'BOOKING_COMPLETED',
+  REVIEW_CREATED: 'REVIEW_CREATED',
+  SEARCH_PERFORMED: 'SEARCH_PERFORMED',
+  FILTER_APPLIED: 'FILTER_APPLIED'
+};
+
+exports.InteractionSource = exports.$Enums.InteractionSource = {
+  DASHBOARD: 'DASHBOARD',
+  SEARCH: 'SEARCH',
+  RESTAURANT_PAGE: 'RESTAURANT_PAGE',
+  FAVOURITES: 'FAVOURITES',
+  RECOMMENDATIONS: 'RECOMMENDATIONS',
+  BOOKING_FLOW: 'BOOKING_FLOW'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Restaurant: 'Restaurant',
   RestaurantImage: 'RestaurantImage',
-  MenuSection: 'MenuSection',
   MenuItem: 'MenuItem',
   Zone: 'Zone',
   Table: 'Table',
@@ -421,7 +480,11 @@ exports.Prisma.ModelName = {
   AccessibilityOption: 'AccessibilityOption',
   RestaurantAccessibility: 'RestaurantAccessibility',
   AuditLog: 'AuditLog',
-  TableTag: 'TableTag'
+  TableTag: 'TableTag',
+  MenuItemTag: 'MenuItemTag',
+  MenuSection: 'MenuSection',
+  TableAccessibility: 'TableAccessibility',
+  UserInteraction: 'UserInteraction'
 };
 
 /**

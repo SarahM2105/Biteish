@@ -1,5 +1,5 @@
 const { prisma } = require("../../../prismaClient");
-const { formatRestaurantPayload } = require("./Formatting");
+const { formatRestaurantPayload } = require("./formatting");
 
 async function getRecentlyViewed(req, res) {
     try {
@@ -9,7 +9,11 @@ async function getRecentlyViewed(req, res) {
             return res.status(401).json({ error: "Unauthorised user" });
         }
 
-        // 1. Get recent restaurant view interactions
+        if (!prisma.userInteraction) {
+            console.warn("UserInteraction Prisma model is unavailable. Returning empty recently viewed list.");
+            return res.json([]);
+        }
+
         const interactions = await prisma.userInteraction.findMany({
             where: {
                 userId,
@@ -22,7 +26,6 @@ async function getRecentlyViewed(req, res) {
             take: 20,
         });
 
-        // 2. Remove duplicates (keep most recent)
         const seen = new Set();
         const uniqueRestaurantIds = [];
 
@@ -38,7 +41,6 @@ async function getRecentlyViewed(req, res) {
             return res.json([]);
         }
 
-        // 3. Fetch restaurant details
         const restaurants = await prisma.restaurant.findMany({
             where: {
                 id: { in: uniqueRestaurantIds },
@@ -78,16 +80,14 @@ async function getRecentlyViewed(req, res) {
             },
         });
 
-        // 4. Preserve original order (important)
         const restaurantMap = new Map(
-            restaurants.map((r) => [String(r.id), r])
+            restaurants.map((restaurant) => [String(restaurant.id), restaurant])
         );
 
         const ordered = uniqueRestaurantIds
             .map((id) => restaurantMap.get(id))
             .filter(Boolean);
 
-        // 5. Format output
         const result = ordered.slice(0, 4).map((restaurant) =>
             formatRestaurantPayload(restaurant, {
                 userId,

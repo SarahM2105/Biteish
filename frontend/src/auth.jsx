@@ -1,11 +1,20 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getApiErrorMessage } from "./components/utils/getApiErrorMessage";
 import "./auth.css";
 
 function getDashboardPath(role) {
     if (role === "OWNER") return "/owner/dashboard";
     if (role === "ADMIN") return "/admin-dashboard";
     return "/customer/dashboard";
+}
+
+function parseJsonSafe(text, fallback = {}) {
+    try {
+        return text ? JSON.parse(text) : fallback;
+    } catch {
+        return fallback;
+    }
 }
 
 export default function Auth() {
@@ -86,12 +95,12 @@ export default function Auth() {
             });
 
             const text = await res.text();
-            const data = text ? JSON.parse(text) : {};
+            const data = parseJsonSafe(text, {});
 
             if (!res.ok) {
                 setStatus({
                     type: "error",
-                    message: data.error || "Something went wrong.",
+                    message: getApiErrorMessage(data, "Something went wrong."),
                 });
                 return;
             }

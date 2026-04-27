@@ -29,11 +29,6 @@ export type Restaurant = $Result.DefaultSelection<Prisma.$RestaurantPayload>
  */
 export type RestaurantImage = $Result.DefaultSelection<Prisma.$RestaurantImagePayload>
 /**
- * Model MenuSection
- * 
- */
-export type MenuSection = $Result.DefaultSelection<Prisma.$MenuSectionPayload>
-/**
  * Model MenuItem
  * 
  */
@@ -133,6 +128,26 @@ export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
  * 
  */
 export type TableTag = $Result.DefaultSelection<Prisma.$TableTagPayload>
+/**
+ * Model MenuItemTag
+ * 
+ */
+export type MenuItemTag = $Result.DefaultSelection<Prisma.$MenuItemTagPayload>
+/**
+ * Model MenuSection
+ * 
+ */
+export type MenuSection = $Result.DefaultSelection<Prisma.$MenuSectionPayload>
+/**
+ * Model TableAccessibility
+ * 
+ */
+export type TableAccessibility = $Result.DefaultSelection<Prisma.$TableAccessibilityPayload>
+/**
+ * Model UserInteraction
+ * 
+ */
+export type UserInteraction = $Result.DefaultSelection<Prisma.$UserInteractionPayload>
 
 /**
  * Enums
@@ -193,6 +208,33 @@ export const ChangeStatus: {
 
 export type ChangeStatus = (typeof ChangeStatus)[keyof typeof ChangeStatus]
 
+
+export const InteractionType: {
+  RESTAURANT_VIEW: 'RESTAURANT_VIEW',
+  RECOMMENDATION_CLICK: 'RECOMMENDATION_CLICK',
+  FAVOURITE_ADDED: 'FAVOURITE_ADDED',
+  FAVOURITE_REMOVED: 'FAVOURITE_REMOVED',
+  BOOKING_CREATED: 'BOOKING_CREATED',
+  BOOKING_COMPLETED: 'BOOKING_COMPLETED',
+  REVIEW_CREATED: 'REVIEW_CREATED',
+  SEARCH_PERFORMED: 'SEARCH_PERFORMED',
+  FILTER_APPLIED: 'FILTER_APPLIED'
+};
+
+export type InteractionType = (typeof InteractionType)[keyof typeof InteractionType]
+
+
+export const InteractionSource: {
+  DASHBOARD: 'DASHBOARD',
+  SEARCH: 'SEARCH',
+  RESTAURANT_PAGE: 'RESTAURANT_PAGE',
+  FAVOURITES: 'FAVOURITES',
+  RECOMMENDATIONS: 'RECOMMENDATIONS',
+  BOOKING_FLOW: 'BOOKING_FLOW'
+};
+
+export type InteractionSource = (typeof InteractionSource)[keyof typeof InteractionSource]
+
 }
 
 export type AuditEntity = $Enums.AuditEntity
@@ -214,6 +256,14 @@ export const DayOfWeek: typeof $Enums.DayOfWeek
 export type ChangeStatus = $Enums.ChangeStatus
 
 export const ChangeStatus: typeof $Enums.ChangeStatus
+
+export type InteractionType = $Enums.InteractionType
+
+export const InteractionType: typeof $Enums.InteractionType
+
+export type InteractionSource = $Enums.InteractionSource
+
+export const InteractionSource: typeof $Enums.InteractionSource
 
 /**
  * ##  Prisma Client ʲˢ
@@ -361,16 +411,6 @@ export class PrismaClient<
     * ```
     */
   get restaurantImage(): Prisma.RestaurantImageDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.menuSection`: Exposes CRUD operations for the **MenuSection** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more MenuSections
-    * const menuSections = await prisma.menuSection.findMany()
-    * ```
-    */
-  get menuSection(): Prisma.MenuSectionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.menuItem`: Exposes CRUD operations for the **MenuItem** model.
@@ -571,6 +611,46 @@ export class PrismaClient<
     * ```
     */
   get tableTag(): Prisma.TableTagDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.menuItemTag`: Exposes CRUD operations for the **MenuItemTag** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MenuItemTags
+    * const menuItemTags = await prisma.menuItemTag.findMany()
+    * ```
+    */
+  get menuItemTag(): Prisma.MenuItemTagDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.menuSection`: Exposes CRUD operations for the **MenuSection** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MenuSections
+    * const menuSections = await prisma.menuSection.findMany()
+    * ```
+    */
+  get menuSection(): Prisma.MenuSectionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tableAccessibility`: Exposes CRUD operations for the **TableAccessibility** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TableAccessibilities
+    * const tableAccessibilities = await prisma.tableAccessibility.findMany()
+    * ```
+    */
+  get tableAccessibility(): Prisma.TableAccessibilityDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userInteraction`: Exposes CRUD operations for the **UserInteraction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserInteractions
+    * const userInteractions = await prisma.userInteraction.findMany()
+    * ```
+    */
+  get userInteraction(): Prisma.UserInteractionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1008,7 +1088,6 @@ export namespace Prisma {
     User: 'User',
     Restaurant: 'Restaurant',
     RestaurantImage: 'RestaurantImage',
-    MenuSection: 'MenuSection',
     MenuItem: 'MenuItem',
     Zone: 'Zone',
     Table: 'Table',
@@ -1028,7 +1107,11 @@ export namespace Prisma {
     AccessibilityOption: 'AccessibilityOption',
     RestaurantAccessibility: 'RestaurantAccessibility',
     AuditLog: 'AuditLog',
-    TableTag: 'TableTag'
+    TableTag: 'TableTag',
+    MenuItemTag: 'MenuItemTag',
+    MenuSection: 'MenuSection',
+    TableAccessibility: 'TableAccessibility',
+    UserInteraction: 'UserInteraction'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1044,7 +1127,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "restaurant" | "restaurantImage" | "menuSection" | "menuItem" | "zone" | "table" | "tableUnavailability" | "reservation" | "reservationChangeRequest" | "qrToken" | "notification" | "review" | "reviewImage" | "favorite" | "openingHour" | "bookingRule" | "tagCategory" | "tag" | "restaurantTag" | "accessibilityOption" | "restaurantAccessibility" | "auditLog" | "tableTag"
+      modelProps: "user" | "restaurant" | "restaurantImage" | "menuItem" | "zone" | "table" | "tableUnavailability" | "reservation" | "reservationChangeRequest" | "qrToken" | "notification" | "review" | "reviewImage" | "favorite" | "openingHour" | "bookingRule" | "tagCategory" | "tag" | "restaurantTag" | "accessibilityOption" | "restaurantAccessibility" | "auditLog" | "tableTag" | "menuItemTag" | "menuSection" | "tableAccessibility" | "userInteraction"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1267,80 +1350,6 @@ export namespace Prisma {
           count: {
             args: Prisma.RestaurantImageCountArgs<ExtArgs>
             result: $Utils.Optional<RestaurantImageCountAggregateOutputType> | number
-          }
-        }
-      }
-      MenuSection: {
-        payload: Prisma.$MenuSectionPayload<ExtArgs>
-        fields: Prisma.MenuSectionFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.MenuSectionFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.MenuSectionFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>
-          }
-          findFirst: {
-            args: Prisma.MenuSectionFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.MenuSectionFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>
-          }
-          findMany: {
-            args: Prisma.MenuSectionFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>[]
-          }
-          create: {
-            args: Prisma.MenuSectionCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>
-          }
-          createMany: {
-            args: Prisma.MenuSectionCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.MenuSectionCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>[]
-          }
-          delete: {
-            args: Prisma.MenuSectionDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>
-          }
-          update: {
-            args: Prisma.MenuSectionUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>
-          }
-          deleteMany: {
-            args: Prisma.MenuSectionDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.MenuSectionUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.MenuSectionUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>[]
-          }
-          upsert: {
-            args: Prisma.MenuSectionUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>
-          }
-          aggregate: {
-            args: Prisma.MenuSectionAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateMenuSection>
-          }
-          groupBy: {
-            args: Prisma.MenuSectionGroupByArgs<ExtArgs>
-            result: $Utils.Optional<MenuSectionGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.MenuSectionCountArgs<ExtArgs>
-            result: $Utils.Optional<MenuSectionCountAggregateOutputType> | number
           }
         }
       }
@@ -2824,6 +2833,302 @@ export namespace Prisma {
           }
         }
       }
+      MenuItemTag: {
+        payload: Prisma.$MenuItemTagPayload<ExtArgs>
+        fields: Prisma.MenuItemTagFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MenuItemTagFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuItemTagPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MenuItemTagFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuItemTagPayload>
+          }
+          findFirst: {
+            args: Prisma.MenuItemTagFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuItemTagPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MenuItemTagFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuItemTagPayload>
+          }
+          findMany: {
+            args: Prisma.MenuItemTagFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuItemTagPayload>[]
+          }
+          create: {
+            args: Prisma.MenuItemTagCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuItemTagPayload>
+          }
+          createMany: {
+            args: Prisma.MenuItemTagCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MenuItemTagCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuItemTagPayload>[]
+          }
+          delete: {
+            args: Prisma.MenuItemTagDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuItemTagPayload>
+          }
+          update: {
+            args: Prisma.MenuItemTagUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuItemTagPayload>
+          }
+          deleteMany: {
+            args: Prisma.MenuItemTagDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MenuItemTagUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MenuItemTagUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuItemTagPayload>[]
+          }
+          upsert: {
+            args: Prisma.MenuItemTagUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuItemTagPayload>
+          }
+          aggregate: {
+            args: Prisma.MenuItemTagAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMenuItemTag>
+          }
+          groupBy: {
+            args: Prisma.MenuItemTagGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MenuItemTagGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MenuItemTagCountArgs<ExtArgs>
+            result: $Utils.Optional<MenuItemTagCountAggregateOutputType> | number
+          }
+        }
+      }
+      MenuSection: {
+        payload: Prisma.$MenuSectionPayload<ExtArgs>
+        fields: Prisma.MenuSectionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MenuSectionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MenuSectionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>
+          }
+          findFirst: {
+            args: Prisma.MenuSectionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MenuSectionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>
+          }
+          findMany: {
+            args: Prisma.MenuSectionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>[]
+          }
+          create: {
+            args: Prisma.MenuSectionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>
+          }
+          createMany: {
+            args: Prisma.MenuSectionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MenuSectionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>[]
+          }
+          delete: {
+            args: Prisma.MenuSectionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>
+          }
+          update: {
+            args: Prisma.MenuSectionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>
+          }
+          deleteMany: {
+            args: Prisma.MenuSectionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MenuSectionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MenuSectionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>[]
+          }
+          upsert: {
+            args: Prisma.MenuSectionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MenuSectionPayload>
+          }
+          aggregate: {
+            args: Prisma.MenuSectionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMenuSection>
+          }
+          groupBy: {
+            args: Prisma.MenuSectionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MenuSectionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MenuSectionCountArgs<ExtArgs>
+            result: $Utils.Optional<MenuSectionCountAggregateOutputType> | number
+          }
+        }
+      }
+      TableAccessibility: {
+        payload: Prisma.$TableAccessibilityPayload<ExtArgs>
+        fields: Prisma.TableAccessibilityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TableAccessibilityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableAccessibilityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TableAccessibilityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableAccessibilityPayload>
+          }
+          findFirst: {
+            args: Prisma.TableAccessibilityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableAccessibilityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TableAccessibilityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableAccessibilityPayload>
+          }
+          findMany: {
+            args: Prisma.TableAccessibilityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableAccessibilityPayload>[]
+          }
+          create: {
+            args: Prisma.TableAccessibilityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableAccessibilityPayload>
+          }
+          createMany: {
+            args: Prisma.TableAccessibilityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TableAccessibilityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableAccessibilityPayload>[]
+          }
+          delete: {
+            args: Prisma.TableAccessibilityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableAccessibilityPayload>
+          }
+          update: {
+            args: Prisma.TableAccessibilityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableAccessibilityPayload>
+          }
+          deleteMany: {
+            args: Prisma.TableAccessibilityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TableAccessibilityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TableAccessibilityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableAccessibilityPayload>[]
+          }
+          upsert: {
+            args: Prisma.TableAccessibilityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableAccessibilityPayload>
+          }
+          aggregate: {
+            args: Prisma.TableAccessibilityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTableAccessibility>
+          }
+          groupBy: {
+            args: Prisma.TableAccessibilityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TableAccessibilityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TableAccessibilityCountArgs<ExtArgs>
+            result: $Utils.Optional<TableAccessibilityCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserInteraction: {
+        payload: Prisma.$UserInteractionPayload<ExtArgs>
+        fields: Prisma.UserInteractionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserInteractionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInteractionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserInteractionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInteractionPayload>
+          }
+          findFirst: {
+            args: Prisma.UserInteractionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInteractionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserInteractionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInteractionPayload>
+          }
+          findMany: {
+            args: Prisma.UserInteractionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInteractionPayload>[]
+          }
+          create: {
+            args: Prisma.UserInteractionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInteractionPayload>
+          }
+          createMany: {
+            args: Prisma.UserInteractionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserInteractionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInteractionPayload>[]
+          }
+          delete: {
+            args: Prisma.UserInteractionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInteractionPayload>
+          }
+          update: {
+            args: Prisma.UserInteractionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInteractionPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserInteractionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserInteractionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserInteractionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInteractionPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserInteractionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInteractionPayload>
+          }
+          aggregate: {
+            args: Prisma.UserInteractionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserInteraction>
+          }
+          groupBy: {
+            args: Prisma.UserInteractionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserInteractionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserInteractionCountArgs<ExtArgs>
+            result: $Utils.Optional<UserInteractionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2935,7 +3240,6 @@ export namespace Prisma {
     user?: UserOmit
     restaurant?: RestaurantOmit
     restaurantImage?: RestaurantImageOmit
-    menuSection?: MenuSectionOmit
     menuItem?: MenuItemOmit
     zone?: ZoneOmit
     table?: TableOmit
@@ -2956,6 +3260,10 @@ export namespace Prisma {
     restaurantAccessibility?: RestaurantAccessibilityOmit
     auditLog?: AuditLogOmit
     tableTag?: TableTagOmit
+    menuItemTag?: MenuItemTagOmit
+    menuSection?: MenuSectionOmit
+    tableAccessibility?: TableAccessibilityOmit
+    userInteraction?: UserInteractionOmit
   }
 
   /* Types for Logging */
@@ -3043,6 +3351,7 @@ export namespace Prisma {
     restaurants: number
     reviews: number
     ReservationChangeRequest: number
+    interactions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3053,6 +3362,7 @@ export namespace Prisma {
     restaurants?: boolean | UserCountOutputTypeCountRestaurantsArgs
     reviews?: boolean | UserCountOutputTypeCountReviewsArgs
     ReservationChangeRequest?: boolean | UserCountOutputTypeCountReservationChangeRequestArgs
+    interactions?: boolean | UserCountOutputTypeCountInteractionsArgs
   }
 
   // Custom InputTypes
@@ -3115,14 +3425,19 @@ export namespace Prisma {
     where?: ReservationChangeRequestWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountInteractionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserInteractionWhereInput
+  }
+
 
   /**
    * Count Type RestaurantCountOutputType
    */
 
   export type RestaurantCountOutputType = {
-    menuSections: number
-    menuItems: number
     favorites: number
     openingHours: number
     reservations: number
@@ -3132,11 +3447,12 @@ export namespace Prisma {
     tables: number
     zones: number
     images: number
+    interactions: number
+    menuItems: number
+    menuSections: number
   }
 
   export type RestaurantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    menuSections?: boolean | RestaurantCountOutputTypeCountMenuSectionsArgs
-    menuItems?: boolean | RestaurantCountOutputTypeCountMenuItemsArgs
     favorites?: boolean | RestaurantCountOutputTypeCountFavoritesArgs
     openingHours?: boolean | RestaurantCountOutputTypeCountOpeningHoursArgs
     reservations?: boolean | RestaurantCountOutputTypeCountReservationsArgs
@@ -3146,6 +3462,9 @@ export namespace Prisma {
     tables?: boolean | RestaurantCountOutputTypeCountTablesArgs
     zones?: boolean | RestaurantCountOutputTypeCountZonesArgs
     images?: boolean | RestaurantCountOutputTypeCountImagesArgs
+    interactions?: boolean | RestaurantCountOutputTypeCountInteractionsArgs
+    menuItems?: boolean | RestaurantCountOutputTypeCountMenuItemsArgs
+    menuSections?: boolean | RestaurantCountOutputTypeCountMenuSectionsArgs
   }
 
   // Custom InputTypes
@@ -3157,20 +3476,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the RestaurantCountOutputType
      */
     select?: RestaurantCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * RestaurantCountOutputType without action
-   */
-  export type RestaurantCountOutputTypeCountMenuSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: MenuSectionWhereInput
-  }
-
-  /**
-   * RestaurantCountOutputType without action
-   */
-  export type RestaurantCountOutputTypeCountMenuItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: MenuItemWhereInput
   }
 
   /**
@@ -3236,35 +3541,56 @@ export namespace Prisma {
     where?: RestaurantImageWhereInput
   }
 
-
   /**
-   * Count Type MenuSectionCountOutputType
+   * RestaurantCountOutputType without action
    */
-
-  export type MenuSectionCountOutputType = {
-    items: number
+  export type RestaurantCountOutputTypeCountInteractionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserInteractionWhereInput
   }
 
-  export type MenuSectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    items?: boolean | MenuSectionCountOutputTypeCountItemsArgs
+  /**
+   * RestaurantCountOutputType without action
+   */
+  export type RestaurantCountOutputTypeCountMenuItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MenuItemWhereInput
+  }
+
+  /**
+   * RestaurantCountOutputType without action
+   */
+  export type RestaurantCountOutputTypeCountMenuSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MenuSectionWhereInput
+  }
+
+
+  /**
+   * Count Type MenuItemCountOutputType
+   */
+
+  export type MenuItemCountOutputType = {
+    menuItemTags: number
+  }
+
+  export type MenuItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    menuItemTags?: boolean | MenuItemCountOutputTypeCountMenuItemTagsArgs
   }
 
   // Custom InputTypes
   /**
-   * MenuSectionCountOutputType without action
+   * MenuItemCountOutputType without action
    */
-  export type MenuSectionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type MenuItemCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the MenuSectionCountOutputType
+     * Select specific fields to fetch from the MenuItemCountOutputType
      */
-    select?: MenuSectionCountOutputTypeSelect<ExtArgs> | null
+    select?: MenuItemCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * MenuSectionCountOutputType without action
+   * MenuItemCountOutputType without action
    */
-  export type MenuSectionCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: MenuItemWhereInput
+  export type MenuItemCountOutputTypeCountMenuItemTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MenuItemTagWhereInput
   }
 
 
@@ -3308,6 +3634,7 @@ export namespace Prisma {
     unavailability: number
     requestedInChanges: number
     tableTags: number
+    tableAccessibilities: number
   }
 
   export type TableCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3315,6 +3642,7 @@ export namespace Prisma {
     unavailability?: boolean | TableCountOutputTypeCountUnavailabilityArgs
     requestedInChanges?: boolean | TableCountOutputTypeCountRequestedInChangesArgs
     tableTags?: boolean | TableCountOutputTypeCountTableTagsArgs
+    tableAccessibilities?: boolean | TableCountOutputTypeCountTableAccessibilitiesArgs
   }
 
   // Custom InputTypes
@@ -3354,6 +3682,13 @@ export namespace Prisma {
    */
   export type TableCountOutputTypeCountTableTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TableTagWhereInput
+  }
+
+  /**
+   * TableCountOutputType without action
+   */
+  export type TableCountOutputTypeCountTableAccessibilitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TableAccessibilityWhereInput
   }
 
 
@@ -3466,11 +3801,15 @@ export namespace Prisma {
   export type TagCountOutputType = {
     restaurants: number
     tableTags: number
+    menuItemTags: number
+    interactions: number
   }
 
   export type TagCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     restaurants?: boolean | TagCountOutputTypeCountRestaurantsArgs
     tableTags?: boolean | TagCountOutputTypeCountTableTagsArgs
+    menuItemTags?: boolean | TagCountOutputTypeCountMenuItemTagsArgs
+    interactions?: boolean | TagCountOutputTypeCountInteractionsArgs
   }
 
   // Custom InputTypes
@@ -3498,6 +3837,20 @@ export namespace Prisma {
     where?: TableTagWhereInput
   }
 
+  /**
+   * TagCountOutputType without action
+   */
+  export type TagCountOutputTypeCountMenuItemTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MenuItemTagWhereInput
+  }
+
+  /**
+   * TagCountOutputType without action
+   */
+  export type TagCountOutputTypeCountInteractionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserInteractionWhereInput
+  }
+
 
   /**
    * Count Type AccessibilityOptionCountOutputType
@@ -3505,10 +3858,14 @@ export namespace Prisma {
 
   export type AccessibilityOptionCountOutputType = {
     restaurantAccessibilities: number
+    tableAccessibilities: number
+    interactions: number
   }
 
   export type AccessibilityOptionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     restaurantAccessibilities?: boolean | AccessibilityOptionCountOutputTypeCountRestaurantAccessibilitiesArgs
+    tableAccessibilities?: boolean | AccessibilityOptionCountOutputTypeCountTableAccessibilitiesArgs
+    interactions?: boolean | AccessibilityOptionCountOutputTypeCountInteractionsArgs
   }
 
   // Custom InputTypes
@@ -3527,6 +3884,51 @@ export namespace Prisma {
    */
   export type AccessibilityOptionCountOutputTypeCountRestaurantAccessibilitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RestaurantAccessibilityWhereInput
+  }
+
+  /**
+   * AccessibilityOptionCountOutputType without action
+   */
+  export type AccessibilityOptionCountOutputTypeCountTableAccessibilitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TableAccessibilityWhereInput
+  }
+
+  /**
+   * AccessibilityOptionCountOutputType without action
+   */
+  export type AccessibilityOptionCountOutputTypeCountInteractionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserInteractionWhereInput
+  }
+
+
+  /**
+   * Count Type MenuSectionCountOutputType
+   */
+
+  export type MenuSectionCountOutputType = {
+    items: number
+  }
+
+  export type MenuSectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | MenuSectionCountOutputTypeCountItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MenuSectionCountOutputType without action
+   */
+  export type MenuSectionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSectionCountOutputType
+     */
+    select?: MenuSectionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MenuSectionCountOutputType without action
+   */
+  export type MenuSectionCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MenuItemWhereInput
   }
 
 
@@ -3705,6 +4107,7 @@ export namespace Prisma {
     restaurants?: boolean | User$restaurantsArgs<ExtArgs>
     reviews?: boolean | User$reviewsArgs<ExtArgs>
     ReservationChangeRequest?: boolean | User$ReservationChangeRequestArgs<ExtArgs>
+    interactions?: boolean | User$interactionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3741,6 +4144,7 @@ export namespace Prisma {
     restaurants?: boolean | User$restaurantsArgs<ExtArgs>
     reviews?: boolean | User$reviewsArgs<ExtArgs>
     ReservationChangeRequest?: boolean | User$ReservationChangeRequestArgs<ExtArgs>
+    interactions?: boolean | User$interactionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3756,6 +4160,7 @@ export namespace Prisma {
       restaurants: Prisma.$RestaurantPayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
       ReservationChangeRequest: Prisma.$ReservationChangeRequestPayload<ExtArgs>[]
+      interactions: Prisma.$UserInteractionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4164,6 +4569,7 @@ export namespace Prisma {
     restaurants<T extends User$restaurantsArgs<ExtArgs> = {}>(args?: Subset<T, User$restaurantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RestaurantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends User$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ReservationChangeRequest<T extends User$ReservationChangeRequestArgs<ExtArgs> = {}>(args?: Subset<T, User$ReservationChangeRequestArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    interactions<T extends User$interactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$interactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4754,6 +5160,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.interactions
+   */
+  export type User$interactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    where?: UserInteractionWhereInput
+    orderBy?: UserInteractionOrderByWithRelationInput | UserInteractionOrderByWithRelationInput[]
+    cursor?: UserInteractionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserInteractionScalarFieldEnum | UserInteractionScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5031,8 +5461,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: boolean | Restaurant$bookingRuleArgs<ExtArgs>
-    menuSections?: boolean | Restaurant$menuSectionsArgs<ExtArgs>
-    menuItems?: boolean | Restaurant$menuItemsArgs<ExtArgs>
     favorites?: boolean | Restaurant$favoritesArgs<ExtArgs>
     openingHours?: boolean | Restaurant$openingHoursArgs<ExtArgs>
     reservations?: boolean | Restaurant$reservationsArgs<ExtArgs>
@@ -5043,6 +5471,9 @@ export namespace Prisma {
     tables?: boolean | Restaurant$tablesArgs<ExtArgs>
     zones?: boolean | Restaurant$zonesArgs<ExtArgs>
     images?: boolean | Restaurant$imagesArgs<ExtArgs>
+    interactions?: boolean | Restaurant$interactionsArgs<ExtArgs>
+    menuItems?: boolean | Restaurant$menuItemsArgs<ExtArgs>
+    menuSections?: boolean | Restaurant$menuSectionsArgs<ExtArgs>
     _count?: boolean | RestaurantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["restaurant"]>
 
@@ -5093,8 +5524,6 @@ export namespace Prisma {
   export type RestaurantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerId" | "name" | "description" | "location" | "latitude" | "longitude" | "estimatedSpendMin" | "estimatedSpendMax" | "automaticSpendCalculation" | "verified", ExtArgs["result"]["restaurant"]>
   export type RestaurantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookingRule?: boolean | Restaurant$bookingRuleArgs<ExtArgs>
-    menuSections?: boolean | Restaurant$menuSectionsArgs<ExtArgs>
-    menuItems?: boolean | Restaurant$menuItemsArgs<ExtArgs>
     favorites?: boolean | Restaurant$favoritesArgs<ExtArgs>
     openingHours?: boolean | Restaurant$openingHoursArgs<ExtArgs>
     reservations?: boolean | Restaurant$reservationsArgs<ExtArgs>
@@ -5105,6 +5534,9 @@ export namespace Prisma {
     tables?: boolean | Restaurant$tablesArgs<ExtArgs>
     zones?: boolean | Restaurant$zonesArgs<ExtArgs>
     images?: boolean | Restaurant$imagesArgs<ExtArgs>
+    interactions?: boolean | Restaurant$interactionsArgs<ExtArgs>
+    menuItems?: boolean | Restaurant$menuItemsArgs<ExtArgs>
+    menuSections?: boolean | Restaurant$menuSectionsArgs<ExtArgs>
     _count?: boolean | RestaurantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type RestaurantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5118,8 +5550,6 @@ export namespace Prisma {
     name: "Restaurant"
     objects: {
       bookingRule: Prisma.$BookingRulePayload<ExtArgs> | null
-      menuSections: Prisma.$MenuSectionPayload<ExtArgs>[]
-      menuItems: Prisma.$MenuItemPayload<ExtArgs>[]
       favorites: Prisma.$FavoritePayload<ExtArgs>[]
       openingHours: Prisma.$OpeningHourPayload<ExtArgs>[]
       reservations: Prisma.$ReservationPayload<ExtArgs>[]
@@ -5130,6 +5560,9 @@ export namespace Prisma {
       tables: Prisma.$TablePayload<ExtArgs>[]
       zones: Prisma.$ZonePayload<ExtArgs>[]
       images: Prisma.$RestaurantImagePayload<ExtArgs>[]
+      interactions: Prisma.$UserInteractionPayload<ExtArgs>[]
+      menuItems: Prisma.$MenuItemPayload<ExtArgs>[]
+      menuSections: Prisma.$MenuSectionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5538,8 +5971,6 @@ export namespace Prisma {
   export interface Prisma__RestaurantClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     bookingRule<T extends Restaurant$bookingRuleArgs<ExtArgs> = {}>(args?: Subset<T, Restaurant$bookingRuleArgs<ExtArgs>>): Prisma__BookingRuleClient<$Result.GetResult<Prisma.$BookingRulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    menuSections<T extends Restaurant$menuSectionsArgs<ExtArgs> = {}>(args?: Subset<T, Restaurant$menuSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    menuItems<T extends Restaurant$menuItemsArgs<ExtArgs> = {}>(args?: Subset<T, Restaurant$menuItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     favorites<T extends Restaurant$favoritesArgs<ExtArgs> = {}>(args?: Subset<T, Restaurant$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     openingHours<T extends Restaurant$openingHoursArgs<ExtArgs> = {}>(args?: Subset<T, Restaurant$openingHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpeningHourPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reservations<T extends Restaurant$reservationsArgs<ExtArgs> = {}>(args?: Subset<T, Restaurant$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5550,6 +5981,9 @@ export namespace Prisma {
     tables<T extends Restaurant$tablesArgs<ExtArgs> = {}>(args?: Subset<T, Restaurant$tablesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     zones<T extends Restaurant$zonesArgs<ExtArgs> = {}>(args?: Subset<T, Restaurant$zonesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ZonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     images<T extends Restaurant$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Restaurant$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RestaurantImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    interactions<T extends Restaurant$interactionsArgs<ExtArgs> = {}>(args?: Subset<T, Restaurant$interactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    menuItems<T extends Restaurant$menuItemsArgs<ExtArgs> = {}>(args?: Subset<T, Restaurant$menuItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    menuSections<T extends Restaurant$menuSectionsArgs<ExtArgs> = {}>(args?: Subset<T, Restaurant$menuSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6005,54 +6439,6 @@ export namespace Prisma {
   }
 
   /**
-   * Restaurant.menuSections
-   */
-  export type Restaurant$menuSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionInclude<ExtArgs> | null
-    where?: MenuSectionWhereInput
-    orderBy?: MenuSectionOrderByWithRelationInput | MenuSectionOrderByWithRelationInput[]
-    cursor?: MenuSectionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: MenuSectionScalarFieldEnum | MenuSectionScalarFieldEnum[]
-  }
-
-  /**
-   * Restaurant.menuItems
-   */
-  export type Restaurant$menuItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuItem
-     */
-    select?: MenuItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuItem
-     */
-    omit?: MenuItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuItemInclude<ExtArgs> | null
-    where?: MenuItemWhereInput
-    orderBy?: MenuItemOrderByWithRelationInput | MenuItemOrderByWithRelationInput[]
-    cursor?: MenuItemWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: MenuItemScalarFieldEnum | MenuItemScalarFieldEnum[]
-  }
-
-  /**
    * Restaurant.favorites
    */
   export type Restaurant$favoritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6266,6 +6652,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RestaurantImageScalarFieldEnum | RestaurantImageScalarFieldEnum[]
+  }
+
+  /**
+   * Restaurant.interactions
+   */
+  export type Restaurant$interactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    where?: UserInteractionWhereInput
+    orderBy?: UserInteractionOrderByWithRelationInput | UserInteractionOrderByWithRelationInput[]
+    cursor?: UserInteractionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserInteractionScalarFieldEnum | UserInteractionScalarFieldEnum[]
+  }
+
+  /**
+   * Restaurant.menuItems
+   */
+  export type Restaurant$menuItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItem
+     */
+    select?: MenuItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItem
+     */
+    omit?: MenuItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemInclude<ExtArgs> | null
+    where?: MenuItemWhereInput
+    orderBy?: MenuItemOrderByWithRelationInput | MenuItemOrderByWithRelationInput[]
+    cursor?: MenuItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MenuItemScalarFieldEnum | MenuItemScalarFieldEnum[]
+  }
+
+  /**
+   * Restaurant.menuSections
+   */
+  export type Restaurant$menuSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionInclude<ExtArgs> | null
+    where?: MenuSectionWhereInput
+    orderBy?: MenuSectionOrderByWithRelationInput | MenuSectionOrderByWithRelationInput[]
+    cursor?: MenuSectionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MenuSectionScalarFieldEnum | MenuSectionScalarFieldEnum[]
   }
 
   /**
@@ -7406,1167 +7864,6 @@ export namespace Prisma {
 
 
   /**
-   * Model MenuSection
-   */
-
-  export type AggregateMenuSection = {
-    _count: MenuSectionCountAggregateOutputType | null
-    _avg: MenuSectionAvgAggregateOutputType | null
-    _sum: MenuSectionSumAggregateOutputType | null
-    _min: MenuSectionMinAggregateOutputType | null
-    _max: MenuSectionMaxAggregateOutputType | null
-  }
-
-  export type MenuSectionAvgAggregateOutputType = {
-    sortOrder: number | null
-  }
-
-  export type MenuSectionSumAggregateOutputType = {
-    sortOrder: number | null
-  }
-
-  export type MenuSectionMinAggregateOutputType = {
-    id: string | null
-    restaurantId: string | null
-    name: string | null
-    description: string | null
-    sortOrder: number | null
-    isActive: boolean | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type MenuSectionMaxAggregateOutputType = {
-    id: string | null
-    restaurantId: string | null
-    name: string | null
-    description: string | null
-    sortOrder: number | null
-    isActive: boolean | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type MenuSectionCountAggregateOutputType = {
-    id: number
-    restaurantId: number
-    name: number
-    description: number
-    sortOrder: number
-    isActive: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type MenuSectionAvgAggregateInputType = {
-    sortOrder?: true
-  }
-
-  export type MenuSectionSumAggregateInputType = {
-    sortOrder?: true
-  }
-
-  export type MenuSectionMinAggregateInputType = {
-    id?: true
-    restaurantId?: true
-    name?: true
-    description?: true
-    sortOrder?: true
-    isActive?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type MenuSectionMaxAggregateInputType = {
-    id?: true
-    restaurantId?: true
-    name?: true
-    description?: true
-    sortOrder?: true
-    isActive?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type MenuSectionCountAggregateInputType = {
-    id?: true
-    restaurantId?: true
-    name?: true
-    description?: true
-    sortOrder?: true
-    isActive?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type MenuSectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which MenuSection to aggregate.
-     */
-    where?: MenuSectionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of MenuSections to fetch.
-     */
-    orderBy?: MenuSectionOrderByWithRelationInput | MenuSectionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: MenuSectionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` MenuSections from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` MenuSections.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned MenuSections
-    **/
-    _count?: true | MenuSectionCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: MenuSectionAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: MenuSectionSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: MenuSectionMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: MenuSectionMaxAggregateInputType
-  }
-
-  export type GetMenuSectionAggregateType<T extends MenuSectionAggregateArgs> = {
-        [P in keyof T & keyof AggregateMenuSection]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateMenuSection[P]>
-      : GetScalarType<T[P], AggregateMenuSection[P]>
-  }
-
-
-
-
-  export type MenuSectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: MenuSectionWhereInput
-    orderBy?: MenuSectionOrderByWithAggregationInput | MenuSectionOrderByWithAggregationInput[]
-    by: MenuSectionScalarFieldEnum[] | MenuSectionScalarFieldEnum
-    having?: MenuSectionScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: MenuSectionCountAggregateInputType | true
-    _avg?: MenuSectionAvgAggregateInputType
-    _sum?: MenuSectionSumAggregateInputType
-    _min?: MenuSectionMinAggregateInputType
-    _max?: MenuSectionMaxAggregateInputType
-  }
-
-  export type MenuSectionGroupByOutputType = {
-    id: string
-    restaurantId: string
-    name: string
-    description: string | null
-    sortOrder: number
-    isActive: boolean
-    createdAt: Date
-    updatedAt: Date
-    _count: MenuSectionCountAggregateOutputType | null
-    _avg: MenuSectionAvgAggregateOutputType | null
-    _sum: MenuSectionSumAggregateOutputType | null
-    _min: MenuSectionMinAggregateOutputType | null
-    _max: MenuSectionMaxAggregateOutputType | null
-  }
-
-  type GetMenuSectionGroupByPayload<T extends MenuSectionGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<MenuSectionGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof MenuSectionGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], MenuSectionGroupByOutputType[P]>
-            : GetScalarType<T[P], MenuSectionGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type MenuSectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    restaurantId?: boolean
-    name?: boolean
-    description?: boolean
-    sortOrder?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
-    items?: boolean | MenuSection$itemsArgs<ExtArgs>
-    _count?: boolean | MenuSectionCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["menuSection"]>
-
-  export type MenuSectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    restaurantId?: boolean
-    name?: boolean
-    description?: boolean
-    sortOrder?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["menuSection"]>
-
-  export type MenuSectionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    restaurantId?: boolean
-    name?: boolean
-    description?: boolean
-    sortOrder?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["menuSection"]>
-
-  export type MenuSectionSelectScalar = {
-    id?: boolean
-    restaurantId?: boolean
-    name?: boolean
-    description?: boolean
-    sortOrder?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type MenuSectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "restaurantId" | "name" | "description" | "sortOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["menuSection"]>
-  export type MenuSectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
-    items?: boolean | MenuSection$itemsArgs<ExtArgs>
-    _count?: boolean | MenuSectionCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type MenuSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
-  }
-  export type MenuSectionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
-  }
-
-  export type $MenuSectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "MenuSection"
-    objects: {
-      restaurant: Prisma.$RestaurantPayload<ExtArgs>
-      items: Prisma.$MenuItemPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      restaurantId: string
-      name: string
-      description: string | null
-      sortOrder: number
-      isActive: boolean
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["menuSection"]>
-    composites: {}
-  }
-
-  type MenuSectionGetPayload<S extends boolean | null | undefined | MenuSectionDefaultArgs> = $Result.GetResult<Prisma.$MenuSectionPayload, S>
-
-  type MenuSectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<MenuSectionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: MenuSectionCountAggregateInputType | true
-    }
-
-  export interface MenuSectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MenuSection'], meta: { name: 'MenuSection' } }
-    /**
-     * Find zero or one MenuSection that matches the filter.
-     * @param {MenuSectionFindUniqueArgs} args - Arguments to find a MenuSection
-     * @example
-     * // Get one MenuSection
-     * const menuSection = await prisma.menuSection.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends MenuSectionFindUniqueArgs>(args: SelectSubset<T, MenuSectionFindUniqueArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one MenuSection that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {MenuSectionFindUniqueOrThrowArgs} args - Arguments to find a MenuSection
-     * @example
-     * // Get one MenuSection
-     * const menuSection = await prisma.menuSection.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends MenuSectionFindUniqueOrThrowArgs>(args: SelectSubset<T, MenuSectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first MenuSection that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {MenuSectionFindFirstArgs} args - Arguments to find a MenuSection
-     * @example
-     * // Get one MenuSection
-     * const menuSection = await prisma.menuSection.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends MenuSectionFindFirstArgs>(args?: SelectSubset<T, MenuSectionFindFirstArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first MenuSection that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {MenuSectionFindFirstOrThrowArgs} args - Arguments to find a MenuSection
-     * @example
-     * // Get one MenuSection
-     * const menuSection = await prisma.menuSection.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends MenuSectionFindFirstOrThrowArgs>(args?: SelectSubset<T, MenuSectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more MenuSections that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {MenuSectionFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all MenuSections
-     * const menuSections = await prisma.menuSection.findMany()
-     * 
-     * // Get first 10 MenuSections
-     * const menuSections = await prisma.menuSection.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const menuSectionWithIdOnly = await prisma.menuSection.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends MenuSectionFindManyArgs>(args?: SelectSubset<T, MenuSectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a MenuSection.
-     * @param {MenuSectionCreateArgs} args - Arguments to create a MenuSection.
-     * @example
-     * // Create one MenuSection
-     * const MenuSection = await prisma.menuSection.create({
-     *   data: {
-     *     // ... data to create a MenuSection
-     *   }
-     * })
-     * 
-     */
-    create<T extends MenuSectionCreateArgs>(args: SelectSubset<T, MenuSectionCreateArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many MenuSections.
-     * @param {MenuSectionCreateManyArgs} args - Arguments to create many MenuSections.
-     * @example
-     * // Create many MenuSections
-     * const menuSection = await prisma.menuSection.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends MenuSectionCreateManyArgs>(args?: SelectSubset<T, MenuSectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many MenuSections and returns the data saved in the database.
-     * @param {MenuSectionCreateManyAndReturnArgs} args - Arguments to create many MenuSections.
-     * @example
-     * // Create many MenuSections
-     * const menuSection = await prisma.menuSection.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many MenuSections and only return the `id`
-     * const menuSectionWithIdOnly = await prisma.menuSection.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends MenuSectionCreateManyAndReturnArgs>(args?: SelectSubset<T, MenuSectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a MenuSection.
-     * @param {MenuSectionDeleteArgs} args - Arguments to delete one MenuSection.
-     * @example
-     * // Delete one MenuSection
-     * const MenuSection = await prisma.menuSection.delete({
-     *   where: {
-     *     // ... filter to delete one MenuSection
-     *   }
-     * })
-     * 
-     */
-    delete<T extends MenuSectionDeleteArgs>(args: SelectSubset<T, MenuSectionDeleteArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one MenuSection.
-     * @param {MenuSectionUpdateArgs} args - Arguments to update one MenuSection.
-     * @example
-     * // Update one MenuSection
-     * const menuSection = await prisma.menuSection.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends MenuSectionUpdateArgs>(args: SelectSubset<T, MenuSectionUpdateArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more MenuSections.
-     * @param {MenuSectionDeleteManyArgs} args - Arguments to filter MenuSections to delete.
-     * @example
-     * // Delete a few MenuSections
-     * const { count } = await prisma.menuSection.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends MenuSectionDeleteManyArgs>(args?: SelectSubset<T, MenuSectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more MenuSections.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {MenuSectionUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many MenuSections
-     * const menuSection = await prisma.menuSection.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends MenuSectionUpdateManyArgs>(args: SelectSubset<T, MenuSectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more MenuSections and returns the data updated in the database.
-     * @param {MenuSectionUpdateManyAndReturnArgs} args - Arguments to update many MenuSections.
-     * @example
-     * // Update many MenuSections
-     * const menuSection = await prisma.menuSection.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more MenuSections and only return the `id`
-     * const menuSectionWithIdOnly = await prisma.menuSection.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends MenuSectionUpdateManyAndReturnArgs>(args: SelectSubset<T, MenuSectionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one MenuSection.
-     * @param {MenuSectionUpsertArgs} args - Arguments to update or create a MenuSection.
-     * @example
-     * // Update or create a MenuSection
-     * const menuSection = await prisma.menuSection.upsert({
-     *   create: {
-     *     // ... data to create a MenuSection
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the MenuSection we want to update
-     *   }
-     * })
-     */
-    upsert<T extends MenuSectionUpsertArgs>(args: SelectSubset<T, MenuSectionUpsertArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of MenuSections.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {MenuSectionCountArgs} args - Arguments to filter MenuSections to count.
-     * @example
-     * // Count the number of MenuSections
-     * const count = await prisma.menuSection.count({
-     *   where: {
-     *     // ... the filter for the MenuSections we want to count
-     *   }
-     * })
-    **/
-    count<T extends MenuSectionCountArgs>(
-      args?: Subset<T, MenuSectionCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], MenuSectionCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a MenuSection.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {MenuSectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends MenuSectionAggregateArgs>(args: Subset<T, MenuSectionAggregateArgs>): Prisma.PrismaPromise<GetMenuSectionAggregateType<T>>
-
-    /**
-     * Group by MenuSection.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {MenuSectionGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends MenuSectionGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: MenuSectionGroupByArgs['orderBy'] }
-        : { orderBy?: MenuSectionGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, MenuSectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMenuSectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the MenuSection model
-   */
-  readonly fields: MenuSectionFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for MenuSection.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__MenuSectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    restaurant<T extends RestaurantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RestaurantDefaultArgs<ExtArgs>>): Prisma__RestaurantClient<$Result.GetResult<Prisma.$RestaurantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    items<T extends MenuSection$itemsArgs<ExtArgs> = {}>(args?: Subset<T, MenuSection$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the MenuSection model
-   */
-  interface MenuSectionFieldRefs {
-    readonly id: FieldRef<"MenuSection", 'String'>
-    readonly restaurantId: FieldRef<"MenuSection", 'String'>
-    readonly name: FieldRef<"MenuSection", 'String'>
-    readonly description: FieldRef<"MenuSection", 'String'>
-    readonly sortOrder: FieldRef<"MenuSection", 'Int'>
-    readonly isActive: FieldRef<"MenuSection", 'Boolean'>
-    readonly createdAt: FieldRef<"MenuSection", 'DateTime'>
-    readonly updatedAt: FieldRef<"MenuSection", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * MenuSection findUnique
-   */
-  export type MenuSectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionInclude<ExtArgs> | null
-    /**
-     * Filter, which MenuSection to fetch.
-     */
-    where: MenuSectionWhereUniqueInput
-  }
-
-  /**
-   * MenuSection findUniqueOrThrow
-   */
-  export type MenuSectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionInclude<ExtArgs> | null
-    /**
-     * Filter, which MenuSection to fetch.
-     */
-    where: MenuSectionWhereUniqueInput
-  }
-
-  /**
-   * MenuSection findFirst
-   */
-  export type MenuSectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionInclude<ExtArgs> | null
-    /**
-     * Filter, which MenuSection to fetch.
-     */
-    where?: MenuSectionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of MenuSections to fetch.
-     */
-    orderBy?: MenuSectionOrderByWithRelationInput | MenuSectionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for MenuSections.
-     */
-    cursor?: MenuSectionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` MenuSections from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` MenuSections.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of MenuSections.
-     */
-    distinct?: MenuSectionScalarFieldEnum | MenuSectionScalarFieldEnum[]
-  }
-
-  /**
-   * MenuSection findFirstOrThrow
-   */
-  export type MenuSectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionInclude<ExtArgs> | null
-    /**
-     * Filter, which MenuSection to fetch.
-     */
-    where?: MenuSectionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of MenuSections to fetch.
-     */
-    orderBy?: MenuSectionOrderByWithRelationInput | MenuSectionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for MenuSections.
-     */
-    cursor?: MenuSectionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` MenuSections from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` MenuSections.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of MenuSections.
-     */
-    distinct?: MenuSectionScalarFieldEnum | MenuSectionScalarFieldEnum[]
-  }
-
-  /**
-   * MenuSection findMany
-   */
-  export type MenuSectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionInclude<ExtArgs> | null
-    /**
-     * Filter, which MenuSections to fetch.
-     */
-    where?: MenuSectionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of MenuSections to fetch.
-     */
-    orderBy?: MenuSectionOrderByWithRelationInput | MenuSectionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing MenuSections.
-     */
-    cursor?: MenuSectionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` MenuSections from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` MenuSections.
-     */
-    skip?: number
-    distinct?: MenuSectionScalarFieldEnum | MenuSectionScalarFieldEnum[]
-  }
-
-  /**
-   * MenuSection create
-   */
-  export type MenuSectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionInclude<ExtArgs> | null
-    /**
-     * The data needed to create a MenuSection.
-     */
-    data: XOR<MenuSectionCreateInput, MenuSectionUncheckedCreateInput>
-  }
-
-  /**
-   * MenuSection createMany
-   */
-  export type MenuSectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many MenuSections.
-     */
-    data: MenuSectionCreateManyInput | MenuSectionCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * MenuSection createManyAndReturn
-   */
-  export type MenuSectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * The data used to create many MenuSections.
-     */
-    data: MenuSectionCreateManyInput | MenuSectionCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * MenuSection update
-   */
-  export type MenuSectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionInclude<ExtArgs> | null
-    /**
-     * The data needed to update a MenuSection.
-     */
-    data: XOR<MenuSectionUpdateInput, MenuSectionUncheckedUpdateInput>
-    /**
-     * Choose, which MenuSection to update.
-     */
-    where: MenuSectionWhereUniqueInput
-  }
-
-  /**
-   * MenuSection updateMany
-   */
-  export type MenuSectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update MenuSections.
-     */
-    data: XOR<MenuSectionUpdateManyMutationInput, MenuSectionUncheckedUpdateManyInput>
-    /**
-     * Filter which MenuSections to update
-     */
-    where?: MenuSectionWhereInput
-    /**
-     * Limit how many MenuSections to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * MenuSection updateManyAndReturn
-   */
-  export type MenuSectionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * The data used to update MenuSections.
-     */
-    data: XOR<MenuSectionUpdateManyMutationInput, MenuSectionUncheckedUpdateManyInput>
-    /**
-     * Filter which MenuSections to update
-     */
-    where?: MenuSectionWhereInput
-    /**
-     * Limit how many MenuSections to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * MenuSection upsert
-   */
-  export type MenuSectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionInclude<ExtArgs> | null
-    /**
-     * The filter to search for the MenuSection to update in case it exists.
-     */
-    where: MenuSectionWhereUniqueInput
-    /**
-     * In case the MenuSection found by the `where` argument doesn't exist, create a new MenuSection with this data.
-     */
-    create: XOR<MenuSectionCreateInput, MenuSectionUncheckedCreateInput>
-    /**
-     * In case the MenuSection was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<MenuSectionUpdateInput, MenuSectionUncheckedUpdateInput>
-  }
-
-  /**
-   * MenuSection delete
-   */
-  export type MenuSectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionInclude<ExtArgs> | null
-    /**
-     * Filter which MenuSection to delete.
-     */
-    where: MenuSectionWhereUniqueInput
-  }
-
-  /**
-   * MenuSection deleteMany
-   */
-  export type MenuSectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which MenuSections to delete
-     */
-    where?: MenuSectionWhereInput
-    /**
-     * Limit how many MenuSections to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * MenuSection.items
-   */
-  export type MenuSection$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuItem
-     */
-    select?: MenuItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuItem
-     */
-    omit?: MenuItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuItemInclude<ExtArgs> | null
-    where?: MenuItemWhereInput
-    orderBy?: MenuItemOrderByWithRelationInput | MenuItemOrderByWithRelationInput[]
-    cursor?: MenuItemWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: MenuItemScalarFieldEnum | MenuItemScalarFieldEnum[]
-  }
-
-  /**
-   * MenuSection without action
-   */
-  export type MenuSectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MenuSection
-     */
-    select?: MenuSectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MenuSection
-     */
-    omit?: MenuSectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MenuSectionInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model MenuItem
    */
 
@@ -8591,7 +7888,6 @@ export namespace Prisma {
   export type MenuItemMinAggregateOutputType = {
     id: string | null
     restaurantId: string | null
-    sectionId: string | null
     name: string | null
     description: string | null
     price: Decimal | null
@@ -8600,12 +7896,12 @@ export namespace Prisma {
     sortOrder: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    sectionId: string | null
   }
 
   export type MenuItemMaxAggregateOutputType = {
     id: string | null
     restaurantId: string | null
-    sectionId: string | null
     name: string | null
     description: string | null
     price: Decimal | null
@@ -8614,12 +7910,12 @@ export namespace Prisma {
     sortOrder: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    sectionId: string | null
   }
 
   export type MenuItemCountAggregateOutputType = {
     id: number
     restaurantId: number
-    sectionId: number
     name: number
     description: number
     price: number
@@ -8628,6 +7924,7 @@ export namespace Prisma {
     sortOrder: number
     createdAt: number
     updatedAt: number
+    sectionId: number
     _all: number
   }
 
@@ -8645,7 +7942,6 @@ export namespace Prisma {
   export type MenuItemMinAggregateInputType = {
     id?: true
     restaurantId?: true
-    sectionId?: true
     name?: true
     description?: true
     price?: true
@@ -8654,12 +7950,12 @@ export namespace Prisma {
     sortOrder?: true
     createdAt?: true
     updatedAt?: true
+    sectionId?: true
   }
 
   export type MenuItemMaxAggregateInputType = {
     id?: true
     restaurantId?: true
-    sectionId?: true
     name?: true
     description?: true
     price?: true
@@ -8668,12 +7964,12 @@ export namespace Prisma {
     sortOrder?: true
     createdAt?: true
     updatedAt?: true
+    sectionId?: true
   }
 
   export type MenuItemCountAggregateInputType = {
     id?: true
     restaurantId?: true
-    sectionId?: true
     name?: true
     description?: true
     price?: true
@@ -8682,6 +7978,7 @@ export namespace Prisma {
     sortOrder?: true
     createdAt?: true
     updatedAt?: true
+    sectionId?: true
     _all?: true
   }
 
@@ -8774,7 +8071,6 @@ export namespace Prisma {
   export type MenuItemGroupByOutputType = {
     id: string
     restaurantId: string
-    sectionId: string
     name: string
     description: string | null
     price: Decimal
@@ -8783,6 +8079,7 @@ export namespace Prisma {
     sortOrder: number
     createdAt: Date
     updatedAt: Date
+    sectionId: string
     _count: MenuItemCountAggregateOutputType | null
     _avg: MenuItemAvgAggregateOutputType | null
     _sum: MenuItemSumAggregateOutputType | null
@@ -8807,7 +8104,6 @@ export namespace Prisma {
   export type MenuItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     restaurantId?: boolean
-    sectionId?: boolean
     name?: boolean
     description?: boolean
     price?: boolean
@@ -8816,14 +8112,16 @@ export namespace Prisma {
     sortOrder?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
+    sectionId?: boolean
     section?: boolean | MenuSectionDefaultArgs<ExtArgs>
+    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
+    menuItemTags?: boolean | MenuItem$menuItemTagsArgs<ExtArgs>
+    _count?: boolean | MenuItemCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["menuItem"]>
 
   export type MenuItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     restaurantId?: boolean
-    sectionId?: boolean
     name?: boolean
     description?: boolean
     price?: boolean
@@ -8832,14 +8130,14 @@ export namespace Prisma {
     sortOrder?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
+    sectionId?: boolean
     section?: boolean | MenuSectionDefaultArgs<ExtArgs>
+    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["menuItem"]>
 
   export type MenuItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     restaurantId?: boolean
-    sectionId?: boolean
     name?: boolean
     description?: boolean
     price?: boolean
@@ -8848,14 +8146,14 @@ export namespace Prisma {
     sortOrder?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
+    sectionId?: boolean
     section?: boolean | MenuSectionDefaultArgs<ExtArgs>
+    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["menuItem"]>
 
   export type MenuItemSelectScalar = {
     id?: boolean
     restaurantId?: boolean
-    sectionId?: boolean
     name?: boolean
     description?: boolean
     price?: boolean
@@ -8864,32 +8162,35 @@ export namespace Prisma {
     sortOrder?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    sectionId?: boolean
   }
 
-  export type MenuItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "restaurantId" | "sectionId" | "name" | "description" | "price" | "dietaryInfo" | "isAvailable" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["menuItem"]>
+  export type MenuItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "restaurantId" | "name" | "description" | "price" | "dietaryInfo" | "isAvailable" | "sortOrder" | "createdAt" | "updatedAt" | "sectionId", ExtArgs["result"]["menuItem"]>
   export type MenuItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     section?: boolean | MenuSectionDefaultArgs<ExtArgs>
+    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
+    menuItemTags?: boolean | MenuItem$menuItemTagsArgs<ExtArgs>
+    _count?: boolean | MenuItemCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MenuItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     section?: boolean | MenuSectionDefaultArgs<ExtArgs>
+    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
   }
   export type MenuItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
     section?: boolean | MenuSectionDefaultArgs<ExtArgs>
+    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
   }
 
   export type $MenuItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "MenuItem"
     objects: {
-      restaurant: Prisma.$RestaurantPayload<ExtArgs>
       section: Prisma.$MenuSectionPayload<ExtArgs>
+      restaurant: Prisma.$RestaurantPayload<ExtArgs>
+      menuItemTags: Prisma.$MenuItemTagPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       restaurantId: string
-      sectionId: string
       name: string
       description: string | null
       price: Prisma.Decimal
@@ -8898,6 +8199,7 @@ export namespace Prisma {
       sortOrder: number
       createdAt: Date
       updatedAt: Date
+      sectionId: string
     }, ExtArgs["result"]["menuItem"]>
     composites: {}
   }
@@ -9292,8 +8594,9 @@ export namespace Prisma {
    */
   export interface Prisma__MenuItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    restaurant<T extends RestaurantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RestaurantDefaultArgs<ExtArgs>>): Prisma__RestaurantClient<$Result.GetResult<Prisma.$RestaurantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     section<T extends MenuSectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MenuSectionDefaultArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    restaurant<T extends RestaurantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RestaurantDefaultArgs<ExtArgs>>): Prisma__RestaurantClient<$Result.GetResult<Prisma.$RestaurantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    menuItemTags<T extends MenuItem$menuItemTagsArgs<ExtArgs> = {}>(args?: Subset<T, MenuItem$menuItemTagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9325,7 +8628,6 @@ export namespace Prisma {
   interface MenuItemFieldRefs {
     readonly id: FieldRef<"MenuItem", 'String'>
     readonly restaurantId: FieldRef<"MenuItem", 'String'>
-    readonly sectionId: FieldRef<"MenuItem", 'String'>
     readonly name: FieldRef<"MenuItem", 'String'>
     readonly description: FieldRef<"MenuItem", 'String'>
     readonly price: FieldRef<"MenuItem", 'Decimal'>
@@ -9334,6 +8636,7 @@ export namespace Prisma {
     readonly sortOrder: FieldRef<"MenuItem", 'Int'>
     readonly createdAt: FieldRef<"MenuItem", 'DateTime'>
     readonly updatedAt: FieldRef<"MenuItem", 'DateTime'>
+    readonly sectionId: FieldRef<"MenuItem", 'String'>
   }
     
 
@@ -9727,6 +9030,30 @@ export namespace Prisma {
      * Limit how many MenuItems to delete.
      */
     limit?: number
+  }
+
+  /**
+   * MenuItem.menuItemTags
+   */
+  export type MenuItem$menuItemTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagInclude<ExtArgs> | null
+    where?: MenuItemTagWhereInput
+    orderBy?: MenuItemTagOrderByWithRelationInput | MenuItemTagOrderByWithRelationInput[]
+    cursor?: MenuItemTagWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MenuItemTagScalarFieldEnum | MenuItemTagScalarFieldEnum[]
   }
 
   /**
@@ -11043,6 +10370,7 @@ export namespace Prisma {
     unavailability?: boolean | Table$unavailabilityArgs<ExtArgs>
     requestedInChanges?: boolean | Table$requestedInChangesArgs<ExtArgs>
     tableTags?: boolean | Table$tableTagsArgs<ExtArgs>
+    tableAccessibilities?: boolean | Table$tableAccessibilitiesArgs<ExtArgs>
     _count?: boolean | TableCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
 
@@ -11088,6 +10416,7 @@ export namespace Prisma {
     unavailability?: boolean | Table$unavailabilityArgs<ExtArgs>
     requestedInChanges?: boolean | Table$requestedInChangesArgs<ExtArgs>
     tableTags?: boolean | Table$tableTagsArgs<ExtArgs>
+    tableAccessibilities?: boolean | Table$tableAccessibilitiesArgs<ExtArgs>
     _count?: boolean | TableCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TableIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11108,6 +10437,7 @@ export namespace Prisma {
       unavailability: Prisma.$TableUnavailabilityPayload<ExtArgs>[]
       requestedInChanges: Prisma.$ReservationChangeRequestPayload<ExtArgs>[]
       tableTags: Prisma.$TableTagPayload<ExtArgs>[]
+      tableAccessibilities: Prisma.$TableAccessibilityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11517,6 +10847,7 @@ export namespace Prisma {
     unavailability<T extends Table$unavailabilityArgs<ExtArgs> = {}>(args?: Subset<T, Table$unavailabilityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TableUnavailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     requestedInChanges<T extends Table$requestedInChangesArgs<ExtArgs> = {}>(args?: Subset<T, Table$requestedInChangesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationChangeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tableTags<T extends Table$tableTagsArgs<ExtArgs> = {}>(args?: Subset<T, Table$tableTagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TableTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tableAccessibilities<T extends Table$tableAccessibilitiesArgs<ExtArgs> = {}>(args?: Subset<T, Table$tableAccessibilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12042,6 +11373,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TableTagScalarFieldEnum | TableTagScalarFieldEnum[]
+  }
+
+  /**
+   * Table.tableAccessibilities
+   */
+  export type Table$tableAccessibilitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityInclude<ExtArgs> | null
+    where?: TableAccessibilityWhereInput
+    orderBy?: TableAccessibilityOrderByWithRelationInput | TableAccessibilityOrderByWithRelationInput[]
+    cursor?: TableAccessibilityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TableAccessibilityScalarFieldEnum | TableAccessibilityScalarFieldEnum[]
   }
 
   /**
@@ -24491,6 +23846,8 @@ export namespace Prisma {
     restaurants?: boolean | Tag$restaurantsArgs<ExtArgs>
     category?: boolean | TagCategoryDefaultArgs<ExtArgs>
     tableTags?: boolean | Tag$tableTagsArgs<ExtArgs>
+    menuItemTags?: boolean | Tag$menuItemTagsArgs<ExtArgs>
+    interactions?: boolean | Tag$interactionsArgs<ExtArgs>
     _count?: boolean | TagCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tag"]>
 
@@ -24519,6 +23876,8 @@ export namespace Prisma {
     restaurants?: boolean | Tag$restaurantsArgs<ExtArgs>
     category?: boolean | TagCategoryDefaultArgs<ExtArgs>
     tableTags?: boolean | Tag$tableTagsArgs<ExtArgs>
+    menuItemTags?: boolean | Tag$menuItemTagsArgs<ExtArgs>
+    interactions?: boolean | Tag$interactionsArgs<ExtArgs>
     _count?: boolean | TagCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TagIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -24534,6 +23893,8 @@ export namespace Prisma {
       restaurants: Prisma.$RestaurantTagPayload<ExtArgs>[]
       category: Prisma.$TagCategoryPayload<ExtArgs>
       tableTags: Prisma.$TableTagPayload<ExtArgs>[]
+      menuItemTags: Prisma.$MenuItemTagPayload<ExtArgs>[]
+      interactions: Prisma.$UserInteractionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -24936,6 +24297,8 @@ export namespace Prisma {
     restaurants<T extends Tag$restaurantsArgs<ExtArgs> = {}>(args?: Subset<T, Tag$restaurantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RestaurantTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     category<T extends TagCategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TagCategoryDefaultArgs<ExtArgs>>): Prisma__TagCategoryClient<$Result.GetResult<Prisma.$TagCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tableTags<T extends Tag$tableTagsArgs<ExtArgs> = {}>(args?: Subset<T, Tag$tableTagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TableTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    menuItemTags<T extends Tag$menuItemTagsArgs<ExtArgs> = {}>(args?: Subset<T, Tag$menuItemTagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    interactions<T extends Tag$interactionsArgs<ExtArgs> = {}>(args?: Subset<T, Tag$interactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25409,6 +24772,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TableTagScalarFieldEnum | TableTagScalarFieldEnum[]
+  }
+
+  /**
+   * Tag.menuItemTags
+   */
+  export type Tag$menuItemTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagInclude<ExtArgs> | null
+    where?: MenuItemTagWhereInput
+    orderBy?: MenuItemTagOrderByWithRelationInput | MenuItemTagOrderByWithRelationInput[]
+    cursor?: MenuItemTagWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MenuItemTagScalarFieldEnum | MenuItemTagScalarFieldEnum[]
+  }
+
+  /**
+   * Tag.interactions
+   */
+  export type Tag$interactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    where?: UserInteractionWhereInput
+    orderBy?: UserInteractionOrderByWithRelationInput | UserInteractionOrderByWithRelationInput[]
+    cursor?: UserInteractionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserInteractionScalarFieldEnum | UserInteractionScalarFieldEnum[]
   }
 
   /**
@@ -26627,6 +26038,8 @@ export namespace Prisma {
     icon?: boolean
     description?: boolean
     restaurantAccessibilities?: boolean | AccessibilityOption$restaurantAccessibilitiesArgs<ExtArgs>
+    tableAccessibilities?: boolean | AccessibilityOption$tableAccessibilitiesArgs<ExtArgs>
+    interactions?: boolean | AccessibilityOption$interactionsArgs<ExtArgs>
     _count?: boolean | AccessibilityOptionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["accessibilityOption"]>
 
@@ -26654,6 +26067,8 @@ export namespace Prisma {
   export type AccessibilityOptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "optionName" | "icon" | "description", ExtArgs["result"]["accessibilityOption"]>
   export type AccessibilityOptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     restaurantAccessibilities?: boolean | AccessibilityOption$restaurantAccessibilitiesArgs<ExtArgs>
+    tableAccessibilities?: boolean | AccessibilityOption$tableAccessibilitiesArgs<ExtArgs>
+    interactions?: boolean | AccessibilityOption$interactionsArgs<ExtArgs>
     _count?: boolean | AccessibilityOptionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AccessibilityOptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -26663,6 +26078,8 @@ export namespace Prisma {
     name: "AccessibilityOption"
     objects: {
       restaurantAccessibilities: Prisma.$RestaurantAccessibilityPayload<ExtArgs>[]
+      tableAccessibilities: Prisma.$TableAccessibilityPayload<ExtArgs>[]
+      interactions: Prisma.$UserInteractionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -27064,6 +26481,8 @@ export namespace Prisma {
   export interface Prisma__AccessibilityOptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     restaurantAccessibilities<T extends AccessibilityOption$restaurantAccessibilitiesArgs<ExtArgs> = {}>(args?: Subset<T, AccessibilityOption$restaurantAccessibilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RestaurantAccessibilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tableAccessibilities<T extends AccessibilityOption$tableAccessibilitiesArgs<ExtArgs> = {}>(args?: Subset<T, AccessibilityOption$tableAccessibilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    interactions<T extends AccessibilityOption$interactionsArgs<ExtArgs> = {}>(args?: Subset<T, AccessibilityOption$interactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -27506,6 +26925,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RestaurantAccessibilityScalarFieldEnum | RestaurantAccessibilityScalarFieldEnum[]
+  }
+
+  /**
+   * AccessibilityOption.tableAccessibilities
+   */
+  export type AccessibilityOption$tableAccessibilitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityInclude<ExtArgs> | null
+    where?: TableAccessibilityWhereInput
+    orderBy?: TableAccessibilityOrderByWithRelationInput | TableAccessibilityOrderByWithRelationInput[]
+    cursor?: TableAccessibilityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TableAccessibilityScalarFieldEnum | TableAccessibilityScalarFieldEnum[]
+  }
+
+  /**
+   * AccessibilityOption.interactions
+   */
+  export type AccessibilityOption$interactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    where?: UserInteractionWhereInput
+    orderBy?: UserInteractionOrderByWithRelationInput | UserInteractionOrderByWithRelationInput[]
+    cursor?: UserInteractionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserInteractionScalarFieldEnum | UserInteractionScalarFieldEnum[]
   }
 
   /**
@@ -30711,6 +30178,4520 @@ export namespace Prisma {
 
 
   /**
+   * Model MenuItemTag
+   */
+
+  export type AggregateMenuItemTag = {
+    _count: MenuItemTagCountAggregateOutputType | null
+    _min: MenuItemTagMinAggregateOutputType | null
+    _max: MenuItemTagMaxAggregateOutputType | null
+  }
+
+  export type MenuItemTagMinAggregateOutputType = {
+    id: string | null
+    menuItemId: string | null
+    tagId: string | null
+    createdAt: Date | null
+  }
+
+  export type MenuItemTagMaxAggregateOutputType = {
+    id: string | null
+    menuItemId: string | null
+    tagId: string | null
+    createdAt: Date | null
+  }
+
+  export type MenuItemTagCountAggregateOutputType = {
+    id: number
+    menuItemId: number
+    tagId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type MenuItemTagMinAggregateInputType = {
+    id?: true
+    menuItemId?: true
+    tagId?: true
+    createdAt?: true
+  }
+
+  export type MenuItemTagMaxAggregateInputType = {
+    id?: true
+    menuItemId?: true
+    tagId?: true
+    createdAt?: true
+  }
+
+  export type MenuItemTagCountAggregateInputType = {
+    id?: true
+    menuItemId?: true
+    tagId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type MenuItemTagAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MenuItemTag to aggregate.
+     */
+    where?: MenuItemTagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MenuItemTags to fetch.
+     */
+    orderBy?: MenuItemTagOrderByWithRelationInput | MenuItemTagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MenuItemTagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MenuItemTags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MenuItemTags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MenuItemTags
+    **/
+    _count?: true | MenuItemTagCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MenuItemTagMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MenuItemTagMaxAggregateInputType
+  }
+
+  export type GetMenuItemTagAggregateType<T extends MenuItemTagAggregateArgs> = {
+        [P in keyof T & keyof AggregateMenuItemTag]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMenuItemTag[P]>
+      : GetScalarType<T[P], AggregateMenuItemTag[P]>
+  }
+
+
+
+
+  export type MenuItemTagGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MenuItemTagWhereInput
+    orderBy?: MenuItemTagOrderByWithAggregationInput | MenuItemTagOrderByWithAggregationInput[]
+    by: MenuItemTagScalarFieldEnum[] | MenuItemTagScalarFieldEnum
+    having?: MenuItemTagScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MenuItemTagCountAggregateInputType | true
+    _min?: MenuItemTagMinAggregateInputType
+    _max?: MenuItemTagMaxAggregateInputType
+  }
+
+  export type MenuItemTagGroupByOutputType = {
+    id: string
+    menuItemId: string
+    tagId: string
+    createdAt: Date
+    _count: MenuItemTagCountAggregateOutputType | null
+    _min: MenuItemTagMinAggregateOutputType | null
+    _max: MenuItemTagMaxAggregateOutputType | null
+  }
+
+  type GetMenuItemTagGroupByPayload<T extends MenuItemTagGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MenuItemTagGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MenuItemTagGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MenuItemTagGroupByOutputType[P]>
+            : GetScalarType<T[P], MenuItemTagGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MenuItemTagSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    menuItemId?: boolean
+    tagId?: boolean
+    createdAt?: boolean
+    menuItem?: boolean | MenuItemDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["menuItemTag"]>
+
+  export type MenuItemTagSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    menuItemId?: boolean
+    tagId?: boolean
+    createdAt?: boolean
+    menuItem?: boolean | MenuItemDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["menuItemTag"]>
+
+  export type MenuItemTagSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    menuItemId?: boolean
+    tagId?: boolean
+    createdAt?: boolean
+    menuItem?: boolean | MenuItemDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["menuItemTag"]>
+
+  export type MenuItemTagSelectScalar = {
+    id?: boolean
+    menuItemId?: boolean
+    tagId?: boolean
+    createdAt?: boolean
+  }
+
+  export type MenuItemTagOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "menuItemId" | "tagId" | "createdAt", ExtArgs["result"]["menuItemTag"]>
+  export type MenuItemTagInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    menuItem?: boolean | MenuItemDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }
+  export type MenuItemTagIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    menuItem?: boolean | MenuItemDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }
+  export type MenuItemTagIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    menuItem?: boolean | MenuItemDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }
+
+  export type $MenuItemTagPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MenuItemTag"
+    objects: {
+      menuItem: Prisma.$MenuItemPayload<ExtArgs>
+      tag: Prisma.$TagPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      menuItemId: string
+      tagId: string
+      createdAt: Date
+    }, ExtArgs["result"]["menuItemTag"]>
+    composites: {}
+  }
+
+  type MenuItemTagGetPayload<S extends boolean | null | undefined | MenuItemTagDefaultArgs> = $Result.GetResult<Prisma.$MenuItemTagPayload, S>
+
+  type MenuItemTagCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MenuItemTagFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MenuItemTagCountAggregateInputType | true
+    }
+
+  export interface MenuItemTagDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MenuItemTag'], meta: { name: 'MenuItemTag' } }
+    /**
+     * Find zero or one MenuItemTag that matches the filter.
+     * @param {MenuItemTagFindUniqueArgs} args - Arguments to find a MenuItemTag
+     * @example
+     * // Get one MenuItemTag
+     * const menuItemTag = await prisma.menuItemTag.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MenuItemTagFindUniqueArgs>(args: SelectSubset<T, MenuItemTagFindUniqueArgs<ExtArgs>>): Prisma__MenuItemTagClient<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MenuItemTag that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MenuItemTagFindUniqueOrThrowArgs} args - Arguments to find a MenuItemTag
+     * @example
+     * // Get one MenuItemTag
+     * const menuItemTag = await prisma.menuItemTag.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MenuItemTagFindUniqueOrThrowArgs>(args: SelectSubset<T, MenuItemTagFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MenuItemTagClient<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MenuItemTag that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuItemTagFindFirstArgs} args - Arguments to find a MenuItemTag
+     * @example
+     * // Get one MenuItemTag
+     * const menuItemTag = await prisma.menuItemTag.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MenuItemTagFindFirstArgs>(args?: SelectSubset<T, MenuItemTagFindFirstArgs<ExtArgs>>): Prisma__MenuItemTagClient<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MenuItemTag that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuItemTagFindFirstOrThrowArgs} args - Arguments to find a MenuItemTag
+     * @example
+     * // Get one MenuItemTag
+     * const menuItemTag = await prisma.menuItemTag.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MenuItemTagFindFirstOrThrowArgs>(args?: SelectSubset<T, MenuItemTagFindFirstOrThrowArgs<ExtArgs>>): Prisma__MenuItemTagClient<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MenuItemTags that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuItemTagFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MenuItemTags
+     * const menuItemTags = await prisma.menuItemTag.findMany()
+     * 
+     * // Get first 10 MenuItemTags
+     * const menuItemTags = await prisma.menuItemTag.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const menuItemTagWithIdOnly = await prisma.menuItemTag.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MenuItemTagFindManyArgs>(args?: SelectSubset<T, MenuItemTagFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MenuItemTag.
+     * @param {MenuItemTagCreateArgs} args - Arguments to create a MenuItemTag.
+     * @example
+     * // Create one MenuItemTag
+     * const MenuItemTag = await prisma.menuItemTag.create({
+     *   data: {
+     *     // ... data to create a MenuItemTag
+     *   }
+     * })
+     * 
+     */
+    create<T extends MenuItemTagCreateArgs>(args: SelectSubset<T, MenuItemTagCreateArgs<ExtArgs>>): Prisma__MenuItemTagClient<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MenuItemTags.
+     * @param {MenuItemTagCreateManyArgs} args - Arguments to create many MenuItemTags.
+     * @example
+     * // Create many MenuItemTags
+     * const menuItemTag = await prisma.menuItemTag.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MenuItemTagCreateManyArgs>(args?: SelectSubset<T, MenuItemTagCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MenuItemTags and returns the data saved in the database.
+     * @param {MenuItemTagCreateManyAndReturnArgs} args - Arguments to create many MenuItemTags.
+     * @example
+     * // Create many MenuItemTags
+     * const menuItemTag = await prisma.menuItemTag.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MenuItemTags and only return the `id`
+     * const menuItemTagWithIdOnly = await prisma.menuItemTag.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MenuItemTagCreateManyAndReturnArgs>(args?: SelectSubset<T, MenuItemTagCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MenuItemTag.
+     * @param {MenuItemTagDeleteArgs} args - Arguments to delete one MenuItemTag.
+     * @example
+     * // Delete one MenuItemTag
+     * const MenuItemTag = await prisma.menuItemTag.delete({
+     *   where: {
+     *     // ... filter to delete one MenuItemTag
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MenuItemTagDeleteArgs>(args: SelectSubset<T, MenuItemTagDeleteArgs<ExtArgs>>): Prisma__MenuItemTagClient<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MenuItemTag.
+     * @param {MenuItemTagUpdateArgs} args - Arguments to update one MenuItemTag.
+     * @example
+     * // Update one MenuItemTag
+     * const menuItemTag = await prisma.menuItemTag.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MenuItemTagUpdateArgs>(args: SelectSubset<T, MenuItemTagUpdateArgs<ExtArgs>>): Prisma__MenuItemTagClient<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MenuItemTags.
+     * @param {MenuItemTagDeleteManyArgs} args - Arguments to filter MenuItemTags to delete.
+     * @example
+     * // Delete a few MenuItemTags
+     * const { count } = await prisma.menuItemTag.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MenuItemTagDeleteManyArgs>(args?: SelectSubset<T, MenuItemTagDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MenuItemTags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuItemTagUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MenuItemTags
+     * const menuItemTag = await prisma.menuItemTag.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MenuItemTagUpdateManyArgs>(args: SelectSubset<T, MenuItemTagUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MenuItemTags and returns the data updated in the database.
+     * @param {MenuItemTagUpdateManyAndReturnArgs} args - Arguments to update many MenuItemTags.
+     * @example
+     * // Update many MenuItemTags
+     * const menuItemTag = await prisma.menuItemTag.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MenuItemTags and only return the `id`
+     * const menuItemTagWithIdOnly = await prisma.menuItemTag.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MenuItemTagUpdateManyAndReturnArgs>(args: SelectSubset<T, MenuItemTagUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MenuItemTag.
+     * @param {MenuItemTagUpsertArgs} args - Arguments to update or create a MenuItemTag.
+     * @example
+     * // Update or create a MenuItemTag
+     * const menuItemTag = await prisma.menuItemTag.upsert({
+     *   create: {
+     *     // ... data to create a MenuItemTag
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MenuItemTag we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MenuItemTagUpsertArgs>(args: SelectSubset<T, MenuItemTagUpsertArgs<ExtArgs>>): Prisma__MenuItemTagClient<$Result.GetResult<Prisma.$MenuItemTagPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MenuItemTags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuItemTagCountArgs} args - Arguments to filter MenuItemTags to count.
+     * @example
+     * // Count the number of MenuItemTags
+     * const count = await prisma.menuItemTag.count({
+     *   where: {
+     *     // ... the filter for the MenuItemTags we want to count
+     *   }
+     * })
+    **/
+    count<T extends MenuItemTagCountArgs>(
+      args?: Subset<T, MenuItemTagCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MenuItemTagCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MenuItemTag.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuItemTagAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MenuItemTagAggregateArgs>(args: Subset<T, MenuItemTagAggregateArgs>): Prisma.PrismaPromise<GetMenuItemTagAggregateType<T>>
+
+    /**
+     * Group by MenuItemTag.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuItemTagGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MenuItemTagGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MenuItemTagGroupByArgs['orderBy'] }
+        : { orderBy?: MenuItemTagGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MenuItemTagGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMenuItemTagGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MenuItemTag model
+   */
+  readonly fields: MenuItemTagFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MenuItemTag.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MenuItemTagClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    menuItem<T extends MenuItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MenuItemDefaultArgs<ExtArgs>>): Prisma__MenuItemClient<$Result.GetResult<Prisma.$MenuItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tag<T extends TagDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TagDefaultArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MenuItemTag model
+   */
+  interface MenuItemTagFieldRefs {
+    readonly id: FieldRef<"MenuItemTag", 'String'>
+    readonly menuItemId: FieldRef<"MenuItemTag", 'String'>
+    readonly tagId: FieldRef<"MenuItemTag", 'String'>
+    readonly createdAt: FieldRef<"MenuItemTag", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MenuItemTag findUnique
+   */
+  export type MenuItemTagFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagInclude<ExtArgs> | null
+    /**
+     * Filter, which MenuItemTag to fetch.
+     */
+    where: MenuItemTagWhereUniqueInput
+  }
+
+  /**
+   * MenuItemTag findUniqueOrThrow
+   */
+  export type MenuItemTagFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagInclude<ExtArgs> | null
+    /**
+     * Filter, which MenuItemTag to fetch.
+     */
+    where: MenuItemTagWhereUniqueInput
+  }
+
+  /**
+   * MenuItemTag findFirst
+   */
+  export type MenuItemTagFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagInclude<ExtArgs> | null
+    /**
+     * Filter, which MenuItemTag to fetch.
+     */
+    where?: MenuItemTagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MenuItemTags to fetch.
+     */
+    orderBy?: MenuItemTagOrderByWithRelationInput | MenuItemTagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MenuItemTags.
+     */
+    cursor?: MenuItemTagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MenuItemTags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MenuItemTags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MenuItemTags.
+     */
+    distinct?: MenuItemTagScalarFieldEnum | MenuItemTagScalarFieldEnum[]
+  }
+
+  /**
+   * MenuItemTag findFirstOrThrow
+   */
+  export type MenuItemTagFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagInclude<ExtArgs> | null
+    /**
+     * Filter, which MenuItemTag to fetch.
+     */
+    where?: MenuItemTagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MenuItemTags to fetch.
+     */
+    orderBy?: MenuItemTagOrderByWithRelationInput | MenuItemTagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MenuItemTags.
+     */
+    cursor?: MenuItemTagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MenuItemTags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MenuItemTags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MenuItemTags.
+     */
+    distinct?: MenuItemTagScalarFieldEnum | MenuItemTagScalarFieldEnum[]
+  }
+
+  /**
+   * MenuItemTag findMany
+   */
+  export type MenuItemTagFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagInclude<ExtArgs> | null
+    /**
+     * Filter, which MenuItemTags to fetch.
+     */
+    where?: MenuItemTagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MenuItemTags to fetch.
+     */
+    orderBy?: MenuItemTagOrderByWithRelationInput | MenuItemTagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MenuItemTags.
+     */
+    cursor?: MenuItemTagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MenuItemTags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MenuItemTags.
+     */
+    skip?: number
+    distinct?: MenuItemTagScalarFieldEnum | MenuItemTagScalarFieldEnum[]
+  }
+
+  /**
+   * MenuItemTag create
+   */
+  export type MenuItemTagCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MenuItemTag.
+     */
+    data: XOR<MenuItemTagCreateInput, MenuItemTagUncheckedCreateInput>
+  }
+
+  /**
+   * MenuItemTag createMany
+   */
+  export type MenuItemTagCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MenuItemTags.
+     */
+    data: MenuItemTagCreateManyInput | MenuItemTagCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MenuItemTag createManyAndReturn
+   */
+  export type MenuItemTagCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * The data used to create many MenuItemTags.
+     */
+    data: MenuItemTagCreateManyInput | MenuItemTagCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MenuItemTag update
+   */
+  export type MenuItemTagUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MenuItemTag.
+     */
+    data: XOR<MenuItemTagUpdateInput, MenuItemTagUncheckedUpdateInput>
+    /**
+     * Choose, which MenuItemTag to update.
+     */
+    where: MenuItemTagWhereUniqueInput
+  }
+
+  /**
+   * MenuItemTag updateMany
+   */
+  export type MenuItemTagUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MenuItemTags.
+     */
+    data: XOR<MenuItemTagUpdateManyMutationInput, MenuItemTagUncheckedUpdateManyInput>
+    /**
+     * Filter which MenuItemTags to update
+     */
+    where?: MenuItemTagWhereInput
+    /**
+     * Limit how many MenuItemTags to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MenuItemTag updateManyAndReturn
+   */
+  export type MenuItemTagUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * The data used to update MenuItemTags.
+     */
+    data: XOR<MenuItemTagUpdateManyMutationInput, MenuItemTagUncheckedUpdateManyInput>
+    /**
+     * Filter which MenuItemTags to update
+     */
+    where?: MenuItemTagWhereInput
+    /**
+     * Limit how many MenuItemTags to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MenuItemTag upsert
+   */
+  export type MenuItemTagUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MenuItemTag to update in case it exists.
+     */
+    where: MenuItemTagWhereUniqueInput
+    /**
+     * In case the MenuItemTag found by the `where` argument doesn't exist, create a new MenuItemTag with this data.
+     */
+    create: XOR<MenuItemTagCreateInput, MenuItemTagUncheckedCreateInput>
+    /**
+     * In case the MenuItemTag was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MenuItemTagUpdateInput, MenuItemTagUncheckedUpdateInput>
+  }
+
+  /**
+   * MenuItemTag delete
+   */
+  export type MenuItemTagDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagInclude<ExtArgs> | null
+    /**
+     * Filter which MenuItemTag to delete.
+     */
+    where: MenuItemTagWhereUniqueInput
+  }
+
+  /**
+   * MenuItemTag deleteMany
+   */
+  export type MenuItemTagDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MenuItemTags to delete
+     */
+    where?: MenuItemTagWhereInput
+    /**
+     * Limit how many MenuItemTags to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MenuItemTag without action
+   */
+  export type MenuItemTagDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItemTag
+     */
+    select?: MenuItemTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItemTag
+     */
+    omit?: MenuItemTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemTagInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MenuSection
+   */
+
+  export type AggregateMenuSection = {
+    _count: MenuSectionCountAggregateOutputType | null
+    _avg: MenuSectionAvgAggregateOutputType | null
+    _sum: MenuSectionSumAggregateOutputType | null
+    _min: MenuSectionMinAggregateOutputType | null
+    _max: MenuSectionMaxAggregateOutputType | null
+  }
+
+  export type MenuSectionAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type MenuSectionSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type MenuSectionMinAggregateOutputType = {
+    id: string | null
+    restaurantId: string | null
+    name: string | null
+    description: string | null
+    sortOrder: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MenuSectionMaxAggregateOutputType = {
+    id: string | null
+    restaurantId: string | null
+    name: string | null
+    description: string | null
+    sortOrder: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MenuSectionCountAggregateOutputType = {
+    id: number
+    restaurantId: number
+    name: number
+    description: number
+    sortOrder: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MenuSectionAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type MenuSectionSumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type MenuSectionMinAggregateInputType = {
+    id?: true
+    restaurantId?: true
+    name?: true
+    description?: true
+    sortOrder?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MenuSectionMaxAggregateInputType = {
+    id?: true
+    restaurantId?: true
+    name?: true
+    description?: true
+    sortOrder?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MenuSectionCountAggregateInputType = {
+    id?: true
+    restaurantId?: true
+    name?: true
+    description?: true
+    sortOrder?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MenuSectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MenuSection to aggregate.
+     */
+    where?: MenuSectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MenuSections to fetch.
+     */
+    orderBy?: MenuSectionOrderByWithRelationInput | MenuSectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MenuSectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MenuSections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MenuSections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MenuSections
+    **/
+    _count?: true | MenuSectionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MenuSectionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MenuSectionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MenuSectionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MenuSectionMaxAggregateInputType
+  }
+
+  export type GetMenuSectionAggregateType<T extends MenuSectionAggregateArgs> = {
+        [P in keyof T & keyof AggregateMenuSection]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMenuSection[P]>
+      : GetScalarType<T[P], AggregateMenuSection[P]>
+  }
+
+
+
+
+  export type MenuSectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MenuSectionWhereInput
+    orderBy?: MenuSectionOrderByWithAggregationInput | MenuSectionOrderByWithAggregationInput[]
+    by: MenuSectionScalarFieldEnum[] | MenuSectionScalarFieldEnum
+    having?: MenuSectionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MenuSectionCountAggregateInputType | true
+    _avg?: MenuSectionAvgAggregateInputType
+    _sum?: MenuSectionSumAggregateInputType
+    _min?: MenuSectionMinAggregateInputType
+    _max?: MenuSectionMaxAggregateInputType
+  }
+
+  export type MenuSectionGroupByOutputType = {
+    id: string
+    restaurantId: string
+    name: string
+    description: string | null
+    sortOrder: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: MenuSectionCountAggregateOutputType | null
+    _avg: MenuSectionAvgAggregateOutputType | null
+    _sum: MenuSectionSumAggregateOutputType | null
+    _min: MenuSectionMinAggregateOutputType | null
+    _max: MenuSectionMaxAggregateOutputType | null
+  }
+
+  type GetMenuSectionGroupByPayload<T extends MenuSectionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MenuSectionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MenuSectionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MenuSectionGroupByOutputType[P]>
+            : GetScalarType<T[P], MenuSectionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MenuSectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    restaurantId?: boolean
+    name?: boolean
+    description?: boolean
+    sortOrder?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
+    items?: boolean | MenuSection$itemsArgs<ExtArgs>
+    _count?: boolean | MenuSectionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["menuSection"]>
+
+  export type MenuSectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    restaurantId?: boolean
+    name?: boolean
+    description?: boolean
+    sortOrder?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["menuSection"]>
+
+  export type MenuSectionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    restaurantId?: boolean
+    name?: boolean
+    description?: boolean
+    sortOrder?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["menuSection"]>
+
+  export type MenuSectionSelectScalar = {
+    id?: boolean
+    restaurantId?: boolean
+    name?: boolean
+    description?: boolean
+    sortOrder?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MenuSectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "restaurantId" | "name" | "description" | "sortOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["menuSection"]>
+  export type MenuSectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
+    items?: boolean | MenuSection$itemsArgs<ExtArgs>
+    _count?: boolean | MenuSectionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type MenuSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
+  }
+  export type MenuSectionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    restaurant?: boolean | RestaurantDefaultArgs<ExtArgs>
+  }
+
+  export type $MenuSectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MenuSection"
+    objects: {
+      restaurant: Prisma.$RestaurantPayload<ExtArgs>
+      items: Prisma.$MenuItemPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      restaurantId: string
+      name: string
+      description: string | null
+      sortOrder: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["menuSection"]>
+    composites: {}
+  }
+
+  type MenuSectionGetPayload<S extends boolean | null | undefined | MenuSectionDefaultArgs> = $Result.GetResult<Prisma.$MenuSectionPayload, S>
+
+  type MenuSectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MenuSectionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MenuSectionCountAggregateInputType | true
+    }
+
+  export interface MenuSectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MenuSection'], meta: { name: 'MenuSection' } }
+    /**
+     * Find zero or one MenuSection that matches the filter.
+     * @param {MenuSectionFindUniqueArgs} args - Arguments to find a MenuSection
+     * @example
+     * // Get one MenuSection
+     * const menuSection = await prisma.menuSection.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MenuSectionFindUniqueArgs>(args: SelectSubset<T, MenuSectionFindUniqueArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MenuSection that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MenuSectionFindUniqueOrThrowArgs} args - Arguments to find a MenuSection
+     * @example
+     * // Get one MenuSection
+     * const menuSection = await prisma.menuSection.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MenuSectionFindUniqueOrThrowArgs>(args: SelectSubset<T, MenuSectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MenuSection that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuSectionFindFirstArgs} args - Arguments to find a MenuSection
+     * @example
+     * // Get one MenuSection
+     * const menuSection = await prisma.menuSection.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MenuSectionFindFirstArgs>(args?: SelectSubset<T, MenuSectionFindFirstArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MenuSection that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuSectionFindFirstOrThrowArgs} args - Arguments to find a MenuSection
+     * @example
+     * // Get one MenuSection
+     * const menuSection = await prisma.menuSection.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MenuSectionFindFirstOrThrowArgs>(args?: SelectSubset<T, MenuSectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MenuSections that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuSectionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MenuSections
+     * const menuSections = await prisma.menuSection.findMany()
+     * 
+     * // Get first 10 MenuSections
+     * const menuSections = await prisma.menuSection.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const menuSectionWithIdOnly = await prisma.menuSection.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MenuSectionFindManyArgs>(args?: SelectSubset<T, MenuSectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MenuSection.
+     * @param {MenuSectionCreateArgs} args - Arguments to create a MenuSection.
+     * @example
+     * // Create one MenuSection
+     * const MenuSection = await prisma.menuSection.create({
+     *   data: {
+     *     // ... data to create a MenuSection
+     *   }
+     * })
+     * 
+     */
+    create<T extends MenuSectionCreateArgs>(args: SelectSubset<T, MenuSectionCreateArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MenuSections.
+     * @param {MenuSectionCreateManyArgs} args - Arguments to create many MenuSections.
+     * @example
+     * // Create many MenuSections
+     * const menuSection = await prisma.menuSection.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MenuSectionCreateManyArgs>(args?: SelectSubset<T, MenuSectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MenuSections and returns the data saved in the database.
+     * @param {MenuSectionCreateManyAndReturnArgs} args - Arguments to create many MenuSections.
+     * @example
+     * // Create many MenuSections
+     * const menuSection = await prisma.menuSection.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MenuSections and only return the `id`
+     * const menuSectionWithIdOnly = await prisma.menuSection.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MenuSectionCreateManyAndReturnArgs>(args?: SelectSubset<T, MenuSectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MenuSection.
+     * @param {MenuSectionDeleteArgs} args - Arguments to delete one MenuSection.
+     * @example
+     * // Delete one MenuSection
+     * const MenuSection = await prisma.menuSection.delete({
+     *   where: {
+     *     // ... filter to delete one MenuSection
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MenuSectionDeleteArgs>(args: SelectSubset<T, MenuSectionDeleteArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MenuSection.
+     * @param {MenuSectionUpdateArgs} args - Arguments to update one MenuSection.
+     * @example
+     * // Update one MenuSection
+     * const menuSection = await prisma.menuSection.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MenuSectionUpdateArgs>(args: SelectSubset<T, MenuSectionUpdateArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MenuSections.
+     * @param {MenuSectionDeleteManyArgs} args - Arguments to filter MenuSections to delete.
+     * @example
+     * // Delete a few MenuSections
+     * const { count } = await prisma.menuSection.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MenuSectionDeleteManyArgs>(args?: SelectSubset<T, MenuSectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MenuSections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuSectionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MenuSections
+     * const menuSection = await prisma.menuSection.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MenuSectionUpdateManyArgs>(args: SelectSubset<T, MenuSectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MenuSections and returns the data updated in the database.
+     * @param {MenuSectionUpdateManyAndReturnArgs} args - Arguments to update many MenuSections.
+     * @example
+     * // Update many MenuSections
+     * const menuSection = await prisma.menuSection.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MenuSections and only return the `id`
+     * const menuSectionWithIdOnly = await prisma.menuSection.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MenuSectionUpdateManyAndReturnArgs>(args: SelectSubset<T, MenuSectionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MenuSection.
+     * @param {MenuSectionUpsertArgs} args - Arguments to update or create a MenuSection.
+     * @example
+     * // Update or create a MenuSection
+     * const menuSection = await prisma.menuSection.upsert({
+     *   create: {
+     *     // ... data to create a MenuSection
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MenuSection we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MenuSectionUpsertArgs>(args: SelectSubset<T, MenuSectionUpsertArgs<ExtArgs>>): Prisma__MenuSectionClient<$Result.GetResult<Prisma.$MenuSectionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MenuSections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuSectionCountArgs} args - Arguments to filter MenuSections to count.
+     * @example
+     * // Count the number of MenuSections
+     * const count = await prisma.menuSection.count({
+     *   where: {
+     *     // ... the filter for the MenuSections we want to count
+     *   }
+     * })
+    **/
+    count<T extends MenuSectionCountArgs>(
+      args?: Subset<T, MenuSectionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MenuSectionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MenuSection.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuSectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MenuSectionAggregateArgs>(args: Subset<T, MenuSectionAggregateArgs>): Prisma.PrismaPromise<GetMenuSectionAggregateType<T>>
+
+    /**
+     * Group by MenuSection.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MenuSectionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MenuSectionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MenuSectionGroupByArgs['orderBy'] }
+        : { orderBy?: MenuSectionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MenuSectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMenuSectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MenuSection model
+   */
+  readonly fields: MenuSectionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MenuSection.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MenuSectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    restaurant<T extends RestaurantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RestaurantDefaultArgs<ExtArgs>>): Prisma__RestaurantClient<$Result.GetResult<Prisma.$RestaurantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    items<T extends MenuSection$itemsArgs<ExtArgs> = {}>(args?: Subset<T, MenuSection$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MenuSection model
+   */
+  interface MenuSectionFieldRefs {
+    readonly id: FieldRef<"MenuSection", 'String'>
+    readonly restaurantId: FieldRef<"MenuSection", 'String'>
+    readonly name: FieldRef<"MenuSection", 'String'>
+    readonly description: FieldRef<"MenuSection", 'String'>
+    readonly sortOrder: FieldRef<"MenuSection", 'Int'>
+    readonly isActive: FieldRef<"MenuSection", 'Boolean'>
+    readonly createdAt: FieldRef<"MenuSection", 'DateTime'>
+    readonly updatedAt: FieldRef<"MenuSection", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MenuSection findUnique
+   */
+  export type MenuSectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionInclude<ExtArgs> | null
+    /**
+     * Filter, which MenuSection to fetch.
+     */
+    where: MenuSectionWhereUniqueInput
+  }
+
+  /**
+   * MenuSection findUniqueOrThrow
+   */
+  export type MenuSectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionInclude<ExtArgs> | null
+    /**
+     * Filter, which MenuSection to fetch.
+     */
+    where: MenuSectionWhereUniqueInput
+  }
+
+  /**
+   * MenuSection findFirst
+   */
+  export type MenuSectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionInclude<ExtArgs> | null
+    /**
+     * Filter, which MenuSection to fetch.
+     */
+    where?: MenuSectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MenuSections to fetch.
+     */
+    orderBy?: MenuSectionOrderByWithRelationInput | MenuSectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MenuSections.
+     */
+    cursor?: MenuSectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MenuSections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MenuSections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MenuSections.
+     */
+    distinct?: MenuSectionScalarFieldEnum | MenuSectionScalarFieldEnum[]
+  }
+
+  /**
+   * MenuSection findFirstOrThrow
+   */
+  export type MenuSectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionInclude<ExtArgs> | null
+    /**
+     * Filter, which MenuSection to fetch.
+     */
+    where?: MenuSectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MenuSections to fetch.
+     */
+    orderBy?: MenuSectionOrderByWithRelationInput | MenuSectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MenuSections.
+     */
+    cursor?: MenuSectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MenuSections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MenuSections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MenuSections.
+     */
+    distinct?: MenuSectionScalarFieldEnum | MenuSectionScalarFieldEnum[]
+  }
+
+  /**
+   * MenuSection findMany
+   */
+  export type MenuSectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionInclude<ExtArgs> | null
+    /**
+     * Filter, which MenuSections to fetch.
+     */
+    where?: MenuSectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MenuSections to fetch.
+     */
+    orderBy?: MenuSectionOrderByWithRelationInput | MenuSectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MenuSections.
+     */
+    cursor?: MenuSectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MenuSections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MenuSections.
+     */
+    skip?: number
+    distinct?: MenuSectionScalarFieldEnum | MenuSectionScalarFieldEnum[]
+  }
+
+  /**
+   * MenuSection create
+   */
+  export type MenuSectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MenuSection.
+     */
+    data: XOR<MenuSectionCreateInput, MenuSectionUncheckedCreateInput>
+  }
+
+  /**
+   * MenuSection createMany
+   */
+  export type MenuSectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MenuSections.
+     */
+    data: MenuSectionCreateManyInput | MenuSectionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MenuSection createManyAndReturn
+   */
+  export type MenuSectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * The data used to create many MenuSections.
+     */
+    data: MenuSectionCreateManyInput | MenuSectionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MenuSection update
+   */
+  export type MenuSectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MenuSection.
+     */
+    data: XOR<MenuSectionUpdateInput, MenuSectionUncheckedUpdateInput>
+    /**
+     * Choose, which MenuSection to update.
+     */
+    where: MenuSectionWhereUniqueInput
+  }
+
+  /**
+   * MenuSection updateMany
+   */
+  export type MenuSectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MenuSections.
+     */
+    data: XOR<MenuSectionUpdateManyMutationInput, MenuSectionUncheckedUpdateManyInput>
+    /**
+     * Filter which MenuSections to update
+     */
+    where?: MenuSectionWhereInput
+    /**
+     * Limit how many MenuSections to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MenuSection updateManyAndReturn
+   */
+  export type MenuSectionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * The data used to update MenuSections.
+     */
+    data: XOR<MenuSectionUpdateManyMutationInput, MenuSectionUncheckedUpdateManyInput>
+    /**
+     * Filter which MenuSections to update
+     */
+    where?: MenuSectionWhereInput
+    /**
+     * Limit how many MenuSections to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MenuSection upsert
+   */
+  export type MenuSectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MenuSection to update in case it exists.
+     */
+    where: MenuSectionWhereUniqueInput
+    /**
+     * In case the MenuSection found by the `where` argument doesn't exist, create a new MenuSection with this data.
+     */
+    create: XOR<MenuSectionCreateInput, MenuSectionUncheckedCreateInput>
+    /**
+     * In case the MenuSection was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MenuSectionUpdateInput, MenuSectionUncheckedUpdateInput>
+  }
+
+  /**
+   * MenuSection delete
+   */
+  export type MenuSectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionInclude<ExtArgs> | null
+    /**
+     * Filter which MenuSection to delete.
+     */
+    where: MenuSectionWhereUniqueInput
+  }
+
+  /**
+   * MenuSection deleteMany
+   */
+  export type MenuSectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MenuSections to delete
+     */
+    where?: MenuSectionWhereInput
+    /**
+     * Limit how many MenuSections to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MenuSection.items
+   */
+  export type MenuSection$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuItem
+     */
+    select?: MenuItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuItem
+     */
+    omit?: MenuItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuItemInclude<ExtArgs> | null
+    where?: MenuItemWhereInput
+    orderBy?: MenuItemOrderByWithRelationInput | MenuItemOrderByWithRelationInput[]
+    cursor?: MenuItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MenuItemScalarFieldEnum | MenuItemScalarFieldEnum[]
+  }
+
+  /**
+   * MenuSection without action
+   */
+  export type MenuSectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MenuSection
+     */
+    select?: MenuSectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MenuSection
+     */
+    omit?: MenuSectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MenuSectionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TableAccessibility
+   */
+
+  export type AggregateTableAccessibility = {
+    _count: TableAccessibilityCountAggregateOutputType | null
+    _min: TableAccessibilityMinAggregateOutputType | null
+    _max: TableAccessibilityMaxAggregateOutputType | null
+  }
+
+  export type TableAccessibilityMinAggregateOutputType = {
+    id: string | null
+    tableId: string | null
+    optionId: string | null
+    createdAt: Date | null
+  }
+
+  export type TableAccessibilityMaxAggregateOutputType = {
+    id: string | null
+    tableId: string | null
+    optionId: string | null
+    createdAt: Date | null
+  }
+
+  export type TableAccessibilityCountAggregateOutputType = {
+    id: number
+    tableId: number
+    optionId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TableAccessibilityMinAggregateInputType = {
+    id?: true
+    tableId?: true
+    optionId?: true
+    createdAt?: true
+  }
+
+  export type TableAccessibilityMaxAggregateInputType = {
+    id?: true
+    tableId?: true
+    optionId?: true
+    createdAt?: true
+  }
+
+  export type TableAccessibilityCountAggregateInputType = {
+    id?: true
+    tableId?: true
+    optionId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TableAccessibilityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TableAccessibility to aggregate.
+     */
+    where?: TableAccessibilityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TableAccessibilities to fetch.
+     */
+    orderBy?: TableAccessibilityOrderByWithRelationInput | TableAccessibilityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TableAccessibilityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TableAccessibilities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TableAccessibilities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TableAccessibilities
+    **/
+    _count?: true | TableAccessibilityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TableAccessibilityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TableAccessibilityMaxAggregateInputType
+  }
+
+  export type GetTableAccessibilityAggregateType<T extends TableAccessibilityAggregateArgs> = {
+        [P in keyof T & keyof AggregateTableAccessibility]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTableAccessibility[P]>
+      : GetScalarType<T[P], AggregateTableAccessibility[P]>
+  }
+
+
+
+
+  export type TableAccessibilityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TableAccessibilityWhereInput
+    orderBy?: TableAccessibilityOrderByWithAggregationInput | TableAccessibilityOrderByWithAggregationInput[]
+    by: TableAccessibilityScalarFieldEnum[] | TableAccessibilityScalarFieldEnum
+    having?: TableAccessibilityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TableAccessibilityCountAggregateInputType | true
+    _min?: TableAccessibilityMinAggregateInputType
+    _max?: TableAccessibilityMaxAggregateInputType
+  }
+
+  export type TableAccessibilityGroupByOutputType = {
+    id: string
+    tableId: string
+    optionId: string
+    createdAt: Date
+    _count: TableAccessibilityCountAggregateOutputType | null
+    _min: TableAccessibilityMinAggregateOutputType | null
+    _max: TableAccessibilityMaxAggregateOutputType | null
+  }
+
+  type GetTableAccessibilityGroupByPayload<T extends TableAccessibilityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TableAccessibilityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TableAccessibilityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TableAccessibilityGroupByOutputType[P]>
+            : GetScalarType<T[P], TableAccessibilityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TableAccessibilitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tableId?: boolean
+    optionId?: boolean
+    createdAt?: boolean
+    table?: boolean | TableDefaultArgs<ExtArgs>
+    option?: boolean | AccessibilityOptionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tableAccessibility"]>
+
+  export type TableAccessibilitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tableId?: boolean
+    optionId?: boolean
+    createdAt?: boolean
+    table?: boolean | TableDefaultArgs<ExtArgs>
+    option?: boolean | AccessibilityOptionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tableAccessibility"]>
+
+  export type TableAccessibilitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tableId?: boolean
+    optionId?: boolean
+    createdAt?: boolean
+    table?: boolean | TableDefaultArgs<ExtArgs>
+    option?: boolean | AccessibilityOptionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tableAccessibility"]>
+
+  export type TableAccessibilitySelectScalar = {
+    id?: boolean
+    tableId?: boolean
+    optionId?: boolean
+    createdAt?: boolean
+  }
+
+  export type TableAccessibilityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tableId" | "optionId" | "createdAt", ExtArgs["result"]["tableAccessibility"]>
+  export type TableAccessibilityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    table?: boolean | TableDefaultArgs<ExtArgs>
+    option?: boolean | AccessibilityOptionDefaultArgs<ExtArgs>
+  }
+  export type TableAccessibilityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    table?: boolean | TableDefaultArgs<ExtArgs>
+    option?: boolean | AccessibilityOptionDefaultArgs<ExtArgs>
+  }
+  export type TableAccessibilityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    table?: boolean | TableDefaultArgs<ExtArgs>
+    option?: boolean | AccessibilityOptionDefaultArgs<ExtArgs>
+  }
+
+  export type $TableAccessibilityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TableAccessibility"
+    objects: {
+      table: Prisma.$TablePayload<ExtArgs>
+      option: Prisma.$AccessibilityOptionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tableId: string
+      optionId: string
+      createdAt: Date
+    }, ExtArgs["result"]["tableAccessibility"]>
+    composites: {}
+  }
+
+  type TableAccessibilityGetPayload<S extends boolean | null | undefined | TableAccessibilityDefaultArgs> = $Result.GetResult<Prisma.$TableAccessibilityPayload, S>
+
+  type TableAccessibilityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TableAccessibilityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TableAccessibilityCountAggregateInputType | true
+    }
+
+  export interface TableAccessibilityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TableAccessibility'], meta: { name: 'TableAccessibility' } }
+    /**
+     * Find zero or one TableAccessibility that matches the filter.
+     * @param {TableAccessibilityFindUniqueArgs} args - Arguments to find a TableAccessibility
+     * @example
+     * // Get one TableAccessibility
+     * const tableAccessibility = await prisma.tableAccessibility.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TableAccessibilityFindUniqueArgs>(args: SelectSubset<T, TableAccessibilityFindUniqueArgs<ExtArgs>>): Prisma__TableAccessibilityClient<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TableAccessibility that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TableAccessibilityFindUniqueOrThrowArgs} args - Arguments to find a TableAccessibility
+     * @example
+     * // Get one TableAccessibility
+     * const tableAccessibility = await prisma.tableAccessibility.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TableAccessibilityFindUniqueOrThrowArgs>(args: SelectSubset<T, TableAccessibilityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TableAccessibilityClient<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TableAccessibility that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableAccessibilityFindFirstArgs} args - Arguments to find a TableAccessibility
+     * @example
+     * // Get one TableAccessibility
+     * const tableAccessibility = await prisma.tableAccessibility.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TableAccessibilityFindFirstArgs>(args?: SelectSubset<T, TableAccessibilityFindFirstArgs<ExtArgs>>): Prisma__TableAccessibilityClient<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TableAccessibility that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableAccessibilityFindFirstOrThrowArgs} args - Arguments to find a TableAccessibility
+     * @example
+     * // Get one TableAccessibility
+     * const tableAccessibility = await prisma.tableAccessibility.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TableAccessibilityFindFirstOrThrowArgs>(args?: SelectSubset<T, TableAccessibilityFindFirstOrThrowArgs<ExtArgs>>): Prisma__TableAccessibilityClient<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TableAccessibilities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableAccessibilityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TableAccessibilities
+     * const tableAccessibilities = await prisma.tableAccessibility.findMany()
+     * 
+     * // Get first 10 TableAccessibilities
+     * const tableAccessibilities = await prisma.tableAccessibility.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tableAccessibilityWithIdOnly = await prisma.tableAccessibility.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TableAccessibilityFindManyArgs>(args?: SelectSubset<T, TableAccessibilityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TableAccessibility.
+     * @param {TableAccessibilityCreateArgs} args - Arguments to create a TableAccessibility.
+     * @example
+     * // Create one TableAccessibility
+     * const TableAccessibility = await prisma.tableAccessibility.create({
+     *   data: {
+     *     // ... data to create a TableAccessibility
+     *   }
+     * })
+     * 
+     */
+    create<T extends TableAccessibilityCreateArgs>(args: SelectSubset<T, TableAccessibilityCreateArgs<ExtArgs>>): Prisma__TableAccessibilityClient<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TableAccessibilities.
+     * @param {TableAccessibilityCreateManyArgs} args - Arguments to create many TableAccessibilities.
+     * @example
+     * // Create many TableAccessibilities
+     * const tableAccessibility = await prisma.tableAccessibility.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TableAccessibilityCreateManyArgs>(args?: SelectSubset<T, TableAccessibilityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TableAccessibilities and returns the data saved in the database.
+     * @param {TableAccessibilityCreateManyAndReturnArgs} args - Arguments to create many TableAccessibilities.
+     * @example
+     * // Create many TableAccessibilities
+     * const tableAccessibility = await prisma.tableAccessibility.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TableAccessibilities and only return the `id`
+     * const tableAccessibilityWithIdOnly = await prisma.tableAccessibility.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TableAccessibilityCreateManyAndReturnArgs>(args?: SelectSubset<T, TableAccessibilityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TableAccessibility.
+     * @param {TableAccessibilityDeleteArgs} args - Arguments to delete one TableAccessibility.
+     * @example
+     * // Delete one TableAccessibility
+     * const TableAccessibility = await prisma.tableAccessibility.delete({
+     *   where: {
+     *     // ... filter to delete one TableAccessibility
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TableAccessibilityDeleteArgs>(args: SelectSubset<T, TableAccessibilityDeleteArgs<ExtArgs>>): Prisma__TableAccessibilityClient<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TableAccessibility.
+     * @param {TableAccessibilityUpdateArgs} args - Arguments to update one TableAccessibility.
+     * @example
+     * // Update one TableAccessibility
+     * const tableAccessibility = await prisma.tableAccessibility.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TableAccessibilityUpdateArgs>(args: SelectSubset<T, TableAccessibilityUpdateArgs<ExtArgs>>): Prisma__TableAccessibilityClient<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TableAccessibilities.
+     * @param {TableAccessibilityDeleteManyArgs} args - Arguments to filter TableAccessibilities to delete.
+     * @example
+     * // Delete a few TableAccessibilities
+     * const { count } = await prisma.tableAccessibility.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TableAccessibilityDeleteManyArgs>(args?: SelectSubset<T, TableAccessibilityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TableAccessibilities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableAccessibilityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TableAccessibilities
+     * const tableAccessibility = await prisma.tableAccessibility.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TableAccessibilityUpdateManyArgs>(args: SelectSubset<T, TableAccessibilityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TableAccessibilities and returns the data updated in the database.
+     * @param {TableAccessibilityUpdateManyAndReturnArgs} args - Arguments to update many TableAccessibilities.
+     * @example
+     * // Update many TableAccessibilities
+     * const tableAccessibility = await prisma.tableAccessibility.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TableAccessibilities and only return the `id`
+     * const tableAccessibilityWithIdOnly = await prisma.tableAccessibility.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TableAccessibilityUpdateManyAndReturnArgs>(args: SelectSubset<T, TableAccessibilityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TableAccessibility.
+     * @param {TableAccessibilityUpsertArgs} args - Arguments to update or create a TableAccessibility.
+     * @example
+     * // Update or create a TableAccessibility
+     * const tableAccessibility = await prisma.tableAccessibility.upsert({
+     *   create: {
+     *     // ... data to create a TableAccessibility
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TableAccessibility we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TableAccessibilityUpsertArgs>(args: SelectSubset<T, TableAccessibilityUpsertArgs<ExtArgs>>): Prisma__TableAccessibilityClient<$Result.GetResult<Prisma.$TableAccessibilityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TableAccessibilities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableAccessibilityCountArgs} args - Arguments to filter TableAccessibilities to count.
+     * @example
+     * // Count the number of TableAccessibilities
+     * const count = await prisma.tableAccessibility.count({
+     *   where: {
+     *     // ... the filter for the TableAccessibilities we want to count
+     *   }
+     * })
+    **/
+    count<T extends TableAccessibilityCountArgs>(
+      args?: Subset<T, TableAccessibilityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TableAccessibilityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TableAccessibility.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableAccessibilityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TableAccessibilityAggregateArgs>(args: Subset<T, TableAccessibilityAggregateArgs>): Prisma.PrismaPromise<GetTableAccessibilityAggregateType<T>>
+
+    /**
+     * Group by TableAccessibility.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableAccessibilityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TableAccessibilityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TableAccessibilityGroupByArgs['orderBy'] }
+        : { orderBy?: TableAccessibilityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TableAccessibilityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTableAccessibilityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TableAccessibility model
+   */
+  readonly fields: TableAccessibilityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TableAccessibility.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TableAccessibilityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    table<T extends TableDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TableDefaultArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    option<T extends AccessibilityOptionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccessibilityOptionDefaultArgs<ExtArgs>>): Prisma__AccessibilityOptionClient<$Result.GetResult<Prisma.$AccessibilityOptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TableAccessibility model
+   */
+  interface TableAccessibilityFieldRefs {
+    readonly id: FieldRef<"TableAccessibility", 'String'>
+    readonly tableId: FieldRef<"TableAccessibility", 'String'>
+    readonly optionId: FieldRef<"TableAccessibility", 'String'>
+    readonly createdAt: FieldRef<"TableAccessibility", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TableAccessibility findUnique
+   */
+  export type TableAccessibilityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityInclude<ExtArgs> | null
+    /**
+     * Filter, which TableAccessibility to fetch.
+     */
+    where: TableAccessibilityWhereUniqueInput
+  }
+
+  /**
+   * TableAccessibility findUniqueOrThrow
+   */
+  export type TableAccessibilityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityInclude<ExtArgs> | null
+    /**
+     * Filter, which TableAccessibility to fetch.
+     */
+    where: TableAccessibilityWhereUniqueInput
+  }
+
+  /**
+   * TableAccessibility findFirst
+   */
+  export type TableAccessibilityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityInclude<ExtArgs> | null
+    /**
+     * Filter, which TableAccessibility to fetch.
+     */
+    where?: TableAccessibilityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TableAccessibilities to fetch.
+     */
+    orderBy?: TableAccessibilityOrderByWithRelationInput | TableAccessibilityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TableAccessibilities.
+     */
+    cursor?: TableAccessibilityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TableAccessibilities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TableAccessibilities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TableAccessibilities.
+     */
+    distinct?: TableAccessibilityScalarFieldEnum | TableAccessibilityScalarFieldEnum[]
+  }
+
+  /**
+   * TableAccessibility findFirstOrThrow
+   */
+  export type TableAccessibilityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityInclude<ExtArgs> | null
+    /**
+     * Filter, which TableAccessibility to fetch.
+     */
+    where?: TableAccessibilityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TableAccessibilities to fetch.
+     */
+    orderBy?: TableAccessibilityOrderByWithRelationInput | TableAccessibilityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TableAccessibilities.
+     */
+    cursor?: TableAccessibilityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TableAccessibilities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TableAccessibilities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TableAccessibilities.
+     */
+    distinct?: TableAccessibilityScalarFieldEnum | TableAccessibilityScalarFieldEnum[]
+  }
+
+  /**
+   * TableAccessibility findMany
+   */
+  export type TableAccessibilityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityInclude<ExtArgs> | null
+    /**
+     * Filter, which TableAccessibilities to fetch.
+     */
+    where?: TableAccessibilityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TableAccessibilities to fetch.
+     */
+    orderBy?: TableAccessibilityOrderByWithRelationInput | TableAccessibilityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TableAccessibilities.
+     */
+    cursor?: TableAccessibilityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TableAccessibilities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TableAccessibilities.
+     */
+    skip?: number
+    distinct?: TableAccessibilityScalarFieldEnum | TableAccessibilityScalarFieldEnum[]
+  }
+
+  /**
+   * TableAccessibility create
+   */
+  export type TableAccessibilityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TableAccessibility.
+     */
+    data: XOR<TableAccessibilityCreateInput, TableAccessibilityUncheckedCreateInput>
+  }
+
+  /**
+   * TableAccessibility createMany
+   */
+  export type TableAccessibilityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TableAccessibilities.
+     */
+    data: TableAccessibilityCreateManyInput | TableAccessibilityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TableAccessibility createManyAndReturn
+   */
+  export type TableAccessibilityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * The data used to create many TableAccessibilities.
+     */
+    data: TableAccessibilityCreateManyInput | TableAccessibilityCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TableAccessibility update
+   */
+  export type TableAccessibilityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TableAccessibility.
+     */
+    data: XOR<TableAccessibilityUpdateInput, TableAccessibilityUncheckedUpdateInput>
+    /**
+     * Choose, which TableAccessibility to update.
+     */
+    where: TableAccessibilityWhereUniqueInput
+  }
+
+  /**
+   * TableAccessibility updateMany
+   */
+  export type TableAccessibilityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TableAccessibilities.
+     */
+    data: XOR<TableAccessibilityUpdateManyMutationInput, TableAccessibilityUncheckedUpdateManyInput>
+    /**
+     * Filter which TableAccessibilities to update
+     */
+    where?: TableAccessibilityWhereInput
+    /**
+     * Limit how many TableAccessibilities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TableAccessibility updateManyAndReturn
+   */
+  export type TableAccessibilityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * The data used to update TableAccessibilities.
+     */
+    data: XOR<TableAccessibilityUpdateManyMutationInput, TableAccessibilityUncheckedUpdateManyInput>
+    /**
+     * Filter which TableAccessibilities to update
+     */
+    where?: TableAccessibilityWhereInput
+    /**
+     * Limit how many TableAccessibilities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TableAccessibility upsert
+   */
+  export type TableAccessibilityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TableAccessibility to update in case it exists.
+     */
+    where: TableAccessibilityWhereUniqueInput
+    /**
+     * In case the TableAccessibility found by the `where` argument doesn't exist, create a new TableAccessibility with this data.
+     */
+    create: XOR<TableAccessibilityCreateInput, TableAccessibilityUncheckedCreateInput>
+    /**
+     * In case the TableAccessibility was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TableAccessibilityUpdateInput, TableAccessibilityUncheckedUpdateInput>
+  }
+
+  /**
+   * TableAccessibility delete
+   */
+  export type TableAccessibilityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityInclude<ExtArgs> | null
+    /**
+     * Filter which TableAccessibility to delete.
+     */
+    where: TableAccessibilityWhereUniqueInput
+  }
+
+  /**
+   * TableAccessibility deleteMany
+   */
+  export type TableAccessibilityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TableAccessibilities to delete
+     */
+    where?: TableAccessibilityWhereInput
+    /**
+     * Limit how many TableAccessibilities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TableAccessibility without action
+   */
+  export type TableAccessibilityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableAccessibility
+     */
+    select?: TableAccessibilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableAccessibility
+     */
+    omit?: TableAccessibilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableAccessibilityInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserInteraction
+   */
+
+  export type AggregateUserInteraction = {
+    _count: UserInteractionCountAggregateOutputType | null
+    _avg: UserInteractionAvgAggregateOutputType | null
+    _sum: UserInteractionSumAggregateOutputType | null
+    _min: UserInteractionMinAggregateOutputType | null
+    _max: UserInteractionMaxAggregateOutputType | null
+  }
+
+  export type UserInteractionAvgAggregateOutputType = {
+    weight: number | null
+  }
+
+  export type UserInteractionSumAggregateOutputType = {
+    weight: number | null
+  }
+
+  export type UserInteractionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    restaurantId: string | null
+    tagId: string | null
+    optionId: string | null
+    searchQuery: string | null
+    eventType: $Enums.InteractionType | null
+    source: $Enums.InteractionSource | null
+    weight: number | null
+    createdAt: Date | null
+  }
+
+  export type UserInteractionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    restaurantId: string | null
+    tagId: string | null
+    optionId: string | null
+    searchQuery: string | null
+    eventType: $Enums.InteractionType | null
+    source: $Enums.InteractionSource | null
+    weight: number | null
+    createdAt: Date | null
+  }
+
+  export type UserInteractionCountAggregateOutputType = {
+    id: number
+    userId: number
+    restaurantId: number
+    tagId: number
+    optionId: number
+    searchQuery: number
+    eventType: number
+    source: number
+    weight: number
+    metadata: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type UserInteractionAvgAggregateInputType = {
+    weight?: true
+  }
+
+  export type UserInteractionSumAggregateInputType = {
+    weight?: true
+  }
+
+  export type UserInteractionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    restaurantId?: true
+    tagId?: true
+    optionId?: true
+    searchQuery?: true
+    eventType?: true
+    source?: true
+    weight?: true
+    createdAt?: true
+  }
+
+  export type UserInteractionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    restaurantId?: true
+    tagId?: true
+    optionId?: true
+    searchQuery?: true
+    eventType?: true
+    source?: true
+    weight?: true
+    createdAt?: true
+  }
+
+  export type UserInteractionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    restaurantId?: true
+    tagId?: true
+    optionId?: true
+    searchQuery?: true
+    eventType?: true
+    source?: true
+    weight?: true
+    metadata?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type UserInteractionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserInteraction to aggregate.
+     */
+    where?: UserInteractionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInteractions to fetch.
+     */
+    orderBy?: UserInteractionOrderByWithRelationInput | UserInteractionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserInteractionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInteractions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInteractions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserInteractions
+    **/
+    _count?: true | UserInteractionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserInteractionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserInteractionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserInteractionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserInteractionMaxAggregateInputType
+  }
+
+  export type GetUserInteractionAggregateType<T extends UserInteractionAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserInteraction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserInteraction[P]>
+      : GetScalarType<T[P], AggregateUserInteraction[P]>
+  }
+
+
+
+
+  export type UserInteractionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserInteractionWhereInput
+    orderBy?: UserInteractionOrderByWithAggregationInput | UserInteractionOrderByWithAggregationInput[]
+    by: UserInteractionScalarFieldEnum[] | UserInteractionScalarFieldEnum
+    having?: UserInteractionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserInteractionCountAggregateInputType | true
+    _avg?: UserInteractionAvgAggregateInputType
+    _sum?: UserInteractionSumAggregateInputType
+    _min?: UserInteractionMinAggregateInputType
+    _max?: UserInteractionMaxAggregateInputType
+  }
+
+  export type UserInteractionGroupByOutputType = {
+    id: string
+    userId: string
+    restaurantId: string | null
+    tagId: string | null
+    optionId: string | null
+    searchQuery: string | null
+    eventType: $Enums.InteractionType
+    source: $Enums.InteractionSource | null
+    weight: number
+    metadata: JsonValue | null
+    createdAt: Date
+    _count: UserInteractionCountAggregateOutputType | null
+    _avg: UserInteractionAvgAggregateOutputType | null
+    _sum: UserInteractionSumAggregateOutputType | null
+    _min: UserInteractionMinAggregateOutputType | null
+    _max: UserInteractionMaxAggregateOutputType | null
+  }
+
+  type GetUserInteractionGroupByPayload<T extends UserInteractionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserInteractionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserInteractionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserInteractionGroupByOutputType[P]>
+            : GetScalarType<T[P], UserInteractionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserInteractionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    restaurantId?: boolean
+    tagId?: boolean
+    optionId?: boolean
+    searchQuery?: boolean
+    eventType?: boolean
+    source?: boolean
+    weight?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    restaurant?: boolean | UserInteraction$restaurantArgs<ExtArgs>
+    tag?: boolean | UserInteraction$tagArgs<ExtArgs>
+    option?: boolean | UserInteraction$optionArgs<ExtArgs>
+  }, ExtArgs["result"]["userInteraction"]>
+
+  export type UserInteractionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    restaurantId?: boolean
+    tagId?: boolean
+    optionId?: boolean
+    searchQuery?: boolean
+    eventType?: boolean
+    source?: boolean
+    weight?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    restaurant?: boolean | UserInteraction$restaurantArgs<ExtArgs>
+    tag?: boolean | UserInteraction$tagArgs<ExtArgs>
+    option?: boolean | UserInteraction$optionArgs<ExtArgs>
+  }, ExtArgs["result"]["userInteraction"]>
+
+  export type UserInteractionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    restaurantId?: boolean
+    tagId?: boolean
+    optionId?: boolean
+    searchQuery?: boolean
+    eventType?: boolean
+    source?: boolean
+    weight?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    restaurant?: boolean | UserInteraction$restaurantArgs<ExtArgs>
+    tag?: boolean | UserInteraction$tagArgs<ExtArgs>
+    option?: boolean | UserInteraction$optionArgs<ExtArgs>
+  }, ExtArgs["result"]["userInteraction"]>
+
+  export type UserInteractionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    restaurantId?: boolean
+    tagId?: boolean
+    optionId?: boolean
+    searchQuery?: boolean
+    eventType?: boolean
+    source?: boolean
+    weight?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }
+
+  export type UserInteractionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "restaurantId" | "tagId" | "optionId" | "searchQuery" | "eventType" | "source" | "weight" | "metadata" | "createdAt", ExtArgs["result"]["userInteraction"]>
+  export type UserInteractionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    restaurant?: boolean | UserInteraction$restaurantArgs<ExtArgs>
+    tag?: boolean | UserInteraction$tagArgs<ExtArgs>
+    option?: boolean | UserInteraction$optionArgs<ExtArgs>
+  }
+  export type UserInteractionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    restaurant?: boolean | UserInteraction$restaurantArgs<ExtArgs>
+    tag?: boolean | UserInteraction$tagArgs<ExtArgs>
+    option?: boolean | UserInteraction$optionArgs<ExtArgs>
+  }
+  export type UserInteractionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    restaurant?: boolean | UserInteraction$restaurantArgs<ExtArgs>
+    tag?: boolean | UserInteraction$tagArgs<ExtArgs>
+    option?: boolean | UserInteraction$optionArgs<ExtArgs>
+  }
+
+  export type $UserInteractionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserInteraction"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      restaurant: Prisma.$RestaurantPayload<ExtArgs> | null
+      tag: Prisma.$TagPayload<ExtArgs> | null
+      option: Prisma.$AccessibilityOptionPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      restaurantId: string | null
+      tagId: string | null
+      optionId: string | null
+      searchQuery: string | null
+      eventType: $Enums.InteractionType
+      source: $Enums.InteractionSource | null
+      weight: number
+      metadata: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["userInteraction"]>
+    composites: {}
+  }
+
+  type UserInteractionGetPayload<S extends boolean | null | undefined | UserInteractionDefaultArgs> = $Result.GetResult<Prisma.$UserInteractionPayload, S>
+
+  type UserInteractionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserInteractionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserInteractionCountAggregateInputType | true
+    }
+
+  export interface UserInteractionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserInteraction'], meta: { name: 'UserInteraction' } }
+    /**
+     * Find zero or one UserInteraction that matches the filter.
+     * @param {UserInteractionFindUniqueArgs} args - Arguments to find a UserInteraction
+     * @example
+     * // Get one UserInteraction
+     * const userInteraction = await prisma.userInteraction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserInteractionFindUniqueArgs>(args: SelectSubset<T, UserInteractionFindUniqueArgs<ExtArgs>>): Prisma__UserInteractionClient<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserInteraction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserInteractionFindUniqueOrThrowArgs} args - Arguments to find a UserInteraction
+     * @example
+     * // Get one UserInteraction
+     * const userInteraction = await prisma.userInteraction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserInteractionFindUniqueOrThrowArgs>(args: SelectSubset<T, UserInteractionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserInteractionClient<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserInteraction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInteractionFindFirstArgs} args - Arguments to find a UserInteraction
+     * @example
+     * // Get one UserInteraction
+     * const userInteraction = await prisma.userInteraction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserInteractionFindFirstArgs>(args?: SelectSubset<T, UserInteractionFindFirstArgs<ExtArgs>>): Prisma__UserInteractionClient<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserInteraction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInteractionFindFirstOrThrowArgs} args - Arguments to find a UserInteraction
+     * @example
+     * // Get one UserInteraction
+     * const userInteraction = await prisma.userInteraction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserInteractionFindFirstOrThrowArgs>(args?: SelectSubset<T, UserInteractionFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserInteractionClient<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserInteractions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInteractionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserInteractions
+     * const userInteractions = await prisma.userInteraction.findMany()
+     * 
+     * // Get first 10 UserInteractions
+     * const userInteractions = await prisma.userInteraction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userInteractionWithIdOnly = await prisma.userInteraction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserInteractionFindManyArgs>(args?: SelectSubset<T, UserInteractionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserInteraction.
+     * @param {UserInteractionCreateArgs} args - Arguments to create a UserInteraction.
+     * @example
+     * // Create one UserInteraction
+     * const UserInteraction = await prisma.userInteraction.create({
+     *   data: {
+     *     // ... data to create a UserInteraction
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserInteractionCreateArgs>(args: SelectSubset<T, UserInteractionCreateArgs<ExtArgs>>): Prisma__UserInteractionClient<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserInteractions.
+     * @param {UserInteractionCreateManyArgs} args - Arguments to create many UserInteractions.
+     * @example
+     * // Create many UserInteractions
+     * const userInteraction = await prisma.userInteraction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserInteractionCreateManyArgs>(args?: SelectSubset<T, UserInteractionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserInteractions and returns the data saved in the database.
+     * @param {UserInteractionCreateManyAndReturnArgs} args - Arguments to create many UserInteractions.
+     * @example
+     * // Create many UserInteractions
+     * const userInteraction = await prisma.userInteraction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserInteractions and only return the `id`
+     * const userInteractionWithIdOnly = await prisma.userInteraction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserInteractionCreateManyAndReturnArgs>(args?: SelectSubset<T, UserInteractionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserInteraction.
+     * @param {UserInteractionDeleteArgs} args - Arguments to delete one UserInteraction.
+     * @example
+     * // Delete one UserInteraction
+     * const UserInteraction = await prisma.userInteraction.delete({
+     *   where: {
+     *     // ... filter to delete one UserInteraction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserInteractionDeleteArgs>(args: SelectSubset<T, UserInteractionDeleteArgs<ExtArgs>>): Prisma__UserInteractionClient<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserInteraction.
+     * @param {UserInteractionUpdateArgs} args - Arguments to update one UserInteraction.
+     * @example
+     * // Update one UserInteraction
+     * const userInteraction = await prisma.userInteraction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserInteractionUpdateArgs>(args: SelectSubset<T, UserInteractionUpdateArgs<ExtArgs>>): Prisma__UserInteractionClient<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserInteractions.
+     * @param {UserInteractionDeleteManyArgs} args - Arguments to filter UserInteractions to delete.
+     * @example
+     * // Delete a few UserInteractions
+     * const { count } = await prisma.userInteraction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserInteractionDeleteManyArgs>(args?: SelectSubset<T, UserInteractionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserInteractions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInteractionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserInteractions
+     * const userInteraction = await prisma.userInteraction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserInteractionUpdateManyArgs>(args: SelectSubset<T, UserInteractionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserInteractions and returns the data updated in the database.
+     * @param {UserInteractionUpdateManyAndReturnArgs} args - Arguments to update many UserInteractions.
+     * @example
+     * // Update many UserInteractions
+     * const userInteraction = await prisma.userInteraction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserInteractions and only return the `id`
+     * const userInteractionWithIdOnly = await prisma.userInteraction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserInteractionUpdateManyAndReturnArgs>(args: SelectSubset<T, UserInteractionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserInteraction.
+     * @param {UserInteractionUpsertArgs} args - Arguments to update or create a UserInteraction.
+     * @example
+     * // Update or create a UserInteraction
+     * const userInteraction = await prisma.userInteraction.upsert({
+     *   create: {
+     *     // ... data to create a UserInteraction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserInteraction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserInteractionUpsertArgs>(args: SelectSubset<T, UserInteractionUpsertArgs<ExtArgs>>): Prisma__UserInteractionClient<$Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserInteractions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInteractionCountArgs} args - Arguments to filter UserInteractions to count.
+     * @example
+     * // Count the number of UserInteractions
+     * const count = await prisma.userInteraction.count({
+     *   where: {
+     *     // ... the filter for the UserInteractions we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserInteractionCountArgs>(
+      args?: Subset<T, UserInteractionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserInteractionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserInteraction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInteractionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserInteractionAggregateArgs>(args: Subset<T, UserInteractionAggregateArgs>): Prisma.PrismaPromise<GetUserInteractionAggregateType<T>>
+
+    /**
+     * Group by UserInteraction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInteractionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserInteractionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserInteractionGroupByArgs['orderBy'] }
+        : { orderBy?: UserInteractionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserInteractionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserInteractionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserInteraction model
+   */
+  readonly fields: UserInteractionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserInteraction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserInteractionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    restaurant<T extends UserInteraction$restaurantArgs<ExtArgs> = {}>(args?: Subset<T, UserInteraction$restaurantArgs<ExtArgs>>): Prisma__RestaurantClient<$Result.GetResult<Prisma.$RestaurantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tag<T extends UserInteraction$tagArgs<ExtArgs> = {}>(args?: Subset<T, UserInteraction$tagArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    option<T extends UserInteraction$optionArgs<ExtArgs> = {}>(args?: Subset<T, UserInteraction$optionArgs<ExtArgs>>): Prisma__AccessibilityOptionClient<$Result.GetResult<Prisma.$AccessibilityOptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserInteraction model
+   */
+  interface UserInteractionFieldRefs {
+    readonly id: FieldRef<"UserInteraction", 'String'>
+    readonly userId: FieldRef<"UserInteraction", 'String'>
+    readonly restaurantId: FieldRef<"UserInteraction", 'String'>
+    readonly tagId: FieldRef<"UserInteraction", 'String'>
+    readonly optionId: FieldRef<"UserInteraction", 'String'>
+    readonly searchQuery: FieldRef<"UserInteraction", 'String'>
+    readonly eventType: FieldRef<"UserInteraction", 'InteractionType'>
+    readonly source: FieldRef<"UserInteraction", 'InteractionSource'>
+    readonly weight: FieldRef<"UserInteraction", 'Float'>
+    readonly metadata: FieldRef<"UserInteraction", 'Json'>
+    readonly createdAt: FieldRef<"UserInteraction", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserInteraction findUnique
+   */
+  export type UserInteractionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInteraction to fetch.
+     */
+    where: UserInteractionWhereUniqueInput
+  }
+
+  /**
+   * UserInteraction findUniqueOrThrow
+   */
+  export type UserInteractionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInteraction to fetch.
+     */
+    where: UserInteractionWhereUniqueInput
+  }
+
+  /**
+   * UserInteraction findFirst
+   */
+  export type UserInteractionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInteraction to fetch.
+     */
+    where?: UserInteractionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInteractions to fetch.
+     */
+    orderBy?: UserInteractionOrderByWithRelationInput | UserInteractionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserInteractions.
+     */
+    cursor?: UserInteractionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInteractions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInteractions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserInteractions.
+     */
+    distinct?: UserInteractionScalarFieldEnum | UserInteractionScalarFieldEnum[]
+  }
+
+  /**
+   * UserInteraction findFirstOrThrow
+   */
+  export type UserInteractionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInteraction to fetch.
+     */
+    where?: UserInteractionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInteractions to fetch.
+     */
+    orderBy?: UserInteractionOrderByWithRelationInput | UserInteractionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserInteractions.
+     */
+    cursor?: UserInteractionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInteractions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInteractions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserInteractions.
+     */
+    distinct?: UserInteractionScalarFieldEnum | UserInteractionScalarFieldEnum[]
+  }
+
+  /**
+   * UserInteraction findMany
+   */
+  export type UserInteractionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInteractions to fetch.
+     */
+    where?: UserInteractionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInteractions to fetch.
+     */
+    orderBy?: UserInteractionOrderByWithRelationInput | UserInteractionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserInteractions.
+     */
+    cursor?: UserInteractionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInteractions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInteractions.
+     */
+    skip?: number
+    distinct?: UserInteractionScalarFieldEnum | UserInteractionScalarFieldEnum[]
+  }
+
+  /**
+   * UserInteraction create
+   */
+  export type UserInteractionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserInteraction.
+     */
+    data: XOR<UserInteractionCreateInput, UserInteractionUncheckedCreateInput>
+  }
+
+  /**
+   * UserInteraction createMany
+   */
+  export type UserInteractionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserInteractions.
+     */
+    data: UserInteractionCreateManyInput | UserInteractionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserInteraction createManyAndReturn
+   */
+  export type UserInteractionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserInteractions.
+     */
+    data: UserInteractionCreateManyInput | UserInteractionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserInteraction update
+   */
+  export type UserInteractionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserInteraction.
+     */
+    data: XOR<UserInteractionUpdateInput, UserInteractionUncheckedUpdateInput>
+    /**
+     * Choose, which UserInteraction to update.
+     */
+    where: UserInteractionWhereUniqueInput
+  }
+
+  /**
+   * UserInteraction updateMany
+   */
+  export type UserInteractionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserInteractions.
+     */
+    data: XOR<UserInteractionUpdateManyMutationInput, UserInteractionUncheckedUpdateManyInput>
+    /**
+     * Filter which UserInteractions to update
+     */
+    where?: UserInteractionWhereInput
+    /**
+     * Limit how many UserInteractions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserInteraction updateManyAndReturn
+   */
+  export type UserInteractionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * The data used to update UserInteractions.
+     */
+    data: XOR<UserInteractionUpdateManyMutationInput, UserInteractionUncheckedUpdateManyInput>
+    /**
+     * Filter which UserInteractions to update
+     */
+    where?: UserInteractionWhereInput
+    /**
+     * Limit how many UserInteractions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserInteraction upsert
+   */
+  export type UserInteractionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserInteraction to update in case it exists.
+     */
+    where: UserInteractionWhereUniqueInput
+    /**
+     * In case the UserInteraction found by the `where` argument doesn't exist, create a new UserInteraction with this data.
+     */
+    create: XOR<UserInteractionCreateInput, UserInteractionUncheckedCreateInput>
+    /**
+     * In case the UserInteraction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserInteractionUpdateInput, UserInteractionUncheckedUpdateInput>
+  }
+
+  /**
+   * UserInteraction delete
+   */
+  export type UserInteractionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+    /**
+     * Filter which UserInteraction to delete.
+     */
+    where: UserInteractionWhereUniqueInput
+  }
+
+  /**
+   * UserInteraction deleteMany
+   */
+  export type UserInteractionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserInteractions to delete
+     */
+    where?: UserInteractionWhereInput
+    /**
+     * Limit how many UserInteractions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserInteraction.restaurant
+   */
+  export type UserInteraction$restaurantArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Restaurant
+     */
+    select?: RestaurantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Restaurant
+     */
+    omit?: RestaurantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RestaurantInclude<ExtArgs> | null
+    where?: RestaurantWhereInput
+  }
+
+  /**
+   * UserInteraction.tag
+   */
+  export type UserInteraction$tagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    where?: TagWhereInput
+  }
+
+  /**
+   * UserInteraction.option
+   */
+  export type UserInteraction$optionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessibilityOption
+     */
+    select?: AccessibilityOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessibilityOption
+     */
+    omit?: AccessibilityOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessibilityOptionInclude<ExtArgs> | null
+    where?: AccessibilityOptionWhereInput
+  }
+
+  /**
+   * UserInteraction without action
+   */
+  export type UserInteractionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInteraction
+     */
+    select?: UserInteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInteraction
+     */
+    omit?: UserInteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInteractionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -30765,24 +34746,9 @@ export namespace Prisma {
   export type RestaurantImageScalarFieldEnum = (typeof RestaurantImageScalarFieldEnum)[keyof typeof RestaurantImageScalarFieldEnum]
 
 
-  export const MenuSectionScalarFieldEnum: {
-    id: 'id',
-    restaurantId: 'restaurantId',
-    name: 'name',
-    description: 'description',
-    sortOrder: 'sortOrder',
-    isActive: 'isActive',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type MenuSectionScalarFieldEnum = (typeof MenuSectionScalarFieldEnum)[keyof typeof MenuSectionScalarFieldEnum]
-
-
   export const MenuItemScalarFieldEnum: {
     id: 'id',
     restaurantId: 'restaurantId',
-    sectionId: 'sectionId',
     name: 'name',
     description: 'description',
     price: 'price',
@@ -30790,7 +34756,8 @@ export namespace Prisma {
     isAvailable: 'isAvailable',
     sortOrder: 'sortOrder',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    sectionId: 'sectionId'
   };
 
   export type MenuItemScalarFieldEnum = (typeof MenuItemScalarFieldEnum)[keyof typeof MenuItemScalarFieldEnum]
@@ -31018,12 +34985,71 @@ export namespace Prisma {
   export type TableTagScalarFieldEnum = (typeof TableTagScalarFieldEnum)[keyof typeof TableTagScalarFieldEnum]
 
 
+  export const MenuItemTagScalarFieldEnum: {
+    id: 'id',
+    menuItemId: 'menuItemId',
+    tagId: 'tagId',
+    createdAt: 'createdAt'
+  };
+
+  export type MenuItemTagScalarFieldEnum = (typeof MenuItemTagScalarFieldEnum)[keyof typeof MenuItemTagScalarFieldEnum]
+
+
+  export const MenuSectionScalarFieldEnum: {
+    id: 'id',
+    restaurantId: 'restaurantId',
+    name: 'name',
+    description: 'description',
+    sortOrder: 'sortOrder',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MenuSectionScalarFieldEnum = (typeof MenuSectionScalarFieldEnum)[keyof typeof MenuSectionScalarFieldEnum]
+
+
+  export const TableAccessibilityScalarFieldEnum: {
+    id: 'id',
+    tableId: 'tableId',
+    optionId: 'optionId',
+    createdAt: 'createdAt'
+  };
+
+  export type TableAccessibilityScalarFieldEnum = (typeof TableAccessibilityScalarFieldEnum)[keyof typeof TableAccessibilityScalarFieldEnum]
+
+
+  export const UserInteractionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    restaurantId: 'restaurantId',
+    tagId: 'tagId',
+    optionId: 'optionId',
+    searchQuery: 'searchQuery',
+    eventType: 'eventType',
+    source: 'source',
+    weight: 'weight',
+    metadata: 'metadata',
+    createdAt: 'createdAt'
+  };
+
+  export type UserInteractionScalarFieldEnum = (typeof UserInteractionScalarFieldEnum)[keyof typeof UserInteractionScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -31040,6 +35066,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -31192,6 +35227,48 @@ export namespace Prisma {
    */
   export type ListEnumAuditEntityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuditEntity[]'>
     
+
+
+  /**
+   * Reference to a field of type 'InteractionType'
+   */
+  export type EnumInteractionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InteractionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'InteractionType[]'
+   */
+  export type ListEnumInteractionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InteractionType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'InteractionSource'
+   */
+  export type EnumInteractionSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InteractionSource'>
+    
+
+
+  /**
+   * Reference to a field of type 'InteractionSource[]'
+   */
+  export type ListEnumInteractionSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InteractionSource[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
   /**
    * Deep Input Types
    */
@@ -31213,6 +35290,7 @@ export namespace Prisma {
     restaurants?: RestaurantListRelationFilter
     reviews?: ReviewListRelationFilter
     ReservationChangeRequest?: ReservationChangeRequestListRelationFilter
+    interactions?: UserInteractionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -31228,6 +35306,7 @@ export namespace Prisma {
     restaurants?: RestaurantOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
     ReservationChangeRequest?: ReservationChangeRequestOrderByRelationAggregateInput
+    interactions?: UserInteractionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -31246,6 +35325,7 @@ export namespace Prisma {
     restaurants?: RestaurantListRelationFilter
     reviews?: ReviewListRelationFilter
     ReservationChangeRequest?: ReservationChangeRequestListRelationFilter
+    interactions?: UserInteractionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -31286,8 +35366,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFilter<"Restaurant"> | boolean
     verified?: BoolFilter<"Restaurant"> | boolean
     bookingRule?: XOR<BookingRuleNullableScalarRelationFilter, BookingRuleWhereInput> | null
-    menuSections?: MenuSectionListRelationFilter
-    menuItems?: MenuItemListRelationFilter
     favorites?: FavoriteListRelationFilter
     openingHours?: OpeningHourListRelationFilter
     reservations?: ReservationListRelationFilter
@@ -31298,6 +35376,9 @@ export namespace Prisma {
     tables?: TableListRelationFilter
     zones?: ZoneListRelationFilter
     images?: RestaurantImageListRelationFilter
+    interactions?: UserInteractionListRelationFilter
+    menuItems?: MenuItemListRelationFilter
+    menuSections?: MenuSectionListRelationFilter
   }
 
   export type RestaurantOrderByWithRelationInput = {
@@ -31313,8 +35394,6 @@ export namespace Prisma {
     automaticSpendCalculation?: SortOrder
     verified?: SortOrder
     bookingRule?: BookingRuleOrderByWithRelationInput
-    menuSections?: MenuSectionOrderByRelationAggregateInput
-    menuItems?: MenuItemOrderByRelationAggregateInput
     favorites?: FavoriteOrderByRelationAggregateInput
     openingHours?: OpeningHourOrderByRelationAggregateInput
     reservations?: ReservationOrderByRelationAggregateInput
@@ -31325,6 +35404,9 @@ export namespace Prisma {
     tables?: TableOrderByRelationAggregateInput
     zones?: ZoneOrderByRelationAggregateInput
     images?: RestaurantImageOrderByRelationAggregateInput
+    interactions?: UserInteractionOrderByRelationAggregateInput
+    menuItems?: MenuItemOrderByRelationAggregateInput
+    menuSections?: MenuSectionOrderByRelationAggregateInput
   }
 
   export type RestaurantWhereUniqueInput = Prisma.AtLeast<{
@@ -31343,8 +35425,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFilter<"Restaurant"> | boolean
     verified?: BoolFilter<"Restaurant"> | boolean
     bookingRule?: XOR<BookingRuleNullableScalarRelationFilter, BookingRuleWhereInput> | null
-    menuSections?: MenuSectionListRelationFilter
-    menuItems?: MenuItemListRelationFilter
     favorites?: FavoriteListRelationFilter
     openingHours?: OpeningHourListRelationFilter
     reservations?: ReservationListRelationFilter
@@ -31355,6 +35435,9 @@ export namespace Prisma {
     tables?: TableListRelationFilter
     zones?: ZoneListRelationFilter
     images?: RestaurantImageListRelationFilter
+    interactions?: UserInteractionListRelationFilter
+    menuItems?: MenuItemListRelationFilter
+    menuSections?: MenuSectionListRelationFilter
   }, "id">
 
   export type RestaurantOrderByWithAggregationInput = {
@@ -31460,89 +35543,12 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"RestaurantImage"> | Date | string
   }
 
-  export type MenuSectionWhereInput = {
-    AND?: MenuSectionWhereInput | MenuSectionWhereInput[]
-    OR?: MenuSectionWhereInput[]
-    NOT?: MenuSectionWhereInput | MenuSectionWhereInput[]
-    id?: StringFilter<"MenuSection"> | string
-    restaurantId?: StringFilter<"MenuSection"> | string
-    name?: StringFilter<"MenuSection"> | string
-    description?: StringNullableFilter<"MenuSection"> | string | null
-    sortOrder?: IntFilter<"MenuSection"> | number
-    isActive?: BoolFilter<"MenuSection"> | boolean
-    createdAt?: DateTimeFilter<"MenuSection"> | Date | string
-    updatedAt?: DateTimeFilter<"MenuSection"> | Date | string
-    restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
-    items?: MenuItemListRelationFilter
-  }
-
-  export type MenuSectionOrderByWithRelationInput = {
-    id?: SortOrder
-    restaurantId?: SortOrder
-    name?: SortOrder
-    description?: SortOrderInput | SortOrder
-    sortOrder?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    restaurant?: RestaurantOrderByWithRelationInput
-    items?: MenuItemOrderByRelationAggregateInput
-  }
-
-  export type MenuSectionWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    restaurantId_name?: MenuSectionRestaurantIdNameCompoundUniqueInput
-    AND?: MenuSectionWhereInput | MenuSectionWhereInput[]
-    OR?: MenuSectionWhereInput[]
-    NOT?: MenuSectionWhereInput | MenuSectionWhereInput[]
-    restaurantId?: StringFilter<"MenuSection"> | string
-    name?: StringFilter<"MenuSection"> | string
-    description?: StringNullableFilter<"MenuSection"> | string | null
-    sortOrder?: IntFilter<"MenuSection"> | number
-    isActive?: BoolFilter<"MenuSection"> | boolean
-    createdAt?: DateTimeFilter<"MenuSection"> | Date | string
-    updatedAt?: DateTimeFilter<"MenuSection"> | Date | string
-    restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
-    items?: MenuItemListRelationFilter
-  }, "id" | "restaurantId_name">
-
-  export type MenuSectionOrderByWithAggregationInput = {
-    id?: SortOrder
-    restaurantId?: SortOrder
-    name?: SortOrder
-    description?: SortOrderInput | SortOrder
-    sortOrder?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: MenuSectionCountOrderByAggregateInput
-    _avg?: MenuSectionAvgOrderByAggregateInput
-    _max?: MenuSectionMaxOrderByAggregateInput
-    _min?: MenuSectionMinOrderByAggregateInput
-    _sum?: MenuSectionSumOrderByAggregateInput
-  }
-
-  export type MenuSectionScalarWhereWithAggregatesInput = {
-    AND?: MenuSectionScalarWhereWithAggregatesInput | MenuSectionScalarWhereWithAggregatesInput[]
-    OR?: MenuSectionScalarWhereWithAggregatesInput[]
-    NOT?: MenuSectionScalarWhereWithAggregatesInput | MenuSectionScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"MenuSection"> | string
-    restaurantId?: StringWithAggregatesFilter<"MenuSection"> | string
-    name?: StringWithAggregatesFilter<"MenuSection"> | string
-    description?: StringNullableWithAggregatesFilter<"MenuSection"> | string | null
-    sortOrder?: IntWithAggregatesFilter<"MenuSection"> | number
-    isActive?: BoolWithAggregatesFilter<"MenuSection"> | boolean
-    createdAt?: DateTimeWithAggregatesFilter<"MenuSection"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"MenuSection"> | Date | string
-  }
-
   export type MenuItemWhereInput = {
     AND?: MenuItemWhereInput | MenuItemWhereInput[]
     OR?: MenuItemWhereInput[]
     NOT?: MenuItemWhereInput | MenuItemWhereInput[]
     id?: StringFilter<"MenuItem"> | string
     restaurantId?: StringFilter<"MenuItem"> | string
-    sectionId?: StringFilter<"MenuItem"> | string
     name?: StringFilter<"MenuItem"> | string
     description?: StringNullableFilter<"MenuItem"> | string | null
     price?: DecimalFilter<"MenuItem"> | Decimal | DecimalJsLike | number | string
@@ -31551,14 +35557,15 @@ export namespace Prisma {
     sortOrder?: IntFilter<"MenuItem"> | number
     createdAt?: DateTimeFilter<"MenuItem"> | Date | string
     updatedAt?: DateTimeFilter<"MenuItem"> | Date | string
-    restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
+    sectionId?: StringFilter<"MenuItem"> | string
     section?: XOR<MenuSectionScalarRelationFilter, MenuSectionWhereInput>
+    restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
+    menuItemTags?: MenuItemTagListRelationFilter
   }
 
   export type MenuItemOrderByWithRelationInput = {
     id?: SortOrder
     restaurantId?: SortOrder
-    sectionId?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     price?: SortOrder
@@ -31567,8 +35574,10 @@ export namespace Prisma {
     sortOrder?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    restaurant?: RestaurantOrderByWithRelationInput
+    sectionId?: SortOrder
     section?: MenuSectionOrderByWithRelationInput
+    restaurant?: RestaurantOrderByWithRelationInput
+    menuItemTags?: MenuItemTagOrderByRelationAggregateInput
   }
 
   export type MenuItemWhereUniqueInput = Prisma.AtLeast<{
@@ -31577,7 +35586,6 @@ export namespace Prisma {
     OR?: MenuItemWhereInput[]
     NOT?: MenuItemWhereInput | MenuItemWhereInput[]
     restaurantId?: StringFilter<"MenuItem"> | string
-    sectionId?: StringFilter<"MenuItem"> | string
     name?: StringFilter<"MenuItem"> | string
     description?: StringNullableFilter<"MenuItem"> | string | null
     price?: DecimalFilter<"MenuItem"> | Decimal | DecimalJsLike | number | string
@@ -31586,14 +35594,15 @@ export namespace Prisma {
     sortOrder?: IntFilter<"MenuItem"> | number
     createdAt?: DateTimeFilter<"MenuItem"> | Date | string
     updatedAt?: DateTimeFilter<"MenuItem"> | Date | string
-    restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
+    sectionId?: StringFilter<"MenuItem"> | string
     section?: XOR<MenuSectionScalarRelationFilter, MenuSectionWhereInput>
+    restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
+    menuItemTags?: MenuItemTagListRelationFilter
   }, "id">
 
   export type MenuItemOrderByWithAggregationInput = {
     id?: SortOrder
     restaurantId?: SortOrder
-    sectionId?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     price?: SortOrder
@@ -31602,6 +35611,7 @@ export namespace Prisma {
     sortOrder?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    sectionId?: SortOrder
     _count?: MenuItemCountOrderByAggregateInput
     _avg?: MenuItemAvgOrderByAggregateInput
     _max?: MenuItemMaxOrderByAggregateInput
@@ -31615,7 +35625,6 @@ export namespace Prisma {
     NOT?: MenuItemScalarWhereWithAggregatesInput | MenuItemScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"MenuItem"> | string
     restaurantId?: StringWithAggregatesFilter<"MenuItem"> | string
-    sectionId?: StringWithAggregatesFilter<"MenuItem"> | string
     name?: StringWithAggregatesFilter<"MenuItem"> | string
     description?: StringNullableWithAggregatesFilter<"MenuItem"> | string | null
     price?: DecimalWithAggregatesFilter<"MenuItem"> | Decimal | DecimalJsLike | number | string
@@ -31624,6 +35633,7 @@ export namespace Prisma {
     sortOrder?: IntWithAggregatesFilter<"MenuItem"> | number
     createdAt?: DateTimeWithAggregatesFilter<"MenuItem"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MenuItem"> | Date | string
+    sectionId?: StringWithAggregatesFilter<"MenuItem"> | string
   }
 
   export type ZoneWhereInput = {
@@ -31696,6 +35706,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityListRelationFilter
     requestedInChanges?: ReservationChangeRequestListRelationFilter
     tableTags?: TableTagListRelationFilter
+    tableAccessibilities?: TableAccessibilityListRelationFilter
   }
 
   export type TableOrderByWithRelationInput = {
@@ -31712,6 +35723,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityOrderByRelationAggregateInput
     requestedInChanges?: ReservationChangeRequestOrderByRelationAggregateInput
     tableTags?: TableTagOrderByRelationAggregateInput
+    tableAccessibilities?: TableAccessibilityOrderByRelationAggregateInput
   }
 
   export type TableWhereUniqueInput = Prisma.AtLeast<{
@@ -31732,6 +35744,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityListRelationFilter
     requestedInChanges?: ReservationChangeRequestListRelationFilter
     tableTags?: TableTagListRelationFilter
+    tableAccessibilities?: TableAccessibilityListRelationFilter
   }, "id" | "restaurantId_name">
 
   export type TableOrderByWithAggregationInput = {
@@ -32514,6 +36527,8 @@ export namespace Prisma {
     restaurants?: RestaurantTagListRelationFilter
     category?: XOR<TagCategoryScalarRelationFilter, TagCategoryWhereInput>
     tableTags?: TableTagListRelationFilter
+    menuItemTags?: MenuItemTagListRelationFilter
+    interactions?: UserInteractionListRelationFilter
   }
 
   export type TagOrderByWithRelationInput = {
@@ -32523,6 +36538,8 @@ export namespace Prisma {
     restaurants?: RestaurantTagOrderByRelationAggregateInput
     category?: TagCategoryOrderByWithRelationInput
     tableTags?: TableTagOrderByRelationAggregateInput
+    menuItemTags?: MenuItemTagOrderByRelationAggregateInput
+    interactions?: UserInteractionOrderByRelationAggregateInput
   }
 
   export type TagWhereUniqueInput = Prisma.AtLeast<{
@@ -32535,6 +36552,8 @@ export namespace Prisma {
     restaurants?: RestaurantTagListRelationFilter
     category?: XOR<TagCategoryScalarRelationFilter, TagCategoryWhereInput>
     tableTags?: TableTagListRelationFilter
+    menuItemTags?: MenuItemTagListRelationFilter
+    interactions?: UserInteractionListRelationFilter
   }, "id" | "name">
 
   export type TagOrderByWithAggregationInput = {
@@ -32613,6 +36632,8 @@ export namespace Prisma {
     icon?: StringNullableFilter<"AccessibilityOption"> | string | null
     description?: StringFilter<"AccessibilityOption"> | string
     restaurantAccessibilities?: RestaurantAccessibilityListRelationFilter
+    tableAccessibilities?: TableAccessibilityListRelationFilter
+    interactions?: UserInteractionListRelationFilter
   }
 
   export type AccessibilityOptionOrderByWithRelationInput = {
@@ -32621,6 +36642,8 @@ export namespace Prisma {
     icon?: SortOrderInput | SortOrder
     description?: SortOrder
     restaurantAccessibilities?: RestaurantAccessibilityOrderByRelationAggregateInput
+    tableAccessibilities?: TableAccessibilityOrderByRelationAggregateInput
+    interactions?: UserInteractionOrderByRelationAggregateInput
   }
 
   export type AccessibilityOptionWhereUniqueInput = Prisma.AtLeast<{
@@ -32632,6 +36655,8 @@ export namespace Prisma {
     icon?: StringNullableFilter<"AccessibilityOption"> | string | null
     description?: StringFilter<"AccessibilityOption"> | string
     restaurantAccessibilities?: RestaurantAccessibilityListRelationFilter
+    tableAccessibilities?: TableAccessibilityListRelationFilter
+    interactions?: UserInteractionListRelationFilter
   }, "id" | "optionName">
 
   export type AccessibilityOptionOrderByWithAggregationInput = {
@@ -32817,6 +36842,286 @@ export namespace Prisma {
     tagId?: StringWithAggregatesFilter<"TableTag"> | string
   }
 
+  export type MenuItemTagWhereInput = {
+    AND?: MenuItemTagWhereInput | MenuItemTagWhereInput[]
+    OR?: MenuItemTagWhereInput[]
+    NOT?: MenuItemTagWhereInput | MenuItemTagWhereInput[]
+    id?: StringFilter<"MenuItemTag"> | string
+    menuItemId?: StringFilter<"MenuItemTag"> | string
+    tagId?: StringFilter<"MenuItemTag"> | string
+    createdAt?: DateTimeFilter<"MenuItemTag"> | Date | string
+    menuItem?: XOR<MenuItemScalarRelationFilter, MenuItemWhereInput>
+    tag?: XOR<TagScalarRelationFilter, TagWhereInput>
+  }
+
+  export type MenuItemTagOrderByWithRelationInput = {
+    id?: SortOrder
+    menuItemId?: SortOrder
+    tagId?: SortOrder
+    createdAt?: SortOrder
+    menuItem?: MenuItemOrderByWithRelationInput
+    tag?: TagOrderByWithRelationInput
+  }
+
+  export type MenuItemTagWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    menuItemId_tagId?: MenuItemTagMenuItemIdTagIdCompoundUniqueInput
+    AND?: MenuItemTagWhereInput | MenuItemTagWhereInput[]
+    OR?: MenuItemTagWhereInput[]
+    NOT?: MenuItemTagWhereInput | MenuItemTagWhereInput[]
+    menuItemId?: StringFilter<"MenuItemTag"> | string
+    tagId?: StringFilter<"MenuItemTag"> | string
+    createdAt?: DateTimeFilter<"MenuItemTag"> | Date | string
+    menuItem?: XOR<MenuItemScalarRelationFilter, MenuItemWhereInput>
+    tag?: XOR<TagScalarRelationFilter, TagWhereInput>
+  }, "id" | "menuItemId_tagId">
+
+  export type MenuItemTagOrderByWithAggregationInput = {
+    id?: SortOrder
+    menuItemId?: SortOrder
+    tagId?: SortOrder
+    createdAt?: SortOrder
+    _count?: MenuItemTagCountOrderByAggregateInput
+    _max?: MenuItemTagMaxOrderByAggregateInput
+    _min?: MenuItemTagMinOrderByAggregateInput
+  }
+
+  export type MenuItemTagScalarWhereWithAggregatesInput = {
+    AND?: MenuItemTagScalarWhereWithAggregatesInput | MenuItemTagScalarWhereWithAggregatesInput[]
+    OR?: MenuItemTagScalarWhereWithAggregatesInput[]
+    NOT?: MenuItemTagScalarWhereWithAggregatesInput | MenuItemTagScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MenuItemTag"> | string
+    menuItemId?: StringWithAggregatesFilter<"MenuItemTag"> | string
+    tagId?: StringWithAggregatesFilter<"MenuItemTag"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"MenuItemTag"> | Date | string
+  }
+
+  export type MenuSectionWhereInput = {
+    AND?: MenuSectionWhereInput | MenuSectionWhereInput[]
+    OR?: MenuSectionWhereInput[]
+    NOT?: MenuSectionWhereInput | MenuSectionWhereInput[]
+    id?: StringFilter<"MenuSection"> | string
+    restaurantId?: StringFilter<"MenuSection"> | string
+    name?: StringFilter<"MenuSection"> | string
+    description?: StringNullableFilter<"MenuSection"> | string | null
+    sortOrder?: IntFilter<"MenuSection"> | number
+    isActive?: BoolFilter<"MenuSection"> | boolean
+    createdAt?: DateTimeFilter<"MenuSection"> | Date | string
+    updatedAt?: DateTimeFilter<"MenuSection"> | Date | string
+    restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
+    items?: MenuItemListRelationFilter
+  }
+
+  export type MenuSectionOrderByWithRelationInput = {
+    id?: SortOrder
+    restaurantId?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    sortOrder?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    restaurant?: RestaurantOrderByWithRelationInput
+    items?: MenuItemOrderByRelationAggregateInput
+  }
+
+  export type MenuSectionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    restaurantId_name?: MenuSectionRestaurantIdNameCompoundUniqueInput
+    AND?: MenuSectionWhereInput | MenuSectionWhereInput[]
+    OR?: MenuSectionWhereInput[]
+    NOT?: MenuSectionWhereInput | MenuSectionWhereInput[]
+    restaurantId?: StringFilter<"MenuSection"> | string
+    name?: StringFilter<"MenuSection"> | string
+    description?: StringNullableFilter<"MenuSection"> | string | null
+    sortOrder?: IntFilter<"MenuSection"> | number
+    isActive?: BoolFilter<"MenuSection"> | boolean
+    createdAt?: DateTimeFilter<"MenuSection"> | Date | string
+    updatedAt?: DateTimeFilter<"MenuSection"> | Date | string
+    restaurant?: XOR<RestaurantScalarRelationFilter, RestaurantWhereInput>
+    items?: MenuItemListRelationFilter
+  }, "id" | "restaurantId_name">
+
+  export type MenuSectionOrderByWithAggregationInput = {
+    id?: SortOrder
+    restaurantId?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    sortOrder?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MenuSectionCountOrderByAggregateInput
+    _avg?: MenuSectionAvgOrderByAggregateInput
+    _max?: MenuSectionMaxOrderByAggregateInput
+    _min?: MenuSectionMinOrderByAggregateInput
+    _sum?: MenuSectionSumOrderByAggregateInput
+  }
+
+  export type MenuSectionScalarWhereWithAggregatesInput = {
+    AND?: MenuSectionScalarWhereWithAggregatesInput | MenuSectionScalarWhereWithAggregatesInput[]
+    OR?: MenuSectionScalarWhereWithAggregatesInput[]
+    NOT?: MenuSectionScalarWhereWithAggregatesInput | MenuSectionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MenuSection"> | string
+    restaurantId?: StringWithAggregatesFilter<"MenuSection"> | string
+    name?: StringWithAggregatesFilter<"MenuSection"> | string
+    description?: StringNullableWithAggregatesFilter<"MenuSection"> | string | null
+    sortOrder?: IntWithAggregatesFilter<"MenuSection"> | number
+    isActive?: BoolWithAggregatesFilter<"MenuSection"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"MenuSection"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MenuSection"> | Date | string
+  }
+
+  export type TableAccessibilityWhereInput = {
+    AND?: TableAccessibilityWhereInput | TableAccessibilityWhereInput[]
+    OR?: TableAccessibilityWhereInput[]
+    NOT?: TableAccessibilityWhereInput | TableAccessibilityWhereInput[]
+    id?: StringFilter<"TableAccessibility"> | string
+    tableId?: StringFilter<"TableAccessibility"> | string
+    optionId?: StringFilter<"TableAccessibility"> | string
+    createdAt?: DateTimeFilter<"TableAccessibility"> | Date | string
+    table?: XOR<TableScalarRelationFilter, TableWhereInput>
+    option?: XOR<AccessibilityOptionScalarRelationFilter, AccessibilityOptionWhereInput>
+  }
+
+  export type TableAccessibilityOrderByWithRelationInput = {
+    id?: SortOrder
+    tableId?: SortOrder
+    optionId?: SortOrder
+    createdAt?: SortOrder
+    table?: TableOrderByWithRelationInput
+    option?: AccessibilityOptionOrderByWithRelationInput
+  }
+
+  export type TableAccessibilityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tableId_optionId?: TableAccessibilityTableIdOptionIdCompoundUniqueInput
+    AND?: TableAccessibilityWhereInput | TableAccessibilityWhereInput[]
+    OR?: TableAccessibilityWhereInput[]
+    NOT?: TableAccessibilityWhereInput | TableAccessibilityWhereInput[]
+    tableId?: StringFilter<"TableAccessibility"> | string
+    optionId?: StringFilter<"TableAccessibility"> | string
+    createdAt?: DateTimeFilter<"TableAccessibility"> | Date | string
+    table?: XOR<TableScalarRelationFilter, TableWhereInput>
+    option?: XOR<AccessibilityOptionScalarRelationFilter, AccessibilityOptionWhereInput>
+  }, "id" | "tableId_optionId">
+
+  export type TableAccessibilityOrderByWithAggregationInput = {
+    id?: SortOrder
+    tableId?: SortOrder
+    optionId?: SortOrder
+    createdAt?: SortOrder
+    _count?: TableAccessibilityCountOrderByAggregateInput
+    _max?: TableAccessibilityMaxOrderByAggregateInput
+    _min?: TableAccessibilityMinOrderByAggregateInput
+  }
+
+  export type TableAccessibilityScalarWhereWithAggregatesInput = {
+    AND?: TableAccessibilityScalarWhereWithAggregatesInput | TableAccessibilityScalarWhereWithAggregatesInput[]
+    OR?: TableAccessibilityScalarWhereWithAggregatesInput[]
+    NOT?: TableAccessibilityScalarWhereWithAggregatesInput | TableAccessibilityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TableAccessibility"> | string
+    tableId?: StringWithAggregatesFilter<"TableAccessibility"> | string
+    optionId?: StringWithAggregatesFilter<"TableAccessibility"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"TableAccessibility"> | Date | string
+  }
+
+  export type UserInteractionWhereInput = {
+    AND?: UserInteractionWhereInput | UserInteractionWhereInput[]
+    OR?: UserInteractionWhereInput[]
+    NOT?: UserInteractionWhereInput | UserInteractionWhereInput[]
+    id?: StringFilter<"UserInteraction"> | string
+    userId?: StringFilter<"UserInteraction"> | string
+    restaurantId?: StringNullableFilter<"UserInteraction"> | string | null
+    tagId?: StringNullableFilter<"UserInteraction"> | string | null
+    optionId?: StringNullableFilter<"UserInteraction"> | string | null
+    searchQuery?: StringNullableFilter<"UserInteraction"> | string | null
+    eventType?: EnumInteractionTypeFilter<"UserInteraction"> | $Enums.InteractionType
+    source?: EnumInteractionSourceNullableFilter<"UserInteraction"> | $Enums.InteractionSource | null
+    weight?: FloatFilter<"UserInteraction"> | number
+    metadata?: JsonNullableFilter<"UserInteraction">
+    createdAt?: DateTimeFilter<"UserInteraction"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    restaurant?: XOR<RestaurantNullableScalarRelationFilter, RestaurantWhereInput> | null
+    tag?: XOR<TagNullableScalarRelationFilter, TagWhereInput> | null
+    option?: XOR<AccessibilityOptionNullableScalarRelationFilter, AccessibilityOptionWhereInput> | null
+  }
+
+  export type UserInteractionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    restaurantId?: SortOrderInput | SortOrder
+    tagId?: SortOrderInput | SortOrder
+    optionId?: SortOrderInput | SortOrder
+    searchQuery?: SortOrderInput | SortOrder
+    eventType?: SortOrder
+    source?: SortOrderInput | SortOrder
+    weight?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    restaurant?: RestaurantOrderByWithRelationInput
+    tag?: TagOrderByWithRelationInput
+    option?: AccessibilityOptionOrderByWithRelationInput
+  }
+
+  export type UserInteractionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserInteractionWhereInput | UserInteractionWhereInput[]
+    OR?: UserInteractionWhereInput[]
+    NOT?: UserInteractionWhereInput | UserInteractionWhereInput[]
+    userId?: StringFilter<"UserInteraction"> | string
+    restaurantId?: StringNullableFilter<"UserInteraction"> | string | null
+    tagId?: StringNullableFilter<"UserInteraction"> | string | null
+    optionId?: StringNullableFilter<"UserInteraction"> | string | null
+    searchQuery?: StringNullableFilter<"UserInteraction"> | string | null
+    eventType?: EnumInteractionTypeFilter<"UserInteraction"> | $Enums.InteractionType
+    source?: EnumInteractionSourceNullableFilter<"UserInteraction"> | $Enums.InteractionSource | null
+    weight?: FloatFilter<"UserInteraction"> | number
+    metadata?: JsonNullableFilter<"UserInteraction">
+    createdAt?: DateTimeFilter<"UserInteraction"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    restaurant?: XOR<RestaurantNullableScalarRelationFilter, RestaurantWhereInput> | null
+    tag?: XOR<TagNullableScalarRelationFilter, TagWhereInput> | null
+    option?: XOR<AccessibilityOptionNullableScalarRelationFilter, AccessibilityOptionWhereInput> | null
+  }, "id">
+
+  export type UserInteractionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    restaurantId?: SortOrderInput | SortOrder
+    tagId?: SortOrderInput | SortOrder
+    optionId?: SortOrderInput | SortOrder
+    searchQuery?: SortOrderInput | SortOrder
+    eventType?: SortOrder
+    source?: SortOrderInput | SortOrder
+    weight?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: UserInteractionCountOrderByAggregateInput
+    _avg?: UserInteractionAvgOrderByAggregateInput
+    _max?: UserInteractionMaxOrderByAggregateInput
+    _min?: UserInteractionMinOrderByAggregateInput
+    _sum?: UserInteractionSumOrderByAggregateInput
+  }
+
+  export type UserInteractionScalarWhereWithAggregatesInput = {
+    AND?: UserInteractionScalarWhereWithAggregatesInput | UserInteractionScalarWhereWithAggregatesInput[]
+    OR?: UserInteractionScalarWhereWithAggregatesInput[]
+    NOT?: UserInteractionScalarWhereWithAggregatesInput | UserInteractionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserInteraction"> | string
+    userId?: StringWithAggregatesFilter<"UserInteraction"> | string
+    restaurantId?: StringNullableWithAggregatesFilter<"UserInteraction"> | string | null
+    tagId?: StringNullableWithAggregatesFilter<"UserInteraction"> | string | null
+    optionId?: StringNullableWithAggregatesFilter<"UserInteraction"> | string | null
+    searchQuery?: StringNullableWithAggregatesFilter<"UserInteraction"> | string | null
+    eventType?: EnumInteractionTypeWithAggregatesFilter<"UserInteraction"> | $Enums.InteractionType
+    source?: EnumInteractionSourceNullableWithAggregatesFilter<"UserInteraction"> | $Enums.InteractionSource | null
+    weight?: FloatWithAggregatesFilter<"UserInteraction"> | number
+    metadata?: JsonNullableWithAggregatesFilter<"UserInteraction">
+    createdAt?: DateTimeWithAggregatesFilter<"UserInteraction"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -32830,6 +37135,7 @@ export namespace Prisma {
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
     ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -32845,6 +37151,7 @@ export namespace Prisma {
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -32860,6 +37167,7 @@ export namespace Prisma {
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -32875,6 +37183,7 @@ export namespace Prisma {
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -32913,8 +37222,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationCreateNestedManyWithoutRestaurantInput
@@ -32925,6 +37232,9 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutRestaurantInput
     zones?: ZoneCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUncheckedCreateInput = {
@@ -32940,8 +37250,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
@@ -32951,6 +37259,9 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
     zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUpdateInput = {
@@ -32965,8 +37276,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
@@ -32977,6 +37286,9 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateInput = {
@@ -32992,8 +37304,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -33003,6 +37313,9 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantCreateManyInput = {
@@ -33115,86 +37428,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type MenuSectionCreateInput = {
-    id?: string
-    name: string
-    description?: string | null
-    sortOrder?: number
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    restaurant: RestaurantCreateNestedOneWithoutMenuSectionsInput
-    items?: MenuItemCreateNestedManyWithoutSectionInput
-  }
-
-  export type MenuSectionUncheckedCreateInput = {
-    id?: string
-    restaurantId: string
-    name: string
-    description?: string | null
-    sortOrder?: number
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    items?: MenuItemUncheckedCreateNestedManyWithoutSectionInput
-  }
-
-  export type MenuSectionUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    sortOrder?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    restaurant?: RestaurantUpdateOneRequiredWithoutMenuSectionsNestedInput
-    items?: MenuItemUpdateManyWithoutSectionNestedInput
-  }
-
-  export type MenuSectionUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    restaurantId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    sortOrder?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    items?: MenuItemUncheckedUpdateManyWithoutSectionNestedInput
-  }
-
-  export type MenuSectionCreateManyInput = {
-    id?: string
-    restaurantId: string
-    name: string
-    description?: string | null
-    sortOrder?: number
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type MenuSectionUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    sortOrder?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type MenuSectionUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    restaurantId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    sortOrder?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type MenuItemCreateInput = {
     id?: string
     name: string
@@ -33205,14 +37438,14 @@ export namespace Prisma {
     sortOrder?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    restaurant: RestaurantCreateNestedOneWithoutMenuItemsInput
     section: MenuSectionCreateNestedOneWithoutItemsInput
+    restaurant: RestaurantCreateNestedOneWithoutMenuItemsInput
+    menuItemTags?: MenuItemTagCreateNestedManyWithoutMenuItemInput
   }
 
   export type MenuItemUncheckedCreateInput = {
     id?: string
     restaurantId: string
-    sectionId: string
     name: string
     description?: string | null
     price: Decimal | DecimalJsLike | number | string
@@ -33221,6 +37454,8 @@ export namespace Prisma {
     sortOrder?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    sectionId: string
+    menuItemTags?: MenuItemTagUncheckedCreateNestedManyWithoutMenuItemInput
   }
 
   export type MenuItemUpdateInput = {
@@ -33233,14 +37468,14 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    restaurant?: RestaurantUpdateOneRequiredWithoutMenuItemsNestedInput
     section?: MenuSectionUpdateOneRequiredWithoutItemsNestedInput
+    restaurant?: RestaurantUpdateOneRequiredWithoutMenuItemsNestedInput
+    menuItemTags?: MenuItemTagUpdateManyWithoutMenuItemNestedInput
   }
 
   export type MenuItemUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     restaurantId?: StringFieldUpdateOperationsInput | string
-    sectionId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -33249,12 +37484,13 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    menuItemTags?: MenuItemTagUncheckedUpdateManyWithoutMenuItemNestedInput
   }
 
   export type MenuItemCreateManyInput = {
     id?: string
     restaurantId: string
-    sectionId: string
     name: string
     description?: string | null
     price: Decimal | DecimalJsLike | number | string
@@ -33263,6 +37499,7 @@ export namespace Prisma {
     sortOrder?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    sectionId: string
   }
 
   export type MenuItemUpdateManyMutationInput = {
@@ -33280,7 +37517,6 @@ export namespace Prisma {
   export type MenuItemUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     restaurantId?: StringFieldUpdateOperationsInput | string
-    sectionId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -33289,6 +37525,7 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sectionId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ZoneCreateInput = {
@@ -33355,6 +37592,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityCreateNestedManyWithoutTableInput
     requestedInChanges?: ReservationChangeRequestCreateNestedManyWithoutNewTableInput
     tableTags?: TableTagCreateNestedManyWithoutTableInput
+    tableAccessibilities?: TableAccessibilityCreateNestedManyWithoutTableInput
   }
 
   export type TableUncheckedCreateInput = {
@@ -33369,6 +37607,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityUncheckedCreateNestedManyWithoutTableInput
     requestedInChanges?: ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput
     tableTags?: TableTagUncheckedCreateNestedManyWithoutTableInput
+    tableAccessibilities?: TableAccessibilityUncheckedCreateNestedManyWithoutTableInput
   }
 
   export type TableUpdateInput = {
@@ -33383,6 +37622,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityUpdateManyWithoutTableNestedInput
     requestedInChanges?: ReservationChangeRequestUpdateManyWithoutNewTableNestedInput
     tableTags?: TableTagUpdateManyWithoutTableNestedInput
+    tableAccessibilities?: TableAccessibilityUpdateManyWithoutTableNestedInput
   }
 
   export type TableUncheckedUpdateInput = {
@@ -33397,6 +37637,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityUncheckedUpdateManyWithoutTableNestedInput
     requestedInChanges?: ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput
     tableTags?: TableTagUncheckedUpdateManyWithoutTableNestedInput
+    tableAccessibilities?: TableAccessibilityUncheckedUpdateManyWithoutTableNestedInput
   }
 
   export type TableCreateManyInput = {
@@ -34185,6 +38426,8 @@ export namespace Prisma {
     restaurants?: RestaurantTagCreateNestedManyWithoutTagInput
     category: TagCategoryCreateNestedOneWithoutTagsInput
     tableTags?: TableTagCreateNestedManyWithoutTagInput
+    menuItemTags?: MenuItemTagCreateNestedManyWithoutTagInput
+    interactions?: UserInteractionCreateNestedManyWithoutTagInput
   }
 
   export type TagUncheckedCreateInput = {
@@ -34193,6 +38436,8 @@ export namespace Prisma {
     name: string
     restaurants?: RestaurantTagUncheckedCreateNestedManyWithoutTagInput
     tableTags?: TableTagUncheckedCreateNestedManyWithoutTagInput
+    menuItemTags?: MenuItemTagUncheckedCreateNestedManyWithoutTagInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutTagInput
   }
 
   export type TagUpdateInput = {
@@ -34201,6 +38446,8 @@ export namespace Prisma {
     restaurants?: RestaurantTagUpdateManyWithoutTagNestedInput
     category?: TagCategoryUpdateOneRequiredWithoutTagsNestedInput
     tableTags?: TableTagUpdateManyWithoutTagNestedInput
+    menuItemTags?: MenuItemTagUpdateManyWithoutTagNestedInput
+    interactions?: UserInteractionUpdateManyWithoutTagNestedInput
   }
 
   export type TagUncheckedUpdateInput = {
@@ -34209,6 +38456,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     restaurants?: RestaurantTagUncheckedUpdateManyWithoutTagNestedInput
     tableTags?: TableTagUncheckedUpdateManyWithoutTagNestedInput
+    menuItemTags?: MenuItemTagUncheckedUpdateManyWithoutTagNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutTagNestedInput
   }
 
   export type TagCreateManyInput = {
@@ -34274,6 +38523,8 @@ export namespace Prisma {
     icon?: string | null
     description: string
     restaurantAccessibilities?: RestaurantAccessibilityCreateNestedManyWithoutOptionInput
+    tableAccessibilities?: TableAccessibilityCreateNestedManyWithoutOptionInput
+    interactions?: UserInteractionCreateNestedManyWithoutOptionInput
   }
 
   export type AccessibilityOptionUncheckedCreateInput = {
@@ -34282,6 +38533,8 @@ export namespace Prisma {
     icon?: string | null
     description: string
     restaurantAccessibilities?: RestaurantAccessibilityUncheckedCreateNestedManyWithoutOptionInput
+    tableAccessibilities?: TableAccessibilityUncheckedCreateNestedManyWithoutOptionInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutOptionInput
   }
 
   export type AccessibilityOptionUpdateInput = {
@@ -34290,6 +38543,8 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     restaurantAccessibilities?: RestaurantAccessibilityUpdateManyWithoutOptionNestedInput
+    tableAccessibilities?: TableAccessibilityUpdateManyWithoutOptionNestedInput
+    interactions?: UserInteractionUpdateManyWithoutOptionNestedInput
   }
 
   export type AccessibilityOptionUncheckedUpdateInput = {
@@ -34298,6 +38553,8 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     restaurantAccessibilities?: RestaurantAccessibilityUncheckedUpdateManyWithoutOptionNestedInput
+    tableAccessibilities?: TableAccessibilityUncheckedUpdateManyWithoutOptionNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutOptionNestedInput
   }
 
   export type AccessibilityOptionCreateManyInput = {
@@ -34470,6 +38727,274 @@ export namespace Prisma {
     tagId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type MenuItemTagCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    menuItem: MenuItemCreateNestedOneWithoutMenuItemTagsInput
+    tag: TagCreateNestedOneWithoutMenuItemTagsInput
+  }
+
+  export type MenuItemTagUncheckedCreateInput = {
+    id?: string
+    menuItemId: string
+    tagId: string
+    createdAt?: Date | string
+  }
+
+  export type MenuItemTagUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    menuItem?: MenuItemUpdateOneRequiredWithoutMenuItemTagsNestedInput
+    tag?: TagUpdateOneRequiredWithoutMenuItemTagsNestedInput
+  }
+
+  export type MenuItemTagUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    menuItemId?: StringFieldUpdateOperationsInput | string
+    tagId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MenuItemTagCreateManyInput = {
+    id?: string
+    menuItemId: string
+    tagId: string
+    createdAt?: Date | string
+  }
+
+  export type MenuItemTagUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MenuItemTagUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    menuItemId?: StringFieldUpdateOperationsInput | string
+    tagId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MenuSectionCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    sortOrder?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    restaurant: RestaurantCreateNestedOneWithoutMenuSectionsInput
+    items?: MenuItemCreateNestedManyWithoutSectionInput
+  }
+
+  export type MenuSectionUncheckedCreateInput = {
+    id?: string
+    restaurantId: string
+    name: string
+    description?: string | null
+    sortOrder?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: MenuItemUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type MenuSectionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    restaurant?: RestaurantUpdateOneRequiredWithoutMenuSectionsNestedInput
+    items?: MenuItemUpdateManyWithoutSectionNestedInput
+  }
+
+  export type MenuSectionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    restaurantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: MenuItemUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type MenuSectionCreateManyInput = {
+    id?: string
+    restaurantId: string
+    name: string
+    description?: string | null
+    sortOrder?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MenuSectionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MenuSectionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    restaurantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TableAccessibilityCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    table: TableCreateNestedOneWithoutTableAccessibilitiesInput
+    option: AccessibilityOptionCreateNestedOneWithoutTableAccessibilitiesInput
+  }
+
+  export type TableAccessibilityUncheckedCreateInput = {
+    id?: string
+    tableId: string
+    optionId: string
+    createdAt?: Date | string
+  }
+
+  export type TableAccessibilityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    table?: TableUpdateOneRequiredWithoutTableAccessibilitiesNestedInput
+    option?: AccessibilityOptionUpdateOneRequiredWithoutTableAccessibilitiesNestedInput
+  }
+
+  export type TableAccessibilityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    optionId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TableAccessibilityCreateManyInput = {
+    id?: string
+    tableId: string
+    optionId: string
+    createdAt?: Date | string
+  }
+
+  export type TableAccessibilityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TableAccessibilityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    optionId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInteractionCreateInput = {
+    id?: string
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutInteractionsInput
+    restaurant?: RestaurantCreateNestedOneWithoutInteractionsInput
+    tag?: TagCreateNestedOneWithoutInteractionsInput
+    option?: AccessibilityOptionCreateNestedOneWithoutInteractionsInput
+  }
+
+  export type UserInteractionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    restaurantId?: string | null
+    tagId?: string | null
+    optionId?: string | null
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type UserInteractionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInteractionsNestedInput
+    restaurant?: RestaurantUpdateOneWithoutInteractionsNestedInput
+    tag?: TagUpdateOneWithoutInteractionsNestedInput
+    option?: AccessibilityOptionUpdateOneWithoutInteractionsNestedInput
+  }
+
+  export type UserInteractionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    restaurantId?: NullableStringFieldUpdateOperationsInput | string | null
+    tagId?: NullableStringFieldUpdateOperationsInput | string | null
+    optionId?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInteractionCreateManyInput = {
+    id?: string
+    userId: string
+    restaurantId?: string | null
+    tagId?: string | null
+    optionId?: string | null
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type UserInteractionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInteractionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    restaurantId?: NullableStringFieldUpdateOperationsInput | string | null
+    tagId?: NullableStringFieldUpdateOperationsInput | string | null
+    optionId?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -34534,6 +39059,12 @@ export namespace Prisma {
     none?: ReservationChangeRequestWhereInput
   }
 
+  export type UserInteractionListRelationFilter = {
+    every?: UserInteractionWhereInput
+    some?: UserInteractionWhereInput
+    none?: UserInteractionWhereInput
+  }
+
   export type AuditLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -34559,6 +39090,10 @@ export namespace Prisma {
   }
 
   export type ReservationChangeRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserInteractionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -34661,18 +39196,6 @@ export namespace Prisma {
     isNot?: BookingRuleWhereInput | null
   }
 
-  export type MenuSectionListRelationFilter = {
-    every?: MenuSectionWhereInput
-    some?: MenuSectionWhereInput
-    none?: MenuSectionWhereInput
-  }
-
-  export type MenuItemListRelationFilter = {
-    every?: MenuItemWhereInput
-    some?: MenuItemWhereInput
-    none?: MenuItemWhereInput
-  }
-
   export type OpeningHourListRelationFilter = {
     every?: OpeningHourWhereInput
     some?: OpeningHourWhereInput
@@ -34714,17 +39237,21 @@ export namespace Prisma {
     none?: RestaurantImageWhereInput
   }
 
+  export type MenuItemListRelationFilter = {
+    every?: MenuItemWhereInput
+    some?: MenuItemWhereInput
+    none?: MenuItemWhereInput
+  }
+
+  export type MenuSectionListRelationFilter = {
+    every?: MenuSectionWhereInput
+    some?: MenuSectionWhereInput
+    none?: MenuSectionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
-  }
-
-  export type MenuSectionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type MenuItemOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type OpeningHourOrderByRelationAggregateInput = {
@@ -34748,6 +39275,14 @@ export namespace Prisma {
   }
 
   export type RestaurantImageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MenuItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MenuSectionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -34960,52 +39495,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type MenuSectionRestaurantIdNameCompoundUniqueInput = {
-    restaurantId: string
-    name: string
-  }
-
-  export type MenuSectionCountOrderByAggregateInput = {
-    id?: SortOrder
-    restaurantId?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    sortOrder?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type MenuSectionAvgOrderByAggregateInput = {
-    sortOrder?: SortOrder
-  }
-
-  export type MenuSectionMaxOrderByAggregateInput = {
-    id?: SortOrder
-    restaurantId?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    sortOrder?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type MenuSectionMinOrderByAggregateInput = {
-    id?: SortOrder
-    restaurantId?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    sortOrder?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type MenuSectionSumOrderByAggregateInput = {
-    sortOrder?: SortOrder
-  }
-
   export type DecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
@@ -35022,10 +39511,19 @@ export namespace Prisma {
     isNot?: MenuSectionWhereInput
   }
 
+  export type MenuItemTagListRelationFilter = {
+    every?: MenuItemTagWhereInput
+    some?: MenuItemTagWhereInput
+    none?: MenuItemTagWhereInput
+  }
+
+  export type MenuItemTagOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type MenuItemCountOrderByAggregateInput = {
     id?: SortOrder
     restaurantId?: SortOrder
-    sectionId?: SortOrder
     name?: SortOrder
     description?: SortOrder
     price?: SortOrder
@@ -35034,6 +39532,7 @@ export namespace Prisma {
     sortOrder?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    sectionId?: SortOrder
   }
 
   export type MenuItemAvgOrderByAggregateInput = {
@@ -35044,7 +39543,6 @@ export namespace Prisma {
   export type MenuItemMaxOrderByAggregateInput = {
     id?: SortOrder
     restaurantId?: SortOrder
-    sectionId?: SortOrder
     name?: SortOrder
     description?: SortOrder
     price?: SortOrder
@@ -35053,12 +39551,12 @@ export namespace Prisma {
     sortOrder?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    sectionId?: SortOrder
   }
 
   export type MenuItemMinOrderByAggregateInput = {
     id?: SortOrder
     restaurantId?: SortOrder
-    sectionId?: SortOrder
     name?: SortOrder
     description?: SortOrder
     price?: SortOrder
@@ -35067,6 +39565,7 @@ export namespace Prisma {
     sortOrder?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    sectionId?: SortOrder
   }
 
   export type MenuItemSumOrderByAggregateInput = {
@@ -35128,11 +39627,21 @@ export namespace Prisma {
     none?: TableTagWhereInput
   }
 
+  export type TableAccessibilityListRelationFilter = {
+    every?: TableAccessibilityWhereInput
+    some?: TableAccessibilityWhereInput
+    none?: TableAccessibilityWhereInput
+  }
+
   export type TableUnavailabilityOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type TableTagOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TableAccessibilityOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -35848,6 +40357,282 @@ export namespace Prisma {
     tagId?: SortOrder
   }
 
+  export type MenuItemScalarRelationFilter = {
+    is?: MenuItemWhereInput
+    isNot?: MenuItemWhereInput
+  }
+
+  export type MenuItemTagMenuItemIdTagIdCompoundUniqueInput = {
+    menuItemId: string
+    tagId: string
+  }
+
+  export type MenuItemTagCountOrderByAggregateInput = {
+    id?: SortOrder
+    menuItemId?: SortOrder
+    tagId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MenuItemTagMaxOrderByAggregateInput = {
+    id?: SortOrder
+    menuItemId?: SortOrder
+    tagId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MenuItemTagMinOrderByAggregateInput = {
+    id?: SortOrder
+    menuItemId?: SortOrder
+    tagId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MenuSectionRestaurantIdNameCompoundUniqueInput = {
+    restaurantId: string
+    name: string
+  }
+
+  export type MenuSectionCountOrderByAggregateInput = {
+    id?: SortOrder
+    restaurantId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    sortOrder?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MenuSectionAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type MenuSectionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    restaurantId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    sortOrder?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MenuSectionMinOrderByAggregateInput = {
+    id?: SortOrder
+    restaurantId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    sortOrder?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MenuSectionSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type TableAccessibilityTableIdOptionIdCompoundUniqueInput = {
+    tableId: string
+    optionId: string
+  }
+
+  export type TableAccessibilityCountOrderByAggregateInput = {
+    id?: SortOrder
+    tableId?: SortOrder
+    optionId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TableAccessibilityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tableId?: SortOrder
+    optionId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TableAccessibilityMinOrderByAggregateInput = {
+    id?: SortOrder
+    tableId?: SortOrder
+    optionId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumInteractionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.InteractionType | EnumInteractionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumInteractionTypeFilter<$PrismaModel> | $Enums.InteractionType
+  }
+
+  export type EnumInteractionSourceNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.InteractionSource | EnumInteractionSourceFieldRefInput<$PrismaModel> | null
+    in?: $Enums.InteractionSource[] | ListEnumInteractionSourceFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.InteractionSource[] | ListEnumInteractionSourceFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumInteractionSourceNullableFilter<$PrismaModel> | $Enums.InteractionSource | null
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type RestaurantNullableScalarRelationFilter = {
+    is?: RestaurantWhereInput | null
+    isNot?: RestaurantWhereInput | null
+  }
+
+  export type TagNullableScalarRelationFilter = {
+    is?: TagWhereInput | null
+    isNot?: TagWhereInput | null
+  }
+
+  export type AccessibilityOptionNullableScalarRelationFilter = {
+    is?: AccessibilityOptionWhereInput | null
+    isNot?: AccessibilityOptionWhereInput | null
+  }
+
+  export type UserInteractionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    restaurantId?: SortOrder
+    tagId?: SortOrder
+    optionId?: SortOrder
+    searchQuery?: SortOrder
+    eventType?: SortOrder
+    source?: SortOrder
+    weight?: SortOrder
+    metadata?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserInteractionAvgOrderByAggregateInput = {
+    weight?: SortOrder
+  }
+
+  export type UserInteractionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    restaurantId?: SortOrder
+    tagId?: SortOrder
+    optionId?: SortOrder
+    searchQuery?: SortOrder
+    eventType?: SortOrder
+    source?: SortOrder
+    weight?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserInteractionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    restaurantId?: SortOrder
+    tagId?: SortOrder
+    optionId?: SortOrder
+    searchQuery?: SortOrder
+    eventType?: SortOrder
+    source?: SortOrder
+    weight?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserInteractionSumOrderByAggregateInput = {
+    weight?: SortOrder
+  }
+
+  export type EnumInteractionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InteractionType | EnumInteractionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumInteractionTypeWithAggregatesFilter<$PrismaModel> | $Enums.InteractionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInteractionTypeFilter<$PrismaModel>
+    _max?: NestedEnumInteractionTypeFilter<$PrismaModel>
+  }
+
+  export type EnumInteractionSourceNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InteractionSource | EnumInteractionSourceFieldRefInput<$PrismaModel> | null
+    in?: $Enums.InteractionSource[] | ListEnumInteractionSourceFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.InteractionSource[] | ListEnumInteractionSourceFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumInteractionSourceNullableWithAggregatesFilter<$PrismaModel> | $Enums.InteractionSource | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumInteractionSourceNullableFilter<$PrismaModel>
+    _max?: NestedEnumInteractionSourceNullableFilter<$PrismaModel>
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
   export type AuditLogCreateNestedManyWithoutUserInput = {
     create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
@@ -35897,6 +40682,13 @@ export namespace Prisma {
     connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
   }
 
+  export type UserInteractionCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserInteractionCreateWithoutUserInput, UserInteractionUncheckedCreateWithoutUserInput> | UserInteractionCreateWithoutUserInput[] | UserInteractionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutUserInput | UserInteractionCreateOrConnectWithoutUserInput[]
+    createMany?: UserInteractionCreateManyUserInputEnvelope
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+  }
+
   export type AuditLogUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
@@ -35944,6 +40736,13 @@ export namespace Prisma {
     connectOrCreate?: ReservationChangeRequestCreateOrConnectWithoutRequestedByInput | ReservationChangeRequestCreateOrConnectWithoutRequestedByInput[]
     createMany?: ReservationChangeRequestCreateManyRequestedByInputEnvelope
     connect?: ReservationChangeRequestWhereUniqueInput | ReservationChangeRequestWhereUniqueInput[]
+  }
+
+  export type UserInteractionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserInteractionCreateWithoutUserInput, UserInteractionUncheckedCreateWithoutUserInput> | UserInteractionCreateWithoutUserInput[] | UserInteractionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutUserInput | UserInteractionCreateOrConnectWithoutUserInput[]
+    createMany?: UserInteractionCreateManyUserInputEnvelope
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -36052,6 +40851,20 @@ export namespace Prisma {
     deleteMany?: ReservationChangeRequestScalarWhereInput | ReservationChangeRequestScalarWhereInput[]
   }
 
+  export type UserInteractionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserInteractionCreateWithoutUserInput, UserInteractionUncheckedCreateWithoutUserInput> | UserInteractionCreateWithoutUserInput[] | UserInteractionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutUserInput | UserInteractionCreateOrConnectWithoutUserInput[]
+    upsert?: UserInteractionUpsertWithWhereUniqueWithoutUserInput | UserInteractionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserInteractionCreateManyUserInputEnvelope
+    set?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    disconnect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    delete?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    update?: UserInteractionUpdateWithWhereUniqueWithoutUserInput | UserInteractionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserInteractionUpdateManyWithWhereWithoutUserInput | UserInteractionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserInteractionScalarWhereInput | UserInteractionScalarWhereInput[]
+  }
+
   export type AuditLogUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
@@ -36150,24 +40963,24 @@ export namespace Prisma {
     deleteMany?: ReservationChangeRequestScalarWhereInput | ReservationChangeRequestScalarWhereInput[]
   }
 
+  export type UserInteractionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserInteractionCreateWithoutUserInput, UserInteractionUncheckedCreateWithoutUserInput> | UserInteractionCreateWithoutUserInput[] | UserInteractionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutUserInput | UserInteractionCreateOrConnectWithoutUserInput[]
+    upsert?: UserInteractionUpsertWithWhereUniqueWithoutUserInput | UserInteractionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserInteractionCreateManyUserInputEnvelope
+    set?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    disconnect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    delete?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    update?: UserInteractionUpdateWithWhereUniqueWithoutUserInput | UserInteractionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserInteractionUpdateManyWithWhereWithoutUserInput | UserInteractionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserInteractionScalarWhereInput | UserInteractionScalarWhereInput[]
+  }
+
   export type BookingRuleCreateNestedOneWithoutRestaurantInput = {
     create?: XOR<BookingRuleCreateWithoutRestaurantInput, BookingRuleUncheckedCreateWithoutRestaurantInput>
     connectOrCreate?: BookingRuleCreateOrConnectWithoutRestaurantInput
     connect?: BookingRuleWhereUniqueInput
-  }
-
-  export type MenuSectionCreateNestedManyWithoutRestaurantInput = {
-    create?: XOR<MenuSectionCreateWithoutRestaurantInput, MenuSectionUncheckedCreateWithoutRestaurantInput> | MenuSectionCreateWithoutRestaurantInput[] | MenuSectionUncheckedCreateWithoutRestaurantInput[]
-    connectOrCreate?: MenuSectionCreateOrConnectWithoutRestaurantInput | MenuSectionCreateOrConnectWithoutRestaurantInput[]
-    createMany?: MenuSectionCreateManyRestaurantInputEnvelope
-    connect?: MenuSectionWhereUniqueInput | MenuSectionWhereUniqueInput[]
-  }
-
-  export type MenuItemCreateNestedManyWithoutRestaurantInput = {
-    create?: XOR<MenuItemCreateWithoutRestaurantInput, MenuItemUncheckedCreateWithoutRestaurantInput> | MenuItemCreateWithoutRestaurantInput[] | MenuItemUncheckedCreateWithoutRestaurantInput[]
-    connectOrCreate?: MenuItemCreateOrConnectWithoutRestaurantInput | MenuItemCreateOrConnectWithoutRestaurantInput[]
-    createMany?: MenuItemCreateManyRestaurantInputEnvelope
-    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
   }
 
   export type FavoriteCreateNestedManyWithoutRestaurantInput = {
@@ -36239,24 +41052,31 @@ export namespace Prisma {
     connect?: RestaurantImageWhereUniqueInput | RestaurantImageWhereUniqueInput[]
   }
 
-  export type BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput = {
-    create?: XOR<BookingRuleCreateWithoutRestaurantInput, BookingRuleUncheckedCreateWithoutRestaurantInput>
-    connectOrCreate?: BookingRuleCreateOrConnectWithoutRestaurantInput
-    connect?: BookingRuleWhereUniqueInput
+  export type UserInteractionCreateNestedManyWithoutRestaurantInput = {
+    create?: XOR<UserInteractionCreateWithoutRestaurantInput, UserInteractionUncheckedCreateWithoutRestaurantInput> | UserInteractionCreateWithoutRestaurantInput[] | UserInteractionUncheckedCreateWithoutRestaurantInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutRestaurantInput | UserInteractionCreateOrConnectWithoutRestaurantInput[]
+    createMany?: UserInteractionCreateManyRestaurantInputEnvelope
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
   }
 
-  export type MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput = {
+  export type MenuItemCreateNestedManyWithoutRestaurantInput = {
+    create?: XOR<MenuItemCreateWithoutRestaurantInput, MenuItemUncheckedCreateWithoutRestaurantInput> | MenuItemCreateWithoutRestaurantInput[] | MenuItemUncheckedCreateWithoutRestaurantInput[]
+    connectOrCreate?: MenuItemCreateOrConnectWithoutRestaurantInput | MenuItemCreateOrConnectWithoutRestaurantInput[]
+    createMany?: MenuItemCreateManyRestaurantInputEnvelope
+    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+  }
+
+  export type MenuSectionCreateNestedManyWithoutRestaurantInput = {
     create?: XOR<MenuSectionCreateWithoutRestaurantInput, MenuSectionUncheckedCreateWithoutRestaurantInput> | MenuSectionCreateWithoutRestaurantInput[] | MenuSectionUncheckedCreateWithoutRestaurantInput[]
     connectOrCreate?: MenuSectionCreateOrConnectWithoutRestaurantInput | MenuSectionCreateOrConnectWithoutRestaurantInput[]
     createMany?: MenuSectionCreateManyRestaurantInputEnvelope
     connect?: MenuSectionWhereUniqueInput | MenuSectionWhereUniqueInput[]
   }
 
-  export type MenuItemUncheckedCreateNestedManyWithoutRestaurantInput = {
-    create?: XOR<MenuItemCreateWithoutRestaurantInput, MenuItemUncheckedCreateWithoutRestaurantInput> | MenuItemCreateWithoutRestaurantInput[] | MenuItemUncheckedCreateWithoutRestaurantInput[]
-    connectOrCreate?: MenuItemCreateOrConnectWithoutRestaurantInput | MenuItemCreateOrConnectWithoutRestaurantInput[]
-    createMany?: MenuItemCreateManyRestaurantInputEnvelope
-    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+  export type BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput = {
+    create?: XOR<BookingRuleCreateWithoutRestaurantInput, BookingRuleUncheckedCreateWithoutRestaurantInput>
+    connectOrCreate?: BookingRuleCreateOrConnectWithoutRestaurantInput
+    connect?: BookingRuleWhereUniqueInput
   }
 
   export type FavoriteUncheckedCreateNestedManyWithoutRestaurantInput = {
@@ -36322,6 +41142,27 @@ export namespace Prisma {
     connect?: RestaurantImageWhereUniqueInput | RestaurantImageWhereUniqueInput[]
   }
 
+  export type UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput = {
+    create?: XOR<UserInteractionCreateWithoutRestaurantInput, UserInteractionUncheckedCreateWithoutRestaurantInput> | UserInteractionCreateWithoutRestaurantInput[] | UserInteractionUncheckedCreateWithoutRestaurantInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutRestaurantInput | UserInteractionCreateOrConnectWithoutRestaurantInput[]
+    createMany?: UserInteractionCreateManyRestaurantInputEnvelope
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+  }
+
+  export type MenuItemUncheckedCreateNestedManyWithoutRestaurantInput = {
+    create?: XOR<MenuItemCreateWithoutRestaurantInput, MenuItemUncheckedCreateWithoutRestaurantInput> | MenuItemCreateWithoutRestaurantInput[] | MenuItemUncheckedCreateWithoutRestaurantInput[]
+    connectOrCreate?: MenuItemCreateOrConnectWithoutRestaurantInput | MenuItemCreateOrConnectWithoutRestaurantInput[]
+    createMany?: MenuItemCreateManyRestaurantInputEnvelope
+    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+  }
+
+  export type MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput = {
+    create?: XOR<MenuSectionCreateWithoutRestaurantInput, MenuSectionUncheckedCreateWithoutRestaurantInput> | MenuSectionCreateWithoutRestaurantInput[] | MenuSectionUncheckedCreateWithoutRestaurantInput[]
+    connectOrCreate?: MenuSectionCreateOrConnectWithoutRestaurantInput | MenuSectionCreateOrConnectWithoutRestaurantInput[]
+    createMany?: MenuSectionCreateManyRestaurantInputEnvelope
+    connect?: MenuSectionWhereUniqueInput | MenuSectionWhereUniqueInput[]
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -36354,34 +41195,6 @@ export namespace Prisma {
     delete?: BookingRuleWhereInput | boolean
     connect?: BookingRuleWhereUniqueInput
     update?: XOR<XOR<BookingRuleUpdateToOneWithWhereWithoutRestaurantInput, BookingRuleUpdateWithoutRestaurantInput>, BookingRuleUncheckedUpdateWithoutRestaurantInput>
-  }
-
-  export type MenuSectionUpdateManyWithoutRestaurantNestedInput = {
-    create?: XOR<MenuSectionCreateWithoutRestaurantInput, MenuSectionUncheckedCreateWithoutRestaurantInput> | MenuSectionCreateWithoutRestaurantInput[] | MenuSectionUncheckedCreateWithoutRestaurantInput[]
-    connectOrCreate?: MenuSectionCreateOrConnectWithoutRestaurantInput | MenuSectionCreateOrConnectWithoutRestaurantInput[]
-    upsert?: MenuSectionUpsertWithWhereUniqueWithoutRestaurantInput | MenuSectionUpsertWithWhereUniqueWithoutRestaurantInput[]
-    createMany?: MenuSectionCreateManyRestaurantInputEnvelope
-    set?: MenuSectionWhereUniqueInput | MenuSectionWhereUniqueInput[]
-    disconnect?: MenuSectionWhereUniqueInput | MenuSectionWhereUniqueInput[]
-    delete?: MenuSectionWhereUniqueInput | MenuSectionWhereUniqueInput[]
-    connect?: MenuSectionWhereUniqueInput | MenuSectionWhereUniqueInput[]
-    update?: MenuSectionUpdateWithWhereUniqueWithoutRestaurantInput | MenuSectionUpdateWithWhereUniqueWithoutRestaurantInput[]
-    updateMany?: MenuSectionUpdateManyWithWhereWithoutRestaurantInput | MenuSectionUpdateManyWithWhereWithoutRestaurantInput[]
-    deleteMany?: MenuSectionScalarWhereInput | MenuSectionScalarWhereInput[]
-  }
-
-  export type MenuItemUpdateManyWithoutRestaurantNestedInput = {
-    create?: XOR<MenuItemCreateWithoutRestaurantInput, MenuItemUncheckedCreateWithoutRestaurantInput> | MenuItemCreateWithoutRestaurantInput[] | MenuItemUncheckedCreateWithoutRestaurantInput[]
-    connectOrCreate?: MenuItemCreateOrConnectWithoutRestaurantInput | MenuItemCreateOrConnectWithoutRestaurantInput[]
-    upsert?: MenuItemUpsertWithWhereUniqueWithoutRestaurantInput | MenuItemUpsertWithWhereUniqueWithoutRestaurantInput[]
-    createMany?: MenuItemCreateManyRestaurantInputEnvelope
-    set?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    disconnect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    delete?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    update?: MenuItemUpdateWithWhereUniqueWithoutRestaurantInput | MenuItemUpdateWithWhereUniqueWithoutRestaurantInput[]
-    updateMany?: MenuItemUpdateManyWithWhereWithoutRestaurantInput | MenuItemUpdateManyWithWhereWithoutRestaurantInput[]
-    deleteMany?: MenuItemScalarWhereInput | MenuItemScalarWhereInput[]
   }
 
   export type FavoriteUpdateManyWithoutRestaurantNestedInput = {
@@ -36518,17 +41331,35 @@ export namespace Prisma {
     deleteMany?: RestaurantImageScalarWhereInput | RestaurantImageScalarWhereInput[]
   }
 
-  export type BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput = {
-    create?: XOR<BookingRuleCreateWithoutRestaurantInput, BookingRuleUncheckedCreateWithoutRestaurantInput>
-    connectOrCreate?: BookingRuleCreateOrConnectWithoutRestaurantInput
-    upsert?: BookingRuleUpsertWithoutRestaurantInput
-    disconnect?: BookingRuleWhereInput | boolean
-    delete?: BookingRuleWhereInput | boolean
-    connect?: BookingRuleWhereUniqueInput
-    update?: XOR<XOR<BookingRuleUpdateToOneWithWhereWithoutRestaurantInput, BookingRuleUpdateWithoutRestaurantInput>, BookingRuleUncheckedUpdateWithoutRestaurantInput>
+  export type UserInteractionUpdateManyWithoutRestaurantNestedInput = {
+    create?: XOR<UserInteractionCreateWithoutRestaurantInput, UserInteractionUncheckedCreateWithoutRestaurantInput> | UserInteractionCreateWithoutRestaurantInput[] | UserInteractionUncheckedCreateWithoutRestaurantInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutRestaurantInput | UserInteractionCreateOrConnectWithoutRestaurantInput[]
+    upsert?: UserInteractionUpsertWithWhereUniqueWithoutRestaurantInput | UserInteractionUpsertWithWhereUniqueWithoutRestaurantInput[]
+    createMany?: UserInteractionCreateManyRestaurantInputEnvelope
+    set?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    disconnect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    delete?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    update?: UserInteractionUpdateWithWhereUniqueWithoutRestaurantInput | UserInteractionUpdateWithWhereUniqueWithoutRestaurantInput[]
+    updateMany?: UserInteractionUpdateManyWithWhereWithoutRestaurantInput | UserInteractionUpdateManyWithWhereWithoutRestaurantInput[]
+    deleteMany?: UserInteractionScalarWhereInput | UserInteractionScalarWhereInput[]
   }
 
-  export type MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput = {
+  export type MenuItemUpdateManyWithoutRestaurantNestedInput = {
+    create?: XOR<MenuItemCreateWithoutRestaurantInput, MenuItemUncheckedCreateWithoutRestaurantInput> | MenuItemCreateWithoutRestaurantInput[] | MenuItemUncheckedCreateWithoutRestaurantInput[]
+    connectOrCreate?: MenuItemCreateOrConnectWithoutRestaurantInput | MenuItemCreateOrConnectWithoutRestaurantInput[]
+    upsert?: MenuItemUpsertWithWhereUniqueWithoutRestaurantInput | MenuItemUpsertWithWhereUniqueWithoutRestaurantInput[]
+    createMany?: MenuItemCreateManyRestaurantInputEnvelope
+    set?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    disconnect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    delete?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    update?: MenuItemUpdateWithWhereUniqueWithoutRestaurantInput | MenuItemUpdateWithWhereUniqueWithoutRestaurantInput[]
+    updateMany?: MenuItemUpdateManyWithWhereWithoutRestaurantInput | MenuItemUpdateManyWithWhereWithoutRestaurantInput[]
+    deleteMany?: MenuItemScalarWhereInput | MenuItemScalarWhereInput[]
+  }
+
+  export type MenuSectionUpdateManyWithoutRestaurantNestedInput = {
     create?: XOR<MenuSectionCreateWithoutRestaurantInput, MenuSectionUncheckedCreateWithoutRestaurantInput> | MenuSectionCreateWithoutRestaurantInput[] | MenuSectionUncheckedCreateWithoutRestaurantInput[]
     connectOrCreate?: MenuSectionCreateOrConnectWithoutRestaurantInput | MenuSectionCreateOrConnectWithoutRestaurantInput[]
     upsert?: MenuSectionUpsertWithWhereUniqueWithoutRestaurantInput | MenuSectionUpsertWithWhereUniqueWithoutRestaurantInput[]
@@ -36542,18 +41373,14 @@ export namespace Prisma {
     deleteMany?: MenuSectionScalarWhereInput | MenuSectionScalarWhereInput[]
   }
 
-  export type MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput = {
-    create?: XOR<MenuItemCreateWithoutRestaurantInput, MenuItemUncheckedCreateWithoutRestaurantInput> | MenuItemCreateWithoutRestaurantInput[] | MenuItemUncheckedCreateWithoutRestaurantInput[]
-    connectOrCreate?: MenuItemCreateOrConnectWithoutRestaurantInput | MenuItemCreateOrConnectWithoutRestaurantInput[]
-    upsert?: MenuItemUpsertWithWhereUniqueWithoutRestaurantInput | MenuItemUpsertWithWhereUniqueWithoutRestaurantInput[]
-    createMany?: MenuItemCreateManyRestaurantInputEnvelope
-    set?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    disconnect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    delete?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    update?: MenuItemUpdateWithWhereUniqueWithoutRestaurantInput | MenuItemUpdateWithWhereUniqueWithoutRestaurantInput[]
-    updateMany?: MenuItemUpdateManyWithWhereWithoutRestaurantInput | MenuItemUpdateManyWithWhereWithoutRestaurantInput[]
-    deleteMany?: MenuItemScalarWhereInput | MenuItemScalarWhereInput[]
+  export type BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput = {
+    create?: XOR<BookingRuleCreateWithoutRestaurantInput, BookingRuleUncheckedCreateWithoutRestaurantInput>
+    connectOrCreate?: BookingRuleCreateOrConnectWithoutRestaurantInput
+    upsert?: BookingRuleUpsertWithoutRestaurantInput
+    disconnect?: BookingRuleWhereInput | boolean
+    delete?: BookingRuleWhereInput | boolean
+    connect?: BookingRuleWhereUniqueInput
+    update?: XOR<XOR<BookingRuleUpdateToOneWithWhereWithoutRestaurantInput, BookingRuleUpdateWithoutRestaurantInput>, BookingRuleUncheckedUpdateWithoutRestaurantInput>
   }
 
   export type FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput = {
@@ -36682,6 +41509,48 @@ export namespace Prisma {
     deleteMany?: RestaurantImageScalarWhereInput | RestaurantImageScalarWhereInput[]
   }
 
+  export type UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput = {
+    create?: XOR<UserInteractionCreateWithoutRestaurantInput, UserInteractionUncheckedCreateWithoutRestaurantInput> | UserInteractionCreateWithoutRestaurantInput[] | UserInteractionUncheckedCreateWithoutRestaurantInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutRestaurantInput | UserInteractionCreateOrConnectWithoutRestaurantInput[]
+    upsert?: UserInteractionUpsertWithWhereUniqueWithoutRestaurantInput | UserInteractionUpsertWithWhereUniqueWithoutRestaurantInput[]
+    createMany?: UserInteractionCreateManyRestaurantInputEnvelope
+    set?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    disconnect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    delete?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    update?: UserInteractionUpdateWithWhereUniqueWithoutRestaurantInput | UserInteractionUpdateWithWhereUniqueWithoutRestaurantInput[]
+    updateMany?: UserInteractionUpdateManyWithWhereWithoutRestaurantInput | UserInteractionUpdateManyWithWhereWithoutRestaurantInput[]
+    deleteMany?: UserInteractionScalarWhereInput | UserInteractionScalarWhereInput[]
+  }
+
+  export type MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput = {
+    create?: XOR<MenuItemCreateWithoutRestaurantInput, MenuItemUncheckedCreateWithoutRestaurantInput> | MenuItemCreateWithoutRestaurantInput[] | MenuItemUncheckedCreateWithoutRestaurantInput[]
+    connectOrCreate?: MenuItemCreateOrConnectWithoutRestaurantInput | MenuItemCreateOrConnectWithoutRestaurantInput[]
+    upsert?: MenuItemUpsertWithWhereUniqueWithoutRestaurantInput | MenuItemUpsertWithWhereUniqueWithoutRestaurantInput[]
+    createMany?: MenuItemCreateManyRestaurantInputEnvelope
+    set?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    disconnect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    delete?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    update?: MenuItemUpdateWithWhereUniqueWithoutRestaurantInput | MenuItemUpdateWithWhereUniqueWithoutRestaurantInput[]
+    updateMany?: MenuItemUpdateManyWithWhereWithoutRestaurantInput | MenuItemUpdateManyWithWhereWithoutRestaurantInput[]
+    deleteMany?: MenuItemScalarWhereInput | MenuItemScalarWhereInput[]
+  }
+
+  export type MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput = {
+    create?: XOR<MenuSectionCreateWithoutRestaurantInput, MenuSectionUncheckedCreateWithoutRestaurantInput> | MenuSectionCreateWithoutRestaurantInput[] | MenuSectionUncheckedCreateWithoutRestaurantInput[]
+    connectOrCreate?: MenuSectionCreateOrConnectWithoutRestaurantInput | MenuSectionCreateOrConnectWithoutRestaurantInput[]
+    upsert?: MenuSectionUpsertWithWhereUniqueWithoutRestaurantInput | MenuSectionUpsertWithWhereUniqueWithoutRestaurantInput[]
+    createMany?: MenuSectionCreateManyRestaurantInputEnvelope
+    set?: MenuSectionWhereUniqueInput | MenuSectionWhereUniqueInput[]
+    disconnect?: MenuSectionWhereUniqueInput | MenuSectionWhereUniqueInput[]
+    delete?: MenuSectionWhereUniqueInput | MenuSectionWhereUniqueInput[]
+    connect?: MenuSectionWhereUniqueInput | MenuSectionWhereUniqueInput[]
+    update?: MenuSectionUpdateWithWhereUniqueWithoutRestaurantInput | MenuSectionUpdateWithWhereUniqueWithoutRestaurantInput[]
+    updateMany?: MenuSectionUpdateManyWithWhereWithoutRestaurantInput | MenuSectionUpdateManyWithWhereWithoutRestaurantInput[]
+    deleteMany?: MenuSectionScalarWhereInput | MenuSectionScalarWhereInput[]
+  }
+
   export type RestaurantCreateNestedOneWithoutImagesInput = {
     create?: XOR<RestaurantCreateWithoutImagesInput, RestaurantUncheckedCreateWithoutImagesInput>
     connectOrCreate?: RestaurantCreateOrConnectWithoutImagesInput
@@ -36708,60 +41577,10 @@ export namespace Prisma {
     update?: XOR<XOR<RestaurantUpdateToOneWithWhereWithoutImagesInput, RestaurantUpdateWithoutImagesInput>, RestaurantUncheckedUpdateWithoutImagesInput>
   }
 
-  export type RestaurantCreateNestedOneWithoutMenuSectionsInput = {
-    create?: XOR<RestaurantCreateWithoutMenuSectionsInput, RestaurantUncheckedCreateWithoutMenuSectionsInput>
-    connectOrCreate?: RestaurantCreateOrConnectWithoutMenuSectionsInput
-    connect?: RestaurantWhereUniqueInput
-  }
-
-  export type MenuItemCreateNestedManyWithoutSectionInput = {
-    create?: XOR<MenuItemCreateWithoutSectionInput, MenuItemUncheckedCreateWithoutSectionInput> | MenuItemCreateWithoutSectionInput[] | MenuItemUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: MenuItemCreateOrConnectWithoutSectionInput | MenuItemCreateOrConnectWithoutSectionInput[]
-    createMany?: MenuItemCreateManySectionInputEnvelope
-    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-  }
-
-  export type MenuItemUncheckedCreateNestedManyWithoutSectionInput = {
-    create?: XOR<MenuItemCreateWithoutSectionInput, MenuItemUncheckedCreateWithoutSectionInput> | MenuItemCreateWithoutSectionInput[] | MenuItemUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: MenuItemCreateOrConnectWithoutSectionInput | MenuItemCreateOrConnectWithoutSectionInput[]
-    createMany?: MenuItemCreateManySectionInputEnvelope
-    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-  }
-
-  export type RestaurantUpdateOneRequiredWithoutMenuSectionsNestedInput = {
-    create?: XOR<RestaurantCreateWithoutMenuSectionsInput, RestaurantUncheckedCreateWithoutMenuSectionsInput>
-    connectOrCreate?: RestaurantCreateOrConnectWithoutMenuSectionsInput
-    upsert?: RestaurantUpsertWithoutMenuSectionsInput
-    connect?: RestaurantWhereUniqueInput
-    update?: XOR<XOR<RestaurantUpdateToOneWithWhereWithoutMenuSectionsInput, RestaurantUpdateWithoutMenuSectionsInput>, RestaurantUncheckedUpdateWithoutMenuSectionsInput>
-  }
-
-  export type MenuItemUpdateManyWithoutSectionNestedInput = {
-    create?: XOR<MenuItemCreateWithoutSectionInput, MenuItemUncheckedCreateWithoutSectionInput> | MenuItemCreateWithoutSectionInput[] | MenuItemUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: MenuItemCreateOrConnectWithoutSectionInput | MenuItemCreateOrConnectWithoutSectionInput[]
-    upsert?: MenuItemUpsertWithWhereUniqueWithoutSectionInput | MenuItemUpsertWithWhereUniqueWithoutSectionInput[]
-    createMany?: MenuItemCreateManySectionInputEnvelope
-    set?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    disconnect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    delete?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    update?: MenuItemUpdateWithWhereUniqueWithoutSectionInput | MenuItemUpdateWithWhereUniqueWithoutSectionInput[]
-    updateMany?: MenuItemUpdateManyWithWhereWithoutSectionInput | MenuItemUpdateManyWithWhereWithoutSectionInput[]
-    deleteMany?: MenuItemScalarWhereInput | MenuItemScalarWhereInput[]
-  }
-
-  export type MenuItemUncheckedUpdateManyWithoutSectionNestedInput = {
-    create?: XOR<MenuItemCreateWithoutSectionInput, MenuItemUncheckedCreateWithoutSectionInput> | MenuItemCreateWithoutSectionInput[] | MenuItemUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: MenuItemCreateOrConnectWithoutSectionInput | MenuItemCreateOrConnectWithoutSectionInput[]
-    upsert?: MenuItemUpsertWithWhereUniqueWithoutSectionInput | MenuItemUpsertWithWhereUniqueWithoutSectionInput[]
-    createMany?: MenuItemCreateManySectionInputEnvelope
-    set?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    disconnect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    delete?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
-    update?: MenuItemUpdateWithWhereUniqueWithoutSectionInput | MenuItemUpdateWithWhereUniqueWithoutSectionInput[]
-    updateMany?: MenuItemUpdateManyWithWhereWithoutSectionInput | MenuItemUpdateManyWithWhereWithoutSectionInput[]
-    deleteMany?: MenuItemScalarWhereInput | MenuItemScalarWhereInput[]
+  export type MenuSectionCreateNestedOneWithoutItemsInput = {
+    create?: XOR<MenuSectionCreateWithoutItemsInput, MenuSectionUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: MenuSectionCreateOrConnectWithoutItemsInput
+    connect?: MenuSectionWhereUniqueInput
   }
 
   export type RestaurantCreateNestedOneWithoutMenuItemsInput = {
@@ -36770,10 +41589,18 @@ export namespace Prisma {
     connect?: RestaurantWhereUniqueInput
   }
 
-  export type MenuSectionCreateNestedOneWithoutItemsInput = {
-    create?: XOR<MenuSectionCreateWithoutItemsInput, MenuSectionUncheckedCreateWithoutItemsInput>
-    connectOrCreate?: MenuSectionCreateOrConnectWithoutItemsInput
-    connect?: MenuSectionWhereUniqueInput
+  export type MenuItemTagCreateNestedManyWithoutMenuItemInput = {
+    create?: XOR<MenuItemTagCreateWithoutMenuItemInput, MenuItemTagUncheckedCreateWithoutMenuItemInput> | MenuItemTagCreateWithoutMenuItemInput[] | MenuItemTagUncheckedCreateWithoutMenuItemInput[]
+    connectOrCreate?: MenuItemTagCreateOrConnectWithoutMenuItemInput | MenuItemTagCreateOrConnectWithoutMenuItemInput[]
+    createMany?: MenuItemTagCreateManyMenuItemInputEnvelope
+    connect?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+  }
+
+  export type MenuItemTagUncheckedCreateNestedManyWithoutMenuItemInput = {
+    create?: XOR<MenuItemTagCreateWithoutMenuItemInput, MenuItemTagUncheckedCreateWithoutMenuItemInput> | MenuItemTagCreateWithoutMenuItemInput[] | MenuItemTagUncheckedCreateWithoutMenuItemInput[]
+    connectOrCreate?: MenuItemTagCreateOrConnectWithoutMenuItemInput | MenuItemTagCreateOrConnectWithoutMenuItemInput[]
+    createMany?: MenuItemTagCreateManyMenuItemInputEnvelope
+    connect?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
   }
 
   export type DecimalFieldUpdateOperationsInput = {
@@ -36784,6 +41611,14 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
+  export type MenuSectionUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<MenuSectionCreateWithoutItemsInput, MenuSectionUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: MenuSectionCreateOrConnectWithoutItemsInput
+    upsert?: MenuSectionUpsertWithoutItemsInput
+    connect?: MenuSectionWhereUniqueInput
+    update?: XOR<XOR<MenuSectionUpdateToOneWithWhereWithoutItemsInput, MenuSectionUpdateWithoutItemsInput>, MenuSectionUncheckedUpdateWithoutItemsInput>
+  }
+
   export type RestaurantUpdateOneRequiredWithoutMenuItemsNestedInput = {
     create?: XOR<RestaurantCreateWithoutMenuItemsInput, RestaurantUncheckedCreateWithoutMenuItemsInput>
     connectOrCreate?: RestaurantCreateOrConnectWithoutMenuItemsInput
@@ -36792,12 +41627,32 @@ export namespace Prisma {
     update?: XOR<XOR<RestaurantUpdateToOneWithWhereWithoutMenuItemsInput, RestaurantUpdateWithoutMenuItemsInput>, RestaurantUncheckedUpdateWithoutMenuItemsInput>
   }
 
-  export type MenuSectionUpdateOneRequiredWithoutItemsNestedInput = {
-    create?: XOR<MenuSectionCreateWithoutItemsInput, MenuSectionUncheckedCreateWithoutItemsInput>
-    connectOrCreate?: MenuSectionCreateOrConnectWithoutItemsInput
-    upsert?: MenuSectionUpsertWithoutItemsInput
-    connect?: MenuSectionWhereUniqueInput
-    update?: XOR<XOR<MenuSectionUpdateToOneWithWhereWithoutItemsInput, MenuSectionUpdateWithoutItemsInput>, MenuSectionUncheckedUpdateWithoutItemsInput>
+  export type MenuItemTagUpdateManyWithoutMenuItemNestedInput = {
+    create?: XOR<MenuItemTagCreateWithoutMenuItemInput, MenuItemTagUncheckedCreateWithoutMenuItemInput> | MenuItemTagCreateWithoutMenuItemInput[] | MenuItemTagUncheckedCreateWithoutMenuItemInput[]
+    connectOrCreate?: MenuItemTagCreateOrConnectWithoutMenuItemInput | MenuItemTagCreateOrConnectWithoutMenuItemInput[]
+    upsert?: MenuItemTagUpsertWithWhereUniqueWithoutMenuItemInput | MenuItemTagUpsertWithWhereUniqueWithoutMenuItemInput[]
+    createMany?: MenuItemTagCreateManyMenuItemInputEnvelope
+    set?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    disconnect?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    delete?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    connect?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    update?: MenuItemTagUpdateWithWhereUniqueWithoutMenuItemInput | MenuItemTagUpdateWithWhereUniqueWithoutMenuItemInput[]
+    updateMany?: MenuItemTagUpdateManyWithWhereWithoutMenuItemInput | MenuItemTagUpdateManyWithWhereWithoutMenuItemInput[]
+    deleteMany?: MenuItemTagScalarWhereInput | MenuItemTagScalarWhereInput[]
+  }
+
+  export type MenuItemTagUncheckedUpdateManyWithoutMenuItemNestedInput = {
+    create?: XOR<MenuItemTagCreateWithoutMenuItemInput, MenuItemTagUncheckedCreateWithoutMenuItemInput> | MenuItemTagCreateWithoutMenuItemInput[] | MenuItemTagUncheckedCreateWithoutMenuItemInput[]
+    connectOrCreate?: MenuItemTagCreateOrConnectWithoutMenuItemInput | MenuItemTagCreateOrConnectWithoutMenuItemInput[]
+    upsert?: MenuItemTagUpsertWithWhereUniqueWithoutMenuItemInput | MenuItemTagUpsertWithWhereUniqueWithoutMenuItemInput[]
+    createMany?: MenuItemTagCreateManyMenuItemInputEnvelope
+    set?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    disconnect?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    delete?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    connect?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    update?: MenuItemTagUpdateWithWhereUniqueWithoutMenuItemInput | MenuItemTagUpdateWithWhereUniqueWithoutMenuItemInput[]
+    updateMany?: MenuItemTagUpdateManyWithWhereWithoutMenuItemInput | MenuItemTagUpdateManyWithWhereWithoutMenuItemInput[]
+    deleteMany?: MenuItemTagScalarWhereInput | MenuItemTagScalarWhereInput[]
   }
 
   export type TableCreateNestedManyWithoutZoneInput = {
@@ -36896,6 +41751,13 @@ export namespace Prisma {
     connect?: TableTagWhereUniqueInput | TableTagWhereUniqueInput[]
   }
 
+  export type TableAccessibilityCreateNestedManyWithoutTableInput = {
+    create?: XOR<TableAccessibilityCreateWithoutTableInput, TableAccessibilityUncheckedCreateWithoutTableInput> | TableAccessibilityCreateWithoutTableInput[] | TableAccessibilityUncheckedCreateWithoutTableInput[]
+    connectOrCreate?: TableAccessibilityCreateOrConnectWithoutTableInput | TableAccessibilityCreateOrConnectWithoutTableInput[]
+    createMany?: TableAccessibilityCreateManyTableInputEnvelope
+    connect?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+  }
+
   export type ReservationUncheckedCreateNestedManyWithoutTableInput = {
     create?: XOR<ReservationCreateWithoutTableInput, ReservationUncheckedCreateWithoutTableInput> | ReservationCreateWithoutTableInput[] | ReservationUncheckedCreateWithoutTableInput[]
     connectOrCreate?: ReservationCreateOrConnectWithoutTableInput | ReservationCreateOrConnectWithoutTableInput[]
@@ -36922,6 +41784,13 @@ export namespace Prisma {
     connectOrCreate?: TableTagCreateOrConnectWithoutTableInput | TableTagCreateOrConnectWithoutTableInput[]
     createMany?: TableTagCreateManyTableInputEnvelope
     connect?: TableTagWhereUniqueInput | TableTagWhereUniqueInput[]
+  }
+
+  export type TableAccessibilityUncheckedCreateNestedManyWithoutTableInput = {
+    create?: XOR<TableAccessibilityCreateWithoutTableInput, TableAccessibilityUncheckedCreateWithoutTableInput> | TableAccessibilityCreateWithoutTableInput[] | TableAccessibilityUncheckedCreateWithoutTableInput[]
+    connectOrCreate?: TableAccessibilityCreateOrConnectWithoutTableInput | TableAccessibilityCreateOrConnectWithoutTableInput[]
+    createMany?: TableAccessibilityCreateManyTableInputEnvelope
+    connect?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
   }
 
   export type ReservationUpdateManyWithoutTableNestedInput = {
@@ -36996,6 +41865,20 @@ export namespace Prisma {
     deleteMany?: TableTagScalarWhereInput | TableTagScalarWhereInput[]
   }
 
+  export type TableAccessibilityUpdateManyWithoutTableNestedInput = {
+    create?: XOR<TableAccessibilityCreateWithoutTableInput, TableAccessibilityUncheckedCreateWithoutTableInput> | TableAccessibilityCreateWithoutTableInput[] | TableAccessibilityUncheckedCreateWithoutTableInput[]
+    connectOrCreate?: TableAccessibilityCreateOrConnectWithoutTableInput | TableAccessibilityCreateOrConnectWithoutTableInput[]
+    upsert?: TableAccessibilityUpsertWithWhereUniqueWithoutTableInput | TableAccessibilityUpsertWithWhereUniqueWithoutTableInput[]
+    createMany?: TableAccessibilityCreateManyTableInputEnvelope
+    set?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    disconnect?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    delete?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    connect?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    update?: TableAccessibilityUpdateWithWhereUniqueWithoutTableInput | TableAccessibilityUpdateWithWhereUniqueWithoutTableInput[]
+    updateMany?: TableAccessibilityUpdateManyWithWhereWithoutTableInput | TableAccessibilityUpdateManyWithWhereWithoutTableInput[]
+    deleteMany?: TableAccessibilityScalarWhereInput | TableAccessibilityScalarWhereInput[]
+  }
+
   export type ReservationUncheckedUpdateManyWithoutTableNestedInput = {
     create?: XOR<ReservationCreateWithoutTableInput, ReservationUncheckedCreateWithoutTableInput> | ReservationCreateWithoutTableInput[] | ReservationUncheckedCreateWithoutTableInput[]
     connectOrCreate?: ReservationCreateOrConnectWithoutTableInput | ReservationCreateOrConnectWithoutTableInput[]
@@ -37050,6 +41933,20 @@ export namespace Prisma {
     update?: TableTagUpdateWithWhereUniqueWithoutTableInput | TableTagUpdateWithWhereUniqueWithoutTableInput[]
     updateMany?: TableTagUpdateManyWithWhereWithoutTableInput | TableTagUpdateManyWithWhereWithoutTableInput[]
     deleteMany?: TableTagScalarWhereInput | TableTagScalarWhereInput[]
+  }
+
+  export type TableAccessibilityUncheckedUpdateManyWithoutTableNestedInput = {
+    create?: XOR<TableAccessibilityCreateWithoutTableInput, TableAccessibilityUncheckedCreateWithoutTableInput> | TableAccessibilityCreateWithoutTableInput[] | TableAccessibilityUncheckedCreateWithoutTableInput[]
+    connectOrCreate?: TableAccessibilityCreateOrConnectWithoutTableInput | TableAccessibilityCreateOrConnectWithoutTableInput[]
+    upsert?: TableAccessibilityUpsertWithWhereUniqueWithoutTableInput | TableAccessibilityUpsertWithWhereUniqueWithoutTableInput[]
+    createMany?: TableAccessibilityCreateManyTableInputEnvelope
+    set?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    disconnect?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    delete?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    connect?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    update?: TableAccessibilityUpdateWithWhereUniqueWithoutTableInput | TableAccessibilityUpdateWithWhereUniqueWithoutTableInput[]
+    updateMany?: TableAccessibilityUpdateManyWithWhereWithoutTableInput | TableAccessibilityUpdateManyWithWhereWithoutTableInput[]
+    deleteMany?: TableAccessibilityScalarWhereInput | TableAccessibilityScalarWhereInput[]
   }
 
   export type TableCreateNestedOneWithoutUnavailabilityInput = {
@@ -37532,6 +42429,20 @@ export namespace Prisma {
     connect?: TableTagWhereUniqueInput | TableTagWhereUniqueInput[]
   }
 
+  export type MenuItemTagCreateNestedManyWithoutTagInput = {
+    create?: XOR<MenuItemTagCreateWithoutTagInput, MenuItemTagUncheckedCreateWithoutTagInput> | MenuItemTagCreateWithoutTagInput[] | MenuItemTagUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: MenuItemTagCreateOrConnectWithoutTagInput | MenuItemTagCreateOrConnectWithoutTagInput[]
+    createMany?: MenuItemTagCreateManyTagInputEnvelope
+    connect?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+  }
+
+  export type UserInteractionCreateNestedManyWithoutTagInput = {
+    create?: XOR<UserInteractionCreateWithoutTagInput, UserInteractionUncheckedCreateWithoutTagInput> | UserInteractionCreateWithoutTagInput[] | UserInteractionUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutTagInput | UserInteractionCreateOrConnectWithoutTagInput[]
+    createMany?: UserInteractionCreateManyTagInputEnvelope
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+  }
+
   export type RestaurantTagUncheckedCreateNestedManyWithoutTagInput = {
     create?: XOR<RestaurantTagCreateWithoutTagInput, RestaurantTagUncheckedCreateWithoutTagInput> | RestaurantTagCreateWithoutTagInput[] | RestaurantTagUncheckedCreateWithoutTagInput[]
     connectOrCreate?: RestaurantTagCreateOrConnectWithoutTagInput | RestaurantTagCreateOrConnectWithoutTagInput[]
@@ -37544,6 +42455,20 @@ export namespace Prisma {
     connectOrCreate?: TableTagCreateOrConnectWithoutTagInput | TableTagCreateOrConnectWithoutTagInput[]
     createMany?: TableTagCreateManyTagInputEnvelope
     connect?: TableTagWhereUniqueInput | TableTagWhereUniqueInput[]
+  }
+
+  export type MenuItemTagUncheckedCreateNestedManyWithoutTagInput = {
+    create?: XOR<MenuItemTagCreateWithoutTagInput, MenuItemTagUncheckedCreateWithoutTagInput> | MenuItemTagCreateWithoutTagInput[] | MenuItemTagUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: MenuItemTagCreateOrConnectWithoutTagInput | MenuItemTagCreateOrConnectWithoutTagInput[]
+    createMany?: MenuItemTagCreateManyTagInputEnvelope
+    connect?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+  }
+
+  export type UserInteractionUncheckedCreateNestedManyWithoutTagInput = {
+    create?: XOR<UserInteractionCreateWithoutTagInput, UserInteractionUncheckedCreateWithoutTagInput> | UserInteractionCreateWithoutTagInput[] | UserInteractionUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutTagInput | UserInteractionCreateOrConnectWithoutTagInput[]
+    createMany?: UserInteractionCreateManyTagInputEnvelope
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
   }
 
   export type RestaurantTagUpdateManyWithoutTagNestedInput = {
@@ -37582,6 +42507,34 @@ export namespace Prisma {
     deleteMany?: TableTagScalarWhereInput | TableTagScalarWhereInput[]
   }
 
+  export type MenuItemTagUpdateManyWithoutTagNestedInput = {
+    create?: XOR<MenuItemTagCreateWithoutTagInput, MenuItemTagUncheckedCreateWithoutTagInput> | MenuItemTagCreateWithoutTagInput[] | MenuItemTagUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: MenuItemTagCreateOrConnectWithoutTagInput | MenuItemTagCreateOrConnectWithoutTagInput[]
+    upsert?: MenuItemTagUpsertWithWhereUniqueWithoutTagInput | MenuItemTagUpsertWithWhereUniqueWithoutTagInput[]
+    createMany?: MenuItemTagCreateManyTagInputEnvelope
+    set?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    disconnect?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    delete?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    connect?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    update?: MenuItemTagUpdateWithWhereUniqueWithoutTagInput | MenuItemTagUpdateWithWhereUniqueWithoutTagInput[]
+    updateMany?: MenuItemTagUpdateManyWithWhereWithoutTagInput | MenuItemTagUpdateManyWithWhereWithoutTagInput[]
+    deleteMany?: MenuItemTagScalarWhereInput | MenuItemTagScalarWhereInput[]
+  }
+
+  export type UserInteractionUpdateManyWithoutTagNestedInput = {
+    create?: XOR<UserInteractionCreateWithoutTagInput, UserInteractionUncheckedCreateWithoutTagInput> | UserInteractionCreateWithoutTagInput[] | UserInteractionUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutTagInput | UserInteractionCreateOrConnectWithoutTagInput[]
+    upsert?: UserInteractionUpsertWithWhereUniqueWithoutTagInput | UserInteractionUpsertWithWhereUniqueWithoutTagInput[]
+    createMany?: UserInteractionCreateManyTagInputEnvelope
+    set?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    disconnect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    delete?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    update?: UserInteractionUpdateWithWhereUniqueWithoutTagInput | UserInteractionUpdateWithWhereUniqueWithoutTagInput[]
+    updateMany?: UserInteractionUpdateManyWithWhereWithoutTagInput | UserInteractionUpdateManyWithWhereWithoutTagInput[]
+    deleteMany?: UserInteractionScalarWhereInput | UserInteractionScalarWhereInput[]
+  }
+
   export type RestaurantTagUncheckedUpdateManyWithoutTagNestedInput = {
     create?: XOR<RestaurantTagCreateWithoutTagInput, RestaurantTagUncheckedCreateWithoutTagInput> | RestaurantTagCreateWithoutTagInput[] | RestaurantTagUncheckedCreateWithoutTagInput[]
     connectOrCreate?: RestaurantTagCreateOrConnectWithoutTagInput | RestaurantTagCreateOrConnectWithoutTagInput[]
@@ -37608,6 +42561,34 @@ export namespace Prisma {
     update?: TableTagUpdateWithWhereUniqueWithoutTagInput | TableTagUpdateWithWhereUniqueWithoutTagInput[]
     updateMany?: TableTagUpdateManyWithWhereWithoutTagInput | TableTagUpdateManyWithWhereWithoutTagInput[]
     deleteMany?: TableTagScalarWhereInput | TableTagScalarWhereInput[]
+  }
+
+  export type MenuItemTagUncheckedUpdateManyWithoutTagNestedInput = {
+    create?: XOR<MenuItemTagCreateWithoutTagInput, MenuItemTagUncheckedCreateWithoutTagInput> | MenuItemTagCreateWithoutTagInput[] | MenuItemTagUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: MenuItemTagCreateOrConnectWithoutTagInput | MenuItemTagCreateOrConnectWithoutTagInput[]
+    upsert?: MenuItemTagUpsertWithWhereUniqueWithoutTagInput | MenuItemTagUpsertWithWhereUniqueWithoutTagInput[]
+    createMany?: MenuItemTagCreateManyTagInputEnvelope
+    set?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    disconnect?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    delete?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    connect?: MenuItemTagWhereUniqueInput | MenuItemTagWhereUniqueInput[]
+    update?: MenuItemTagUpdateWithWhereUniqueWithoutTagInput | MenuItemTagUpdateWithWhereUniqueWithoutTagInput[]
+    updateMany?: MenuItemTagUpdateManyWithWhereWithoutTagInput | MenuItemTagUpdateManyWithWhereWithoutTagInput[]
+    deleteMany?: MenuItemTagScalarWhereInput | MenuItemTagScalarWhereInput[]
+  }
+
+  export type UserInteractionUncheckedUpdateManyWithoutTagNestedInput = {
+    create?: XOR<UserInteractionCreateWithoutTagInput, UserInteractionUncheckedCreateWithoutTagInput> | UserInteractionCreateWithoutTagInput[] | UserInteractionUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutTagInput | UserInteractionCreateOrConnectWithoutTagInput[]
+    upsert?: UserInteractionUpsertWithWhereUniqueWithoutTagInput | UserInteractionUpsertWithWhereUniqueWithoutTagInput[]
+    createMany?: UserInteractionCreateManyTagInputEnvelope
+    set?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    disconnect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    delete?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    update?: UserInteractionUpdateWithWhereUniqueWithoutTagInput | UserInteractionUpdateWithWhereUniqueWithoutTagInput[]
+    updateMany?: UserInteractionUpdateManyWithWhereWithoutTagInput | UserInteractionUpdateManyWithWhereWithoutTagInput[]
+    deleteMany?: UserInteractionScalarWhereInput | UserInteractionScalarWhereInput[]
   }
 
   export type RestaurantCreateNestedOneWithoutTagsInput = {
@@ -37645,11 +42626,39 @@ export namespace Prisma {
     connect?: RestaurantAccessibilityWhereUniqueInput | RestaurantAccessibilityWhereUniqueInput[]
   }
 
+  export type TableAccessibilityCreateNestedManyWithoutOptionInput = {
+    create?: XOR<TableAccessibilityCreateWithoutOptionInput, TableAccessibilityUncheckedCreateWithoutOptionInput> | TableAccessibilityCreateWithoutOptionInput[] | TableAccessibilityUncheckedCreateWithoutOptionInput[]
+    connectOrCreate?: TableAccessibilityCreateOrConnectWithoutOptionInput | TableAccessibilityCreateOrConnectWithoutOptionInput[]
+    createMany?: TableAccessibilityCreateManyOptionInputEnvelope
+    connect?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+  }
+
+  export type UserInteractionCreateNestedManyWithoutOptionInput = {
+    create?: XOR<UserInteractionCreateWithoutOptionInput, UserInteractionUncheckedCreateWithoutOptionInput> | UserInteractionCreateWithoutOptionInput[] | UserInteractionUncheckedCreateWithoutOptionInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutOptionInput | UserInteractionCreateOrConnectWithoutOptionInput[]
+    createMany?: UserInteractionCreateManyOptionInputEnvelope
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+  }
+
   export type RestaurantAccessibilityUncheckedCreateNestedManyWithoutOptionInput = {
     create?: XOR<RestaurantAccessibilityCreateWithoutOptionInput, RestaurantAccessibilityUncheckedCreateWithoutOptionInput> | RestaurantAccessibilityCreateWithoutOptionInput[] | RestaurantAccessibilityUncheckedCreateWithoutOptionInput[]
     connectOrCreate?: RestaurantAccessibilityCreateOrConnectWithoutOptionInput | RestaurantAccessibilityCreateOrConnectWithoutOptionInput[]
     createMany?: RestaurantAccessibilityCreateManyOptionInputEnvelope
     connect?: RestaurantAccessibilityWhereUniqueInput | RestaurantAccessibilityWhereUniqueInput[]
+  }
+
+  export type TableAccessibilityUncheckedCreateNestedManyWithoutOptionInput = {
+    create?: XOR<TableAccessibilityCreateWithoutOptionInput, TableAccessibilityUncheckedCreateWithoutOptionInput> | TableAccessibilityCreateWithoutOptionInput[] | TableAccessibilityUncheckedCreateWithoutOptionInput[]
+    connectOrCreate?: TableAccessibilityCreateOrConnectWithoutOptionInput | TableAccessibilityCreateOrConnectWithoutOptionInput[]
+    createMany?: TableAccessibilityCreateManyOptionInputEnvelope
+    connect?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+  }
+
+  export type UserInteractionUncheckedCreateNestedManyWithoutOptionInput = {
+    create?: XOR<UserInteractionCreateWithoutOptionInput, UserInteractionUncheckedCreateWithoutOptionInput> | UserInteractionCreateWithoutOptionInput[] | UserInteractionUncheckedCreateWithoutOptionInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutOptionInput | UserInteractionCreateOrConnectWithoutOptionInput[]
+    createMany?: UserInteractionCreateManyOptionInputEnvelope
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
   }
 
   export type RestaurantAccessibilityUpdateManyWithoutOptionNestedInput = {
@@ -37666,6 +42675,34 @@ export namespace Prisma {
     deleteMany?: RestaurantAccessibilityScalarWhereInput | RestaurantAccessibilityScalarWhereInput[]
   }
 
+  export type TableAccessibilityUpdateManyWithoutOptionNestedInput = {
+    create?: XOR<TableAccessibilityCreateWithoutOptionInput, TableAccessibilityUncheckedCreateWithoutOptionInput> | TableAccessibilityCreateWithoutOptionInput[] | TableAccessibilityUncheckedCreateWithoutOptionInput[]
+    connectOrCreate?: TableAccessibilityCreateOrConnectWithoutOptionInput | TableAccessibilityCreateOrConnectWithoutOptionInput[]
+    upsert?: TableAccessibilityUpsertWithWhereUniqueWithoutOptionInput | TableAccessibilityUpsertWithWhereUniqueWithoutOptionInput[]
+    createMany?: TableAccessibilityCreateManyOptionInputEnvelope
+    set?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    disconnect?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    delete?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    connect?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    update?: TableAccessibilityUpdateWithWhereUniqueWithoutOptionInput | TableAccessibilityUpdateWithWhereUniqueWithoutOptionInput[]
+    updateMany?: TableAccessibilityUpdateManyWithWhereWithoutOptionInput | TableAccessibilityUpdateManyWithWhereWithoutOptionInput[]
+    deleteMany?: TableAccessibilityScalarWhereInput | TableAccessibilityScalarWhereInput[]
+  }
+
+  export type UserInteractionUpdateManyWithoutOptionNestedInput = {
+    create?: XOR<UserInteractionCreateWithoutOptionInput, UserInteractionUncheckedCreateWithoutOptionInput> | UserInteractionCreateWithoutOptionInput[] | UserInteractionUncheckedCreateWithoutOptionInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutOptionInput | UserInteractionCreateOrConnectWithoutOptionInput[]
+    upsert?: UserInteractionUpsertWithWhereUniqueWithoutOptionInput | UserInteractionUpsertWithWhereUniqueWithoutOptionInput[]
+    createMany?: UserInteractionCreateManyOptionInputEnvelope
+    set?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    disconnect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    delete?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    update?: UserInteractionUpdateWithWhereUniqueWithoutOptionInput | UserInteractionUpdateWithWhereUniqueWithoutOptionInput[]
+    updateMany?: UserInteractionUpdateManyWithWhereWithoutOptionInput | UserInteractionUpdateManyWithWhereWithoutOptionInput[]
+    deleteMany?: UserInteractionScalarWhereInput | UserInteractionScalarWhereInput[]
+  }
+
   export type RestaurantAccessibilityUncheckedUpdateManyWithoutOptionNestedInput = {
     create?: XOR<RestaurantAccessibilityCreateWithoutOptionInput, RestaurantAccessibilityUncheckedCreateWithoutOptionInput> | RestaurantAccessibilityCreateWithoutOptionInput[] | RestaurantAccessibilityUncheckedCreateWithoutOptionInput[]
     connectOrCreate?: RestaurantAccessibilityCreateOrConnectWithoutOptionInput | RestaurantAccessibilityCreateOrConnectWithoutOptionInput[]
@@ -37678,6 +42715,34 @@ export namespace Prisma {
     update?: RestaurantAccessibilityUpdateWithWhereUniqueWithoutOptionInput | RestaurantAccessibilityUpdateWithWhereUniqueWithoutOptionInput[]
     updateMany?: RestaurantAccessibilityUpdateManyWithWhereWithoutOptionInput | RestaurantAccessibilityUpdateManyWithWhereWithoutOptionInput[]
     deleteMany?: RestaurantAccessibilityScalarWhereInput | RestaurantAccessibilityScalarWhereInput[]
+  }
+
+  export type TableAccessibilityUncheckedUpdateManyWithoutOptionNestedInput = {
+    create?: XOR<TableAccessibilityCreateWithoutOptionInput, TableAccessibilityUncheckedCreateWithoutOptionInput> | TableAccessibilityCreateWithoutOptionInput[] | TableAccessibilityUncheckedCreateWithoutOptionInput[]
+    connectOrCreate?: TableAccessibilityCreateOrConnectWithoutOptionInput | TableAccessibilityCreateOrConnectWithoutOptionInput[]
+    upsert?: TableAccessibilityUpsertWithWhereUniqueWithoutOptionInput | TableAccessibilityUpsertWithWhereUniqueWithoutOptionInput[]
+    createMany?: TableAccessibilityCreateManyOptionInputEnvelope
+    set?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    disconnect?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    delete?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    connect?: TableAccessibilityWhereUniqueInput | TableAccessibilityWhereUniqueInput[]
+    update?: TableAccessibilityUpdateWithWhereUniqueWithoutOptionInput | TableAccessibilityUpdateWithWhereUniqueWithoutOptionInput[]
+    updateMany?: TableAccessibilityUpdateManyWithWhereWithoutOptionInput | TableAccessibilityUpdateManyWithWhereWithoutOptionInput[]
+    deleteMany?: TableAccessibilityScalarWhereInput | TableAccessibilityScalarWhereInput[]
+  }
+
+  export type UserInteractionUncheckedUpdateManyWithoutOptionNestedInput = {
+    create?: XOR<UserInteractionCreateWithoutOptionInput, UserInteractionUncheckedCreateWithoutOptionInput> | UserInteractionCreateWithoutOptionInput[] | UserInteractionUncheckedCreateWithoutOptionInput[]
+    connectOrCreate?: UserInteractionCreateOrConnectWithoutOptionInput | UserInteractionCreateOrConnectWithoutOptionInput[]
+    upsert?: UserInteractionUpsertWithWhereUniqueWithoutOptionInput | UserInteractionUpsertWithWhereUniqueWithoutOptionInput[]
+    createMany?: UserInteractionCreateManyOptionInputEnvelope
+    set?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    disconnect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    delete?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    connect?: UserInteractionWhereUniqueInput | UserInteractionWhereUniqueInput[]
+    update?: UserInteractionUpdateWithWhereUniqueWithoutOptionInput | UserInteractionUpdateWithWhereUniqueWithoutOptionInput[]
+    updateMany?: UserInteractionUpdateManyWithWhereWithoutOptionInput | UserInteractionUpdateManyWithWhereWithoutOptionInput[]
+    deleteMany?: UserInteractionScalarWhereInput | UserInteractionScalarWhereInput[]
   }
 
   export type AccessibilityOptionCreateNestedOneWithoutRestaurantAccessibilitiesInput = {
@@ -37754,6 +42819,196 @@ export namespace Prisma {
     upsert?: TagUpsertWithoutTableTagsInput
     connect?: TagWhereUniqueInput
     update?: XOR<XOR<TagUpdateToOneWithWhereWithoutTableTagsInput, TagUpdateWithoutTableTagsInput>, TagUncheckedUpdateWithoutTableTagsInput>
+  }
+
+  export type MenuItemCreateNestedOneWithoutMenuItemTagsInput = {
+    create?: XOR<MenuItemCreateWithoutMenuItemTagsInput, MenuItemUncheckedCreateWithoutMenuItemTagsInput>
+    connectOrCreate?: MenuItemCreateOrConnectWithoutMenuItemTagsInput
+    connect?: MenuItemWhereUniqueInput
+  }
+
+  export type TagCreateNestedOneWithoutMenuItemTagsInput = {
+    create?: XOR<TagCreateWithoutMenuItemTagsInput, TagUncheckedCreateWithoutMenuItemTagsInput>
+    connectOrCreate?: TagCreateOrConnectWithoutMenuItemTagsInput
+    connect?: TagWhereUniqueInput
+  }
+
+  export type MenuItemUpdateOneRequiredWithoutMenuItemTagsNestedInput = {
+    create?: XOR<MenuItemCreateWithoutMenuItemTagsInput, MenuItemUncheckedCreateWithoutMenuItemTagsInput>
+    connectOrCreate?: MenuItemCreateOrConnectWithoutMenuItemTagsInput
+    upsert?: MenuItemUpsertWithoutMenuItemTagsInput
+    connect?: MenuItemWhereUniqueInput
+    update?: XOR<XOR<MenuItemUpdateToOneWithWhereWithoutMenuItemTagsInput, MenuItemUpdateWithoutMenuItemTagsInput>, MenuItemUncheckedUpdateWithoutMenuItemTagsInput>
+  }
+
+  export type TagUpdateOneRequiredWithoutMenuItemTagsNestedInput = {
+    create?: XOR<TagCreateWithoutMenuItemTagsInput, TagUncheckedCreateWithoutMenuItemTagsInput>
+    connectOrCreate?: TagCreateOrConnectWithoutMenuItemTagsInput
+    upsert?: TagUpsertWithoutMenuItemTagsInput
+    connect?: TagWhereUniqueInput
+    update?: XOR<XOR<TagUpdateToOneWithWhereWithoutMenuItemTagsInput, TagUpdateWithoutMenuItemTagsInput>, TagUncheckedUpdateWithoutMenuItemTagsInput>
+  }
+
+  export type RestaurantCreateNestedOneWithoutMenuSectionsInput = {
+    create?: XOR<RestaurantCreateWithoutMenuSectionsInput, RestaurantUncheckedCreateWithoutMenuSectionsInput>
+    connectOrCreate?: RestaurantCreateOrConnectWithoutMenuSectionsInput
+    connect?: RestaurantWhereUniqueInput
+  }
+
+  export type MenuItemCreateNestedManyWithoutSectionInput = {
+    create?: XOR<MenuItemCreateWithoutSectionInput, MenuItemUncheckedCreateWithoutSectionInput> | MenuItemCreateWithoutSectionInput[] | MenuItemUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: MenuItemCreateOrConnectWithoutSectionInput | MenuItemCreateOrConnectWithoutSectionInput[]
+    createMany?: MenuItemCreateManySectionInputEnvelope
+    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+  }
+
+  export type MenuItemUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<MenuItemCreateWithoutSectionInput, MenuItemUncheckedCreateWithoutSectionInput> | MenuItemCreateWithoutSectionInput[] | MenuItemUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: MenuItemCreateOrConnectWithoutSectionInput | MenuItemCreateOrConnectWithoutSectionInput[]
+    createMany?: MenuItemCreateManySectionInputEnvelope
+    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+  }
+
+  export type RestaurantUpdateOneRequiredWithoutMenuSectionsNestedInput = {
+    create?: XOR<RestaurantCreateWithoutMenuSectionsInput, RestaurantUncheckedCreateWithoutMenuSectionsInput>
+    connectOrCreate?: RestaurantCreateOrConnectWithoutMenuSectionsInput
+    upsert?: RestaurantUpsertWithoutMenuSectionsInput
+    connect?: RestaurantWhereUniqueInput
+    update?: XOR<XOR<RestaurantUpdateToOneWithWhereWithoutMenuSectionsInput, RestaurantUpdateWithoutMenuSectionsInput>, RestaurantUncheckedUpdateWithoutMenuSectionsInput>
+  }
+
+  export type MenuItemUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<MenuItemCreateWithoutSectionInput, MenuItemUncheckedCreateWithoutSectionInput> | MenuItemCreateWithoutSectionInput[] | MenuItemUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: MenuItemCreateOrConnectWithoutSectionInput | MenuItemCreateOrConnectWithoutSectionInput[]
+    upsert?: MenuItemUpsertWithWhereUniqueWithoutSectionInput | MenuItemUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: MenuItemCreateManySectionInputEnvelope
+    set?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    disconnect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    delete?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    update?: MenuItemUpdateWithWhereUniqueWithoutSectionInput | MenuItemUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: MenuItemUpdateManyWithWhereWithoutSectionInput | MenuItemUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: MenuItemScalarWhereInput | MenuItemScalarWhereInput[]
+  }
+
+  export type MenuItemUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<MenuItemCreateWithoutSectionInput, MenuItemUncheckedCreateWithoutSectionInput> | MenuItemCreateWithoutSectionInput[] | MenuItemUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: MenuItemCreateOrConnectWithoutSectionInput | MenuItemCreateOrConnectWithoutSectionInput[]
+    upsert?: MenuItemUpsertWithWhereUniqueWithoutSectionInput | MenuItemUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: MenuItemCreateManySectionInputEnvelope
+    set?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    disconnect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    delete?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    connect?: MenuItemWhereUniqueInput | MenuItemWhereUniqueInput[]
+    update?: MenuItemUpdateWithWhereUniqueWithoutSectionInput | MenuItemUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: MenuItemUpdateManyWithWhereWithoutSectionInput | MenuItemUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: MenuItemScalarWhereInput | MenuItemScalarWhereInput[]
+  }
+
+  export type TableCreateNestedOneWithoutTableAccessibilitiesInput = {
+    create?: XOR<TableCreateWithoutTableAccessibilitiesInput, TableUncheckedCreateWithoutTableAccessibilitiesInput>
+    connectOrCreate?: TableCreateOrConnectWithoutTableAccessibilitiesInput
+    connect?: TableWhereUniqueInput
+  }
+
+  export type AccessibilityOptionCreateNestedOneWithoutTableAccessibilitiesInput = {
+    create?: XOR<AccessibilityOptionCreateWithoutTableAccessibilitiesInput, AccessibilityOptionUncheckedCreateWithoutTableAccessibilitiesInput>
+    connectOrCreate?: AccessibilityOptionCreateOrConnectWithoutTableAccessibilitiesInput
+    connect?: AccessibilityOptionWhereUniqueInput
+  }
+
+  export type TableUpdateOneRequiredWithoutTableAccessibilitiesNestedInput = {
+    create?: XOR<TableCreateWithoutTableAccessibilitiesInput, TableUncheckedCreateWithoutTableAccessibilitiesInput>
+    connectOrCreate?: TableCreateOrConnectWithoutTableAccessibilitiesInput
+    upsert?: TableUpsertWithoutTableAccessibilitiesInput
+    connect?: TableWhereUniqueInput
+    update?: XOR<XOR<TableUpdateToOneWithWhereWithoutTableAccessibilitiesInput, TableUpdateWithoutTableAccessibilitiesInput>, TableUncheckedUpdateWithoutTableAccessibilitiesInput>
+  }
+
+  export type AccessibilityOptionUpdateOneRequiredWithoutTableAccessibilitiesNestedInput = {
+    create?: XOR<AccessibilityOptionCreateWithoutTableAccessibilitiesInput, AccessibilityOptionUncheckedCreateWithoutTableAccessibilitiesInput>
+    connectOrCreate?: AccessibilityOptionCreateOrConnectWithoutTableAccessibilitiesInput
+    upsert?: AccessibilityOptionUpsertWithoutTableAccessibilitiesInput
+    connect?: AccessibilityOptionWhereUniqueInput
+    update?: XOR<XOR<AccessibilityOptionUpdateToOneWithWhereWithoutTableAccessibilitiesInput, AccessibilityOptionUpdateWithoutTableAccessibilitiesInput>, AccessibilityOptionUncheckedUpdateWithoutTableAccessibilitiesInput>
+  }
+
+  export type UserCreateNestedOneWithoutInteractionsInput = {
+    create?: XOR<UserCreateWithoutInteractionsInput, UserUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInteractionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type RestaurantCreateNestedOneWithoutInteractionsInput = {
+    create?: XOR<RestaurantCreateWithoutInteractionsInput, RestaurantUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: RestaurantCreateOrConnectWithoutInteractionsInput
+    connect?: RestaurantWhereUniqueInput
+  }
+
+  export type TagCreateNestedOneWithoutInteractionsInput = {
+    create?: XOR<TagCreateWithoutInteractionsInput, TagUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: TagCreateOrConnectWithoutInteractionsInput
+    connect?: TagWhereUniqueInput
+  }
+
+  export type AccessibilityOptionCreateNestedOneWithoutInteractionsInput = {
+    create?: XOR<AccessibilityOptionCreateWithoutInteractionsInput, AccessibilityOptionUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: AccessibilityOptionCreateOrConnectWithoutInteractionsInput
+    connect?: AccessibilityOptionWhereUniqueInput
+  }
+
+  export type EnumInteractionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.InteractionType
+  }
+
+  export type NullableEnumInteractionSourceFieldUpdateOperationsInput = {
+    set?: $Enums.InteractionSource | null
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdateOneRequiredWithoutInteractionsNestedInput = {
+    create?: XOR<UserCreateWithoutInteractionsInput, UserUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInteractionsInput
+    upsert?: UserUpsertWithoutInteractionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInteractionsInput, UserUpdateWithoutInteractionsInput>, UserUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type RestaurantUpdateOneWithoutInteractionsNestedInput = {
+    create?: XOR<RestaurantCreateWithoutInteractionsInput, RestaurantUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: RestaurantCreateOrConnectWithoutInteractionsInput
+    upsert?: RestaurantUpsertWithoutInteractionsInput
+    disconnect?: RestaurantWhereInput | boolean
+    delete?: RestaurantWhereInput | boolean
+    connect?: RestaurantWhereUniqueInput
+    update?: XOR<XOR<RestaurantUpdateToOneWithWhereWithoutInteractionsInput, RestaurantUpdateWithoutInteractionsInput>, RestaurantUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type TagUpdateOneWithoutInteractionsNestedInput = {
+    create?: XOR<TagCreateWithoutInteractionsInput, TagUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: TagCreateOrConnectWithoutInteractionsInput
+    upsert?: TagUpsertWithoutInteractionsInput
+    disconnect?: TagWhereInput | boolean
+    delete?: TagWhereInput | boolean
+    connect?: TagWhereUniqueInput
+    update?: XOR<XOR<TagUpdateToOneWithWhereWithoutInteractionsInput, TagUpdateWithoutInteractionsInput>, TagUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type AccessibilityOptionUpdateOneWithoutInteractionsNestedInput = {
+    create?: XOR<AccessibilityOptionCreateWithoutInteractionsInput, AccessibilityOptionUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: AccessibilityOptionCreateOrConnectWithoutInteractionsInput
+    upsert?: AccessibilityOptionUpsertWithoutInteractionsInput
+    disconnect?: AccessibilityOptionWhereInput | boolean
+    delete?: AccessibilityOptionWhereInput | boolean
+    connect?: AccessibilityOptionWhereUniqueInput
+    update?: XOR<XOR<AccessibilityOptionUpdateToOneWithWhereWithoutInteractionsInput, AccessibilityOptionUpdateWithoutInteractionsInput>, AccessibilityOptionUncheckedUpdateWithoutInteractionsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -38085,6 +43340,79 @@ export namespace Prisma {
     _max?: NestedEnumAuditEntityFilter<$PrismaModel>
   }
 
+  export type NestedEnumInteractionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.InteractionType | EnumInteractionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumInteractionTypeFilter<$PrismaModel> | $Enums.InteractionType
+  }
+
+  export type NestedEnumInteractionSourceNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.InteractionSource | EnumInteractionSourceFieldRefInput<$PrismaModel> | null
+    in?: $Enums.InteractionSource[] | ListEnumInteractionSourceFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.InteractionSource[] | ListEnumInteractionSourceFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumInteractionSourceNullableFilter<$PrismaModel> | $Enums.InteractionSource | null
+  }
+
+  export type NestedEnumInteractionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InteractionType | EnumInteractionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumInteractionTypeWithAggregatesFilter<$PrismaModel> | $Enums.InteractionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInteractionTypeFilter<$PrismaModel>
+    _max?: NestedEnumInteractionTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumInteractionSourceNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InteractionSource | EnumInteractionSourceFieldRefInput<$PrismaModel> | null
+    in?: $Enums.InteractionSource[] | ListEnumInteractionSourceFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.InteractionSource[] | ListEnumInteractionSourceFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumInteractionSourceNullableWithAggregatesFilter<$PrismaModel> | $Enums.InteractionSource | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumInteractionSourceNullableFilter<$PrismaModel>
+    _max?: NestedEnumInteractionSourceNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
   export type AuditLogCreateWithoutUserInput = {
     id?: string
     occurredAt?: Date | string
@@ -38223,8 +43551,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationCreateNestedManyWithoutRestaurantInput
@@ -38234,6 +43560,9 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutRestaurantInput
     zones?: ZoneCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUncheckedCreateWithoutOwnerInput = {
@@ -38248,8 +43577,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
@@ -38259,6 +43586,9 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
     zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantCreateOrConnectWithoutOwnerInput = {
@@ -38334,6 +43664,42 @@ export namespace Prisma {
 
   export type ReservationChangeRequestCreateManyRequestedByInputEnvelope = {
     data: ReservationChangeRequestCreateManyRequestedByInput | ReservationChangeRequestCreateManyRequestedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserInteractionCreateWithoutUserInput = {
+    id?: string
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    restaurant?: RestaurantCreateNestedOneWithoutInteractionsInput
+    tag?: TagCreateNestedOneWithoutInteractionsInput
+    option?: AccessibilityOptionCreateNestedOneWithoutInteractionsInput
+  }
+
+  export type UserInteractionUncheckedCreateWithoutUserInput = {
+    id?: string
+    restaurantId?: string | null
+    tagId?: string | null
+    optionId?: string | null
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type UserInteractionCreateOrConnectWithoutUserInput = {
+    where: UserInteractionWhereUniqueInput
+    create: XOR<UserInteractionCreateWithoutUserInput, UserInteractionUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserInteractionCreateManyUserInputEnvelope = {
+    data: UserInteractionCreateManyUserInput | UserInteractionCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -38552,6 +43918,39 @@ export namespace Prisma {
     reviewedAt?: DateTimeNullableFilter<"ReservationChangeRequest"> | Date | string | null
   }
 
+  export type UserInteractionUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserInteractionWhereUniqueInput
+    update: XOR<UserInteractionUpdateWithoutUserInput, UserInteractionUncheckedUpdateWithoutUserInput>
+    create: XOR<UserInteractionCreateWithoutUserInput, UserInteractionUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserInteractionUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserInteractionWhereUniqueInput
+    data: XOR<UserInteractionUpdateWithoutUserInput, UserInteractionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserInteractionUpdateManyWithWhereWithoutUserInput = {
+    where: UserInteractionScalarWhereInput
+    data: XOR<UserInteractionUpdateManyMutationInput, UserInteractionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserInteractionScalarWhereInput = {
+    AND?: UserInteractionScalarWhereInput | UserInteractionScalarWhereInput[]
+    OR?: UserInteractionScalarWhereInput[]
+    NOT?: UserInteractionScalarWhereInput | UserInteractionScalarWhereInput[]
+    id?: StringFilter<"UserInteraction"> | string
+    userId?: StringFilter<"UserInteraction"> | string
+    restaurantId?: StringNullableFilter<"UserInteraction"> | string | null
+    tagId?: StringNullableFilter<"UserInteraction"> | string | null
+    optionId?: StringNullableFilter<"UserInteraction"> | string | null
+    searchQuery?: StringNullableFilter<"UserInteraction"> | string | null
+    eventType?: EnumInteractionTypeFilter<"UserInteraction"> | $Enums.InteractionType
+    source?: EnumInteractionSourceNullableFilter<"UserInteraction"> | $Enums.InteractionSource | null
+    weight?: FloatFilter<"UserInteraction"> | number
+    metadata?: JsonNullableFilter<"UserInteraction">
+    createdAt?: DateTimeFilter<"UserInteraction"> | Date | string
+  }
+
   export type BookingRuleCreateWithoutRestaurantInput = {
     id?: string
     maxPartySize: number
@@ -38575,74 +43974,6 @@ export namespace Prisma {
   export type BookingRuleCreateOrConnectWithoutRestaurantInput = {
     where: BookingRuleWhereUniqueInput
     create: XOR<BookingRuleCreateWithoutRestaurantInput, BookingRuleUncheckedCreateWithoutRestaurantInput>
-  }
-
-  export type MenuSectionCreateWithoutRestaurantInput = {
-    id?: string
-    name: string
-    description?: string | null
-    sortOrder?: number
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    items?: MenuItemCreateNestedManyWithoutSectionInput
-  }
-
-  export type MenuSectionUncheckedCreateWithoutRestaurantInput = {
-    id?: string
-    name: string
-    description?: string | null
-    sortOrder?: number
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    items?: MenuItemUncheckedCreateNestedManyWithoutSectionInput
-  }
-
-  export type MenuSectionCreateOrConnectWithoutRestaurantInput = {
-    where: MenuSectionWhereUniqueInput
-    create: XOR<MenuSectionCreateWithoutRestaurantInput, MenuSectionUncheckedCreateWithoutRestaurantInput>
-  }
-
-  export type MenuSectionCreateManyRestaurantInputEnvelope = {
-    data: MenuSectionCreateManyRestaurantInput | MenuSectionCreateManyRestaurantInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type MenuItemCreateWithoutRestaurantInput = {
-    id?: string
-    name: string
-    description?: string | null
-    price: Decimal | DecimalJsLike | number | string
-    dietaryInfo?: string | null
-    isAvailable?: boolean
-    sortOrder?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    section: MenuSectionCreateNestedOneWithoutItemsInput
-  }
-
-  export type MenuItemUncheckedCreateWithoutRestaurantInput = {
-    id?: string
-    sectionId: string
-    name: string
-    description?: string | null
-    price: Decimal | DecimalJsLike | number | string
-    dietaryInfo?: string | null
-    isAvailable?: boolean
-    sortOrder?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type MenuItemCreateOrConnectWithoutRestaurantInput = {
-    where: MenuItemWhereUniqueInput
-    create: XOR<MenuItemCreateWithoutRestaurantInput, MenuItemUncheckedCreateWithoutRestaurantInput>
-  }
-
-  export type MenuItemCreateManyRestaurantInputEnvelope = {
-    data: MenuItemCreateManyRestaurantInput | MenuItemCreateManyRestaurantInput[]
-    skipDuplicates?: boolean
   }
 
   export type FavoriteCreateWithoutRestaurantInput = {
@@ -38751,6 +44082,7 @@ export namespace Prisma {
     reservations?: ReservationCreateNestedManyWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
     ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRestaurantsInput = {
@@ -38765,6 +44097,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedCreateNestedManyWithoutUserInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRestaurantsInput = {
@@ -38853,6 +44186,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityCreateNestedManyWithoutTableInput
     requestedInChanges?: ReservationChangeRequestCreateNestedManyWithoutNewTableInput
     tableTags?: TableTagCreateNestedManyWithoutTableInput
+    tableAccessibilities?: TableAccessibilityCreateNestedManyWithoutTableInput
   }
 
   export type TableUncheckedCreateWithoutRestaurantInput = {
@@ -38866,6 +44200,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityUncheckedCreateNestedManyWithoutTableInput
     requestedInChanges?: ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput
     tableTags?: TableTagUncheckedCreateNestedManyWithoutTableInput
+    tableAccessibilities?: TableAccessibilityUncheckedCreateNestedManyWithoutTableInput
   }
 
   export type TableCreateOrConnectWithoutRestaurantInput = {
@@ -38930,6 +44265,112 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserInteractionCreateWithoutRestaurantInput = {
+    id?: string
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutInteractionsInput
+    tag?: TagCreateNestedOneWithoutInteractionsInput
+    option?: AccessibilityOptionCreateNestedOneWithoutInteractionsInput
+  }
+
+  export type UserInteractionUncheckedCreateWithoutRestaurantInput = {
+    id?: string
+    userId: string
+    tagId?: string | null
+    optionId?: string | null
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type UserInteractionCreateOrConnectWithoutRestaurantInput = {
+    where: UserInteractionWhereUniqueInput
+    create: XOR<UserInteractionCreateWithoutRestaurantInput, UserInteractionUncheckedCreateWithoutRestaurantInput>
+  }
+
+  export type UserInteractionCreateManyRestaurantInputEnvelope = {
+    data: UserInteractionCreateManyRestaurantInput | UserInteractionCreateManyRestaurantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MenuItemCreateWithoutRestaurantInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    dietaryInfo?: string | null
+    isAvailable?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    section: MenuSectionCreateNestedOneWithoutItemsInput
+    menuItemTags?: MenuItemTagCreateNestedManyWithoutMenuItemInput
+  }
+
+  export type MenuItemUncheckedCreateWithoutRestaurantInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    dietaryInfo?: string | null
+    isAvailable?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sectionId: string
+    menuItemTags?: MenuItemTagUncheckedCreateNestedManyWithoutMenuItemInput
+  }
+
+  export type MenuItemCreateOrConnectWithoutRestaurantInput = {
+    where: MenuItemWhereUniqueInput
+    create: XOR<MenuItemCreateWithoutRestaurantInput, MenuItemUncheckedCreateWithoutRestaurantInput>
+  }
+
+  export type MenuItemCreateManyRestaurantInputEnvelope = {
+    data: MenuItemCreateManyRestaurantInput | MenuItemCreateManyRestaurantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MenuSectionCreateWithoutRestaurantInput = {
+    id?: string
+    name: string
+    description?: string | null
+    sortOrder?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: MenuItemCreateNestedManyWithoutSectionInput
+  }
+
+  export type MenuSectionUncheckedCreateWithoutRestaurantInput = {
+    id?: string
+    name: string
+    description?: string | null
+    sortOrder?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: MenuItemUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type MenuSectionCreateOrConnectWithoutRestaurantInput = {
+    where: MenuSectionWhereUniqueInput
+    create: XOR<MenuSectionCreateWithoutRestaurantInput, MenuSectionUncheckedCreateWithoutRestaurantInput>
+  }
+
+  export type MenuSectionCreateManyRestaurantInputEnvelope = {
+    data: MenuSectionCreateManyRestaurantInput | MenuSectionCreateManyRestaurantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BookingRuleUpsertWithoutRestaurantInput = {
     update: XOR<BookingRuleUpdateWithoutRestaurantInput, BookingRuleUncheckedUpdateWithoutRestaurantInput>
     create: XOR<BookingRuleCreateWithoutRestaurantInput, BookingRuleUncheckedCreateWithoutRestaurantInput>
@@ -38959,69 +44400,6 @@ export namespace Prisma {
     turnoverMinutes?: IntFieldUpdateOperationsInput | number
     cancellationCutoffMinutes?: IntFieldUpdateOperationsInput | number
     graceMinutes?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type MenuSectionUpsertWithWhereUniqueWithoutRestaurantInput = {
-    where: MenuSectionWhereUniqueInput
-    update: XOR<MenuSectionUpdateWithoutRestaurantInput, MenuSectionUncheckedUpdateWithoutRestaurantInput>
-    create: XOR<MenuSectionCreateWithoutRestaurantInput, MenuSectionUncheckedCreateWithoutRestaurantInput>
-  }
-
-  export type MenuSectionUpdateWithWhereUniqueWithoutRestaurantInput = {
-    where: MenuSectionWhereUniqueInput
-    data: XOR<MenuSectionUpdateWithoutRestaurantInput, MenuSectionUncheckedUpdateWithoutRestaurantInput>
-  }
-
-  export type MenuSectionUpdateManyWithWhereWithoutRestaurantInput = {
-    where: MenuSectionScalarWhereInput
-    data: XOR<MenuSectionUpdateManyMutationInput, MenuSectionUncheckedUpdateManyWithoutRestaurantInput>
-  }
-
-  export type MenuSectionScalarWhereInput = {
-    AND?: MenuSectionScalarWhereInput | MenuSectionScalarWhereInput[]
-    OR?: MenuSectionScalarWhereInput[]
-    NOT?: MenuSectionScalarWhereInput | MenuSectionScalarWhereInput[]
-    id?: StringFilter<"MenuSection"> | string
-    restaurantId?: StringFilter<"MenuSection"> | string
-    name?: StringFilter<"MenuSection"> | string
-    description?: StringNullableFilter<"MenuSection"> | string | null
-    sortOrder?: IntFilter<"MenuSection"> | number
-    isActive?: BoolFilter<"MenuSection"> | boolean
-    createdAt?: DateTimeFilter<"MenuSection"> | Date | string
-    updatedAt?: DateTimeFilter<"MenuSection"> | Date | string
-  }
-
-  export type MenuItemUpsertWithWhereUniqueWithoutRestaurantInput = {
-    where: MenuItemWhereUniqueInput
-    update: XOR<MenuItemUpdateWithoutRestaurantInput, MenuItemUncheckedUpdateWithoutRestaurantInput>
-    create: XOR<MenuItemCreateWithoutRestaurantInput, MenuItemUncheckedCreateWithoutRestaurantInput>
-  }
-
-  export type MenuItemUpdateWithWhereUniqueWithoutRestaurantInput = {
-    where: MenuItemWhereUniqueInput
-    data: XOR<MenuItemUpdateWithoutRestaurantInput, MenuItemUncheckedUpdateWithoutRestaurantInput>
-  }
-
-  export type MenuItemUpdateManyWithWhereWithoutRestaurantInput = {
-    where: MenuItemScalarWhereInput
-    data: XOR<MenuItemUpdateManyMutationInput, MenuItemUncheckedUpdateManyWithoutRestaurantInput>
-  }
-
-  export type MenuItemScalarWhereInput = {
-    AND?: MenuItemScalarWhereInput | MenuItemScalarWhereInput[]
-    OR?: MenuItemScalarWhereInput[]
-    NOT?: MenuItemScalarWhereInput | MenuItemScalarWhereInput[]
-    id?: StringFilter<"MenuItem"> | string
-    restaurantId?: StringFilter<"MenuItem"> | string
-    sectionId?: StringFilter<"MenuItem"> | string
-    name?: StringFilter<"MenuItem"> | string
-    description?: StringNullableFilter<"MenuItem"> | string | null
-    price?: DecimalFilter<"MenuItem"> | Decimal | DecimalJsLike | number | string
-    dietaryInfo?: StringNullableFilter<"MenuItem"> | string | null
-    isAvailable?: BoolFilter<"MenuItem"> | boolean
-    sortOrder?: IntFilter<"MenuItem"> | number
-    createdAt?: DateTimeFilter<"MenuItem"> | Date | string
-    updatedAt?: DateTimeFilter<"MenuItem"> | Date | string
   }
 
   export type FavoriteUpsertWithWhereUniqueWithoutRestaurantInput = {
@@ -39107,6 +44485,7 @@ export namespace Prisma {
     reservations?: ReservationUpdateManyWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRestaurantsInput = {
@@ -39121,6 +44500,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RestaurantAccessibilityUpsertWithWhereUniqueWithoutRestaurantInput = {
@@ -39273,6 +44653,85 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"RestaurantImage"> | Date | string
   }
 
+  export type UserInteractionUpsertWithWhereUniqueWithoutRestaurantInput = {
+    where: UserInteractionWhereUniqueInput
+    update: XOR<UserInteractionUpdateWithoutRestaurantInput, UserInteractionUncheckedUpdateWithoutRestaurantInput>
+    create: XOR<UserInteractionCreateWithoutRestaurantInput, UserInteractionUncheckedCreateWithoutRestaurantInput>
+  }
+
+  export type UserInteractionUpdateWithWhereUniqueWithoutRestaurantInput = {
+    where: UserInteractionWhereUniqueInput
+    data: XOR<UserInteractionUpdateWithoutRestaurantInput, UserInteractionUncheckedUpdateWithoutRestaurantInput>
+  }
+
+  export type UserInteractionUpdateManyWithWhereWithoutRestaurantInput = {
+    where: UserInteractionScalarWhereInput
+    data: XOR<UserInteractionUpdateManyMutationInput, UserInteractionUncheckedUpdateManyWithoutRestaurantInput>
+  }
+
+  export type MenuItemUpsertWithWhereUniqueWithoutRestaurantInput = {
+    where: MenuItemWhereUniqueInput
+    update: XOR<MenuItemUpdateWithoutRestaurantInput, MenuItemUncheckedUpdateWithoutRestaurantInput>
+    create: XOR<MenuItemCreateWithoutRestaurantInput, MenuItemUncheckedCreateWithoutRestaurantInput>
+  }
+
+  export type MenuItemUpdateWithWhereUniqueWithoutRestaurantInput = {
+    where: MenuItemWhereUniqueInput
+    data: XOR<MenuItemUpdateWithoutRestaurantInput, MenuItemUncheckedUpdateWithoutRestaurantInput>
+  }
+
+  export type MenuItemUpdateManyWithWhereWithoutRestaurantInput = {
+    where: MenuItemScalarWhereInput
+    data: XOR<MenuItemUpdateManyMutationInput, MenuItemUncheckedUpdateManyWithoutRestaurantInput>
+  }
+
+  export type MenuItemScalarWhereInput = {
+    AND?: MenuItemScalarWhereInput | MenuItemScalarWhereInput[]
+    OR?: MenuItemScalarWhereInput[]
+    NOT?: MenuItemScalarWhereInput | MenuItemScalarWhereInput[]
+    id?: StringFilter<"MenuItem"> | string
+    restaurantId?: StringFilter<"MenuItem"> | string
+    name?: StringFilter<"MenuItem"> | string
+    description?: StringNullableFilter<"MenuItem"> | string | null
+    price?: DecimalFilter<"MenuItem"> | Decimal | DecimalJsLike | number | string
+    dietaryInfo?: StringNullableFilter<"MenuItem"> | string | null
+    isAvailable?: BoolFilter<"MenuItem"> | boolean
+    sortOrder?: IntFilter<"MenuItem"> | number
+    createdAt?: DateTimeFilter<"MenuItem"> | Date | string
+    updatedAt?: DateTimeFilter<"MenuItem"> | Date | string
+    sectionId?: StringFilter<"MenuItem"> | string
+  }
+
+  export type MenuSectionUpsertWithWhereUniqueWithoutRestaurantInput = {
+    where: MenuSectionWhereUniqueInput
+    update: XOR<MenuSectionUpdateWithoutRestaurantInput, MenuSectionUncheckedUpdateWithoutRestaurantInput>
+    create: XOR<MenuSectionCreateWithoutRestaurantInput, MenuSectionUncheckedCreateWithoutRestaurantInput>
+  }
+
+  export type MenuSectionUpdateWithWhereUniqueWithoutRestaurantInput = {
+    where: MenuSectionWhereUniqueInput
+    data: XOR<MenuSectionUpdateWithoutRestaurantInput, MenuSectionUncheckedUpdateWithoutRestaurantInput>
+  }
+
+  export type MenuSectionUpdateManyWithWhereWithoutRestaurantInput = {
+    where: MenuSectionScalarWhereInput
+    data: XOR<MenuSectionUpdateManyMutationInput, MenuSectionUncheckedUpdateManyWithoutRestaurantInput>
+  }
+
+  export type MenuSectionScalarWhereInput = {
+    AND?: MenuSectionScalarWhereInput | MenuSectionScalarWhereInput[]
+    OR?: MenuSectionScalarWhereInput[]
+    NOT?: MenuSectionScalarWhereInput | MenuSectionScalarWhereInput[]
+    id?: StringFilter<"MenuSection"> | string
+    restaurantId?: StringFilter<"MenuSection"> | string
+    name?: StringFilter<"MenuSection"> | string
+    description?: StringNullableFilter<"MenuSection"> | string | null
+    sortOrder?: IntFilter<"MenuSection"> | number
+    isActive?: BoolFilter<"MenuSection"> | boolean
+    createdAt?: DateTimeFilter<"MenuSection"> | Date | string
+    updatedAt?: DateTimeFilter<"MenuSection"> | Date | string
+  }
+
   export type RestaurantCreateWithoutImagesInput = {
     id?: string
     name: string
@@ -39285,8 +44744,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationCreateNestedManyWithoutRestaurantInput
@@ -39296,6 +44753,9 @@ export namespace Prisma {
     reviews?: ReviewCreateNestedManyWithoutRestaurantInput
     tables?: TableCreateNestedManyWithoutRestaurantInput
     zones?: ZoneCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUncheckedCreateWithoutImagesInput = {
@@ -39311,8 +44771,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
@@ -39321,6 +44779,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedCreateNestedManyWithoutRestaurantInput
     tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
     zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantCreateOrConnectWithoutImagesInput = {
@@ -39351,8 +44812,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
@@ -39362,6 +44821,9 @@ export namespace Prisma {
     reviews?: ReviewUpdateManyWithoutRestaurantNestedInput
     tables?: TableUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateWithoutImagesInput = {
@@ -39377,239 +44839,17 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
+    openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
+    accessibility?: RestaurantAccessibilityUncheckedUpdateManyWithoutRestaurantNestedInput
+    tags?: RestaurantTagUncheckedUpdateManyWithoutRestaurantNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutRestaurantNestedInput
+    tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
+    zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
     menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
-    favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
-    openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
-    reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
-    accessibility?: RestaurantAccessibilityUncheckedUpdateManyWithoutRestaurantNestedInput
-    tags?: RestaurantTagUncheckedUpdateManyWithoutRestaurantNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutRestaurantNestedInput
-    tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
-    zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
-  }
-
-  export type RestaurantCreateWithoutMenuSectionsInput = {
-    id?: string
-    name: string
-    description?: string | null
-    location: string
-    latitude?: number | null
-    longitude?: number | null
-    estimatedSpendMin?: number | null
-    estimatedSpendMax?: number | null
-    automaticSpendCalculation?: boolean
-    verified?: boolean
-    bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
-    favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
-    openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
-    reservations?: ReservationCreateNestedManyWithoutRestaurantInput
-    owner: UserCreateNestedOneWithoutRestaurantsInput
-    accessibility?: RestaurantAccessibilityCreateNestedManyWithoutRestaurantInput
-    tags?: RestaurantTagCreateNestedManyWithoutRestaurantInput
-    reviews?: ReviewCreateNestedManyWithoutRestaurantInput
-    tables?: TableCreateNestedManyWithoutRestaurantInput
-    zones?: ZoneCreateNestedManyWithoutRestaurantInput
-    images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
-  }
-
-  export type RestaurantUncheckedCreateWithoutMenuSectionsInput = {
-    id?: string
-    ownerId: string
-    name: string
-    description?: string | null
-    location: string
-    latitude?: number | null
-    longitude?: number | null
-    estimatedSpendMin?: number | null
-    estimatedSpendMax?: number | null
-    automaticSpendCalculation?: boolean
-    verified?: boolean
-    bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
-    favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
-    openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
-    reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
-    accessibility?: RestaurantAccessibilityUncheckedCreateNestedManyWithoutRestaurantInput
-    tags?: RestaurantTagUncheckedCreateNestedManyWithoutRestaurantInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutRestaurantInput
-    tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
-    zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
-    images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
-  }
-
-  export type RestaurantCreateOrConnectWithoutMenuSectionsInput = {
-    where: RestaurantWhereUniqueInput
-    create: XOR<RestaurantCreateWithoutMenuSectionsInput, RestaurantUncheckedCreateWithoutMenuSectionsInput>
-  }
-
-  export type MenuItemCreateWithoutSectionInput = {
-    id?: string
-    name: string
-    description?: string | null
-    price: Decimal | DecimalJsLike | number | string
-    dietaryInfo?: string | null
-    isAvailable?: boolean
-    sortOrder?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    restaurant: RestaurantCreateNestedOneWithoutMenuItemsInput
-  }
-
-  export type MenuItemUncheckedCreateWithoutSectionInput = {
-    id?: string
-    restaurantId: string
-    name: string
-    description?: string | null
-    price: Decimal | DecimalJsLike | number | string
-    dietaryInfo?: string | null
-    isAvailable?: boolean
-    sortOrder?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type MenuItemCreateOrConnectWithoutSectionInput = {
-    where: MenuItemWhereUniqueInput
-    create: XOR<MenuItemCreateWithoutSectionInput, MenuItemUncheckedCreateWithoutSectionInput>
-  }
-
-  export type MenuItemCreateManySectionInputEnvelope = {
-    data: MenuItemCreateManySectionInput | MenuItemCreateManySectionInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type RestaurantUpsertWithoutMenuSectionsInput = {
-    update: XOR<RestaurantUpdateWithoutMenuSectionsInput, RestaurantUncheckedUpdateWithoutMenuSectionsInput>
-    create: XOR<RestaurantCreateWithoutMenuSectionsInput, RestaurantUncheckedCreateWithoutMenuSectionsInput>
-    where?: RestaurantWhereInput
-  }
-
-  export type RestaurantUpdateToOneWithWhereWithoutMenuSectionsInput = {
-    where?: RestaurantWhereInput
-    data: XOR<RestaurantUpdateWithoutMenuSectionsInput, RestaurantUncheckedUpdateWithoutMenuSectionsInput>
-  }
-
-  export type RestaurantUpdateWithoutMenuSectionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: StringFieldUpdateOperationsInput | string
-    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    estimatedSpendMin?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedSpendMax?: NullableIntFieldUpdateOperationsInput | number | null
-    automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
-    verified?: BoolFieldUpdateOperationsInput | boolean
-    bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
-    favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
-    openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
-    reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
-    owner?: UserUpdateOneRequiredWithoutRestaurantsNestedInput
-    accessibility?: RestaurantAccessibilityUpdateManyWithoutRestaurantNestedInput
-    tags?: RestaurantTagUpdateManyWithoutRestaurantNestedInput
-    reviews?: ReviewUpdateManyWithoutRestaurantNestedInput
-    tables?: TableUpdateManyWithoutRestaurantNestedInput
-    zones?: ZoneUpdateManyWithoutRestaurantNestedInput
-    images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
-  }
-
-  export type RestaurantUncheckedUpdateWithoutMenuSectionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ownerId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: StringFieldUpdateOperationsInput | string
-    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    estimatedSpendMin?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedSpendMax?: NullableIntFieldUpdateOperationsInput | number | null
-    automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
-    verified?: BoolFieldUpdateOperationsInput | boolean
-    bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
-    favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
-    openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
-    reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
-    accessibility?: RestaurantAccessibilityUncheckedUpdateManyWithoutRestaurantNestedInput
-    tags?: RestaurantTagUncheckedUpdateManyWithoutRestaurantNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutRestaurantNestedInput
-    tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
-    zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
-    images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
-  }
-
-  export type MenuItemUpsertWithWhereUniqueWithoutSectionInput = {
-    where: MenuItemWhereUniqueInput
-    update: XOR<MenuItemUpdateWithoutSectionInput, MenuItemUncheckedUpdateWithoutSectionInput>
-    create: XOR<MenuItemCreateWithoutSectionInput, MenuItemUncheckedCreateWithoutSectionInput>
-  }
-
-  export type MenuItemUpdateWithWhereUniqueWithoutSectionInput = {
-    where: MenuItemWhereUniqueInput
-    data: XOR<MenuItemUpdateWithoutSectionInput, MenuItemUncheckedUpdateWithoutSectionInput>
-  }
-
-  export type MenuItemUpdateManyWithWhereWithoutSectionInput = {
-    where: MenuItemScalarWhereInput
-    data: XOR<MenuItemUpdateManyMutationInput, MenuItemUncheckedUpdateManyWithoutSectionInput>
-  }
-
-  export type RestaurantCreateWithoutMenuItemsInput = {
-    id?: string
-    name: string
-    description?: string | null
-    location: string
-    latitude?: number | null
-    longitude?: number | null
-    estimatedSpendMin?: number | null
-    estimatedSpendMax?: number | null
-    automaticSpendCalculation?: boolean
-    verified?: boolean
-    bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
-    openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
-    reservations?: ReservationCreateNestedManyWithoutRestaurantInput
-    owner: UserCreateNestedOneWithoutRestaurantsInput
-    accessibility?: RestaurantAccessibilityCreateNestedManyWithoutRestaurantInput
-    tags?: RestaurantTagCreateNestedManyWithoutRestaurantInput
-    reviews?: ReviewCreateNestedManyWithoutRestaurantInput
-    tables?: TableCreateNestedManyWithoutRestaurantInput
-    zones?: ZoneCreateNestedManyWithoutRestaurantInput
-    images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
-  }
-
-  export type RestaurantUncheckedCreateWithoutMenuItemsInput = {
-    id?: string
-    ownerId: string
-    name: string
-    description?: string | null
-    location: string
-    latitude?: number | null
-    longitude?: number | null
-    estimatedSpendMin?: number | null
-    estimatedSpendMax?: number | null
-    automaticSpendCalculation?: boolean
-    verified?: boolean
-    bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
-    openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
-    reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
-    accessibility?: RestaurantAccessibilityUncheckedCreateNestedManyWithoutRestaurantInput
-    tags?: RestaurantTagUncheckedCreateNestedManyWithoutRestaurantInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutRestaurantInput
-    tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
-    zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
-    images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
-  }
-
-  export type RestaurantCreateOrConnectWithoutMenuItemsInput = {
-    where: RestaurantWhereUniqueInput
-    create: XOR<RestaurantCreateWithoutMenuItemsInput, RestaurantUncheckedCreateWithoutMenuItemsInput>
   }
 
   export type MenuSectionCreateWithoutItemsInput = {
@@ -39639,65 +44879,83 @@ export namespace Prisma {
     create: XOR<MenuSectionCreateWithoutItemsInput, MenuSectionUncheckedCreateWithoutItemsInput>
   }
 
-  export type RestaurantUpsertWithoutMenuItemsInput = {
-    update: XOR<RestaurantUpdateWithoutMenuItemsInput, RestaurantUncheckedUpdateWithoutMenuItemsInput>
+  export type RestaurantCreateWithoutMenuItemsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    location: string
+    latitude?: number | null
+    longitude?: number | null
+    estimatedSpendMin?: number | null
+    estimatedSpendMax?: number | null
+    automaticSpendCalculation?: boolean
+    verified?: boolean
+    bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
+    favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
+    openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
+    reservations?: ReservationCreateNestedManyWithoutRestaurantInput
+    owner: UserCreateNestedOneWithoutRestaurantsInput
+    accessibility?: RestaurantAccessibilityCreateNestedManyWithoutRestaurantInput
+    tags?: RestaurantTagCreateNestedManyWithoutRestaurantInput
+    reviews?: ReviewCreateNestedManyWithoutRestaurantInput
+    tables?: TableCreateNestedManyWithoutRestaurantInput
+    zones?: ZoneCreateNestedManyWithoutRestaurantInput
+    images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
+  }
+
+  export type RestaurantUncheckedCreateWithoutMenuItemsInput = {
+    id?: string
+    ownerId: string
+    name: string
+    description?: string | null
+    location: string
+    latitude?: number | null
+    longitude?: number | null
+    estimatedSpendMin?: number | null
+    estimatedSpendMax?: number | null
+    automaticSpendCalculation?: boolean
+    verified?: boolean
+    bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
+    openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
+    accessibility?: RestaurantAccessibilityUncheckedCreateNestedManyWithoutRestaurantInput
+    tags?: RestaurantTagUncheckedCreateNestedManyWithoutRestaurantInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutRestaurantInput
+    tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
+    zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
+    images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
+  }
+
+  export type RestaurantCreateOrConnectWithoutMenuItemsInput = {
+    where: RestaurantWhereUniqueInput
     create: XOR<RestaurantCreateWithoutMenuItemsInput, RestaurantUncheckedCreateWithoutMenuItemsInput>
-    where?: RestaurantWhereInput
   }
 
-  export type RestaurantUpdateToOneWithWhereWithoutMenuItemsInput = {
-    where?: RestaurantWhereInput
-    data: XOR<RestaurantUpdateWithoutMenuItemsInput, RestaurantUncheckedUpdateWithoutMenuItemsInput>
+  export type MenuItemTagCreateWithoutMenuItemInput = {
+    id?: string
+    createdAt?: Date | string
+    tag: TagCreateNestedOneWithoutMenuItemTagsInput
   }
 
-  export type RestaurantUpdateWithoutMenuItemsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: StringFieldUpdateOperationsInput | string
-    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    estimatedSpendMin?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedSpendMax?: NullableIntFieldUpdateOperationsInput | number | null
-    automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
-    verified?: BoolFieldUpdateOperationsInput | boolean
-    bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
-    openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
-    reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
-    owner?: UserUpdateOneRequiredWithoutRestaurantsNestedInput
-    accessibility?: RestaurantAccessibilityUpdateManyWithoutRestaurantNestedInput
-    tags?: RestaurantTagUpdateManyWithoutRestaurantNestedInput
-    reviews?: ReviewUpdateManyWithoutRestaurantNestedInput
-    tables?: TableUpdateManyWithoutRestaurantNestedInput
-    zones?: ZoneUpdateManyWithoutRestaurantNestedInput
-    images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+  export type MenuItemTagUncheckedCreateWithoutMenuItemInput = {
+    id?: string
+    tagId: string
+    createdAt?: Date | string
   }
 
-  export type RestaurantUncheckedUpdateWithoutMenuItemsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ownerId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: StringFieldUpdateOperationsInput | string
-    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    estimatedSpendMin?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedSpendMax?: NullableIntFieldUpdateOperationsInput | number | null
-    automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
-    verified?: BoolFieldUpdateOperationsInput | boolean
-    bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
-    openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
-    reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
-    accessibility?: RestaurantAccessibilityUncheckedUpdateManyWithoutRestaurantNestedInput
-    tags?: RestaurantTagUncheckedUpdateManyWithoutRestaurantNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutRestaurantNestedInput
-    tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
-    zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
-    images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+  export type MenuItemTagCreateOrConnectWithoutMenuItemInput = {
+    where: MenuItemTagWhereUniqueInput
+    create: XOR<MenuItemTagCreateWithoutMenuItemInput, MenuItemTagUncheckedCreateWithoutMenuItemInput>
+  }
+
+  export type MenuItemTagCreateManyMenuItemInputEnvelope = {
+    data: MenuItemTagCreateManyMenuItemInput | MenuItemTagCreateManyMenuItemInput[]
+    skipDuplicates?: boolean
   }
 
   export type MenuSectionUpsertWithoutItemsInput = {
@@ -39733,6 +44991,95 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RestaurantUpsertWithoutMenuItemsInput = {
+    update: XOR<RestaurantUpdateWithoutMenuItemsInput, RestaurantUncheckedUpdateWithoutMenuItemsInput>
+    create: XOR<RestaurantCreateWithoutMenuItemsInput, RestaurantUncheckedCreateWithoutMenuItemsInput>
+    where?: RestaurantWhereInput
+  }
+
+  export type RestaurantUpdateToOneWithWhereWithoutMenuItemsInput = {
+    where?: RestaurantWhereInput
+    data: XOR<RestaurantUpdateWithoutMenuItemsInput, RestaurantUncheckedUpdateWithoutMenuItemsInput>
+  }
+
+  export type RestaurantUpdateWithoutMenuItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedSpendMin?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedSpendMax?: NullableIntFieldUpdateOperationsInput | number | null
+    automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
+    favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
+    openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
+    reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
+    owner?: UserUpdateOneRequiredWithoutRestaurantsNestedInput
+    accessibility?: RestaurantAccessibilityUpdateManyWithoutRestaurantNestedInput
+    tags?: RestaurantTagUpdateManyWithoutRestaurantNestedInput
+    reviews?: ReviewUpdateManyWithoutRestaurantNestedInput
+    tables?: TableUpdateManyWithoutRestaurantNestedInput
+    zones?: ZoneUpdateManyWithoutRestaurantNestedInput
+    images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
+  }
+
+  export type RestaurantUncheckedUpdateWithoutMenuItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedSpendMin?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedSpendMax?: NullableIntFieldUpdateOperationsInput | number | null
+    automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
+    openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
+    accessibility?: RestaurantAccessibilityUncheckedUpdateManyWithoutRestaurantNestedInput
+    tags?: RestaurantTagUncheckedUpdateManyWithoutRestaurantNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutRestaurantNestedInput
+    tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
+    zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
+    images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
+  }
+
+  export type MenuItemTagUpsertWithWhereUniqueWithoutMenuItemInput = {
+    where: MenuItemTagWhereUniqueInput
+    update: XOR<MenuItemTagUpdateWithoutMenuItemInput, MenuItemTagUncheckedUpdateWithoutMenuItemInput>
+    create: XOR<MenuItemTagCreateWithoutMenuItemInput, MenuItemTagUncheckedCreateWithoutMenuItemInput>
+  }
+
+  export type MenuItemTagUpdateWithWhereUniqueWithoutMenuItemInput = {
+    where: MenuItemTagWhereUniqueInput
+    data: XOR<MenuItemTagUpdateWithoutMenuItemInput, MenuItemTagUncheckedUpdateWithoutMenuItemInput>
+  }
+
+  export type MenuItemTagUpdateManyWithWhereWithoutMenuItemInput = {
+    where: MenuItemTagScalarWhereInput
+    data: XOR<MenuItemTagUpdateManyMutationInput, MenuItemTagUncheckedUpdateManyWithoutMenuItemInput>
+  }
+
+  export type MenuItemTagScalarWhereInput = {
+    AND?: MenuItemTagScalarWhereInput | MenuItemTagScalarWhereInput[]
+    OR?: MenuItemTagScalarWhereInput[]
+    NOT?: MenuItemTagScalarWhereInput | MenuItemTagScalarWhereInput[]
+    id?: StringFilter<"MenuItemTag"> | string
+    menuItemId?: StringFilter<"MenuItemTag"> | string
+    tagId?: StringFilter<"MenuItemTag"> | string
+    createdAt?: DateTimeFilter<"MenuItemTag"> | Date | string
+  }
+
   export type TableCreateWithoutZoneInput = {
     id?: string
     capacity: number
@@ -39744,6 +45091,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityCreateNestedManyWithoutTableInput
     requestedInChanges?: ReservationChangeRequestCreateNestedManyWithoutNewTableInput
     tableTags?: TableTagCreateNestedManyWithoutTableInput
+    tableAccessibilities?: TableAccessibilityCreateNestedManyWithoutTableInput
   }
 
   export type TableUncheckedCreateWithoutZoneInput = {
@@ -39757,6 +45105,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityUncheckedCreateNestedManyWithoutTableInput
     requestedInChanges?: ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput
     tableTags?: TableTagUncheckedCreateNestedManyWithoutTableInput
+    tableAccessibilities?: TableAccessibilityUncheckedCreateNestedManyWithoutTableInput
   }
 
   export type TableCreateOrConnectWithoutZoneInput = {
@@ -39781,8 +45130,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationCreateNestedManyWithoutRestaurantInput
@@ -39792,6 +45139,9 @@ export namespace Prisma {
     reviews?: ReviewCreateNestedManyWithoutRestaurantInput
     tables?: TableCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUncheckedCreateWithoutZonesInput = {
@@ -39807,8 +45157,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
@@ -39817,6 +45165,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedCreateNestedManyWithoutRestaurantInput
     tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantCreateOrConnectWithoutZonesInput = {
@@ -39863,8 +45214,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
@@ -39874,6 +45223,9 @@ export namespace Prisma {
     reviews?: ReviewUpdateManyWithoutRestaurantNestedInput
     tables?: TableUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateWithoutZonesInput = {
@@ -39889,8 +45241,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -39899,6 +45249,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedUpdateManyWithoutRestaurantNestedInput
     tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
   }
 
   export type ReservationCreateWithoutTableInput = {
@@ -39959,8 +45312,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationCreateNestedManyWithoutRestaurantInput
@@ -39970,6 +45321,9 @@ export namespace Prisma {
     reviews?: ReviewCreateNestedManyWithoutRestaurantInput
     zones?: ZoneCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUncheckedCreateWithoutTablesInput = {
@@ -39985,8 +45339,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
@@ -39995,6 +45347,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedCreateNestedManyWithoutRestaurantInput
     zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantCreateOrConnectWithoutTablesInput = {
@@ -40101,6 +45456,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TableAccessibilityCreateWithoutTableInput = {
+    id?: string
+    createdAt?: Date | string
+    option: AccessibilityOptionCreateNestedOneWithoutTableAccessibilitiesInput
+  }
+
+  export type TableAccessibilityUncheckedCreateWithoutTableInput = {
+    id?: string
+    optionId: string
+    createdAt?: Date | string
+  }
+
+  export type TableAccessibilityCreateOrConnectWithoutTableInput = {
+    where: TableAccessibilityWhereUniqueInput
+    create: XOR<TableAccessibilityCreateWithoutTableInput, TableAccessibilityUncheckedCreateWithoutTableInput>
+  }
+
+  export type TableAccessibilityCreateManyTableInputEnvelope = {
+    data: TableAccessibilityCreateManyTableInput | TableAccessibilityCreateManyTableInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ReservationUpsertWithWhereUniqueWithoutTableInput = {
     where: ReservationWhereUniqueInput
     update: XOR<ReservationUpdateWithoutTableInput, ReservationUncheckedUpdateWithoutTableInput>
@@ -40140,8 +45517,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
@@ -40151,6 +45526,9 @@ export namespace Prisma {
     reviews?: ReviewUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateWithoutTablesInput = {
@@ -40166,8 +45544,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -40176,6 +45552,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
   }
 
   export type ZoneUpsertWithoutTablesInput = {
@@ -40271,6 +45650,32 @@ export namespace Prisma {
     tagId?: StringFilter<"TableTag"> | string
   }
 
+  export type TableAccessibilityUpsertWithWhereUniqueWithoutTableInput = {
+    where: TableAccessibilityWhereUniqueInput
+    update: XOR<TableAccessibilityUpdateWithoutTableInput, TableAccessibilityUncheckedUpdateWithoutTableInput>
+    create: XOR<TableAccessibilityCreateWithoutTableInput, TableAccessibilityUncheckedCreateWithoutTableInput>
+  }
+
+  export type TableAccessibilityUpdateWithWhereUniqueWithoutTableInput = {
+    where: TableAccessibilityWhereUniqueInput
+    data: XOR<TableAccessibilityUpdateWithoutTableInput, TableAccessibilityUncheckedUpdateWithoutTableInput>
+  }
+
+  export type TableAccessibilityUpdateManyWithWhereWithoutTableInput = {
+    where: TableAccessibilityScalarWhereInput
+    data: XOR<TableAccessibilityUpdateManyMutationInput, TableAccessibilityUncheckedUpdateManyWithoutTableInput>
+  }
+
+  export type TableAccessibilityScalarWhereInput = {
+    AND?: TableAccessibilityScalarWhereInput | TableAccessibilityScalarWhereInput[]
+    OR?: TableAccessibilityScalarWhereInput[]
+    NOT?: TableAccessibilityScalarWhereInput | TableAccessibilityScalarWhereInput[]
+    id?: StringFilter<"TableAccessibility"> | string
+    tableId?: StringFilter<"TableAccessibility"> | string
+    optionId?: StringFilter<"TableAccessibility"> | string
+    createdAt?: DateTimeFilter<"TableAccessibility"> | Date | string
+  }
+
   export type TableCreateWithoutUnavailabilityInput = {
     id?: string
     capacity: number
@@ -40282,6 +45687,7 @@ export namespace Prisma {
     zone: ZoneCreateNestedOneWithoutTablesInput
     requestedInChanges?: ReservationChangeRequestCreateNestedManyWithoutNewTableInput
     tableTags?: TableTagCreateNestedManyWithoutTableInput
+    tableAccessibilities?: TableAccessibilityCreateNestedManyWithoutTableInput
   }
 
   export type TableUncheckedCreateWithoutUnavailabilityInput = {
@@ -40295,6 +45701,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedCreateNestedManyWithoutTableInput
     requestedInChanges?: ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput
     tableTags?: TableTagUncheckedCreateNestedManyWithoutTableInput
+    tableAccessibilities?: TableAccessibilityUncheckedCreateNestedManyWithoutTableInput
   }
 
   export type TableCreateOrConnectWithoutUnavailabilityInput = {
@@ -40324,6 +45731,7 @@ export namespace Prisma {
     zone?: ZoneUpdateOneRequiredWithoutTablesNestedInput
     requestedInChanges?: ReservationChangeRequestUpdateManyWithoutNewTableNestedInput
     tableTags?: TableTagUpdateManyWithoutTableNestedInput
+    tableAccessibilities?: TableAccessibilityUpdateManyWithoutTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutUnavailabilityInput = {
@@ -40337,6 +45745,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedUpdateManyWithoutTableNestedInput
     requestedInChanges?: ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput
     tableTags?: TableTagUncheckedUpdateManyWithoutTableNestedInput
+    tableAccessibilities?: TableAccessibilityUncheckedUpdateManyWithoutTableNestedInput
   }
 
   export type NotificationCreateWithoutReservationInput = {
@@ -40400,8 +45809,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
     owner: UserCreateNestedOneWithoutRestaurantsInput
@@ -40411,6 +45818,9 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutRestaurantInput
     zones?: ZoneCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUncheckedCreateWithoutReservationsInput = {
@@ -40426,8 +45836,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
     accessibility?: RestaurantAccessibilityUncheckedCreateNestedManyWithoutRestaurantInput
@@ -40436,6 +45844,9 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
     zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantCreateOrConnectWithoutReservationsInput = {
@@ -40454,6 +45865,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityCreateNestedManyWithoutTableInput
     requestedInChanges?: ReservationChangeRequestCreateNestedManyWithoutNewTableInput
     tableTags?: TableTagCreateNestedManyWithoutTableInput
+    tableAccessibilities?: TableAccessibilityCreateNestedManyWithoutTableInput
   }
 
   export type TableUncheckedCreateWithoutReservationsInput = {
@@ -40467,6 +45879,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityUncheckedCreateNestedManyWithoutTableInput
     requestedInChanges?: ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput
     tableTags?: TableTagUncheckedCreateNestedManyWithoutTableInput
+    tableAccessibilities?: TableAccessibilityUncheckedCreateNestedManyWithoutTableInput
   }
 
   export type TableCreateOrConnectWithoutReservationsInput = {
@@ -40486,6 +45899,7 @@ export namespace Prisma {
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
     ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReservationsInput = {
@@ -40500,6 +45914,7 @@ export namespace Prisma {
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReservationsInput = {
@@ -40607,8 +46022,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
     owner?: UserUpdateOneRequiredWithoutRestaurantsNestedInput
@@ -40618,6 +46031,9 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateWithoutReservationsInput = {
@@ -40633,8 +46049,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
     accessibility?: RestaurantAccessibilityUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -40643,6 +46057,9 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
   }
 
   export type TableUpsertWithoutReservationsInput = {
@@ -40667,6 +46084,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityUpdateManyWithoutTableNestedInput
     requestedInChanges?: ReservationChangeRequestUpdateManyWithoutNewTableNestedInput
     tableTags?: TableTagUpdateManyWithoutTableNestedInput
+    tableAccessibilities?: TableAccessibilityUpdateManyWithoutTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutReservationsInput = {
@@ -40680,6 +46098,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityUncheckedUpdateManyWithoutTableNestedInput
     requestedInChanges?: ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput
     tableTags?: TableTagUncheckedUpdateManyWithoutTableNestedInput
+    tableAccessibilities?: TableAccessibilityUncheckedUpdateManyWithoutTableNestedInput
   }
 
   export type UserUpsertWithoutReservationsInput = {
@@ -40705,6 +46124,7 @@ export namespace Prisma {
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservationsInput = {
@@ -40719,6 +46139,7 @@ export namespace Prisma {
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ReservationChangeRequestUpsertWithWhereUniqueWithoutReservationInput = {
@@ -40790,6 +46211,7 @@ export namespace Prisma {
     reservations?: ReservationCreateNestedManyWithoutUserInput
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
+    interactions?: UserInteractionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReservationChangeRequestInput = {
@@ -40804,6 +46226,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedCreateNestedManyWithoutUserInput
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReservationChangeRequestInput = {
@@ -40822,6 +46245,7 @@ export namespace Prisma {
     zone: ZoneCreateNestedOneWithoutTablesInput
     unavailability?: TableUnavailabilityCreateNestedManyWithoutTableInput
     tableTags?: TableTagCreateNestedManyWithoutTableInput
+    tableAccessibilities?: TableAccessibilityCreateNestedManyWithoutTableInput
   }
 
   export type TableUncheckedCreateWithoutRequestedInChangesInput = {
@@ -40835,6 +46259,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedCreateNestedManyWithoutTableInput
     unavailability?: TableUnavailabilityUncheckedCreateNestedManyWithoutTableInput
     tableTags?: TableTagUncheckedCreateNestedManyWithoutTableInput
+    tableAccessibilities?: TableAccessibilityUncheckedCreateNestedManyWithoutTableInput
   }
 
   export type TableCreateOrConnectWithoutRequestedInChangesInput = {
@@ -40912,6 +46337,7 @@ export namespace Prisma {
     reservations?: ReservationUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
+    interactions?: UserInteractionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservationChangeRequestInput = {
@@ -40926,6 +46352,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TableUpsertWithoutRequestedInChangesInput = {
@@ -40950,6 +46377,7 @@ export namespace Prisma {
     zone?: ZoneUpdateOneRequiredWithoutTablesNestedInput
     unavailability?: TableUnavailabilityUpdateManyWithoutTableNestedInput
     tableTags?: TableTagUpdateManyWithoutTableNestedInput
+    tableAccessibilities?: TableAccessibilityUpdateManyWithoutTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutRequestedInChangesInput = {
@@ -40963,6 +46391,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedUpdateManyWithoutTableNestedInput
     unavailability?: TableUnavailabilityUncheckedUpdateManyWithoutTableNestedInput
     tableTags?: TableTagUncheckedUpdateManyWithoutTableNestedInput
+    tableAccessibilities?: TableAccessibilityUncheckedUpdateManyWithoutTableNestedInput
   }
 
   export type ReservationCreateWithoutQrTokenInput = {
@@ -41106,6 +46535,7 @@ export namespace Prisma {
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
     ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -41120,6 +46550,7 @@ export namespace Prisma {
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -41197,6 +46628,7 @@ export namespace Prisma {
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -41211,6 +46643,7 @@ export namespace Prisma {
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RestaurantCreateWithoutReviewsInput = {
@@ -41225,8 +46658,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationCreateNestedManyWithoutRestaurantInput
@@ -41236,6 +46667,9 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutRestaurantInput
     zones?: ZoneCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUncheckedCreateWithoutReviewsInput = {
@@ -41251,8 +46685,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
@@ -41261,6 +46693,9 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
     zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantCreateOrConnectWithoutReviewsInput = {
@@ -41280,6 +46715,7 @@ export namespace Prisma {
     reservations?: ReservationCreateNestedManyWithoutUserInput
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
     ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewsInput = {
@@ -41294,6 +46730,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedCreateNestedManyWithoutUserInput
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReviewsInput = {
@@ -41346,8 +46783,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
@@ -41357,6 +46792,9 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateWithoutReviewsInput = {
@@ -41372,8 +46810,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -41382,6 +46818,9 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
   }
 
   export type UserUpsertWithoutReviewsInput = {
@@ -41407,6 +46846,7 @@ export namespace Prisma {
     reservations?: ReservationUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -41421,6 +46861,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ReviewImageUpsertWithWhereUniqueWithoutReviewInput = {
@@ -41517,8 +46958,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationCreateNestedManyWithoutRestaurantInput
     owner: UserCreateNestedOneWithoutRestaurantsInput
@@ -41528,6 +46967,9 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutRestaurantInput
     zones?: ZoneCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUncheckedCreateWithoutFavoritesInput = {
@@ -41543,8 +46985,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
     accessibility?: RestaurantAccessibilityUncheckedCreateNestedManyWithoutRestaurantInput
@@ -41553,6 +46993,9 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
     zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantCreateOrConnectWithoutFavoritesInput = {
@@ -41572,6 +47015,7 @@ export namespace Prisma {
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
     ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFavoritesInput = {
@@ -41586,6 +47030,7 @@ export namespace Prisma {
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFavoritesInput = {
@@ -41616,8 +47061,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
     owner?: UserUpdateOneRequiredWithoutRestaurantsNestedInput
@@ -41627,6 +47070,9 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateWithoutFavoritesInput = {
@@ -41642,8 +47088,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
     accessibility?: RestaurantAccessibilityUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -41652,6 +47096,9 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
   }
 
   export type UserUpsertWithoutFavoritesInput = {
@@ -41677,6 +47124,7 @@ export namespace Prisma {
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFavoritesInput = {
@@ -41691,6 +47139,7 @@ export namespace Prisma {
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RestaurantCreateWithoutOpeningHoursInput = {
@@ -41705,8 +47154,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationCreateNestedManyWithoutRestaurantInput
     owner: UserCreateNestedOneWithoutRestaurantsInput
@@ -41716,6 +47163,9 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutRestaurantInput
     zones?: ZoneCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUncheckedCreateWithoutOpeningHoursInput = {
@@ -41731,8 +47181,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
     accessibility?: RestaurantAccessibilityUncheckedCreateNestedManyWithoutRestaurantInput
@@ -41741,6 +47189,9 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
     zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantCreateOrConnectWithoutOpeningHoursInput = {
@@ -41771,8 +47222,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
     owner?: UserUpdateOneRequiredWithoutRestaurantsNestedInput
@@ -41782,6 +47231,9 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateWithoutOpeningHoursInput = {
@@ -41797,8 +47249,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
     accessibility?: RestaurantAccessibilityUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -41807,6 +47257,9 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantCreateWithoutBookingRuleInput = {
@@ -41820,8 +47273,6 @@ export namespace Prisma {
     estimatedSpendMax?: number | null
     automaticSpendCalculation?: boolean
     verified?: boolean
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationCreateNestedManyWithoutRestaurantInput
@@ -41832,6 +47283,9 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutRestaurantInput
     zones?: ZoneCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUncheckedCreateWithoutBookingRuleInput = {
@@ -41846,8 +47300,6 @@ export namespace Prisma {
     estimatedSpendMax?: number | null
     automaticSpendCalculation?: boolean
     verified?: boolean
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
@@ -41857,6 +47309,9 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
     zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantCreateOrConnectWithoutBookingRuleInput = {
@@ -41886,8 +47341,6 @@ export namespace Prisma {
     estimatedSpendMax?: NullableIntFieldUpdateOperationsInput | number | null
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
@@ -41898,6 +47351,9 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateWithoutBookingRuleInput = {
@@ -41912,8 +47368,6 @@ export namespace Prisma {
     estimatedSpendMax?: NullableIntFieldUpdateOperationsInput | number | null
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
-    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -41923,6 +47377,9 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
   }
 
   export type TagCreateWithoutCategoryInput = {
@@ -41930,6 +47387,8 @@ export namespace Prisma {
     name: string
     restaurants?: RestaurantTagCreateNestedManyWithoutTagInput
     tableTags?: TableTagCreateNestedManyWithoutTagInput
+    menuItemTags?: MenuItemTagCreateNestedManyWithoutTagInput
+    interactions?: UserInteractionCreateNestedManyWithoutTagInput
   }
 
   export type TagUncheckedCreateWithoutCategoryInput = {
@@ -41937,6 +47396,8 @@ export namespace Prisma {
     name: string
     restaurants?: RestaurantTagUncheckedCreateNestedManyWithoutTagInput
     tableTags?: TableTagUncheckedCreateNestedManyWithoutTagInput
+    menuItemTags?: MenuItemTagUncheckedCreateNestedManyWithoutTagInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutTagInput
   }
 
   export type TagCreateOrConnectWithoutCategoryInput = {
@@ -42031,6 +47492,64 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MenuItemTagCreateWithoutTagInput = {
+    id?: string
+    createdAt?: Date | string
+    menuItem: MenuItemCreateNestedOneWithoutMenuItemTagsInput
+  }
+
+  export type MenuItemTagUncheckedCreateWithoutTagInput = {
+    id?: string
+    menuItemId: string
+    createdAt?: Date | string
+  }
+
+  export type MenuItemTagCreateOrConnectWithoutTagInput = {
+    where: MenuItemTagWhereUniqueInput
+    create: XOR<MenuItemTagCreateWithoutTagInput, MenuItemTagUncheckedCreateWithoutTagInput>
+  }
+
+  export type MenuItemTagCreateManyTagInputEnvelope = {
+    data: MenuItemTagCreateManyTagInput | MenuItemTagCreateManyTagInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserInteractionCreateWithoutTagInput = {
+    id?: string
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutInteractionsInput
+    restaurant?: RestaurantCreateNestedOneWithoutInteractionsInput
+    option?: AccessibilityOptionCreateNestedOneWithoutInteractionsInput
+  }
+
+  export type UserInteractionUncheckedCreateWithoutTagInput = {
+    id?: string
+    userId: string
+    restaurantId?: string | null
+    optionId?: string | null
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type UserInteractionCreateOrConnectWithoutTagInput = {
+    where: UserInteractionWhereUniqueInput
+    create: XOR<UserInteractionCreateWithoutTagInput, UserInteractionUncheckedCreateWithoutTagInput>
+  }
+
+  export type UserInteractionCreateManyTagInputEnvelope = {
+    data: UserInteractionCreateManyTagInput | UserInteractionCreateManyTagInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RestaurantTagUpsertWithWhereUniqueWithoutTagInput = {
     where: RestaurantTagWhereUniqueInput
     update: XOR<RestaurantTagUpdateWithoutTagInput, RestaurantTagUncheckedUpdateWithoutTagInput>
@@ -42086,6 +47605,38 @@ export namespace Prisma {
     data: XOR<TableTagUpdateManyMutationInput, TableTagUncheckedUpdateManyWithoutTagInput>
   }
 
+  export type MenuItemTagUpsertWithWhereUniqueWithoutTagInput = {
+    where: MenuItemTagWhereUniqueInput
+    update: XOR<MenuItemTagUpdateWithoutTagInput, MenuItemTagUncheckedUpdateWithoutTagInput>
+    create: XOR<MenuItemTagCreateWithoutTagInput, MenuItemTagUncheckedCreateWithoutTagInput>
+  }
+
+  export type MenuItemTagUpdateWithWhereUniqueWithoutTagInput = {
+    where: MenuItemTagWhereUniqueInput
+    data: XOR<MenuItemTagUpdateWithoutTagInput, MenuItemTagUncheckedUpdateWithoutTagInput>
+  }
+
+  export type MenuItemTagUpdateManyWithWhereWithoutTagInput = {
+    where: MenuItemTagScalarWhereInput
+    data: XOR<MenuItemTagUpdateManyMutationInput, MenuItemTagUncheckedUpdateManyWithoutTagInput>
+  }
+
+  export type UserInteractionUpsertWithWhereUniqueWithoutTagInput = {
+    where: UserInteractionWhereUniqueInput
+    update: XOR<UserInteractionUpdateWithoutTagInput, UserInteractionUncheckedUpdateWithoutTagInput>
+    create: XOR<UserInteractionCreateWithoutTagInput, UserInteractionUncheckedCreateWithoutTagInput>
+  }
+
+  export type UserInteractionUpdateWithWhereUniqueWithoutTagInput = {
+    where: UserInteractionWhereUniqueInput
+    data: XOR<UserInteractionUpdateWithoutTagInput, UserInteractionUncheckedUpdateWithoutTagInput>
+  }
+
+  export type UserInteractionUpdateManyWithWhereWithoutTagInput = {
+    where: UserInteractionScalarWhereInput
+    data: XOR<UserInteractionUpdateManyMutationInput, UserInteractionUncheckedUpdateManyWithoutTagInput>
+  }
+
   export type RestaurantCreateWithoutTagsInput = {
     id?: string
     name: string
@@ -42098,8 +47649,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationCreateNestedManyWithoutRestaurantInput
@@ -42109,6 +47658,9 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutRestaurantInput
     zones?: ZoneCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUncheckedCreateWithoutTagsInput = {
@@ -42124,8 +47676,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
@@ -42134,6 +47684,9 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
     zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantCreateOrConnectWithoutTagsInput = {
@@ -42146,6 +47699,8 @@ export namespace Prisma {
     name: string
     category: TagCategoryCreateNestedOneWithoutTagsInput
     tableTags?: TableTagCreateNestedManyWithoutTagInput
+    menuItemTags?: MenuItemTagCreateNestedManyWithoutTagInput
+    interactions?: UserInteractionCreateNestedManyWithoutTagInput
   }
 
   export type TagUncheckedCreateWithoutRestaurantsInput = {
@@ -42153,6 +47708,8 @@ export namespace Prisma {
     categoryId: string
     name: string
     tableTags?: TableTagUncheckedCreateNestedManyWithoutTagInput
+    menuItemTags?: MenuItemTagUncheckedCreateNestedManyWithoutTagInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutTagInput
   }
 
   export type TagCreateOrConnectWithoutRestaurantsInput = {
@@ -42183,8 +47740,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
@@ -42194,6 +47749,9 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateWithoutTagsInput = {
@@ -42209,8 +47767,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -42219,6 +47775,9 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
   }
 
   export type TagUpsertWithoutRestaurantsInput = {
@@ -42237,6 +47796,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     category?: TagCategoryUpdateOneRequiredWithoutTagsNestedInput
     tableTags?: TableTagUpdateManyWithoutTagNestedInput
+    menuItemTags?: MenuItemTagUpdateManyWithoutTagNestedInput
+    interactions?: UserInteractionUpdateManyWithoutTagNestedInput
   }
 
   export type TagUncheckedUpdateWithoutRestaurantsInput = {
@@ -42244,6 +47805,8 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     tableTags?: TableTagUncheckedUpdateManyWithoutTagNestedInput
+    menuItemTags?: MenuItemTagUncheckedUpdateManyWithoutTagNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutTagNestedInput
   }
 
   export type RestaurantAccessibilityCreateWithoutOptionInput = {
@@ -42266,6 +47829,64 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TableAccessibilityCreateWithoutOptionInput = {
+    id?: string
+    createdAt?: Date | string
+    table: TableCreateNestedOneWithoutTableAccessibilitiesInput
+  }
+
+  export type TableAccessibilityUncheckedCreateWithoutOptionInput = {
+    id?: string
+    tableId: string
+    createdAt?: Date | string
+  }
+
+  export type TableAccessibilityCreateOrConnectWithoutOptionInput = {
+    where: TableAccessibilityWhereUniqueInput
+    create: XOR<TableAccessibilityCreateWithoutOptionInput, TableAccessibilityUncheckedCreateWithoutOptionInput>
+  }
+
+  export type TableAccessibilityCreateManyOptionInputEnvelope = {
+    data: TableAccessibilityCreateManyOptionInput | TableAccessibilityCreateManyOptionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserInteractionCreateWithoutOptionInput = {
+    id?: string
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutInteractionsInput
+    restaurant?: RestaurantCreateNestedOneWithoutInteractionsInput
+    tag?: TagCreateNestedOneWithoutInteractionsInput
+  }
+
+  export type UserInteractionUncheckedCreateWithoutOptionInput = {
+    id?: string
+    userId: string
+    restaurantId?: string | null
+    tagId?: string | null
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type UserInteractionCreateOrConnectWithoutOptionInput = {
+    where: UserInteractionWhereUniqueInput
+    create: XOR<UserInteractionCreateWithoutOptionInput, UserInteractionUncheckedCreateWithoutOptionInput>
+  }
+
+  export type UserInteractionCreateManyOptionInputEnvelope = {
+    data: UserInteractionCreateManyOptionInput | UserInteractionCreateManyOptionInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RestaurantAccessibilityUpsertWithWhereUniqueWithoutOptionInput = {
     where: RestaurantAccessibilityWhereUniqueInput
     update: XOR<RestaurantAccessibilityUpdateWithoutOptionInput, RestaurantAccessibilityUncheckedUpdateWithoutOptionInput>
@@ -42282,11 +47903,45 @@ export namespace Prisma {
     data: XOR<RestaurantAccessibilityUpdateManyMutationInput, RestaurantAccessibilityUncheckedUpdateManyWithoutOptionInput>
   }
 
+  export type TableAccessibilityUpsertWithWhereUniqueWithoutOptionInput = {
+    where: TableAccessibilityWhereUniqueInput
+    update: XOR<TableAccessibilityUpdateWithoutOptionInput, TableAccessibilityUncheckedUpdateWithoutOptionInput>
+    create: XOR<TableAccessibilityCreateWithoutOptionInput, TableAccessibilityUncheckedCreateWithoutOptionInput>
+  }
+
+  export type TableAccessibilityUpdateWithWhereUniqueWithoutOptionInput = {
+    where: TableAccessibilityWhereUniqueInput
+    data: XOR<TableAccessibilityUpdateWithoutOptionInput, TableAccessibilityUncheckedUpdateWithoutOptionInput>
+  }
+
+  export type TableAccessibilityUpdateManyWithWhereWithoutOptionInput = {
+    where: TableAccessibilityScalarWhereInput
+    data: XOR<TableAccessibilityUpdateManyMutationInput, TableAccessibilityUncheckedUpdateManyWithoutOptionInput>
+  }
+
+  export type UserInteractionUpsertWithWhereUniqueWithoutOptionInput = {
+    where: UserInteractionWhereUniqueInput
+    update: XOR<UserInteractionUpdateWithoutOptionInput, UserInteractionUncheckedUpdateWithoutOptionInput>
+    create: XOR<UserInteractionCreateWithoutOptionInput, UserInteractionUncheckedCreateWithoutOptionInput>
+  }
+
+  export type UserInteractionUpdateWithWhereUniqueWithoutOptionInput = {
+    where: UserInteractionWhereUniqueInput
+    data: XOR<UserInteractionUpdateWithoutOptionInput, UserInteractionUncheckedUpdateWithoutOptionInput>
+  }
+
+  export type UserInteractionUpdateManyWithWhereWithoutOptionInput = {
+    where: UserInteractionScalarWhereInput
+    data: XOR<UserInteractionUpdateManyMutationInput, UserInteractionUncheckedUpdateManyWithoutOptionInput>
+  }
+
   export type AccessibilityOptionCreateWithoutRestaurantAccessibilitiesInput = {
     id?: string
     optionName: string
     icon?: string | null
     description: string
+    tableAccessibilities?: TableAccessibilityCreateNestedManyWithoutOptionInput
+    interactions?: UserInteractionCreateNestedManyWithoutOptionInput
   }
 
   export type AccessibilityOptionUncheckedCreateWithoutRestaurantAccessibilitiesInput = {
@@ -42294,6 +47949,8 @@ export namespace Prisma {
     optionName: string
     icon?: string | null
     description: string
+    tableAccessibilities?: TableAccessibilityUncheckedCreateNestedManyWithoutOptionInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutOptionInput
   }
 
   export type AccessibilityOptionCreateOrConnectWithoutRestaurantAccessibilitiesInput = {
@@ -42313,8 +47970,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationCreateNestedManyWithoutRestaurantInput
@@ -42324,6 +47979,9 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutRestaurantInput
     zones?: ZoneCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantUncheckedCreateWithoutAccessibilityInput = {
@@ -42339,8 +47997,6 @@ export namespace Prisma {
     automaticSpendCalculation?: boolean
     verified?: boolean
     bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
-    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
-    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
     openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
@@ -42349,6 +48005,9 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
     zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
     images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
   }
 
   export type RestaurantCreateOrConnectWithoutAccessibilityInput = {
@@ -42372,6 +48031,8 @@ export namespace Prisma {
     optionName?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
+    tableAccessibilities?: TableAccessibilityUpdateManyWithoutOptionNestedInput
+    interactions?: UserInteractionUpdateManyWithoutOptionNestedInput
   }
 
   export type AccessibilityOptionUncheckedUpdateWithoutRestaurantAccessibilitiesInput = {
@@ -42379,6 +48040,8 @@ export namespace Prisma {
     optionName?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
+    tableAccessibilities?: TableAccessibilityUncheckedUpdateManyWithoutOptionNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutOptionNestedInput
   }
 
   export type RestaurantUpsertWithoutAccessibilityInput = {
@@ -42404,8 +48067,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
@@ -42415,6 +48076,9 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateWithoutAccessibilityInput = {
@@ -42430,8 +48094,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -42440,6 +48102,9 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
   }
 
   export type UserCreateWithoutAuditLogsInput = {
@@ -42454,6 +48119,7 @@ export namespace Prisma {
     restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
     ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -42468,6 +48134,7 @@ export namespace Prisma {
     restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -42498,6 +48165,7 @@ export namespace Prisma {
     restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -42512,6 +48180,7 @@ export namespace Prisma {
     restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
     ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TableCreateWithoutTableTagsInput = {
@@ -42525,6 +48194,7 @@ export namespace Prisma {
     zone: ZoneCreateNestedOneWithoutTablesInput
     unavailability?: TableUnavailabilityCreateNestedManyWithoutTableInput
     requestedInChanges?: ReservationChangeRequestCreateNestedManyWithoutNewTableInput
+    tableAccessibilities?: TableAccessibilityCreateNestedManyWithoutTableInput
   }
 
   export type TableUncheckedCreateWithoutTableTagsInput = {
@@ -42538,6 +48208,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedCreateNestedManyWithoutTableInput
     unavailability?: TableUnavailabilityUncheckedCreateNestedManyWithoutTableInput
     requestedInChanges?: ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput
+    tableAccessibilities?: TableAccessibilityUncheckedCreateNestedManyWithoutTableInput
   }
 
   export type TableCreateOrConnectWithoutTableTagsInput = {
@@ -42550,6 +48221,8 @@ export namespace Prisma {
     name: string
     restaurants?: RestaurantTagCreateNestedManyWithoutTagInput
     category: TagCategoryCreateNestedOneWithoutTagsInput
+    menuItemTags?: MenuItemTagCreateNestedManyWithoutTagInput
+    interactions?: UserInteractionCreateNestedManyWithoutTagInput
   }
 
   export type TagUncheckedCreateWithoutTableTagsInput = {
@@ -42557,6 +48230,8 @@ export namespace Prisma {
     categoryId: string
     name: string
     restaurants?: RestaurantTagUncheckedCreateNestedManyWithoutTagInput
+    menuItemTags?: MenuItemTagUncheckedCreateNestedManyWithoutTagInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutTagInput
   }
 
   export type TagCreateOrConnectWithoutTableTagsInput = {
@@ -42586,6 +48261,7 @@ export namespace Prisma {
     zone?: ZoneUpdateOneRequiredWithoutTablesNestedInput
     unavailability?: TableUnavailabilityUpdateManyWithoutTableNestedInput
     requestedInChanges?: ReservationChangeRequestUpdateManyWithoutNewTableNestedInput
+    tableAccessibilities?: TableAccessibilityUpdateManyWithoutTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutTableTagsInput = {
@@ -42599,6 +48275,7 @@ export namespace Prisma {
     reservations?: ReservationUncheckedUpdateManyWithoutTableNestedInput
     unavailability?: TableUnavailabilityUncheckedUpdateManyWithoutTableNestedInput
     requestedInChanges?: ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput
+    tableAccessibilities?: TableAccessibilityUncheckedUpdateManyWithoutTableNestedInput
   }
 
   export type TagUpsertWithoutTableTagsInput = {
@@ -42617,6 +48294,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     restaurants?: RestaurantTagUpdateManyWithoutTagNestedInput
     category?: TagCategoryUpdateOneRequiredWithoutTagsNestedInput
+    menuItemTags?: MenuItemTagUpdateManyWithoutTagNestedInput
+    interactions?: UserInteractionUpdateManyWithoutTagNestedInput
   }
 
   export type TagUncheckedUpdateWithoutTableTagsInput = {
@@ -42624,6 +48303,730 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     restaurants?: RestaurantTagUncheckedUpdateManyWithoutTagNestedInput
+    menuItemTags?: MenuItemTagUncheckedUpdateManyWithoutTagNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutTagNestedInput
+  }
+
+  export type MenuItemCreateWithoutMenuItemTagsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    dietaryInfo?: string | null
+    isAvailable?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    section: MenuSectionCreateNestedOneWithoutItemsInput
+    restaurant: RestaurantCreateNestedOneWithoutMenuItemsInput
+  }
+
+  export type MenuItemUncheckedCreateWithoutMenuItemTagsInput = {
+    id?: string
+    restaurantId: string
+    name: string
+    description?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    dietaryInfo?: string | null
+    isAvailable?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sectionId: string
+  }
+
+  export type MenuItemCreateOrConnectWithoutMenuItemTagsInput = {
+    where: MenuItemWhereUniqueInput
+    create: XOR<MenuItemCreateWithoutMenuItemTagsInput, MenuItemUncheckedCreateWithoutMenuItemTagsInput>
+  }
+
+  export type TagCreateWithoutMenuItemTagsInput = {
+    id?: string
+    name: string
+    restaurants?: RestaurantTagCreateNestedManyWithoutTagInput
+    category: TagCategoryCreateNestedOneWithoutTagsInput
+    tableTags?: TableTagCreateNestedManyWithoutTagInput
+    interactions?: UserInteractionCreateNestedManyWithoutTagInput
+  }
+
+  export type TagUncheckedCreateWithoutMenuItemTagsInput = {
+    id?: string
+    categoryId: string
+    name: string
+    restaurants?: RestaurantTagUncheckedCreateNestedManyWithoutTagInput
+    tableTags?: TableTagUncheckedCreateNestedManyWithoutTagInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutTagInput
+  }
+
+  export type TagCreateOrConnectWithoutMenuItemTagsInput = {
+    where: TagWhereUniqueInput
+    create: XOR<TagCreateWithoutMenuItemTagsInput, TagUncheckedCreateWithoutMenuItemTagsInput>
+  }
+
+  export type MenuItemUpsertWithoutMenuItemTagsInput = {
+    update: XOR<MenuItemUpdateWithoutMenuItemTagsInput, MenuItemUncheckedUpdateWithoutMenuItemTagsInput>
+    create: XOR<MenuItemCreateWithoutMenuItemTagsInput, MenuItemUncheckedCreateWithoutMenuItemTagsInput>
+    where?: MenuItemWhereInput
+  }
+
+  export type MenuItemUpdateToOneWithWhereWithoutMenuItemTagsInput = {
+    where?: MenuItemWhereInput
+    data: XOR<MenuItemUpdateWithoutMenuItemTagsInput, MenuItemUncheckedUpdateWithoutMenuItemTagsInput>
+  }
+
+  export type MenuItemUpdateWithoutMenuItemTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: MenuSectionUpdateOneRequiredWithoutItemsNestedInput
+    restaurant?: RestaurantUpdateOneRequiredWithoutMenuItemsNestedInput
+  }
+
+  export type MenuItemUncheckedUpdateWithoutMenuItemTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    restaurantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TagUpsertWithoutMenuItemTagsInput = {
+    update: XOR<TagUpdateWithoutMenuItemTagsInput, TagUncheckedUpdateWithoutMenuItemTagsInput>
+    create: XOR<TagCreateWithoutMenuItemTagsInput, TagUncheckedCreateWithoutMenuItemTagsInput>
+    where?: TagWhereInput
+  }
+
+  export type TagUpdateToOneWithWhereWithoutMenuItemTagsInput = {
+    where?: TagWhereInput
+    data: XOR<TagUpdateWithoutMenuItemTagsInput, TagUncheckedUpdateWithoutMenuItemTagsInput>
+  }
+
+  export type TagUpdateWithoutMenuItemTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    restaurants?: RestaurantTagUpdateManyWithoutTagNestedInput
+    category?: TagCategoryUpdateOneRequiredWithoutTagsNestedInput
+    tableTags?: TableTagUpdateManyWithoutTagNestedInput
+    interactions?: UserInteractionUpdateManyWithoutTagNestedInput
+  }
+
+  export type TagUncheckedUpdateWithoutMenuItemTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    restaurants?: RestaurantTagUncheckedUpdateManyWithoutTagNestedInput
+    tableTags?: TableTagUncheckedUpdateManyWithoutTagNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutTagNestedInput
+  }
+
+  export type RestaurantCreateWithoutMenuSectionsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    location: string
+    latitude?: number | null
+    longitude?: number | null
+    estimatedSpendMin?: number | null
+    estimatedSpendMax?: number | null
+    automaticSpendCalculation?: boolean
+    verified?: boolean
+    bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
+    favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
+    openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
+    reservations?: ReservationCreateNestedManyWithoutRestaurantInput
+    owner: UserCreateNestedOneWithoutRestaurantsInput
+    accessibility?: RestaurantAccessibilityCreateNestedManyWithoutRestaurantInput
+    tags?: RestaurantTagCreateNestedManyWithoutRestaurantInput
+    reviews?: ReviewCreateNestedManyWithoutRestaurantInput
+    tables?: TableCreateNestedManyWithoutRestaurantInput
+    zones?: ZoneCreateNestedManyWithoutRestaurantInput
+    images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+  }
+
+  export type RestaurantUncheckedCreateWithoutMenuSectionsInput = {
+    id?: string
+    ownerId: string
+    name: string
+    description?: string | null
+    location: string
+    latitude?: number | null
+    longitude?: number | null
+    estimatedSpendMin?: number | null
+    estimatedSpendMax?: number | null
+    automaticSpendCalculation?: boolean
+    verified?: boolean
+    bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
+    openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
+    accessibility?: RestaurantAccessibilityUncheckedCreateNestedManyWithoutRestaurantInput
+    tags?: RestaurantTagUncheckedCreateNestedManyWithoutRestaurantInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutRestaurantInput
+    tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
+    zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
+    images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+  }
+
+  export type RestaurantCreateOrConnectWithoutMenuSectionsInput = {
+    where: RestaurantWhereUniqueInput
+    create: XOR<RestaurantCreateWithoutMenuSectionsInput, RestaurantUncheckedCreateWithoutMenuSectionsInput>
+  }
+
+  export type MenuItemCreateWithoutSectionInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    dietaryInfo?: string | null
+    isAvailable?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    restaurant: RestaurantCreateNestedOneWithoutMenuItemsInput
+    menuItemTags?: MenuItemTagCreateNestedManyWithoutMenuItemInput
+  }
+
+  export type MenuItemUncheckedCreateWithoutSectionInput = {
+    id?: string
+    restaurantId: string
+    name: string
+    description?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    dietaryInfo?: string | null
+    isAvailable?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    menuItemTags?: MenuItemTagUncheckedCreateNestedManyWithoutMenuItemInput
+  }
+
+  export type MenuItemCreateOrConnectWithoutSectionInput = {
+    where: MenuItemWhereUniqueInput
+    create: XOR<MenuItemCreateWithoutSectionInput, MenuItemUncheckedCreateWithoutSectionInput>
+  }
+
+  export type MenuItemCreateManySectionInputEnvelope = {
+    data: MenuItemCreateManySectionInput | MenuItemCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RestaurantUpsertWithoutMenuSectionsInput = {
+    update: XOR<RestaurantUpdateWithoutMenuSectionsInput, RestaurantUncheckedUpdateWithoutMenuSectionsInput>
+    create: XOR<RestaurantCreateWithoutMenuSectionsInput, RestaurantUncheckedCreateWithoutMenuSectionsInput>
+    where?: RestaurantWhereInput
+  }
+
+  export type RestaurantUpdateToOneWithWhereWithoutMenuSectionsInput = {
+    where?: RestaurantWhereInput
+    data: XOR<RestaurantUpdateWithoutMenuSectionsInput, RestaurantUncheckedUpdateWithoutMenuSectionsInput>
+  }
+
+  export type RestaurantUpdateWithoutMenuSectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedSpendMin?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedSpendMax?: NullableIntFieldUpdateOperationsInput | number | null
+    automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
+    favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
+    openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
+    reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
+    owner?: UserUpdateOneRequiredWithoutRestaurantsNestedInput
+    accessibility?: RestaurantAccessibilityUpdateManyWithoutRestaurantNestedInput
+    tags?: RestaurantTagUpdateManyWithoutRestaurantNestedInput
+    reviews?: ReviewUpdateManyWithoutRestaurantNestedInput
+    tables?: TableUpdateManyWithoutRestaurantNestedInput
+    zones?: ZoneUpdateManyWithoutRestaurantNestedInput
+    images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+  }
+
+  export type RestaurantUncheckedUpdateWithoutMenuSectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedSpendMin?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedSpendMax?: NullableIntFieldUpdateOperationsInput | number | null
+    automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
+    openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
+    accessibility?: RestaurantAccessibilityUncheckedUpdateManyWithoutRestaurantNestedInput
+    tags?: RestaurantTagUncheckedUpdateManyWithoutRestaurantNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutRestaurantNestedInput
+    tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
+    zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
+    images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+  }
+
+  export type MenuItemUpsertWithWhereUniqueWithoutSectionInput = {
+    where: MenuItemWhereUniqueInput
+    update: XOR<MenuItemUpdateWithoutSectionInput, MenuItemUncheckedUpdateWithoutSectionInput>
+    create: XOR<MenuItemCreateWithoutSectionInput, MenuItemUncheckedCreateWithoutSectionInput>
+  }
+
+  export type MenuItemUpdateWithWhereUniqueWithoutSectionInput = {
+    where: MenuItemWhereUniqueInput
+    data: XOR<MenuItemUpdateWithoutSectionInput, MenuItemUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type MenuItemUpdateManyWithWhereWithoutSectionInput = {
+    where: MenuItemScalarWhereInput
+    data: XOR<MenuItemUpdateManyMutationInput, MenuItemUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type TableCreateWithoutTableAccessibilitiesInput = {
+    id?: string
+    capacity: number
+    active?: boolean
+    name: string
+    reservable?: boolean
+    reservations?: ReservationCreateNestedManyWithoutTableInput
+    restaurant: RestaurantCreateNestedOneWithoutTablesInput
+    zone: ZoneCreateNestedOneWithoutTablesInput
+    unavailability?: TableUnavailabilityCreateNestedManyWithoutTableInput
+    requestedInChanges?: ReservationChangeRequestCreateNestedManyWithoutNewTableInput
+    tableTags?: TableTagCreateNestedManyWithoutTableInput
+  }
+
+  export type TableUncheckedCreateWithoutTableAccessibilitiesInput = {
+    id?: string
+    zoneId: string
+    restaurantId: string
+    capacity: number
+    active?: boolean
+    name: string
+    reservable?: boolean
+    reservations?: ReservationUncheckedCreateNestedManyWithoutTableInput
+    unavailability?: TableUnavailabilityUncheckedCreateNestedManyWithoutTableInput
+    requestedInChanges?: ReservationChangeRequestUncheckedCreateNestedManyWithoutNewTableInput
+    tableTags?: TableTagUncheckedCreateNestedManyWithoutTableInput
+  }
+
+  export type TableCreateOrConnectWithoutTableAccessibilitiesInput = {
+    where: TableWhereUniqueInput
+    create: XOR<TableCreateWithoutTableAccessibilitiesInput, TableUncheckedCreateWithoutTableAccessibilitiesInput>
+  }
+
+  export type AccessibilityOptionCreateWithoutTableAccessibilitiesInput = {
+    id?: string
+    optionName: string
+    icon?: string | null
+    description: string
+    restaurantAccessibilities?: RestaurantAccessibilityCreateNestedManyWithoutOptionInput
+    interactions?: UserInteractionCreateNestedManyWithoutOptionInput
+  }
+
+  export type AccessibilityOptionUncheckedCreateWithoutTableAccessibilitiesInput = {
+    id?: string
+    optionName: string
+    icon?: string | null
+    description: string
+    restaurantAccessibilities?: RestaurantAccessibilityUncheckedCreateNestedManyWithoutOptionInput
+    interactions?: UserInteractionUncheckedCreateNestedManyWithoutOptionInput
+  }
+
+  export type AccessibilityOptionCreateOrConnectWithoutTableAccessibilitiesInput = {
+    where: AccessibilityOptionWhereUniqueInput
+    create: XOR<AccessibilityOptionCreateWithoutTableAccessibilitiesInput, AccessibilityOptionUncheckedCreateWithoutTableAccessibilitiesInput>
+  }
+
+  export type TableUpsertWithoutTableAccessibilitiesInput = {
+    update: XOR<TableUpdateWithoutTableAccessibilitiesInput, TableUncheckedUpdateWithoutTableAccessibilitiesInput>
+    create: XOR<TableCreateWithoutTableAccessibilitiesInput, TableUncheckedCreateWithoutTableAccessibilitiesInput>
+    where?: TableWhereInput
+  }
+
+  export type TableUpdateToOneWithWhereWithoutTableAccessibilitiesInput = {
+    where?: TableWhereInput
+    data: XOR<TableUpdateWithoutTableAccessibilitiesInput, TableUncheckedUpdateWithoutTableAccessibilitiesInput>
+  }
+
+  export type TableUpdateWithoutTableAccessibilitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    name?: StringFieldUpdateOperationsInput | string
+    reservable?: BoolFieldUpdateOperationsInput | boolean
+    reservations?: ReservationUpdateManyWithoutTableNestedInput
+    restaurant?: RestaurantUpdateOneRequiredWithoutTablesNestedInput
+    zone?: ZoneUpdateOneRequiredWithoutTablesNestedInput
+    unavailability?: TableUnavailabilityUpdateManyWithoutTableNestedInput
+    requestedInChanges?: ReservationChangeRequestUpdateManyWithoutNewTableNestedInput
+    tableTags?: TableTagUpdateManyWithoutTableNestedInput
+  }
+
+  export type TableUncheckedUpdateWithoutTableAccessibilitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    zoneId?: StringFieldUpdateOperationsInput | string
+    restaurantId?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    name?: StringFieldUpdateOperationsInput | string
+    reservable?: BoolFieldUpdateOperationsInput | boolean
+    reservations?: ReservationUncheckedUpdateManyWithoutTableNestedInput
+    unavailability?: TableUnavailabilityUncheckedUpdateManyWithoutTableNestedInput
+    requestedInChanges?: ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput
+    tableTags?: TableTagUncheckedUpdateManyWithoutTableNestedInput
+  }
+
+  export type AccessibilityOptionUpsertWithoutTableAccessibilitiesInput = {
+    update: XOR<AccessibilityOptionUpdateWithoutTableAccessibilitiesInput, AccessibilityOptionUncheckedUpdateWithoutTableAccessibilitiesInput>
+    create: XOR<AccessibilityOptionCreateWithoutTableAccessibilitiesInput, AccessibilityOptionUncheckedCreateWithoutTableAccessibilitiesInput>
+    where?: AccessibilityOptionWhereInput
+  }
+
+  export type AccessibilityOptionUpdateToOneWithWhereWithoutTableAccessibilitiesInput = {
+    where?: AccessibilityOptionWhereInput
+    data: XOR<AccessibilityOptionUpdateWithoutTableAccessibilitiesInput, AccessibilityOptionUncheckedUpdateWithoutTableAccessibilitiesInput>
+  }
+
+  export type AccessibilityOptionUpdateWithoutTableAccessibilitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    optionName?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    restaurantAccessibilities?: RestaurantAccessibilityUpdateManyWithoutOptionNestedInput
+    interactions?: UserInteractionUpdateManyWithoutOptionNestedInput
+  }
+
+  export type AccessibilityOptionUncheckedUpdateWithoutTableAccessibilitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    optionName?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    restaurantAccessibilities?: RestaurantAccessibilityUncheckedUpdateManyWithoutOptionNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutOptionNestedInput
+  }
+
+  export type UserCreateWithoutInteractionsInput = {
+    id?: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    name: string
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    reservations?: ReservationCreateNestedManyWithoutUserInput
+    restaurants?: RestaurantCreateNestedManyWithoutOwnerInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestCreateNestedManyWithoutRequestedByInput
+  }
+
+  export type UserUncheckedCreateWithoutInteractionsInput = {
+    id?: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    name: string
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutUserInput
+    restaurants?: RestaurantUncheckedCreateNestedManyWithoutOwnerInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  }
+
+  export type UserCreateOrConnectWithoutInteractionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInteractionsInput, UserUncheckedCreateWithoutInteractionsInput>
+  }
+
+  export type RestaurantCreateWithoutInteractionsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    location: string
+    latitude?: number | null
+    longitude?: number | null
+    estimatedSpendMin?: number | null
+    estimatedSpendMax?: number | null
+    automaticSpendCalculation?: boolean
+    verified?: boolean
+    bookingRule?: BookingRuleCreateNestedOneWithoutRestaurantInput
+    favorites?: FavoriteCreateNestedManyWithoutRestaurantInput
+    openingHours?: OpeningHourCreateNestedManyWithoutRestaurantInput
+    reservations?: ReservationCreateNestedManyWithoutRestaurantInput
+    owner: UserCreateNestedOneWithoutRestaurantsInput
+    accessibility?: RestaurantAccessibilityCreateNestedManyWithoutRestaurantInput
+    tags?: RestaurantTagCreateNestedManyWithoutRestaurantInput
+    reviews?: ReviewCreateNestedManyWithoutRestaurantInput
+    tables?: TableCreateNestedManyWithoutRestaurantInput
+    zones?: ZoneCreateNestedManyWithoutRestaurantInput
+    images?: RestaurantImageCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionCreateNestedManyWithoutRestaurantInput
+  }
+
+  export type RestaurantUncheckedCreateWithoutInteractionsInput = {
+    id?: string
+    ownerId: string
+    name: string
+    description?: string | null
+    location: string
+    latitude?: number | null
+    longitude?: number | null
+    estimatedSpendMin?: number | null
+    estimatedSpendMax?: number | null
+    automaticSpendCalculation?: boolean
+    verified?: boolean
+    bookingRule?: BookingRuleUncheckedCreateNestedOneWithoutRestaurantInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutRestaurantInput
+    openingHours?: OpeningHourUncheckedCreateNestedManyWithoutRestaurantInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutRestaurantInput
+    accessibility?: RestaurantAccessibilityUncheckedCreateNestedManyWithoutRestaurantInput
+    tags?: RestaurantTagUncheckedCreateNestedManyWithoutRestaurantInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutRestaurantInput
+    tables?: TableUncheckedCreateNestedManyWithoutRestaurantInput
+    zones?: ZoneUncheckedCreateNestedManyWithoutRestaurantInput
+    images?: RestaurantImageUncheckedCreateNestedManyWithoutRestaurantInput
+    menuItems?: MenuItemUncheckedCreateNestedManyWithoutRestaurantInput
+    menuSections?: MenuSectionUncheckedCreateNestedManyWithoutRestaurantInput
+  }
+
+  export type RestaurantCreateOrConnectWithoutInteractionsInput = {
+    where: RestaurantWhereUniqueInput
+    create: XOR<RestaurantCreateWithoutInteractionsInput, RestaurantUncheckedCreateWithoutInteractionsInput>
+  }
+
+  export type TagCreateWithoutInteractionsInput = {
+    id?: string
+    name: string
+    restaurants?: RestaurantTagCreateNestedManyWithoutTagInput
+    category: TagCategoryCreateNestedOneWithoutTagsInput
+    tableTags?: TableTagCreateNestedManyWithoutTagInput
+    menuItemTags?: MenuItemTagCreateNestedManyWithoutTagInput
+  }
+
+  export type TagUncheckedCreateWithoutInteractionsInput = {
+    id?: string
+    categoryId: string
+    name: string
+    restaurants?: RestaurantTagUncheckedCreateNestedManyWithoutTagInput
+    tableTags?: TableTagUncheckedCreateNestedManyWithoutTagInput
+    menuItemTags?: MenuItemTagUncheckedCreateNestedManyWithoutTagInput
+  }
+
+  export type TagCreateOrConnectWithoutInteractionsInput = {
+    where: TagWhereUniqueInput
+    create: XOR<TagCreateWithoutInteractionsInput, TagUncheckedCreateWithoutInteractionsInput>
+  }
+
+  export type AccessibilityOptionCreateWithoutInteractionsInput = {
+    id?: string
+    optionName: string
+    icon?: string | null
+    description: string
+    restaurantAccessibilities?: RestaurantAccessibilityCreateNestedManyWithoutOptionInput
+    tableAccessibilities?: TableAccessibilityCreateNestedManyWithoutOptionInput
+  }
+
+  export type AccessibilityOptionUncheckedCreateWithoutInteractionsInput = {
+    id?: string
+    optionName: string
+    icon?: string | null
+    description: string
+    restaurantAccessibilities?: RestaurantAccessibilityUncheckedCreateNestedManyWithoutOptionInput
+    tableAccessibilities?: TableAccessibilityUncheckedCreateNestedManyWithoutOptionInput
+  }
+
+  export type AccessibilityOptionCreateOrConnectWithoutInteractionsInput = {
+    where: AccessibilityOptionWhereUniqueInput
+    create: XOR<AccessibilityOptionCreateWithoutInteractionsInput, AccessibilityOptionUncheckedCreateWithoutInteractionsInput>
+  }
+
+  export type UserUpsertWithoutInteractionsInput = {
+    update: XOR<UserUpdateWithoutInteractionsInput, UserUncheckedUpdateWithoutInteractionsInput>
+    create: XOR<UserCreateWithoutInteractionsInput, UserUncheckedCreateWithoutInteractionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInteractionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInteractionsInput, UserUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type UserUpdateWithoutInteractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    name?: StringFieldUpdateOperationsInput | string
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    reservations?: ReservationUpdateManyWithoutUserNestedInput
+    restaurants?: RestaurantUpdateManyWithoutOwnerNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUpdateManyWithoutRequestedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInteractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    name?: StringFieldUpdateOperationsInput | string
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
+    restaurants?: RestaurantUncheckedUpdateManyWithoutOwnerNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    ReservationChangeRequest?: ReservationChangeRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  }
+
+  export type RestaurantUpsertWithoutInteractionsInput = {
+    update: XOR<RestaurantUpdateWithoutInteractionsInput, RestaurantUncheckedUpdateWithoutInteractionsInput>
+    create: XOR<RestaurantCreateWithoutInteractionsInput, RestaurantUncheckedCreateWithoutInteractionsInput>
+    where?: RestaurantWhereInput
+  }
+
+  export type RestaurantUpdateToOneWithWhereWithoutInteractionsInput = {
+    where?: RestaurantWhereInput
+    data: XOR<RestaurantUpdateWithoutInteractionsInput, RestaurantUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type RestaurantUpdateWithoutInteractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedSpendMin?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedSpendMax?: NullableIntFieldUpdateOperationsInput | number | null
+    automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
+    favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
+    openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
+    reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
+    owner?: UserUpdateOneRequiredWithoutRestaurantsNestedInput
+    accessibility?: RestaurantAccessibilityUpdateManyWithoutRestaurantNestedInput
+    tags?: RestaurantTagUpdateManyWithoutRestaurantNestedInput
+    reviews?: ReviewUpdateManyWithoutRestaurantNestedInput
+    tables?: TableUpdateManyWithoutRestaurantNestedInput
+    zones?: ZoneUpdateManyWithoutRestaurantNestedInput
+    images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
+  }
+
+  export type RestaurantUncheckedUpdateWithoutInteractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedSpendMin?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedSpendMax?: NullableIntFieldUpdateOperationsInput | number | null
+    automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
+    openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
+    accessibility?: RestaurantAccessibilityUncheckedUpdateManyWithoutRestaurantNestedInput
+    tags?: RestaurantTagUncheckedUpdateManyWithoutRestaurantNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutRestaurantNestedInput
+    tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
+    zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
+    images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
+  }
+
+  export type TagUpsertWithoutInteractionsInput = {
+    update: XOR<TagUpdateWithoutInteractionsInput, TagUncheckedUpdateWithoutInteractionsInput>
+    create: XOR<TagCreateWithoutInteractionsInput, TagUncheckedCreateWithoutInteractionsInput>
+    where?: TagWhereInput
+  }
+
+  export type TagUpdateToOneWithWhereWithoutInteractionsInput = {
+    where?: TagWhereInput
+    data: XOR<TagUpdateWithoutInteractionsInput, TagUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type TagUpdateWithoutInteractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    restaurants?: RestaurantTagUpdateManyWithoutTagNestedInput
+    category?: TagCategoryUpdateOneRequiredWithoutTagsNestedInput
+    tableTags?: TableTagUpdateManyWithoutTagNestedInput
+    menuItemTags?: MenuItemTagUpdateManyWithoutTagNestedInput
+  }
+
+  export type TagUncheckedUpdateWithoutInteractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    restaurants?: RestaurantTagUncheckedUpdateManyWithoutTagNestedInput
+    tableTags?: TableTagUncheckedUpdateManyWithoutTagNestedInput
+    menuItemTags?: MenuItemTagUncheckedUpdateManyWithoutTagNestedInput
+  }
+
+  export type AccessibilityOptionUpsertWithoutInteractionsInput = {
+    update: XOR<AccessibilityOptionUpdateWithoutInteractionsInput, AccessibilityOptionUncheckedUpdateWithoutInteractionsInput>
+    create: XOR<AccessibilityOptionCreateWithoutInteractionsInput, AccessibilityOptionUncheckedCreateWithoutInteractionsInput>
+    where?: AccessibilityOptionWhereInput
+  }
+
+  export type AccessibilityOptionUpdateToOneWithWhereWithoutInteractionsInput = {
+    where?: AccessibilityOptionWhereInput
+    data: XOR<AccessibilityOptionUpdateWithoutInteractionsInput, AccessibilityOptionUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type AccessibilityOptionUpdateWithoutInteractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    optionName?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    restaurantAccessibilities?: RestaurantAccessibilityUpdateManyWithoutOptionNestedInput
+    tableAccessibilities?: TableAccessibilityUpdateManyWithoutOptionNestedInput
+  }
+
+  export type AccessibilityOptionUncheckedUpdateWithoutInteractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    optionName?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    restaurantAccessibilities?: RestaurantAccessibilityUncheckedUpdateManyWithoutOptionNestedInput
+    tableAccessibilities?: TableAccessibilityUncheckedUpdateManyWithoutOptionNestedInput
   }
 
   export type AuditLogCreateManyUserInput = {
@@ -42699,6 +49102,19 @@ export namespace Prisma {
     newNotes?: string | null
     createdAt?: Date | string
     reviewedAt?: Date | string | null
+  }
+
+  export type UserInteractionCreateManyUserInput = {
+    id?: string
+    restaurantId?: string | null
+    tagId?: string | null
+    optionId?: string | null
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
   }
 
   export type AuditLogUpdateWithoutUserInput = {
@@ -42839,8 +49255,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUpdateManyWithoutRestaurantNestedInput
@@ -42850,6 +49264,9 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateWithoutOwnerInput = {
@@ -42864,8 +49281,6 @@ export namespace Prisma {
     automaticSpendCalculation?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     bookingRule?: BookingRuleUncheckedUpdateOneWithoutRestaurantNestedInput
-    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
-    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutRestaurantNestedInput
     openingHours?: OpeningHourUncheckedUpdateManyWithoutRestaurantNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutRestaurantNestedInput
@@ -42875,6 +49290,9 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutRestaurantNestedInput
     zones?: ZoneUncheckedUpdateManyWithoutRestaurantNestedInput
     images?: RestaurantImageUncheckedUpdateManyWithoutRestaurantNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuItems?: MenuItemUncheckedUpdateManyWithoutRestaurantNestedInput
+    menuSections?: MenuSectionUncheckedUpdateManyWithoutRestaurantNestedInput
   }
 
   export type RestaurantUncheckedUpdateManyWithoutOwnerInput = {
@@ -42958,27 +49376,43 @@ export namespace Prisma {
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type MenuSectionCreateManyRestaurantInput = {
-    id?: string
-    name: string
-    description?: string | null
-    sortOrder?: number
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type UserInteractionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    restaurant?: RestaurantUpdateOneWithoutInteractionsNestedInput
+    tag?: TagUpdateOneWithoutInteractionsNestedInput
+    option?: AccessibilityOptionUpdateOneWithoutInteractionsNestedInput
   }
 
-  export type MenuItemCreateManyRestaurantInput = {
-    id?: string
-    sectionId: string
-    name: string
-    description?: string | null
-    price: Decimal | DecimalJsLike | number | string
-    dietaryInfo?: string | null
-    isAvailable?: boolean
-    sortOrder?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type UserInteractionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    restaurantId?: NullableStringFieldUpdateOperationsInput | string | null
+    tagId?: NullableStringFieldUpdateOperationsInput | string | null
+    optionId?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInteractionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    restaurantId?: NullableStringFieldUpdateOperationsInput | string | null
+    tagId?: NullableStringFieldUpdateOperationsInput | string | null
+    optionId?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FavoriteCreateManyRestaurantInput = {
@@ -43053,75 +49487,40 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type MenuSectionUpdateWithoutRestaurantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    sortOrder?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    items?: MenuItemUpdateManyWithoutSectionNestedInput
+  export type UserInteractionCreateManyRestaurantInput = {
+    id?: string
+    userId: string
+    tagId?: string | null
+    optionId?: string | null
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
   }
 
-  export type MenuSectionUncheckedUpdateWithoutRestaurantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    sortOrder?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    items?: MenuItemUncheckedUpdateManyWithoutSectionNestedInput
+  export type MenuItemCreateManyRestaurantInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    dietaryInfo?: string | null
+    isAvailable?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sectionId: string
   }
 
-  export type MenuSectionUncheckedUpdateManyWithoutRestaurantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    sortOrder?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type MenuItemUpdateWithoutRestaurantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
-    isAvailable?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    section?: MenuSectionUpdateOneRequiredWithoutItemsNestedInput
-  }
-
-  export type MenuItemUncheckedUpdateWithoutRestaurantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sectionId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
-    isAvailable?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type MenuItemUncheckedUpdateManyWithoutRestaurantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sectionId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
-    isAvailable?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type MenuSectionCreateManyRestaurantInput = {
+    id?: string
+    name: string
+    description?: string | null
+    sortOrder?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FavoriteUpdateWithoutRestaurantInput = {
@@ -43287,6 +49686,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityUpdateManyWithoutTableNestedInput
     requestedInChanges?: ReservationChangeRequestUpdateManyWithoutNewTableNestedInput
     tableTags?: TableTagUpdateManyWithoutTableNestedInput
+    tableAccessibilities?: TableAccessibilityUpdateManyWithoutTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutRestaurantInput = {
@@ -43300,6 +49700,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityUncheckedUpdateManyWithoutTableNestedInput
     requestedInChanges?: ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput
     tableTags?: TableTagUncheckedUpdateManyWithoutTableNestedInput
+    tableAccessibilities?: TableAccessibilityUncheckedUpdateManyWithoutTableNestedInput
   }
 
   export type TableUncheckedUpdateManyWithoutRestaurantInput = {
@@ -43358,56 +49759,140 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type MenuItemCreateManySectionInput = {
+  export type UserInteractionUpdateWithoutRestaurantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInteractionsNestedInput
+    tag?: TagUpdateOneWithoutInteractionsNestedInput
+    option?: AccessibilityOptionUpdateOneWithoutInteractionsNestedInput
+  }
+
+  export type UserInteractionUncheckedUpdateWithoutRestaurantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    tagId?: NullableStringFieldUpdateOperationsInput | string | null
+    optionId?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInteractionUncheckedUpdateManyWithoutRestaurantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    tagId?: NullableStringFieldUpdateOperationsInput | string | null
+    optionId?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MenuItemUpdateWithoutRestaurantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: MenuSectionUpdateOneRequiredWithoutItemsNestedInput
+    menuItemTags?: MenuItemTagUpdateManyWithoutMenuItemNestedInput
+  }
+
+  export type MenuItemUncheckedUpdateWithoutRestaurantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    menuItemTags?: MenuItemTagUncheckedUpdateManyWithoutMenuItemNestedInput
+  }
+
+  export type MenuItemUncheckedUpdateManyWithoutRestaurantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MenuSectionUpdateWithoutRestaurantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: MenuItemUpdateManyWithoutSectionNestedInput
+  }
+
+  export type MenuSectionUncheckedUpdateWithoutRestaurantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: MenuItemUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type MenuSectionUncheckedUpdateManyWithoutRestaurantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MenuItemTagCreateManyMenuItemInput = {
     id?: string
-    restaurantId: string
-    name: string
-    description?: string | null
-    price: Decimal | DecimalJsLike | number | string
-    dietaryInfo?: string | null
-    isAvailable?: boolean
-    sortOrder?: number
+    tagId: string
     createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
-  export type MenuItemUpdateWithoutSectionInput = {
+  export type MenuItemTagUpdateWithoutMenuItemInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
-    isAvailable?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    restaurant?: RestaurantUpdateOneRequiredWithoutMenuItemsNestedInput
+    tag?: TagUpdateOneRequiredWithoutMenuItemTagsNestedInput
   }
 
-  export type MenuItemUncheckedUpdateWithoutSectionInput = {
+  export type MenuItemTagUncheckedUpdateWithoutMenuItemInput = {
     id?: StringFieldUpdateOperationsInput | string
-    restaurantId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
-    isAvailable?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
+    tagId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type MenuItemUncheckedUpdateManyWithoutSectionInput = {
+  export type MenuItemTagUncheckedUpdateManyWithoutMenuItemInput = {
     id?: StringFieldUpdateOperationsInput | string
-    restaurantId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
-    isAvailable?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
+    tagId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TableCreateManyZoneInput = {
@@ -43430,6 +49915,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityUpdateManyWithoutTableNestedInput
     requestedInChanges?: ReservationChangeRequestUpdateManyWithoutNewTableNestedInput
     tableTags?: TableTagUpdateManyWithoutTableNestedInput
+    tableAccessibilities?: TableAccessibilityUpdateManyWithoutTableNestedInput
   }
 
   export type TableUncheckedUpdateWithoutZoneInput = {
@@ -43443,6 +49929,7 @@ export namespace Prisma {
     unavailability?: TableUnavailabilityUncheckedUpdateManyWithoutTableNestedInput
     requestedInChanges?: ReservationChangeRequestUncheckedUpdateManyWithoutNewTableNestedInput
     tableTags?: TableTagUncheckedUpdateManyWithoutTableNestedInput
+    tableAccessibilities?: TableAccessibilityUncheckedUpdateManyWithoutTableNestedInput
   }
 
   export type TableUncheckedUpdateManyWithoutZoneInput = {
@@ -43492,6 +49979,12 @@ export namespace Prisma {
   export type TableTagCreateManyTableInput = {
     id?: string
     tagId: string
+  }
+
+  export type TableAccessibilityCreateManyTableInput = {
+    id?: string
+    optionId: string
+    createdAt?: Date | string
   }
 
   export type ReservationUpdateWithoutTableInput = {
@@ -43620,6 +50113,24 @@ export namespace Prisma {
     tagId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type TableAccessibilityUpdateWithoutTableInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    option?: AccessibilityOptionUpdateOneRequiredWithoutTableAccessibilitiesNestedInput
+  }
+
+  export type TableAccessibilityUncheckedUpdateWithoutTableInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    optionId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TableAccessibilityUncheckedUpdateManyWithoutTableInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    optionId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type NotificationCreateManyReservationInput = {
     id?: string
     userId: string
@@ -43746,6 +50257,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     restaurants?: RestaurantTagUpdateManyWithoutTagNestedInput
     tableTags?: TableTagUpdateManyWithoutTagNestedInput
+    menuItemTags?: MenuItemTagUpdateManyWithoutTagNestedInput
+    interactions?: UserInteractionUpdateManyWithoutTagNestedInput
   }
 
   export type TagUncheckedUpdateWithoutCategoryInput = {
@@ -43753,6 +50266,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     restaurants?: RestaurantTagUncheckedUpdateManyWithoutTagNestedInput
     tableTags?: TableTagUncheckedUpdateManyWithoutTagNestedInput
+    menuItemTags?: MenuItemTagUncheckedUpdateManyWithoutTagNestedInput
+    interactions?: UserInteractionUncheckedUpdateManyWithoutTagNestedInput
   }
 
   export type TagUncheckedUpdateManyWithoutCategoryInput = {
@@ -43768,6 +50283,25 @@ export namespace Prisma {
   export type TableTagCreateManyTagInput = {
     id?: string
     tableId: string
+  }
+
+  export type MenuItemTagCreateManyTagInput = {
+    id?: string
+    menuItemId: string
+    createdAt?: Date | string
+  }
+
+  export type UserInteractionCreateManyTagInput = {
+    id?: string
+    userId: string
+    restaurantId?: string | null
+    optionId?: string | null
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
   }
 
   export type RestaurantTagUpdateWithoutTagInput = {
@@ -43800,9 +50334,85 @@ export namespace Prisma {
     tableId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type MenuItemTagUpdateWithoutTagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    menuItem?: MenuItemUpdateOneRequiredWithoutMenuItemTagsNestedInput
+  }
+
+  export type MenuItemTagUncheckedUpdateWithoutTagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    menuItemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MenuItemTagUncheckedUpdateManyWithoutTagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    menuItemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInteractionUpdateWithoutTagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInteractionsNestedInput
+    restaurant?: RestaurantUpdateOneWithoutInteractionsNestedInput
+    option?: AccessibilityOptionUpdateOneWithoutInteractionsNestedInput
+  }
+
+  export type UserInteractionUncheckedUpdateWithoutTagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    restaurantId?: NullableStringFieldUpdateOperationsInput | string | null
+    optionId?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInteractionUncheckedUpdateManyWithoutTagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    restaurantId?: NullableStringFieldUpdateOperationsInput | string | null
+    optionId?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RestaurantAccessibilityCreateManyOptionInput = {
     id?: string
     restaurantId: string
+  }
+
+  export type TableAccessibilityCreateManyOptionInput = {
+    id?: string
+    tableId: string
+    createdAt?: Date | string
+  }
+
+  export type UserInteractionCreateManyOptionInput = {
+    id?: string
+    userId: string
+    restaurantId?: string | null
+    tagId?: string | null
+    searchQuery?: string | null
+    eventType: $Enums.InteractionType
+    source?: $Enums.InteractionSource | null
+    weight?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
   }
 
   export type RestaurantAccessibilityUpdateWithoutOptionInput = {
@@ -43818,6 +50428,117 @@ export namespace Prisma {
   export type RestaurantAccessibilityUncheckedUpdateManyWithoutOptionInput = {
     id?: StringFieldUpdateOperationsInput | string
     restaurantId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TableAccessibilityUpdateWithoutOptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    table?: TableUpdateOneRequiredWithoutTableAccessibilitiesNestedInput
+  }
+
+  export type TableAccessibilityUncheckedUpdateWithoutOptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TableAccessibilityUncheckedUpdateManyWithoutOptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInteractionUpdateWithoutOptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInteractionsNestedInput
+    restaurant?: RestaurantUpdateOneWithoutInteractionsNestedInput
+    tag?: TagUpdateOneWithoutInteractionsNestedInput
+  }
+
+  export type UserInteractionUncheckedUpdateWithoutOptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    restaurantId?: NullableStringFieldUpdateOperationsInput | string | null
+    tagId?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInteractionUncheckedUpdateManyWithoutOptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    restaurantId?: NullableStringFieldUpdateOperationsInput | string | null
+    tagId?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    source?: NullableEnumInteractionSourceFieldUpdateOperationsInput | $Enums.InteractionSource | null
+    weight?: FloatFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MenuItemCreateManySectionInput = {
+    id?: string
+    restaurantId: string
+    name: string
+    description?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    dietaryInfo?: string | null
+    isAvailable?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MenuItemUpdateWithoutSectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    restaurant?: RestaurantUpdateOneRequiredWithoutMenuItemsNestedInput
+    menuItemTags?: MenuItemTagUpdateManyWithoutMenuItemNestedInput
+  }
+
+  export type MenuItemUncheckedUpdateWithoutSectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    restaurantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    menuItemTags?: MenuItemTagUncheckedUpdateManyWithoutMenuItemNestedInput
+  }
+
+  export type MenuItemUncheckedUpdateManyWithoutSectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    restaurantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dietaryInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

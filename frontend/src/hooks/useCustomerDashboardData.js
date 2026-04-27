@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { authFetch } from "../components/utils/authFetch";
+import { getApiErrorMessage } from "../components/utils/getApiErrorMessage";
 
 export default function useCustomerDashboardData() {
     const [loading, setLoading] = useState(true);
@@ -11,18 +13,13 @@ export default function useCustomerDashboardData() {
             setStatus("");
 
             try {
-                const token = localStorage.getItem("token");
-
-                const res = await fetch("/api/customer/reservations", {
-                    headers: {
-                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                    },
-                });
-
-                const data = await res.json().catch(() => []);
+                const res = await authFetch("/api/customer/reservations");
+                const data = await res.json().catch(() => ({}));
 
                 if (!res.ok) {
-                    setStatus(data?.error || data?.message || "Failed to load dashboard data");
+                    setStatus(
+                        getApiErrorMessage(data, "Failed to load dashboard data")
+                    );
                     setReservations([]);
                     return;
                 }

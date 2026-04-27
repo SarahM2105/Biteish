@@ -6,6 +6,7 @@ import {
     fetchTablesForZones,
 } from "./api";
 import useOwnerTablesActions from "./useOwnerTableActions";
+import { getApiErrorMessage } from "../../components/utils/getApiErrorMessage";
 
 export default function useOwnerTables() {
     const [restaurant, setRestaurant] = useState(null);
@@ -80,9 +81,10 @@ export default function useOwnerTables() {
             if (!restaurantResult.response.ok) {
                 clearLayoutData();
                 setPageStatus(
-                    restaurantResult.data?.error ||
-                    restaurantResult.data?.message ||
-                    "Failed to load restaurant"
+                    getApiErrorMessage(
+                        restaurantResult.data,
+                        "Failed to load restaurant"
+                    )
                 );
                 return;
             }
@@ -104,9 +106,7 @@ export default function useOwnerTables() {
                 setZones([]);
                 setTables([]);
                 setPageStatus(
-                    zonesResult.data?.error ||
-                    zonesResult.data?.message ||
-                    "Failed to load zones"
+                    getApiErrorMessage(zonesResult.data, "Failed to load zones")
                 );
                 return;
             }

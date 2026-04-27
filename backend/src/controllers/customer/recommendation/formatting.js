@@ -50,7 +50,7 @@ function buildReason({
     }
 
     if (locationMatchScore > 0 && isOpenNow) {
-        return "Popular near you and open now";
+        return "Similar to places you've booked and open now";
     }
 
     if (locationMatchScore > 0) {

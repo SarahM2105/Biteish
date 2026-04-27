@@ -12,7 +12,7 @@ import OwnerDashboard from './pages/owner/OwnerDashboard';
 import OwnerRestaurantLayout from './pages/owner/OwnerRestaurantLayout';
 import OwnerRequests from './pages/owner/Request';
 import OwnerNotifications from "./pages/owner/Notifications";
-import AdminDashboard from './pages/AdminDashboard';
+import AdminDashboard from './pages/Admin/AdminDashboard';
 import CustomerSearchAndFilter from "./pages/customer/CustomerSearchAndFilter";
 import CustomerRestaurantDetails from "./pages/customer/CustomerRestaurantDetails";
 import CustomerBookingPage from "./pages/customer/CustomerBookingPage";
@@ -147,7 +147,7 @@ function App() {
                     <OwnerMenu/>
                 </ProtectedRoutes>
             }/>
-            <Route path="/admin-dashboard" element={
+            <Route path="/admin/dashboard" element={
                 <ProtectedRoutes allowedRoles={["ADMIN"]}>
                 <AdminDashboard/>
                     </ProtectedRoutes>

@@ -5,15 +5,76 @@ async function listRestaurants(req, res) {
         const q = (req.query.q || "").trim().toLowerCase();
         const userId = req.user?.userId || req.user?.id;
 
+        const searchWords = q
+            .split(/\s+/)
+            .map((word) => word.trim())
+            .filter(Boolean);
+
         const restaurants = await prisma.restaurant.findMany({
             where: {
                 verified: true,
-                ...(q
+                ...(searchWords.length > 0
                     ? {
-                        OR: [
-                            { name: { contains: q, mode: "insensitive" } },
-                            { location: { contains: q, mode: "insensitive" } },
-                        ],
+                        AND: searchWords.map((word) => ({
+                            OR: [
+                                {
+                                    name: {
+                                        contains: word,
+                                        mode: "insensitive",
+                                    },
+                                },
+                                {
+                                    location: {
+                                        contains: word,
+                                        mode: "insensitive",
+                                    },
+                                },
+                                {
+                                    tags: {
+                                        some: {
+                                            tag: {
+                                                name: {
+                                                    contains: word,
+                                                    mode: "insensitive",
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                                {
+                                    menuItems: {
+                                        some: {
+                                            OR: [
+                                                {
+                                                    name: {
+                                                        contains: word,
+                                                        mode: "insensitive",
+                                                    },
+                                                },
+                                                {
+                                                    dietaryInfo: {
+                                                        contains: word,
+                                                        mode: "insensitive",
+                                                    },
+                                                },
+                                                {
+                                                    menuItemTags: {
+                                                        some: {
+                                                            tag: {
+                                                                name: {
+                                                                    contains: word,
+                                                                    mode: "insensitive",
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                            ],
+                                        },
+                                    },
+                                },
+                            ],
+                        })),
                     }
                     : {}),
             },
@@ -73,6 +134,24 @@ async function listRestaurants(req, res) {
                         option: {
                             select: {
                                 optionName: true,
+                            },
+                        },
+                    },
+                },
+                menuItems: {
+                    where: {
+                        isAvailable: true,
+                    },
+                    select: {
+                        name: true,
+                        dietaryInfo: true,
+                        menuItemTags: {
+                            select: {
+                                tag: {
+                                    select: {
+                                        name: true,
+                                    },
+                                },
                             },
                         },
                     },

@@ -97,6 +97,7 @@ const {
     updateMe,
     updateMyPassword,
 } = require("../controllers/userController");
+const { getMenuItemTags } = require("../controllers/Owner/menu/menuTagsController");
 
 const router = express.Router();
 
@@ -170,6 +171,7 @@ router.post(
 );
 router.patch("/restaurant/images/:imageId/primary", setPrimaryRestaurantImage);
 router.delete("/restaurant/images/:imageId", deleteOwnerRestaurantImage);
+router.get("/menu/tags", getMenuItemTags);
 // owner profile
 router.get("/me", getMe);
 router.patch("/me", updateMe);

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { authFetch } from "../../utils/authFetch";
+import { getApiErrorMessage } from "../../utils/getApiErrorMessage";
 
 export default function TokenInput({ type }) {
     const [token, setToken] = useState("");
@@ -22,13 +24,10 @@ export default function TokenInput({ type }) {
         try {
             setLoading(true);
 
-            const authToken = localStorage.getItem("token");
-
-            const res = await fetch("/api/owner/check-in", {
+            const res = await authFetch("/api/owner/check-in", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
                 },
                 body: JSON.stringify({
                     qrToken: token.trim(),
@@ -38,11 +37,13 @@ export default function TokenInput({ type }) {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || "Check-in failed.");
+                setStatus(getApiErrorMessage(data, "Check-in failed."));
                 return;
             }
 
-            setStatus(`Checked in ${data.customer?.name || "customer"} at ${data.table?.name || "table"}`);
+            setStatus(
+                `Checked in ${data.customer?.name || "customer"} at ${data.table?.name || "table"}`
+            );
             setToken("");
         } catch (error) {
             console.error(error);

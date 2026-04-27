@@ -5,6 +5,7 @@ import BookingStep1Details from "./BookingStep1Details";
 import BookingStep2TableSelect from "./BookingStep2TableSelect";
 import BookingStep3Review from "./BookingStep3Review";
 import BookingStep4Confirmation from "./BookingStep4Confirmation";
+import { getApiErrorMessage } from "../../utils/getApiErrorMessage";
 import "./css/BookingStep1Details.css";
 import "./css/CustomerBookingPage.css";
 import "./css/BookingStep2TableSelect.css";
@@ -49,7 +50,7 @@ export default function CustomerBookingFlow() {
                 const { response, data } = await fetchCustomerRestaurant(restaurantId);
 
                 if (!response.ok) {
-                    setStatus(data?.message || "Failed to load restaurant");
+                    setStatus(getApiErrorMessage(data, "Failed to load restaurant"));
                     return;
                 }
 
@@ -73,12 +74,14 @@ export default function CustomerBookingFlow() {
                 const { response, data } = await fetchCustomerRestaurantZones(restaurantId);
 
                 if (!response.ok) {
+                    setZones([]);
                     return;
                 }
 
                 setZones(Array.isArray(data) ? data : []);
             } catch (error) {
                 console.error(error);
+                setZones([]);
             }
         }
 
@@ -98,12 +101,14 @@ export default function CustomerBookingFlow() {
                 const { response, data } = await fetchCustomerZoneTables(form.zoneId);
 
                 if (!response.ok) {
+                    setTables([]);
                     return;
                 }
 
                 setTables(Array.isArray(data) ? data : []);
             } catch (error) {
                 console.error(error);
+                setTables([]);
             }
         }
 
@@ -221,7 +226,7 @@ export default function CustomerBookingFlow() {
             });
 
             if (!response.ok) {
-                setStatus(data?.error || data?.message || "Failed to create booking");
+                setStatus(getApiErrorMessage(data, "Failed to create booking"));
                 return;
             }
 

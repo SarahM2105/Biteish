@@ -29,11 +29,6 @@ async function getUserRecommendationData(userId) {
                             where: { isAvailable: true },
                             select: {
                                 dietaryInfo: true,
-                                menuItemTags: {
-                                    select: {
-                                        tag: { select: { name: true } },
-                                    },
-                                },
                             },
                         },
                     },
@@ -73,11 +68,6 @@ async function getUserRecommendationData(userId) {
                             where: { isAvailable: true },
                             select: {
                                 dietaryInfo: true,
-                                menuItemTags: {
-                                    select: {
-                                        tag: { select: { name: true } },
-                                    },
-                                },
                             },
                         },
                     },
@@ -87,21 +77,23 @@ async function getUserRecommendationData(userId) {
             take: 50,
         }),
 
-        prisma.userInteraction.findMany({
-            where: { userId },
-            select: {
-                restaurantId: true,
-                searchQuery: true,
-                eventType: true,
-                source: true,
-                weight: true,
-                metadata: true,
-                tag: { select: { name: true } },
-                option: { select: { optionName: true } },
-            },
-            orderBy: { createdAt: "desc" },
-            take: 50,
-        }),
+        prisma.userInteraction
+            ? prisma.userInteraction.findMany({
+                where: { userId },
+                select: {
+                    restaurantId: true,
+                    searchQuery: true,
+                    eventType: true,
+                    source: true,
+                    weight: true,
+                    metadata: true,
+                    tag: { select: { name: true } },
+                    option: { select: { optionName: true } },
+                },
+                orderBy: { createdAt: "desc" },
+                take: 50,
+            })
+            : Promise.resolve([]),
 
         prisma.restaurant.findMany({
             where: { verified: true },
@@ -134,11 +126,6 @@ async function getUserRecommendationData(userId) {
                     where: { isAvailable: true },
                     select: {
                         dietaryInfo: true,
-                        menuItemTags: {
-                            select: {
-                                tag: { select: { name: true } },
-                            },
-                        },
                     },
                 },
                 reviews: {

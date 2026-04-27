@@ -1,7 +1,11 @@
-import React from 'react';
-import "./css/SideNav.css"
+import React from "react";
+import "./css/SideNav.css";
 
-export default function ownerSideNav({active = "Dashboard", onNavigate}) {
+export default function AdminSideNav({
+                                         active = "Dashboard",
+                                         onNavigate,
+                                         collapsed = false,
+                                     }) {
     const items = [
         "Dashboard",
         "Restaurant Verification",
@@ -10,23 +14,33 @@ export default function ownerSideNav({active = "Dashboard", onNavigate}) {
         "Audit Log",
         "Settings",
     ];
+
     return (
-        <aside className="sidenav">
+        <aside className={`sidenav ${collapsed ? "sidenav--collapsed" : ""}`}>
             <nav className="sidenav__nav">
-                {items.map((label)=>(
+                {items.map((label) => (
                     <button
                         key={label}
                         type="button"
-                        className={`sidenav__item ${active === label ? "is-active" : ""}`}
+                        className={`sidenav__item ${
+                            active === label ? "is-active" : ""
+                        }`}
                         onClick={() => onNavigate(label)}
+                        title={collapsed ? label : undefined}
                     >
-                        {label}
+                        {!collapsed && label}
                     </button>
                 ))}
             </nav>
+
             <div className="sidenav__footer">
-                <button type="button" className="sidenav__logout" onClick={() => onNavigate?.("Logout")}>
-                    Logout
+                <button
+                    type="button"
+                    className="sidenav__logout"
+                    onClick={() => onNavigate?.("Logout")}
+                    title={collapsed ? "Logout" : undefined}
+                >
+                    {!collapsed && "Logout"}
                 </button>
             </div>
         </aside>

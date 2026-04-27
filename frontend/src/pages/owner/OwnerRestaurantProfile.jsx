@@ -9,6 +9,8 @@ import ProfileAccessibility from "../../components/Owner/RestaurantProfile/Acces
 import "../../components/Owner/RestaurantProfile/css/ProfileLayout.css";
 import { useTheme } from "../../ThemeContext";
 import { logout } from "../../components/utils/logout";
+import { authFetch } from "../../components/utils/authFetch";
+import { getApiErrorMessage } from "../../components/utils/getApiErrorMessage";
 import { useNavigate } from "react-router-dom";
 
 export default function OwnerRestaurantProfile() {
@@ -26,24 +28,21 @@ export default function OwnerRestaurantProfile() {
             logout(navigate);
             return;
         }
+
         setActive(label);
     }
 
     useEffect(() => {
         async function loadProfile() {
             try {
-                const token = localStorage.getItem("token");
+                setLoading(true);
+                setStatus("");
 
-                const res = await fetch("/api/owner/restaurant/profile", {
-                    headers: {
-                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                    },
-                });
-
-                const data = await res.json().catch(() => null);
+                const res = await authFetch("/api/owner/restaurant/profile");
+                const data = await res.json().catch(() => ({}));
 
                 if (!res.ok) {
-                    setStatus(data?.error || "Failed to load profile");
+                    setStatus(getApiErrorMessage(data, "Failed to load profile"));
                     setRestaurant(null);
                     return;
                 }

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EditRestaurantProfileForm from "./EditRestaurantProfileForm";
+import { authFetch } from "../../utils/authFetch";
+import { getApiErrorMessage } from "../../utils/getApiErrorMessage";
 
 const DAYS = [
     "MONDAY",
@@ -45,24 +47,14 @@ export default function EditRestaurantProfileContent() {
     const [uploadingImages, setUploadingImages] = useState(false);
     const [imageActionId, setImageActionId] = useState("");
 
-    function getAuthHeaders(extraHeaders = {}) {
-        const token = localStorage.getItem("token");
-
-        return {
-            ...extraHeaders,
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        };
-    }
-
     async function loadRestaurantImages() {
-        const response = await fetch("/api/owner/restaurant/images", {
-            headers: getAuthHeaders(),
-        });
-
+        const response = await authFetch("/api/owner/restaurant/images");
         const data = await readJsonSafe(response, {});
 
         if (!response.ok) {
-            throw new Error(data?.error || "Failed to load restaurant images");
+            throw new Error(
+                getApiErrorMessage(data, "Failed to load restaurant images")
+            );
         }
 
         setImages(Array.isArray(data?.images) ? data.images : []);
@@ -71,14 +63,14 @@ export default function EditRestaurantProfileContent() {
     useEffect(() => {
         async function loadProfile() {
             try {
-                const response = await fetch("/api/owner/restaurant/profile", {
-                    headers: getAuthHeaders(),
-                });
+                setLoading(true);
+                setStatus("");
 
+                const response = await authFetch("/api/owner/restaurant/profile");
                 const data = await readJsonSafe(response, {});
 
                 if (!response.ok) {
-                    setStatus(data?.error || "Failed to load profile");
+                    setStatus(getApiErrorMessage(data, "Failed to load profile"));
                     return;
                 }
 
@@ -187,16 +179,15 @@ export default function EditRestaurantProfileContent() {
                 formData.append("images", file);
             });
 
-            const response = await fetch("/api/owner/restaurant/images", {
+            const response = await authFetch("/api/owner/restaurant/images", {
                 method: "POST",
-                headers: getAuthHeaders(),
                 body: formData,
             });
 
             const data = await readJsonSafe(response, {});
 
             if (!response.ok) {
-                setGalleryStatus(data?.error || "Failed to upload images");
+                setGalleryStatus(getApiErrorMessage(data, "Failed to upload images"));
                 return;
             }
 
@@ -216,18 +207,19 @@ export default function EditRestaurantProfileContent() {
         setGalleryStatus("");
 
         try {
-            const response = await fetch(
+            const response = await authFetch(
                 `/api/owner/restaurant/images/${imageId}/primary`,
                 {
                     method: "PATCH",
-                    headers: getAuthHeaders(),
                 }
             );
 
             const data = await readJsonSafe(response, {});
 
             if (!response.ok) {
-                setGalleryStatus(data?.error || "Failed to update primary image");
+                setGalleryStatus(
+                    getApiErrorMessage(data, "Failed to update primary image")
+                );
                 return;
             }
 
@@ -252,15 +244,14 @@ export default function EditRestaurantProfileContent() {
         setGalleryStatus("");
 
         try {
-            const response = await fetch(`/api/owner/restaurant/images/${imageId}`, {
+            const response = await authFetch(`/api/owner/restaurant/images/${imageId}`, {
                 method: "DELETE",
-                headers: getAuthHeaders(),
             });
 
             const data = await readJsonSafe(response, {});
 
             if (!response.ok) {
-                setGalleryStatus(data?.error || "Failed to delete image");
+                setGalleryStatus(getApiErrorMessage(data, "Failed to delete image"));
                 return;
             }
 
@@ -300,18 +291,18 @@ export default function EditRestaurantProfileContent() {
                 ),
             };
 
-            const response = await fetch("/api/owner/restaurant/profile", {
+            const response = await authFetch("/api/owner/restaurant/profile", {
                 method: "PATCH",
-                headers: getAuthHeaders({
+                headers: {
                     "Content-Type": "application/json",
-                }),
+                },
                 body: JSON.stringify(payload),
             });
 
             const data = await readJsonSafe(response, {});
 
             if (!response.ok) {
-                setStatus(data?.error || "Failed to save changes");
+                setStatus(getApiErrorMessage(data, "Failed to save changes"));
                 return;
             }
 

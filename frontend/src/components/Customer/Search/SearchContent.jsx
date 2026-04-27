@@ -1,10 +1,11 @@
-
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FilterDrawer from "./FilterDrawer";
 import RestaurantPreviewModal from "./RestaurantPreviewModal";
 import SearchHeaderSection from "./SearchHeaderSection";
 import SearchResultsSection from "./SearchResultsSection";
+import { authFetch } from "../../utils/authFetch";
+import { getApiErrorMessage } from "../../utils/getApiErrorMessage";
 import "./css/FilterDrawer.css";
 import "./css/RestaurantCard.css";
 import "./css/RestaurantMap.css";
@@ -45,25 +46,37 @@ export default function SearchContent() {
 
     const navigate = useNavigate();
     const listItemRefs = useRef({});
+    const searchLogTimeoutRef = useRef(null);
 
-    function authFetch(url, options = {}) {
-        const token = localStorage.getItem("token");
-
-        return fetch(url, {
-            ...options,
-            headers: {
-                ...(options.headers || {}),
-                ...(token ? { Authorization: `Bearer ${token}` } : {}),
-            },
-        });
+    async function logInteraction(payload) {
+        try {
+            await authFetch("/api/customer/interactions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {
-        async function loadRestaurants() {
+        const timeout = setTimeout(async () => {
             try {
-                const res = await authFetch("/api/customer/restaurants/search");
+                const res = await authFetch(
+                    `/api/customer/restaurants/search?q=${encodeURIComponent(q.trim())}`
+                );
                 const text = await res.text();
                 const data = text ? JSON.parse(text) : [];
+
+                if (!res.ok) {
+                    throw new Error(
+                        getApiErrorMessage(data, "Failed to load restaurants.")
+                    );
+                }
+
                 const list = Array.isArray(data) ? data : data.restaurants || [];
 
                 setRestaurants(list);
@@ -73,10 +86,10 @@ export default function SearchContent() {
                 setRestaurants([]);
                 setSelected(null);
             }
-        }
+        }, 300);
 
-        loadRestaurants();
-    }, []);
+        return () => clearTimeout(timeout);
+    }, [q]);
 
     useEffect(() => {
         async function loadFilterOptions() {
@@ -84,6 +97,12 @@ export default function SearchContent() {
                 const res = await authFetch("/api/customer/restaurants/filter-options");
                 const text = await res.text();
                 const data = text ? JSON.parse(text) : {};
+
+                if (!res.ok) {
+                    throw new Error(
+                        getApiErrorMessage(data, "Failed to load filter options.")
+                    );
+                }
 
                 setFilterOptions({
                     accessibilityOptions: Array.isArray(data.accessibilityOptions)
@@ -107,6 +126,57 @@ export default function SearchContent() {
         loadFilterOptions();
     }, []);
 
+    useEffect(() => {
+        const trimmedQuery = q.trim();
+        const hasAccessibilityFilters = filters.accessibility.length > 0;
+        const hasTagFilters = filters.tags.length > 0;
+        const hasSearchIntent =
+            trimmedQuery ||
+            hasAccessibilityFilters ||
+            hasTagFilters;
+
+        if (!hasSearchIntent) {
+            return;
+        }
+
+        if (searchLogTimeoutRef.current) {
+            clearTimeout(searchLogTimeoutRef.current);
+        }
+
+        searchLogTimeoutRef.current = setTimeout(() => {
+            logInteraction({
+                eventType: "SEARCH_PERFORMED",
+                source: "SEARCH",
+                searchQuery: trimmedQuery || null,
+                metadata: {
+                    tags: filters.tags,
+                    accessibility: filters.accessibility,
+                    date: date || null,
+                    time: time || null,
+                    viewMode,
+                },
+            });
+
+            if (hasAccessibilityFilters || hasTagFilters) {
+                logInteraction({
+                    eventType: "FILTER_APPLIED",
+                    source: "SEARCH",
+                    searchQuery: trimmedQuery || null,
+                    metadata: {
+                        tags: filters.tags,
+                        accessibility: filters.accessibility,
+                    },
+                });
+            }
+        }, 500);
+
+        return () => {
+            if (searchLogTimeoutRef.current) {
+                clearTimeout(searchLogTimeoutRef.current);
+            }
+        };
+    }, [q, filters, date, time, viewMode]);
+
     function clearAllFilters() {
         setFilters({
             accessibility: [],
@@ -115,15 +185,7 @@ export default function SearchContent() {
     }
 
     const filtered = useMemo(() => {
-        const search = q.toLowerCase().trim();
-
         return restaurants.filter((restaurant) => {
-            const matchesSearch =
-                !search ||
-                (restaurant.name || "").toLowerCase().includes(search) ||
-                (restaurant.location || "").toLowerCase().includes(search) ||
-                (restaurant.cuisine || "").toLowerCase().includes(search);
-
             const matchesAccessibility =
                 filters.accessibility.length === 0 ||
                 filters.accessibility.every((selectedOption) =>
@@ -136,9 +198,9 @@ export default function SearchContent() {
                     (restaurant.tags || []).includes(selectedTag)
                 );
 
-            return matchesSearch && matchesAccessibility && matchesTags;
+            return matchesAccessibility && matchesTags;
         });
-    }, [restaurants, q, filters]);
+    }, [restaurants, filters]);
 
     const mapReadyRestaurants = useMemo(() => {
         return filtered.filter(hasCoordinates);
@@ -177,6 +239,18 @@ export default function SearchContent() {
     function handleOpenPreview(restaurant) {
         setPreviewRestaurant(restaurant);
         setPreviewOpen(true);
+
+        logInteraction({
+            eventType: "RESTAURANT_VIEW",
+            source: "SEARCH",
+            restaurantId: restaurant.id,
+            searchQuery: q.trim() || null,
+            metadata: {
+                tags: filters.tags,
+                accessibility: filters.accessibility,
+                preview: true,
+            },
+        });
     }
 
     function handleClosePreview() {
@@ -185,6 +259,17 @@ export default function SearchContent() {
     }
 
     function handleViewRestaurant(restaurantId) {
+        logInteraction({
+            eventType: "RESTAURANT_VIEW",
+            source: "RESTAURANT_PAGE",
+            restaurantId,
+            searchQuery: q.trim() || null,
+            metadata: {
+                tags: filters.tags,
+                accessibility: filters.accessibility,
+            },
+        });
+
         navigate(`/customer/restaurants/${restaurantId}`);
     }
 
@@ -210,9 +295,12 @@ export default function SearchContent() {
                 method,
             });
 
+            const data = await res.json().catch(() => ({}));
+
             if (!res.ok) {
-                const text = await res.text();
-                throw new Error(text || "Failed to update favourite");
+                throw new Error(
+                    getApiErrorMessage(data, "Failed to update favourite.")
+                );
             }
 
             setRestaurants((prev) =>
@@ -234,6 +322,17 @@ export default function SearchContent() {
                     ? { ...prev, isFavourite: !wasFavourite }
                     : prev
             );
+
+            logInteraction({
+                eventType: wasFavourite ? "FAVOURITE_REMOVED" : "FAVOURITE_ADDED",
+                source: "SEARCH",
+                restaurantId,
+                searchQuery: q.trim() || null,
+                metadata: {
+                    tags: filters.tags,
+                    accessibility: filters.accessibility,
+                },
+            });
         } catch (error) {
             console.log(error);
         }

@@ -2,6 +2,8 @@ const { prisma } = require("../../../prismaClient");
 const { getIO } = require("../../../socket");
 const { getRestaurantOccupancy } = require("../../../utils/occupancy");
 
+const CHECK_IN_WINDOW_MINUTES = 30;
+
 async function checkinCustomer(req, res) {
     try {
         const { qrToken } = req.body;
@@ -63,12 +65,6 @@ async function checkinCustomer(req, res) {
             });
         }
 
-        if (new Date(tokenRow.expiresAt) < new Date()) {
-            return res.status(400).json({
-                error: "QR token expired",
-            });
-        }
-
         if (reservation.checkedInAt) {
             return res.status(400).json({
                 error: "Reservation already checked in",
@@ -76,6 +72,25 @@ async function checkinCustomer(req, res) {
         }
 
         const now = new Date();
+        const startsAt = new Date(reservation.startsAt);
+        const checkInWindowStartsAt = new Date(
+            startsAt.getTime() - CHECK_IN_WINDOW_MINUTES * 60 * 1000
+        );
+        const checkInWindowEndsAt = new Date(
+            startsAt.getTime() + CHECK_IN_WINDOW_MINUTES * 60 * 1000
+        );
+
+        if (now < checkInWindowStartsAt || now > checkInWindowEndsAt) {
+            return res.status(400).json({
+                error: "QR check-in is only available 30 minutes before and after the booking time.",
+            });
+        }
+
+        if (new Date(tokenRow.expiresAt) < now) {
+            return res.status(400).json({
+                error: "QR token expired",
+            });
+        }
 
         const updatedReservation = await prisma.reservation.update({
             where: { id: reservation.id },

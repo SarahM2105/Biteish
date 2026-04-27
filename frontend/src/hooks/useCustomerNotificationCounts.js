@@ -1,22 +1,29 @@
 import { useCallback, useEffect, useState } from "react";
 import { getSocket } from "../socket";
+import { authFetch } from "../components/utils/authFetch";
 
 export default function useCustomerNotificationCounts() {
     const [pendingBookingsCount, setPendingBookingsCount] = useState(0);
     const [upcomingConfirmedCount, setUpcomingConfirmedCount] = useState(0);
     const [updatedBookingsCount, setUpdatedBookingsCount] = useState(0);
 
+    const resetCounts = useCallback(() => {
+        setPendingBookingsCount(0);
+        setUpcomingConfirmedCount(0);
+        setUpdatedBookingsCount(0);
+    }, []);
+
     const loadCounts = useCallback(async () => {
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch("/api/customer/reservations", {
-                headers: {
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-            });
-
+            const res = await authFetch("/api/customer/reservations");
             const text = await res.text();
             const data = text ? JSON.parse(text) : [];
+
+            if (!res.ok) {
+                resetCounts();
+                return;
+            }
+
             const now = Date.now();
 
             const pending = Array.isArray(data)
@@ -42,11 +49,9 @@ export default function useCustomerNotificationCounts() {
             setUpdatedBookingsCount(changed);
         } catch (error) {
             console.error("failed to load customer notification counts", error);
-            setPendingBookingsCount(0);
-            setUpcomingConfirmedCount(0);
-            setUpdatedBookingsCount(0);
+            resetCounts();
         }
-    }, []);
+    }, [resetCounts]);
 
     useEffect(() => {
         loadCounts();
@@ -66,6 +71,7 @@ export default function useCustomerNotificationCounts() {
         const refresh = () => {
             loadCounts();
         };
+
         socket.on("connect", joinRoom);
         socket.on("reservation:created", refresh);
         socket.on("reservation:updated", refresh);

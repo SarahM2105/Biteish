@@ -1,30 +1,29 @@
 import { useEffect, useState } from "react";
+import { authFetch } from "../components/utils/authFetch";
+import { getApiErrorMessage } from "../components/utils/getApiErrorMessage";
 
 export default function useCustomerRestaurantDetails(restaurantId) {
     const [restaurant, setRestaurant] = useState(null);
     const [loading, setLoading] = useState(true);
     const [status, setStatus] = useState("");
+
     useEffect(() => {
         if (!restaurantId) return;
+
         let ignore = false;
+
         async function loadRestaurant() {
             setLoading(true);
             setStatus("");
+
             try {
-                const token = localStorage.getItem("token");
-
-                const res = await fetch(`/api/customer/restaurants/${restaurantId}`, {
-                    headers: {
-                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                    },
-                });
-
+                const res = await authFetch(`/api/customer/restaurants/${restaurantId}`);
                 const text = await res.text();
-                const data = text ? JSON.parse(text) : null;
+                const data = text ? JSON.parse(text) : {};
 
                 if (!res.ok) {
                     if (!ignore) {
-                        setStatus(data?.message || "Failed to load restaurant");
+                        setStatus(getApiErrorMessage(data, "Failed to load restaurant"));
                         setRestaurant(null);
                     }
                     return;
@@ -45,11 +44,14 @@ export default function useCustomerRestaurantDetails(restaurantId) {
                 }
             }
         }
+
         loadRestaurant();
+
         return () => {
             ignore = true;
         };
     }, [restaurantId]);
+
     return {
         restaurant,
         loading,

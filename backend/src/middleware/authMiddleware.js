@@ -10,7 +10,7 @@ function authenticateToken (req, res, next) {
 
     try {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decodedToken; // id, role
+        req.user = decodedToken;
         next();
     }
     catch (error) {

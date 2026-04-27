@@ -10,6 +10,11 @@ function buildMenuItemResponse(item) {
     return {
         ...item,
         price: formatPrice(item.price),
+        tags: (item.menuItemTags || []).map((entry) => ({
+            id: entry.tag?.id || entry.tagId,
+            name: entry.tag?.name || null,
+            categoryId: entry.tag?.categoryId || null,
+        })),
     };
 }
 

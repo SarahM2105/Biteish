@@ -2,6 +2,8 @@ import React, { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import AppLayout from "../../layouts/AppLayout";
 import CustomerSideNav from "../../components/CustomerSideNav";
+import { authFetch } from "../../components/utils/authFetch";
+import { getApiErrorMessage } from "../../components/utils/getApiErrorMessage";
 
 export default function CustomerBookingForm() {
     const name = localStorage.getItem("name") || "customer";
@@ -22,8 +24,10 @@ export default function CustomerBookingForm() {
 
     const endsAtISO = useMemo(() => {
         if (!startsAtISO) return "";
+
         const start = new Date(startsAtISO);
         const end = new Date(start.getTime() + 60 * 60 * 1000);
+
         return end.toISOString();
     }, [startsAtISO]);
 
@@ -31,20 +35,28 @@ export default function CustomerBookingForm() {
         e.preventDefault();
         setStatus("");
 
-        if (!tableId) return setStatus("missing table id in url");
-        if (!date || !time) return setStatus("Please choose a date and time");
-        if (!partySize || Number(partySize) < 1) return setStatus("Party size must be >= 1");
+        if (!tableId) {
+            setStatus("Missing table id in URL.");
+            return;
+        }
+
+        if (!date || !time) {
+            setStatus("Please choose a date and time.");
+            return;
+        }
+
+        if (!partySize || Number(partySize) < 1) {
+            setStatus("Party size must be at least 1.");
+            return;
+        }
 
         setSubmitting(true);
 
         try {
-            const token = localStorage.getItem("token");
-
-            const res = await fetch(`/api/customer/tables/${tableId}/book`, {
+            const res = await authFetch(`/api/customer/tables/${tableId}/book`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({
                     startsAt: startsAtISO,
@@ -55,22 +67,17 @@ export default function CustomerBookingForm() {
             });
 
             const text = await res.text();
-            let data = {};
-            try {
-                data = text ? JSON.parse(text) : {};
-            } catch {
-                data = {};
-            }
+            const data = text ? JSON.parse(text) : {};
 
             if (!res.ok) {
-                setStatus(data?.error || data?.message || "booking failed");
+                setStatus(getApiErrorMessage(data, "Booking failed."));
                 return;
             }
 
-            setStatus("booking created");
+            setStatus("Booking created.");
         } catch (error) {
             console.log(error);
-            setStatus("Network/server error");
+            setStatus("Network/server error.");
         } finally {
             setSubmitting(false);
         }
@@ -83,7 +90,7 @@ export default function CustomerBookingForm() {
             <form onSubmit={handleSubmit} className="dashboard-panel">
                 <div style={{ display: "grid", maxWidth: 400, gap: 14 }}>
                     <label>
-                        date
+                        Date
                         <input
                             className="sf-input"
                             type="date"
@@ -123,12 +130,12 @@ export default function CustomerBookingForm() {
                             rows={4}
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
-                            placeholder="optional"
+                            placeholder="Optional"
                         />
                     </label>
 
                     <button className="sf-filterBtn" type="submit" disabled={submitting}>
-                        {submitting ? "Submitting...." : "submit booking"}
+                        {submitting ? "Submitting..." : "Submit booking"}
                     </button>
 
                     {status && <div style={{ opacity: 0.85 }}>{status}</div>}

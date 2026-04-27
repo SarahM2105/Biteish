@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
+import { authFetch } from "../../utils/authFetch";
+import { getApiErrorMessage } from "../../utils/getApiErrorMessage";
 
 export default function QrScanner({ type }) {
     const [enabled, setEnabled] = useState(false);
@@ -44,15 +46,13 @@ export default function QrScanner({ type }) {
             setStatus("");
             setResult(null);
 
-            const authToken = localStorage.getItem("token");
             const endpoint =
                 type === "checkin" ? "/api/owner/check-in" : "/api/owner/check-out";
 
-            const res = await fetch(endpoint, {
+            const res = await authFetch(endpoint, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
                 },
                 body: JSON.stringify({
                     qrToken: token,
@@ -62,7 +62,12 @@ export default function QrScanner({ type }) {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || `${type === "checkin" ? "Check in" : "Check out"} failed`);
+                setStatus(
+                    getApiErrorMessage(
+                        data,
+                        type === "checkin" ? "Check in failed." : "Check out failed."
+                    )
+                );
                 return;
             }
 

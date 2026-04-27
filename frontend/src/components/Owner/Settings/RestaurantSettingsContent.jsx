@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import BookingRulesCard from "./BookingRulesCard";
+import { authFetch } from "../../utils/authFetch";
+import { getApiErrorMessage } from "../../utils/getApiErrorMessage";
 
 export default function RestaurantSettingsContent() {
     const [loading, setLoading] = useState(true);
@@ -24,19 +26,13 @@ export default function RestaurantSettingsContent() {
             setStatus({ type: "", message: "" });
 
             try {
-                const token = localStorage.getItem("token");
-                const res = await fetch("/api/owner/restaurant/profile", {
-                    headers: {
-                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                    },
-                });
-
+                const res = await authFetch("/api/owner/restaurant/profile");
                 const data = await res.json().catch(() => ({}));
 
                 if (!res.ok) {
                     setStatus({
                         type: "error",
-                        message: data?.error || data?.message || "Failed to load profile",
+                        message: getApiErrorMessage(data, "Failed to load profile"),
                     });
                     return;
                 }
@@ -85,8 +81,6 @@ export default function RestaurantSettingsContent() {
         setStatus({ type: "", message: "" });
 
         try {
-            const token = localStorage.getItem("token");
-
             const payload = {
                 bookingRule: {
                     maxPartySize:
@@ -116,11 +110,10 @@ export default function RestaurantSettingsContent() {
                 },
             };
 
-            const res = await fetch("/api/owner/restaurant/profile", {
+            const res = await authFetch("/api/owner/restaurant/profile", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify(payload),
             });
@@ -130,7 +123,7 @@ export default function RestaurantSettingsContent() {
             if (!res.ok) {
                 setStatus({
                     type: "error",
-                    message: data?.error || data?.message || "Failed to save settings",
+                    message: getApiErrorMessage(data, "Failed to save settings"),
                 });
                 return;
             }

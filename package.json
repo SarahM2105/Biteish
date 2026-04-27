@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon backend/src/app.js",
     "start": "node backend/src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test backend/tests/*.test.js"
   },
   "keywords": [],
   "author": "",
@@ -36,8 +36,11 @@
     "ws": "^8.18.3"
   },
   "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^11.12.0",
     "@types/node": "^25.0.3",
     "nodemon": "^3.1.11",
-    "prisma": "^7.2.0"
+    "prisma": "^7.2.0",
+    "prisma-erd-generator": "^2.4.2",
+    "puppeteer": "^23.11.1"
   }
 }

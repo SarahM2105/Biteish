@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TableVisual from "../Tables/TableVisual";
+import { authFetch } from "../../utils/authFetch";
+import { getApiErrorMessage } from "../../utils/getApiErrorMessage";
 
 export default function ManualCheckOut() {
     const [selectedTable, setSelectedTable] = useState("");
@@ -14,18 +16,13 @@ export default function ManualCheckOut() {
                 setLoading(true);
                 setStatus("");
 
-                const token = localStorage.getItem("token");
-
-                const res = await fetch("/api/owner/manual-check-out/options", {
-                    headers: {
-                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                    },
-                });
-
+                const res = await authFetch("/api/owner/manual-check-out/options");
                 const data = await res.json().catch(() => ({}));
 
                 if (!res.ok) {
-                    setStatus(data?.error || "Failed to load occupied tables.");
+                    setStatus(
+                        getApiErrorMessage(data, "Failed to load occupied tables.")
+                    );
                     setTables([]);
                     return;
                 }
@@ -63,13 +60,10 @@ export default function ManualCheckOut() {
             setSubmitting(true);
             setStatus("");
 
-            const token = localStorage.getItem("token");
-
-            const res = await fetch("/api/owner/manual-check-out", {
+            const res = await authFetch("/api/owner/manual-check-out", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({
                     tableId: selectedTable,
@@ -79,7 +73,7 @@ export default function ManualCheckOut() {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || "Check out failed.");
+                setStatus(getApiErrorMessage(data, "Check out failed."));
                 return;
             }
 

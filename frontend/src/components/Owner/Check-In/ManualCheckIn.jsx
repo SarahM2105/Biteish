@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import TableVisual from "../Tables/TableVisual";
+import { authFetch } from "../../utils/authFetch";
+import { getApiErrorMessage } from "../../utils/getApiErrorMessage";
 
 export default function ManualCheckIn() {
     const [guestName, setGuestName] = useState("");
@@ -20,20 +22,16 @@ export default function ManualCheckIn() {
                 setLoading(true);
                 setCheckInStatus("");
 
-                const token = localStorage.getItem("token");
-                const res = await fetch(
-                    `/api/owner/manual-check-in/options?partySize=${partySize}`,
-                    {
-                        headers: {
-                            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                        },
-                    }
+                const res = await authFetch(
+                    `/api/owner/manual-check-in/options?partySize=${partySize}`
                 );
 
                 const data = await res.json().catch(() => ({}));
 
                 if (!res.ok) {
-                    setCheckInStatus(data?.error || "Failed to load available tables");
+                    setCheckInStatus(
+                        getApiErrorMessage(data, "Failed to load available tables")
+                    );
                     setTables([]);
                     return;
                 }
@@ -68,12 +66,10 @@ export default function ManualCheckIn() {
             setSubmitting(true);
             setCheckInStatus("");
 
-            const token = localStorage.getItem("token");
-            const res = await fetch("/api/owner/manual-check-in", {
+            const res = await authFetch("/api/owner/manual-check-in", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({
                     guestName,
@@ -86,7 +82,9 @@ export default function ManualCheckIn() {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setCheckInStatus(data?.error || "Manual check-in failed");
+                setCheckInStatus(
+                    getApiErrorMessage(data, "Manual check-in failed")
+                );
                 return;
             }
 

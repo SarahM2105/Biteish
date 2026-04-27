@@ -5,6 +5,8 @@ import {
     toLocalDateInput,
     toLocalTimeInput,
 } from "../components/Customer/EditBooking/editBookingHelpers";
+import { authFetch } from "../components/utils/authFetch";
+import { getApiErrorMessage } from "../components/utils/getApiErrorMessage";
 
 export default function useCustomerEditBookingPage() {
     const currentUserId = localStorage.getItem("userId");
@@ -40,15 +42,14 @@ export default function useCustomerEditBookingPage() {
     useEffect(() => {
         async function loadReservation() {
             try {
-                const token = localStorage.getItem("token");
+                const res = await authFetch("/api/customer/reservations");
+                const data = await res.json().catch(() => ({}));
 
-                const res = await fetch("/api/customer/reservations", {
-                    headers: {
-                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                    },
-                });
-
-                const data = await res.json();
+                if (!res.ok) {
+                    setStatus(getApiErrorMessage(data, "Failed to load booking."));
+                    setLoading(false);
+                    return;
+                }
 
                 const foundBooking = Array.isArray(data)
                     ? data.find((reservation) => reservation.id === reservationId)
@@ -108,13 +109,10 @@ export default function useCustomerEditBookingPage() {
         setStatus("");
 
         try {
-            const token = localStorage.getItem("token");
-
-            const res = await fetch(`/api/customer/reservations/${reservationId}/update`, {
+            const res = await authFetch(`/api/customer/reservations/${reservationId}/update`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({
                     startsAt: startsAtISO,
@@ -128,7 +126,7 @@ export default function useCustomerEditBookingPage() {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || data?.message || "Update failed");
+                setStatus(getApiErrorMessage(data, "Update failed."));
                 return;
             }
 
@@ -161,15 +159,10 @@ export default function useCustomerEditBookingPage() {
         setStatus("");
 
         try {
-            const token = localStorage.getItem("token");
-
-            const res = await fetch(
+            const res = await authFetch(
                 `/api/customer/change-request/${activePendingRequest.id}/cancel`,
                 {
                     method: "PATCH",
-                    headers: {
-                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                    },
                 }
             );
 
@@ -177,7 +170,10 @@ export default function useCustomerEditBookingPage() {
 
             if (!res.ok) {
                 setStatus(
-                    data?.error || data?.message || "Failed to cancel current change request"
+                    getApiErrorMessage(
+                        data,
+                        "Failed to cancel current change request."
+                    )
                 );
                 return;
             }

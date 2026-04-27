@@ -35,6 +35,9 @@ const {
     removeFavouriteRestaurant,
 } = require("../controllers/customer/favouriteController");
 
+const {getCustomerRecommendations} = require("../controllers/customer/recommendation/recommendationController");
+const { createCustomerInteraction } = require("../controllers/customer/interactionController");
+const { getRecentlyViewed } = require("../controllers/customer/recommendation/recentlyViewedController");
 const {
     getMe,
     updateMe,
@@ -77,7 +80,9 @@ router.get("/reservations/:reservationId/qr", getReservationQr);
 router.get("/favourites", listFavouriteRestaurants);
 router.post("/favourites/:restaurantId", addFavouriteRestaurant);
 router.delete("/favourites/:restaurantId", removeFavouriteRestaurant);
-
+router.get("/recommendations", getCustomerRecommendations);
+router.post("/interactions", createCustomerInteraction);
+router.get("/recently-viewed", authenticateToken, getRecentlyViewed);
 router.get("/me", getMe);
 router.patch("/me", updateMe);
 router.patch("/me/password", updateMyPassword);

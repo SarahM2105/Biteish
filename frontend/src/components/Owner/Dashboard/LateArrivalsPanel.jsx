@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { authFetch } from "../../utils/authFetch";
+import { getApiErrorMessage } from "../../utils/getApiErrorMessage";
 import "./css/LateArrivalsPanel.css";
 
 export default function LateArrivalsPanel() {
@@ -15,18 +17,11 @@ export default function LateArrivalsPanel() {
             setLoading(true);
             setStatus("");
 
-            const token = localStorage.getItem("token");
-
-            const res = await fetch("/api/owner/dashboard/late-arrivals", {
-                headers: {
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-            });
-
+            const res = await authFetch("/api/owner/dashboard/late-arrivals");
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || "Failed to load late arrivals.");
+                setStatus(getApiErrorMessage(data, "Failed to load late arrivals."));
                 setReservations([]);
                 return;
             }
@@ -54,13 +49,10 @@ export default function LateArrivalsPanel() {
             setProcessingId(id);
             setStatus("");
 
-            const token = localStorage.getItem("token");
-
-            const res = await fetch("/api/owner/no-shows/mark", {
+            const res = await authFetch("/api/owner/no-shows/mark", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({ reservationId: id }),
             });
@@ -68,11 +60,11 @@ export default function LateArrivalsPanel() {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || "Failed to mark no show.");
+                setStatus(getApiErrorMessage(data, "Failed to mark no show."));
                 return;
             }
 
-            setReservations((prev) => prev.filter((r) => r.id !== id));
+            setReservations((prev) => prev.filter((reservation) => reservation.id !== id));
             setStatus("Reservation marked as no-show.");
         } catch (error) {
             console.error(error);
@@ -95,18 +87,18 @@ export default function LateArrivalsPanel() {
                 </div>
             ) : (
                 <div className="owner-late-list">
-                    {reservations.map((r) => (
-                        <div key={r.id} className="owner-late-card">
+                    {reservations.map((reservation) => (
+                        <div key={reservation.id} className="owner-late-card">
                             <div className="owner-late-card__main">
-                                <strong>{r.customerName}</strong>
+                                <strong>{reservation.customerName}</strong>
                                 <p>
-                                    {r.tableName} · {r.partySize} guests
+                                    {reservation.tableName} · {reservation.partySize} guests
                                 </p>
                             </div>
 
                             <div className="owner-late-card__side">
                                 <div className="owner-late-card__time">
-                                    Late by {r.minutesLate} mins
+                                    Late by {reservation.minutesLate} mins
                                 </div>
 
                                 <div className="owner-late-actions">
@@ -114,7 +106,7 @@ export default function LateArrivalsPanel() {
                                         type="button"
                                         className="owner-late-btn owner-late-btn--primary"
                                         onClick={handleCheckIn}
-                                        disabled={processingId === r.id}
+                                        disabled={processingId === reservation.id}
                                     >
                                         Check In
                                     </button>
@@ -122,10 +114,10 @@ export default function LateArrivalsPanel() {
                                     <button
                                         type="button"
                                         className="owner-late-btn owner-late-btn--danger"
-                                        onClick={() => handleNoShow(r.id)}
-                                        disabled={processingId === r.id}
+                                        onClick={() => handleNoShow(reservation.id)}
+                                        disabled={processingId === reservation.id}
                                     >
-                                        {processingId === r.id ? "Saving..." : "No Show"}
+                                        {processingId === reservation.id ? "Saving..." : "No Show"}
                                     </button>
                                 </div>
                             </div>

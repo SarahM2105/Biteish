@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getSocket } from "../socket";
+import { authFetch } from "../components/utils/authFetch";
+import { getApiErrorMessage } from "../components/utils/getApiErrorMessage";
 
 function parseJsonSafely(text, fallback = []) {
     try {
@@ -7,6 +9,30 @@ function parseJsonSafely(text, fallback = []) {
     } catch {
         return fallback;
     }
+}
+
+async function readNotificationResult(result, fallbackMessage) {
+    if (result.status !== "fulfilled") {
+        return {
+            data: [],
+            error: fallbackMessage,
+        };
+    }
+
+    const text = await result.value.text();
+    const data = parseJsonSafely(text, {});
+
+    if (!result.value.ok) {
+        return {
+            data: [],
+            error: getApiErrorMessage(data, fallbackMessage),
+        };
+    }
+
+    return {
+        data: Array.isArray(data) ? data : [],
+        error: "",
+    };
 }
 
 function formatDate(value) {
@@ -329,59 +355,49 @@ export default function useOwnerNotifications() {
         setStatus("");
 
         try {
-            const token = localStorage.getItem("token");
-            const headers = {
-                ...(token ? { Authorization: `Bearer ${token}` } : {}),
-            };
-
             const [
                 pendingReservationsResult,
                 changeRequestsResult,
                 allReservationsResult,
                 lateArrivalsResult,
             ] = await Promise.allSettled([
-                fetch("/api/owner/reservations/pending", { headers }),
-                fetch("/api/owner/change-request", { headers }),
-                fetch("/api/owner/reservations", { headers }),
-                fetch("/api/owner/dashboard/late-arrivals", { headers }),
+                authFetch("/api/owner/reservations/pending"),
+                authFetch("/api/owner/change-request"),
+                authFetch("/api/owner/reservations"),
+                authFetch("/api/owner/dashboard/late-arrivals"),
             ]);
 
-            let pendingReservations = [];
-            let changeRequests = [];
-            let allReservations = [];
-            let lateArrivals = [];
+            const pendingReservationsResponse = await readNotificationResult(
+                pendingReservationsResult,
+                "Failed to load pending reservation notifications."
+            );
 
-            if (pendingReservationsResult.status === "fulfilled") {
-                const text = await pendingReservationsResult.value.text();
-                const data = parseJsonSafely(text, []);
-                if (pendingReservationsResult.value.ok) {
-                    pendingReservations = Array.isArray(data) ? data : [];
-                }
-            }
+            const changeRequestsResponse = await readNotificationResult(
+                changeRequestsResult,
+                "Failed to load booking change notifications."
+            );
 
-            if (changeRequestsResult.status === "fulfilled") {
-                const text = await changeRequestsResult.value.text();
-                const data = parseJsonSafely(text, []);
-                if (changeRequestsResult.value.ok) {
-                    changeRequests = Array.isArray(data) ? data : [];
-                }
-            }
+            const allReservationsResponse = await readNotificationResult(
+                allReservationsResult,
+                "Failed to load reservation update notifications."
+            );
 
-            if (allReservationsResult.status === "fulfilled") {
-                const text = await allReservationsResult.value.text();
-                const data = parseJsonSafely(text, []);
-                if (allReservationsResult.value.ok) {
-                    allReservations = Array.isArray(data) ? data : [];
-                }
-            }
+            const lateArrivalsResponse = await readNotificationResult(
+                lateArrivalsResult,
+                "Failed to load late arrival notifications."
+            );
 
-            if (lateArrivalsResult.status === "fulfilled") {
-                const text = await lateArrivalsResult.value.text();
-                const data = parseJsonSafely(text, []);
-                if (lateArrivalsResult.value.ok) {
-                    lateArrivals = Array.isArray(data) ? data : [];
-                }
-            }
+            const pendingReservations = pendingReservationsResponse.data;
+            const changeRequests = changeRequestsResponse.data;
+            const allReservations = allReservationsResponse.data;
+            const lateArrivals = lateArrivalsResponse.data;
+
+            const errors = [
+                pendingReservationsResponse.error,
+                changeRequestsResponse.error,
+                allReservationsResponse.error,
+                lateArrivalsResponse.error,
+            ].filter(Boolean);
 
             const requestItems = pendingReservations
                 .map(buildPendingReservationNotification)
@@ -404,18 +420,22 @@ export default function useOwnerNotifications() {
                 .map(buildReservationUpdateNotification)
                 .filter(Boolean);
 
-            const items = [...requestItems, ...changeItems, ...alertItems, ...updateItems]
-                .sort((a, b) => new Date(b.sortAt).getTime() - new Date(a.sortAt).getTime());
+            const items = [
+                ...requestItems,
+                ...changeItems,
+                ...alertItems,
+                ...updateItems,
+            ].sort(
+                (a, b) =>
+                    new Date(b.sortAt).getTime() - new Date(a.sortAt).getTime()
+            );
 
             setNotifications(items);
 
-            if (
-                pendingReservationsResult.status === "rejected" &&
-                changeRequestsResult.status === "rejected" &&
-                allReservationsResult.status === "rejected" &&
-                lateArrivalsResult.status === "rejected"
-            ) {
-                setStatus("Failed to load owner notifications");
+            if (errors.length === 4) {
+                setStatus("Failed to load owner notifications.");
+            } else if (errors.length > 0) {
+                setStatus("Some owner notifications could not be loaded.");
             }
         } catch (error) {
             console.error(error);
@@ -457,9 +477,18 @@ export default function useOwnerNotifications() {
     }, [loadNotifications]);
 
     const summary = useMemo(() => {
-        const requests = notifications.filter((item) => item.category === "requests").length;
-        const changes = notifications.filter((item) => item.category === "changes").length;
-        const alerts = notifications.filter((item) => item.category === "alerts").length;
+        const requests = notifications.filter(
+            (item) => item.category === "requests"
+        ).length;
+
+        const changes = notifications.filter(
+            (item) => item.category === "changes"
+        ).length;
+
+        const alerts = notifications.filter(
+            (item) => item.category === "alerts"
+        ).length;
+
         const cancellations = notifications.filter(
             (item) => item.category === "cancellations"
         ).length;

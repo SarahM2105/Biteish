@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getSocket } from "../socket";
+import { authFetch } from "../components/utils/authFetch";
+import { getApiErrorMessage } from "../components/utils/getApiErrorMessage";
 
 function isSameDay(dateValue, compareDate = new Date()) {
     if (!dateValue) return false;
@@ -39,36 +41,31 @@ export function useOwnerAnalytics() {
         }
 
         try {
-            const token = localStorage.getItem("token");
-            const headers = {
-                ...(token ? { Authorization: `Bearer ${token}` } : {}),
-            };
-
             const [pendingRes, changeReqRes, reservationsRes] = await Promise.all([
-                fetch("/api/owner/reservations/pending", { headers }),
-                fetch("/api/owner/change-request", { headers }),
-                fetch("/api/owner/reservations", { headers }),
+                authFetch("/api/owner/reservations/pending"),
+                authFetch("/api/owner/change-request"),
+                authFetch("/api/owner/reservations"),
             ]);
 
-            const pendingData = await pendingRes.json().catch(() => ([]));
-            const changeReqData = await changeReqRes.json().catch(() => ([]));
-            const reservationsData = await reservationsRes.json().catch(() => ([]));
+            const pendingData = await pendingRes.json().catch(() => ({}));
+            const changeReqData = await changeReqRes.json().catch(() => ({}));
+            const reservationsData = await reservationsRes.json().catch(() => ({}));
 
             if (!pendingRes.ok) {
                 throw new Error(
-                    pendingData?.error || "Failed to load pending reservations"
+                    getApiErrorMessage(pendingData, "Failed to load pending reservations")
                 );
             }
 
             if (!changeReqRes.ok) {
                 throw new Error(
-                    changeReqData?.error || "Failed to load change requests"
+                    getApiErrorMessage(changeReqData, "Failed to load change requests")
                 );
             }
 
             if (!reservationsRes.ok) {
                 throw new Error(
-                    reservationsData?.error || "Failed to load reservations"
+                    getApiErrorMessage(reservationsData, "Failed to load reservations")
                 );
             }
 
@@ -110,12 +107,10 @@ export function useOwnerAnalytics() {
 
         socket.on("reservation:created", refreshAnalytics);
         socket.on("reservation:updated", refreshAnalytics);
-
         socket.on("checkin:created", refreshAnalytics);
         socket.on("checkin:updated", refreshAnalytics);
         socket.on("checkout:created", refreshAnalytics);
         socket.on("checkout:updated", refreshAnalytics);
-
         socket.on("occupancy:update", refreshAnalytics);
         socket.on("change-request:created", refreshAnalytics);
         socket.on("change-request:updated", refreshAnalytics);
@@ -123,12 +118,10 @@ export function useOwnerAnalytics() {
         return () => {
             socket.off("reservation:created", refreshAnalytics);
             socket.off("reservation:updated", refreshAnalytics);
-
             socket.off("checkin:created", refreshAnalytics);
             socket.off("checkin:updated", refreshAnalytics);
             socket.off("checkout:created", refreshAnalytics);
             socket.off("checkout:updated", refreshAnalytics);
-
             socket.off("occupancy:update", refreshAnalytics);
             socket.off("change-request:created", refreshAnalytics);
             socket.off("change-request:updated", refreshAnalytics);

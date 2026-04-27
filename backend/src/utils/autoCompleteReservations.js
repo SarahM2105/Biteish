@@ -32,7 +32,6 @@ async function autoCompleteExpiredCheckedIns() {
             where: { id: reservation.id },
             data: {
                 status: "COMPLETED",
-                // checkedOutAt: new Date(),
             },
         });
     }

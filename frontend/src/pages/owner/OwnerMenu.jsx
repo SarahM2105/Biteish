@@ -21,6 +21,7 @@ export default function OwnerMenu() {
         saving,
         restaurantName,
         sections,
+        availableTags,
         status,
         summary,
         showSectionModal,
@@ -92,6 +93,7 @@ export default function OwnerMenu() {
                     itemForm={itemForm}
                     setItemForm={setItemForm}
                     sections={sections}
+                    availableTags={availableTags}
                     onClose={() => setShowItemModal(false)}
                     onSubmit={handleSaveItem}
                 />

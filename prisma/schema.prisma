@@ -3,6 +3,10 @@ generator client {
   output   = "../generated/prisma"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
 datasource db {
   provider = "postgresql"
 }
@@ -20,6 +24,7 @@ model User {
   restaurants              Restaurant[]
   reviews                  Review[]
   ReservationChangeRequest ReservationChangeRequest[]
+  interactions             UserInteraction[]
 }
 
 model Restaurant {
@@ -35,8 +40,6 @@ model Restaurant {
   automaticSpendCalculation Boolean                   @default(true)
   verified                  Boolean                   @default(false)
   bookingRule               BookingRule?
-  menuSections              MenuSection[]
-  menuItems                 MenuItem[]
   favorites                 Favorite[]
   openingHours              OpeningHour[]
   reservations              Reservation[]
@@ -47,6 +50,9 @@ model Restaurant {
   tables                    Table[]
   zones                     Zone[]
   images                    RestaurantImage[]
+  interactions              UserInteraction[]
+  menuItems                 MenuItem[]
+  menuSections              MenuSection[]
 }
 
 model RestaurantImage {
@@ -63,38 +69,22 @@ model RestaurantImage {
   @@index([restaurantId, sortOrder])
 }
 
-model MenuSection {
-  id           String   @id @default(uuid())
-  restaurantId String
-  name         String
-  description  String?
-  sortOrder    Int      @default(0)
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  items      MenuItem[]
-
-  @@unique([restaurantId, name])
-  @@index([restaurantId, sortOrder])
-}
-
 model MenuItem {
-  id           String   @id @default(uuid())
+  id           String      @id @default(uuid())
   restaurantId String
-  sectionId    String
   name         String
   description  String?
-  price        Decimal  @db.Decimal(10, 2)
+  price        Decimal     @db.Decimal(10, 2)
   dietaryInfo  String?
-  isAvailable  Boolean  @default(true)
-  sortOrder    Int      @default(0)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  isAvailable  Boolean     @default(true)
+  sortOrder    Int         @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  sectionId    String
+  section      MenuSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
-  restaurant Restaurant  @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  section    MenuSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  restaurant   Restaurant    @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  menuItemTags MenuItemTag[]
 
   @@index([restaurantId, sectionId, sortOrder])
 }
@@ -109,19 +99,20 @@ model Zone {
 }
 
 model Table {
-  id                 String                     @id @default(uuid())
-  zoneId             String
-  restaurantId       String
-  capacity           Int
-  active             Boolean                    @default(true)
-  name               String
-  reservable         Boolean                    @default(true)
-  reservations       Reservation[]
-  restaurant         Restaurant                 @relation(fields: [restaurantId], references: [id])
-  zone               Zone                       @relation(fields: [zoneId], references: [id])
-  unavailability     TableUnavailability[]
-  requestedInChanges ReservationChangeRequest[] @relation("RequestedChangeTable")
-  tableTags          TableTag[]
+  id                   String                     @id @default(uuid())
+  zoneId               String
+  restaurantId         String
+  capacity             Int
+  active               Boolean                    @default(true)
+  name                 String
+  reservable           Boolean                    @default(true)
+  reservations         Reservation[]
+  restaurant           Restaurant                 @relation(fields: [restaurantId], references: [id])
+  zone                 Zone                       @relation(fields: [zoneId], references: [id])
+  unavailability       TableUnavailability[]
+  requestedInChanges   ReservationChangeRequest[] @relation("RequestedChangeTable")
+  tableTags            TableTag[]
+  tableAccessibilities TableAccessibility[]
 
   @@unique([restaurantId, name])
 }
@@ -259,12 +250,14 @@ model TagCategory {
 }
 
 model Tag {
-  id          String          @id @default(uuid())
-  categoryId  String
-  name        String          @unique
-  restaurants RestaurantTag[]
-  category    TagCategory     @relation(fields: [categoryId], references: [id])
-  tableTags   TableTag[]
+  id           String            @id @default(uuid())
+  categoryId   String
+  name         String            @unique
+  restaurants  RestaurantTag[]
+  category     TagCategory       @relation(fields: [categoryId], references: [id])
+  tableTags    TableTag[]
+  menuItemTags MenuItemTag[]
+  interactions UserInteraction[]
 }
 
 model RestaurantTag {
@@ -283,6 +276,8 @@ model AccessibilityOption {
   icon                      String?
   description               String
   restaurantAccessibilities RestaurantAccessibility[]
+  tableAccessibilities      TableAccessibility[]
+  interactions              UserInteraction[]
 }
 
 model RestaurantAccessibility {
@@ -315,6 +310,72 @@ model TableTag {
   tag   Tag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   @@unique([tableId, tagId])
+}
+
+model MenuItemTag {
+  id         String   @id @default(uuid())
+  menuItemId String
+  tagId      String
+  createdAt  DateTime @default(now())
+
+  menuItem MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  tag      Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([menuItemId, tagId])
+  @@index([tagId])
+}
+
+model MenuSection {
+  id           String   @id @default(uuid())
+  restaurantId String
+  name         String
+  description  String?
+  sortOrder    Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  items      MenuItem[]
+
+  @@unique([restaurantId, name])
+  @@index([restaurantId, sortOrder])
+}
+
+model TableAccessibility {
+  id        String   @id @default(uuid())
+  tableId   String
+  optionId  String
+  createdAt DateTime @default(now())
+
+  table  Table               @relation(fields: [tableId], references: [id], onDelete: Cascade)
+  option AccessibilityOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  @@unique([tableId, optionId])
+  @@index([optionId])
+}
+
+model UserInteraction {
+  id           String             @id @default(uuid())
+  userId       String
+  restaurantId String?
+  tagId        String?
+  optionId     String?
+  searchQuery  String?
+  eventType    InteractionType
+  source       InteractionSource?
+  weight       Float              @default(1)
+  metadata     Json?
+  createdAt    DateTime           @default(now())
+
+  user       User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  restaurant Restaurant?          @relation(fields: [restaurantId], references: [id], onDelete: SetNull)
+  tag        Tag?                 @relation(fields: [tagId], references: [id], onDelete: SetNull)
+  option     AccessibilityOption? @relation(fields: [optionId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([userId, eventType, createdAt])
+  @@index([restaurantId, createdAt])
 }
 
 enum AuditEntity {
@@ -356,4 +417,25 @@ enum ChangeStatus {
   PENDING
   APPROVED
   DECLINED
+}
+
+enum InteractionType {
+  RESTAURANT_VIEW
+  RECOMMENDATION_CLICK
+  FAVOURITE_ADDED
+  FAVOURITE_REMOVED
+  BOOKING_CREATED
+  BOOKING_COMPLETED
+  REVIEW_CREATED
+  SEARCH_PERFORMED
+  FILTER_APPLIED
+}
+
+enum InteractionSource {
+  DASHBOARD
+  SEARCH
+  RESTAURANT_PAGE
+  FAVOURITES
+  RECOMMENDATIONS
+  BOOKING_FLOW
 }

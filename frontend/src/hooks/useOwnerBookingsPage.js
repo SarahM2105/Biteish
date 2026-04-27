@@ -10,6 +10,8 @@ import {
     startOfDay,
     toDateKey,
 } from "../components/Owner/Bookings/BookingHelpers";
+import { authFetch } from "../components/utils/authFetch";
+import { getApiErrorMessage } from "../components/utils/getApiErrorMessage";
 
 export default function useOwnerBookingsPage() {
     const [loading, setLoading] = useState(false);
@@ -33,17 +35,11 @@ export default function useOwnerBookingsPage() {
             setStatus("");
 
             try {
-                const token = localStorage.getItem("token");
-                const res = await fetch("/api/owner/reservations", {
-                    headers: {
-                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                    },
-                });
-
-                const data = await res.json().catch(() => []);
+                const res = await authFetch("/api/owner/reservations");
+                const data = await res.json().catch(() => ({}));
 
                 if (!res.ok) {
-                    setStatus(data?.error || data?.message || "Failed to load bookings.");
+                    setStatus(getApiErrorMessage(data, "Failed to load bookings."));
                     setBookings([]);
                     return;
                 }

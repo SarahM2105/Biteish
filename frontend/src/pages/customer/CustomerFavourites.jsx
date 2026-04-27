@@ -3,6 +3,8 @@ import AppLayout from "../../layouts/AppLayout";
 import CustomerSideNav from "../../components/CustomerSideNav";
 import "../../components/Customer/Favourites/Favourites.css";
 import { logout } from "../../components/utils/logout";
+import { authFetch } from "../../components/utils/authFetch";
+import { getApiErrorMessage } from "../../components/utils/getApiErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../ThemeContext";
 
@@ -28,17 +30,6 @@ export default function CustomerFavourites() {
 
     const navigate = useNavigate();
 
-    function authFetch(url, options = {}) {
-        const token = localStorage.getItem("token");
-        return fetch(url, {
-            ...options,
-            headers: {
-                ...(options.headers || {}),
-                ...(token ? { Authorization: `Bearer ${token}` } : {}),
-            },
-        });
-    }
-
     useEffect(() => {
         async function loadFavourites() {
             try {
@@ -51,7 +42,7 @@ export default function CustomerFavourites() {
 
                 if (!res.ok) {
                     setFavouriteRestaurants([]);
-                    setStatus(data?.error || "Failed to load favourites");
+                    setStatus(getApiErrorMessage(data, "Failed to load favourites"));
                     return;
                 }
 
@@ -74,10 +65,11 @@ export default function CustomerFavourites() {
                 method: "DELETE",
             });
 
+            const text = await res.text();
+            const data = text ? JSON.parse(text) : {};
+
             if (!res.ok) {
-                const text = await res.text();
-                const data = text ? JSON.parse(text) : {};
-                setStatus(data?.error || "Failed to remove favourite");
+                setStatus(getApiErrorMessage(data, "Failed to remove favourite"));
                 return;
             }
 
@@ -95,6 +87,7 @@ export default function CustomerFavourites() {
             logout(navigate);
             return;
         }
+
         setActive(label);
     }
 

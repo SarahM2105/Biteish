@@ -11,11 +11,11 @@ const {
     extractTableAccessibilitySignals,
     extractCandidateAccessibilitySignals,
     extractSignalsFromInteraction,
-} = require("./Signals");
+} = require("./signals");
 const {
     buildReason,
     formatRestaurantPayload,
-} = require("./Formatting");
+} = require("./formatting");
 
 function scoreRecommendations({
                                   reservations,

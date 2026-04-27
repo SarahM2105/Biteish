@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getSocket } from "../socket";
+import { authFetch } from "../components/utils/authFetch";
+import { getApiErrorMessage } from "../components/utils/getApiErrorMessage";
 
 export default function useOwnerDashboard() {
     const [loading, setLoading] = useState(true);
@@ -30,17 +32,11 @@ export default function useOwnerDashboard() {
         setStatus("");
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch("/api/owner/dashboard", {
-                headers: {
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-            });
-
+            const res = await authFetch("/api/owner/dashboard");
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || "Failed to load dashboard");
+                setStatus(getApiErrorMessage(data, "Failed to load dashboard"));
                 return;
             }
 
@@ -84,14 +80,15 @@ export default function useOwnerDashboard() {
 
         socket.connect();
 
-        socket.on("connect", () => {
+        const joinRoom = () => {
             socket.emit("join", { role, userId });
-        });
+        };
 
         const refreshDashboard = () => {
             loadDashboard();
         };
 
+        socket.on("connect", joinRoom);
         socket.on("reservation:created", refreshDashboard);
         socket.on("reservation:updated", refreshDashboard);
         socket.on("occupancy:update", refreshDashboard);
@@ -102,6 +99,7 @@ export default function useOwnerDashboard() {
         }, 30000);
 
         return () => {
+            socket.off("connect", joinRoom);
             socket.off("reservation:created", refreshDashboard);
             socket.off("reservation:updated", refreshDashboard);
             socket.off("occupancy:update", refreshDashboard);

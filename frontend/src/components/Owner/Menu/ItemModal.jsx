@@ -6,10 +6,25 @@ export default function ItemModal({
                                       itemForm,
                                       setItemForm,
                                       sections,
+                                      availableTags = [],
                                       onClose,
                                       onSubmit,
                                   }) {
     if (!open) return null;
+
+    function toggleTag(tagId) {
+        setItemForm((prev) => {
+            const currentTagIds = Array.isArray(prev.tagIds) ? prev.tagIds : [];
+            const exists = currentTagIds.includes(tagId);
+
+            return {
+                ...prev,
+                tagIds: exists
+                    ? currentTagIds.filter((id) => id !== tagId)
+                    : [...currentTagIds, tagId],
+            };
+        });
+    }
 
     return (
         <div className="owner-menu-modal-backdrop">
@@ -112,6 +127,40 @@ export default function ItemModal({
                             placeholder="e.g. Vegetarian"
                         />
                     </label>
+
+                    <div className="owner-menu-field">
+                        <span>Tags</span>
+
+                        {availableTags.length === 0 ? (
+                            <p className="owner-menu-field__hint">
+                                No tags available yet.
+                            </p>
+                        ) : (
+                            <div className="owner-menu-tag-list">
+                                {availableTags.map((tag) => {
+                                    const selected = (itemForm.tagIds || []).includes(tag.id);
+
+                                    return (
+                                        <button
+                                            key={tag.id}
+                                            type="button"
+                                            className={`owner-menu-tag-chip ${
+                                                selected
+                                                    ? "owner-menu-tag-chip--selected"
+                                                    : ""
+                                            }`}
+                                            onClick={() => toggleTag(tag.id)}
+                                        >
+                                            <span>{tag.name}</span>
+                                            {tag.category?.name ? (
+                                                <small>{tag.category.name}</small>
+                                            ) : null}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </div>
 
                     <div className="owner-menu-checks">
                         <label className="owner-menu-toggle">

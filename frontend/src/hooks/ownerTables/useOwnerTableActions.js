@@ -4,6 +4,7 @@ import {
     saveTableRequest,
     deleteRequest,
 } from "./api";
+import { getApiErrorMessage } from "../../components/utils/getApiErrorMessage";
 
 export default function useOwnerTablesActions({
                                                   restaurant,
@@ -40,7 +41,7 @@ export default function useOwnerTablesActions({
 
                 if (!response.ok) {
                     setZoneModalStatus(
-                        data?.error || data?.message || "Failed to save zone"
+                        getApiErrorMessage(data, "Failed to save zone")
                     );
                     return;
                 }
@@ -82,7 +83,7 @@ export default function useOwnerTablesActions({
 
                 if (!response.ok) {
                     setTableModalStatus(
-                        data?.error || data?.message || "Failed to save table"
+                        getApiErrorMessage(data, "Failed to save table")
                     );
                     return;
                 }
@@ -125,7 +126,7 @@ export default function useOwnerTablesActions({
 
             if (!response.ok) {
                 setDeleteModalStatus(
-                    data?.error || data?.message || "Failed to delete item"
+                    getApiErrorMessage(data, "Failed to delete item")
                 );
                 return;
             }

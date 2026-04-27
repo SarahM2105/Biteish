@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getSocket } from "../socket";
+import { authFetch } from "../components/utils/authFetch";
+import { getApiErrorMessage } from "../components/utils/getApiErrorMessage";
 
 function toLocalInputValue(value) {
     if (!value) return "";
@@ -35,13 +37,9 @@ export default function useOwnerRequests() {
         setLoadingNew(true);
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch("/api/owner/reservations/pending", {
-                headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-            });
-
+            const res = await authFetch("/api/owner/reservations/pending");
             const text = await res.text();
-            let data = [];
+            let data = {};
 
             try {
                 data = text ? JSON.parse(text) : [];
@@ -52,7 +50,7 @@ export default function useOwnerRequests() {
             }
 
             if (!res.ok) {
-                setStatus(data?.error || data?.message || "Failed to load new bookings.");
+                setStatus(getApiErrorMessage(data, "Failed to load new bookings."));
                 setReservations([]);
                 return;
             }
@@ -72,13 +70,9 @@ export default function useOwnerRequests() {
         setLoadingChanges(true);
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch("/api/owner/change-request", {
-                headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-            });
-
+            const res = await authFetch("/api/owner/change-request");
             const text = await res.text();
-            let data = [];
+            let data = {};
 
             try {
                 data = text ? JSON.parse(text) : [];
@@ -89,7 +83,9 @@ export default function useOwnerRequests() {
             }
 
             if (!res.ok) {
-                setStatus(data?.error || data?.message || "Failed to load booking update requests.");
+                setStatus(
+                    getApiErrorMessage(data, "Failed to load booking update requests.")
+                );
                 setChangeRequests([]);
                 return;
             }
@@ -116,22 +112,23 @@ export default function useOwnerRequests() {
         const socket = getSocket();
         socket.connect();
 
-        socket.on("connect", () => {
+        const joinRoom = () => {
             socket.emit("join", { role, userId });
-        });
+        };
 
         const refreshRequests = () => {
             loadPendingBookings();
             loadPendingBookingUpdates();
         };
 
+        socket.on("connect", joinRoom);
         socket.on("reservation:created", refreshRequests);
         socket.on("reservation:updated", refreshRequests);
 
         return () => {
+            socket.off("connect", joinRoom);
             socket.off("reservation:created", refreshRequests);
             socket.off("reservation:updated", refreshRequests);
-            socket.disconnect();
         };
     }, [loadPendingBookings, loadPendingBookingUpdates]);
 
@@ -150,16 +147,14 @@ export default function useOwnerRequests() {
         setActingKey(`new:${reservationId}`);
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`/api/owner/reservations/${reservationId}/approve`, {
+            const res = await authFetch(`/api/owner/reservations/${reservationId}/approve`, {
                 method: "PATCH",
-                headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
             });
 
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || data?.message || "Approve failed.");
+                setStatus(getApiErrorMessage(data, "Approve failed."));
                 return;
             }
 
@@ -183,16 +178,14 @@ export default function useOwnerRequests() {
         setActingKey(`new:${reservationId}`);
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`/api/owner/reservations/${reservationId}/decline`, {
+            const res = await authFetch(`/api/owner/reservations/${reservationId}/decline`, {
                 method: "PATCH",
-                headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
             });
 
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || data?.message || "Decline failed.");
+                setStatus(getApiErrorMessage(data, "Decline failed."));
                 return;
             }
 
@@ -216,16 +209,14 @@ export default function useOwnerRequests() {
         setActingKey(`chg:${requestId}`);
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`/api/owner/change-request/${requestId}/approve`, {
+            const res = await authFetch(`/api/owner/change-request/${requestId}/approve`, {
                 method: "PATCH",
-                headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
             });
 
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || data?.message || "Approve change failed.");
+                setStatus(getApiErrorMessage(data, "Approve change failed."));
                 return;
             }
 
@@ -247,16 +238,14 @@ export default function useOwnerRequests() {
         setActingKey(`chg:${requestId}`);
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`/api/owner/change-request/${requestId}/decline`, {
+            const res = await authFetch(`/api/owner/change-request/${requestId}/decline`, {
                 method: "PATCH",
-                headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
             });
 
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || data?.message || "Decline change failed.");
+                setStatus(getApiErrorMessage(data, "Decline change failed."));
                 return;
             }
 
@@ -294,11 +283,7 @@ export default function useOwnerRequests() {
         setLoadingTables(true);
 
         try {
-            const token = localStorage.getItem("token");
-
-            const zonesRes = await fetch(`/api/owner/restaurants/${restaurantId}/zones`, {
-                headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-            });
+            const zonesRes = await authFetch(`/api/owner/restaurants/${restaurantId}/zones`);
             const zonesData = await zonesRes.json().catch(() => []);
 
             if (!zonesRes.ok || !Array.isArray(zonesData)) {
@@ -308,9 +293,7 @@ export default function useOwnerRequests() {
 
             const tableResponses = await Promise.all(
                 zonesData.map((zone) =>
-                    fetch(`/api/owner/zones/${zone.id}/tables`, {
-                        headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-                    }).then(async (res) => ({
+                    authFetch(`/api/owner/zones/${zone.id}/tables`).then(async (res) => ({
                         ok: res.ok,
                         zone,
                         data: await res.json().catch(() => []),
@@ -320,6 +303,7 @@ export default function useOwnerRequests() {
 
             const flattened = tableResponses.flatMap(({ ok, zone, data }) => {
                 if (!ok || !Array.isArray(data)) return [];
+
                 return data.map((table) => ({
                     id: table.id,
                     name: table.name || `Table ${table.tableNumber || ""}`.trim(),
@@ -360,12 +344,10 @@ export default function useOwnerRequests() {
         setActingKey(`proposal:${selectedChangeRequest.id}`);
 
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`/api/owner/reservations/${reservationId}/change-request`, {
+            const res = await authFetch(`/api/owner/reservations/${reservationId}/change-request`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({
                     startsAt: proposalForm.startsAt
@@ -384,7 +366,9 @@ export default function useOwnerRequests() {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setStatus(data?.error || data?.message || "Failed to propose a different change.");
+                setStatus(
+                    getApiErrorMessage(data, "Failed to propose a different change.")
+                );
                 return;
             }
 

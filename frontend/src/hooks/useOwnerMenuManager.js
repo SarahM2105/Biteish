@@ -3,14 +3,15 @@ import {
     createEmptySectionForm,
     createEmptyItemForm,
 } from "../components/Owner/Menu/menuFormHelpers";
+import { authFetch } from "../components/utils/authFetch";
+import { getApiErrorMessage } from "../components/utils/getApiErrorMessage";
 
 export default function useOwnerMenuManager() {
-    const token = localStorage.getItem("token");
-
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [restaurantName, setRestaurantName] = useState("Your restaurant");
     const [sections, setSections] = useState([]);
+    const [availableTags, setAvailableTags] = useState([]);
     const [status, setStatus] = useState({ type: "", message: "" });
 
     const [showSectionModal, setShowSectionModal] = useState(false);
@@ -20,21 +21,14 @@ export default function useOwnerMenuManager() {
     const [itemForm, setItemForm] = useState(createEmptyItemForm());
 
     async function loadMenu() {
-        setLoading(true);
-
         try {
-            const res = await fetch("/api/owner/menu", {
-                headers: {
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-            });
-
+            const res = await authFetch("/api/owner/menu");
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
                 setStatus({
                     type: "error",
-                    message: data?.error || data?.message || "Failed to load menu.",
+                    message: getApiErrorMessage(data, "Failed to load menu."),
                 });
                 setSections([]);
                 return;
@@ -42,7 +36,6 @@ export default function useOwnerMenuManager() {
 
             setRestaurantName(data?.restaurantName || "Your restaurant");
             setSections(Array.isArray(data?.sections) ? data.sections : []);
-            setStatus({ type: "", message: "" });
         } catch (error) {
             console.error(error);
             setStatus({
@@ -50,13 +43,39 @@ export default function useOwnerMenuManager() {
                 message: "Failed to load menu.",
             });
             setSections([]);
+        }
+    }
+
+    async function loadAvailableTags() {
+        try {
+            const res = await authFetch("/api/owner/menu/tags");
+            const data = await res.json().catch(() => []);
+
+            if (!res.ok) {
+                setAvailableTags([]);
+                return;
+            }
+
+            setAvailableTags(Array.isArray(data) ? data : []);
+        } catch (error) {
+            console.error(error);
+            setAvailableTags([]);
+        }
+    }
+
+    async function loadInitialData() {
+        setLoading(true);
+
+        try {
+            await Promise.all([loadMenu(), loadAvailableTags()]);
+            setStatus({ type: "", message: "" });
         } finally {
             setLoading(false);
         }
     }
 
     useEffect(() => {
-        loadMenu();
+        loadInitialData();
     }, []);
 
     const summary = useMemo(() => {
@@ -85,7 +104,10 @@ export default function useOwnerMenuManager() {
     }
 
     function openAddItem(sectionId = "") {
-        setItemForm(createEmptyItemForm(sectionId));
+        setItemForm({
+            ...createEmptyItemForm(sectionId),
+            tagIds: [],
+        });
         setShowItemModal(true);
     }
 
@@ -98,6 +120,9 @@ export default function useOwnerMenuManager() {
             price: item.price ?? "",
             dietaryInfo: item.dietaryInfo || "",
             isAvailable: item.isAvailable ?? true,
+            tagIds: Array.isArray(item.tags)
+                ? item.tags.map((tag) => tag.id).filter(Boolean)
+                : [],
         });
         setShowItemModal(true);
     }
@@ -121,11 +146,10 @@ export default function useOwnerMenuManager() {
                 ? `/api/owner/menu/sections/${sectionForm.id}`
                 : "/api/owner/menu/sections";
 
-            const res = await fetch(url, {
+            const res = await authFetch(url, {
                 method: isEditing ? "PATCH" : "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({
                     name: sectionForm.name.trim(),
@@ -139,7 +163,7 @@ export default function useOwnerMenuManager() {
             if (!res.ok) {
                 setStatus({
                     type: "error",
-                    message: data?.error || data?.message || "Failed to save section.",
+                    message: getApiErrorMessage(data, "Failed to save section."),
                 });
                 return;
             }
@@ -175,11 +199,8 @@ export default function useOwnerMenuManager() {
         setSaving(true);
 
         try {
-            const res = await fetch(`/api/owner/menu/sections/${sectionId}`, {
+            const res = await authFetch(`/api/owner/menu/sections/${sectionId}`, {
                 method: "DELETE",
-                headers: {
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
             });
 
             const data = await res.json().catch(() => ({}));
@@ -187,7 +208,7 @@ export default function useOwnerMenuManager() {
             if (!res.ok) {
                 setStatus({
                     type: "error",
-                    message: data?.error || data?.message || "Failed to delete section.",
+                    message: getApiErrorMessage(data, "Failed to delete section."),
                 });
                 return;
             }
@@ -244,11 +265,10 @@ export default function useOwnerMenuManager() {
                 ? `/api/owner/menu/items/${itemForm.id}`
                 : "/api/owner/menu/items";
 
-            const res = await fetch(url, {
+            const res = await authFetch(url, {
                 method: isEditing ? "PATCH" : "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({
                     sectionId: itemForm.sectionId,
@@ -257,6 +277,7 @@ export default function useOwnerMenuManager() {
                     price: Number(itemForm.price),
                     dietaryInfo: itemForm.dietaryInfo.trim(),
                     isAvailable: itemForm.isAvailable,
+                    tagIds: Array.isArray(itemForm.tagIds) ? itemForm.tagIds : [],
                 }),
             });
 
@@ -265,7 +286,7 @@ export default function useOwnerMenuManager() {
             if (!res.ok) {
                 setStatus({
                     type: "error",
-                    message: data?.error || data?.message || "Failed to save item.",
+                    message: getApiErrorMessage(data, "Failed to save item."),
                 });
                 return;
             }
@@ -299,11 +320,8 @@ export default function useOwnerMenuManager() {
         setSaving(true);
 
         try {
-            const res = await fetch(`/api/owner/menu/items/${itemId}`, {
+            const res = await authFetch(`/api/owner/menu/items/${itemId}`, {
                 method: "DELETE",
-                headers: {
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
             });
 
             const data = await res.json().catch(() => ({}));
@@ -311,7 +329,7 @@ export default function useOwnerMenuManager() {
             if (!res.ok) {
                 setStatus({
                     type: "error",
-                    message: data?.error || data?.message || "Failed to delete item.",
+                    message: getApiErrorMessage(data, "Failed to delete item."),
                 });
                 return;
             }
@@ -337,11 +355,10 @@ export default function useOwnerMenuManager() {
         setSaving(true);
 
         try {
-            const res = await fetch(`/api/owner/menu/items/${item.id}`, {
+            const res = await authFetch(`/api/owner/menu/items/${item.id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({
                     isAvailable: !item.isAvailable,
@@ -353,8 +370,10 @@ export default function useOwnerMenuManager() {
             if (!res.ok) {
                 setStatus({
                     type: "error",
-                    message:
-                        data?.error || data?.message || "Failed to update item visibility.",
+                    message: getApiErrorMessage(
+                        data,
+                        "Failed to update item visibility."
+                    ),
                 });
                 return;
             }
@@ -383,6 +402,7 @@ export default function useOwnerMenuManager() {
         saving,
         restaurantName,
         sections,
+        availableTags,
         status,
         summary,
         showSectionModal,

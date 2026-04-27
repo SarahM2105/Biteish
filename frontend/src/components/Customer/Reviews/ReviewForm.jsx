@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { authFetch } from "../../utils/authFetch";
+import { getApiErrorMessage } from "../../utils/getApiErrorMessage";
 
 export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpdated }) {
     const [rating, setRating] = useState(5);
@@ -13,30 +15,35 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
     const [isDragging, setIsDragging] = useState(false);
 
     const fileInputRef = useRef(null);
+
     useEffect(() => {
         let ignore = false;
+
         async function loadMyReview() {
             try {
                 setInitialLoading(true);
                 setStatus("");
-                const token = localStorage.getItem("token");
-                const res = await fetch(`/api/customer/restaurants/${restaurantId}/reviews/me`, {
-                    headers: {
-                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                    },
-                });
-                const data = await res.json().catch(() => null);
+
+                const res = await authFetch(
+                    `/api/customer/restaurants/${restaurantId}/reviews/me`
+                );
+
+                const data = await res.json().catch(() => ({}));
+
                 if (ignore) return;
+
                 if (res.status === 404) {
                     setExistingReview(null);
                     setExistingImages([]);
                     setIsEditing(true);
                     return;
                 }
+
                 if (!res.ok) {
-                    setStatus(data?.message || "Failed to load your review");
+                    setStatus(getApiErrorMessage(data, "Failed to load your review"));
                     return;
                 }
+
                 setExistingReview(data);
                 setRating(data.rating ?? 5);
                 setComment(data.comment || "");
@@ -44,6 +51,7 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
                 setIsEditing(false);
             } catch (error) {
                 console.error(error);
+
                 if (!ignore) {
                     setStatus("Failed to load your review");
                 }
@@ -53,44 +61,51 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
                 }
             }
         }
+
         if (restaurantId) {
             loadMyReview();
         }
+
         return () => {
             ignore = true;
         };
     }, [restaurantId]);
+
     const imagePreviews = useMemo(() => {
         return images.map((file) => ({
             file,
             previewUrl: URL.createObjectURL(file),
         }));
     }, [images]);
+
     useEffect(() => {
         return () => {
             imagePreviews.forEach((item) => URL.revokeObjectURL(item.previewUrl));
         };
     }, [imagePreviews]);
+
     function mergeFiles(newFiles) {
-        setImages((prev) => {
-            const merged = [...prev, ...newFiles].slice(0, 3);
-            return merged;
-        });
+        setImages((prev) => [...prev, ...newFiles].slice(0, 3));
     }
+
     function handleFileChange(e) {
         const files = Array.from(e.target.files || []).filter((file) =>
             file.type?.startsWith("image/")
         );
+
         mergeFiles(files);
         e.target.value = "";
     }
+
     function removeSelectedImage(indexToRemove) {
         setImages((prev) => prev.filter((_, index) => index !== indexToRemove));
     }
+
     function handleStartEdit() {
         setIsEditing(true);
         setStatus("");
     }
+
     function handleCancelEdit() {
         if (existingReview) {
             setRating(existingReview.rating ?? 5);
@@ -101,52 +116,63 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
             setIsEditing(false);
         }
     }
+
     function handleDragOver(e) {
         e.preventDefault();
         setIsDragging(true);
     }
+
     function handleDragLeave(e) {
         e.preventDefault();
         setIsDragging(false);
     }
+
     function handleDrop(e) {
         e.preventDefault();
         setIsDragging(false);
+
         const files = Array.from(e.dataTransfer.files || []).filter((file) =>
             file.type?.startsWith("image/")
         );
+
         mergeFiles(files);
     }
+
     async function handleSubmit(e) {
         e.preventDefault();
+
         try {
             setLoading(true);
             setStatus("");
-            const token = localStorage.getItem("token");
+
             const formData = new FormData();
             formData.append("rating", String(rating));
             formData.append("comment", comment);
+
             images.forEach((file) => {
                 formData.append("images", file);
             });
+
             const method = existingReview ? "PUT" : "POST";
-            const res = await fetch(`/api/customer/restaurants/${restaurantId}/reviews`, {
+
+            const res = await authFetch(`/api/customer/restaurants/${restaurantId}/reviews`, {
                 method,
-                headers: {
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
                 body: formData,
             });
-            const data = await res.json().catch(() => null);
+
+            const data = await res.json().catch(() => ({}));
+
             if (!res.ok) {
-                setStatus(data?.message || "Failed to submit review");
+                setStatus(getApiErrorMessage(data, "Failed to submit review"));
                 return;
             }
+
             setStatus(existingReview ? "Review updated successfully" : "Review submitted successfully");
             setExistingReview(data.review);
             setExistingImages(Array.isArray(data.review?.images) ? data.review.images : []);
             setImages([]);
             setIsEditing(false);
+
             if (existingReview) {
                 onReviewUpdated?.(data.review);
             } else {
@@ -159,6 +185,7 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
             setLoading(false);
         }
     }
+
     if (initialLoading) {
         return (
             <section className="restaurant-details-card">
@@ -166,6 +193,7 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
             </section>
         );
     }
+
     if (existingReview && !isEditing) {
         return (
             <section className="restaurant-details-card">
@@ -185,6 +213,7 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
                             Edit review
                         </button>
                     </div>
+
                     <div className="review-display__rating">
                         <span>⭐</span>
                         <strong>{existingReview.rating}</strong>
@@ -206,6 +235,7 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
                             ))}
                         </div>
                     )}
+
                     {status && (
                         <p
                             className={`review-form__status ${
@@ -219,6 +249,7 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
             </section>
         );
     }
+
     return (
         <section className="restaurant-details-card">
             <form className="review-form" onSubmit={handleSubmit}>
@@ -231,12 +262,14 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
                                 : "Share your experience with other diners."}
                         </p>
                     </div>
+
                     {existingReview?.verifiedVisit !== undefined && (
                         <span className="review-form__badge">
                             {existingReview.verifiedVisit ? "Verified diner" : "Customer review"}
                         </span>
                     )}
                 </div>
+
                 <div className="review-form__grid">
                     <div className="review-form__field review-form__field--compact">
                         <label htmlFor="review-rating">Rating</label>
@@ -252,6 +285,7 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
                             <option value={1}>1 - Bad</option>
                         </select>
                     </div>
+
                     <div className="review-form__field review-form__field--full">
                         <label htmlFor="review-comment">Comment</label>
                         <textarea
@@ -263,6 +297,7 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
                         />
                     </div>
                 </div>
+
                 {existingImages.length > 0 && (
                     <div className="review-form__existing">
                         <p className="review-form__section-title">Current images</p>
@@ -281,8 +316,10 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
                         </p>
                     </div>
                 )}
+
                 <div className="review-form__field review-form__field--full">
                     <label>Upload images</label>
+
                     <div
                         className={`review-upload ${isDragging ? "is-dragging" : ""}`}
                         onDragOver={handleDragOver}
@@ -308,7 +345,9 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
                             hidden
                         />
                     </div>
+
                     <p className="review-form__hint">Optional, up to 3 images.</p>
+
                     {imagePreviews.length > 0 && (
                         <div className="review-upload__preview-grid">
                             {imagePreviews.map((item, index) => (
@@ -330,6 +369,7 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
                         </div>
                     )}
                 </div>
+
                 <div className="review-form__footer">
                     <button type="submit" className="review-form__button" disabled={loading}>
                         {loading
@@ -340,6 +380,7 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
                                 ? "Save changes"
                                 : "Submit review"}
                     </button>
+
                     {existingReview && (
                         <button
                             type="button"
@@ -350,6 +391,7 @@ export default function ReviewForm({ restaurantId, onReviewCreated, onReviewUpda
                             Cancel
                         </button>
                     )}
+
                     {status && (
                         <p
                             className={`review-form__status ${
