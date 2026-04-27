@@ -116,3 +116,38 @@ prisma/
 docs/ 
     artifacts  project diagrams and reports 
 README.md project setup and documentation
+
+## Setup 
+
+### Install dependencies 
+npm install 
+
+### Generate Prisma Client 
+npx prisma generate 
+
+### Start backend 
+// go to backend dir 
+cd backend 
+npm start 
+
+### start frontend 
+// go to frontend dir 
+cd frontend 
+npm install
+npm start
+
+## environment variables 
+create env file using env example 
+required variables 
+DATABASE_URL="your_database_url_here"
+JWT_SECRET="your_jwt_secret_here"
+EMAIL_USER="your_email_here"
+EMAIL_PASS="your_email_app_password_here"
+CLOUDINARY_CLOUD_NAME="your_cloudinary_cloud_name"
+CLOUDINARY_API_KEY="your_cloudinary_api_key"
+CLOUDINARY_API_SECRET="your_cloudinary_api_secret"
+
+## limitations 
+- admin tools not completed 
+-full deployment not completed
+-large scale testing was not carried out
