@@ -56,7 +56,7 @@ It is built around 3 main roles:
 
 ### backend
     - node.js
-    -Express 
+    - Express 
     - prisma ORM 
     - postgreSQL 
     - jwt authentication 
@@ -73,6 +73,46 @@ It is built around 3 main roles:
 
 ## project structure 
 
+backend/
+    src/ 
+        controllers/ 
+        middleware/
+        routes/
+        utils/
+        app.js
+    tests/
+frontend 
+    src/
+        components/ 
+        hooks/ 
+        layouts/
+        pages/
+        socket.js
+prisma/
+    schema.prisma
+
 
 #how to navigate through this
 all design documents and diagrams along with interim report = /docs/artifacts 
+
+backend/
+    src/ 
+        controllers/ backend logic for authentication, bookings, owners, customers, menus, reccomendations, and check ins 
+        middleware/ authentication and the role based access middleware 
+        routes/ express routes definitions 
+        utils/  shared backedn helper functions 
+        app.js express server entry point 
+    tests/ automated backedn unit tests 
+frontend 
+    src/
+        components/ reuseable react ui components 
+        hooks/ custom hooks (react) for API and page logic 
+        layouts/ shared layouts 
+        pages/  customer, owner, admin pages 
+        socket.js frontend socket io setup
+prisma/
+    schema.prisma db schema and model definitions 
+
+docs/ 
+    artifacts  project diagrams and reports 
+README.md project setup and documentation
