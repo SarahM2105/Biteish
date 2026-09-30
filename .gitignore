@@ -3,7 +3,12 @@ frontend/node_modules/
 .env
 .env.*
 !.env.example
-prisma/generated/
+generated/prisma/
 frontend/build/
 dist/
 .DS_Store
+# Old nested repository
+Restaurant-Booking-Webpage/
+# IDE files
+.idea/
+*.iml
