@@ -24,6 +24,7 @@ function scoreRecommendations({
                                   restaurants,
                                   userId,
                               }) {
+    // initialise shared preference buckets — all three sources (bookings, favourites, browsing) pour into these same maps
     const tagWeights = new Map();
     const locationWeights = new Map();
     const menuWeights = new Map();
@@ -33,6 +34,7 @@ function scoreRecommendations({
     const favouriteRestaurantIds = new Set();
     const interactionRestaurantBoosts = new Map();
 
+    // loop reservations newest first — index position drives the recency decay formula
     reservations.forEach((reservation, index) => {
         const restaurantId = reservation.restaurant?.id;
         const tagNames =
@@ -45,9 +47,12 @@ function scoreRecommendations({
             ...extractTableAccessibilitySignals(reservation.table),
         ];
 
+        // completed booking starts at 3.5, confirmed starts at 1.75 — stronger action = higher base weight
         const baseWeight = reservation.status === "COMPLETED" ? 3.5 : 1.75;
+        // recency decay: weightedAmount = baseWeight × max(0.55, 1 − index × 0.05) — older bookings contribute less, floor at 0.55
         const weightedAmount = getWeightedAmount(baseWeight, index);
 
+        // add decayed points to shared buckets — tags, menu and accessibility get the full weighted amount
         tagNames.forEach((tagName) => addWeight(tagWeights, tagName, weightedAmount));
         menuSignals.forEach((signal) =>
             addWeight(menuWeights, signal, weightedAmount)
@@ -55,17 +60,20 @@ function scoreRecommendations({
         accessibilitySignals.forEach((signal) =>
             addWeight(accessibilityWeights, signal, weightedAmount)
         );
+        // area gets half the decayed amount — intentionally weak signal, two restaurants in the same city can be completely different
         addWeight(
             locationWeights,
             reservation.restaurant?.location,
             weightedAmount / 2
         );
 
+        // track visit count per restaurant — used later to calculate the repeat visit penalty
         if (restaurantId) {
             incrementCount(visitedRestaurantCounts, restaurantId, 1);
         }
     });
 
+    // favourites processing — base weight 2.5, sits between confirmed (1.75) and completed (3.5)
     favourites.forEach((favourite, index) => {
         const restaurantId = favourite.restaurant?.id;
         const tagNames =
@@ -73,11 +81,14 @@ function scoreRecommendations({
         const menuSignals = extractMenuSignalsFromRestaurant(
             favourite.restaurant
         );
+        // note: favourites only extract restaurant-level accessibility, not table accessibility
         const accessibilitySignals = extractRestaurantAccessibilitySignals(
             favourite.restaurant
         );
+        // 2.5 hardcoded for all favourites — no completed/confirmed distinction unlike reservations
         const weightedAmount = getWeightedAmount(2.5, index);
 
+        // add to the same shared buckets as reservations — signals from both sources reinforce each other
         tagNames.forEach((tagName) => addWeight(tagWeights, tagName, weightedAmount));
         menuSignals.forEach((signal) =>
             addWeight(menuWeights, signal, weightedAmount)
@@ -85,16 +96,18 @@ function scoreRecommendations({
         accessibilitySignals.forEach((signal) =>
             addWeight(accessibilityWeights, signal, weightedAmount)
         );
+        // area still halved, same as reservations
         addWeight(locationWeights, favourite.restaurant?.location, weightedAmount / 2);
 
+        // store restaurant ID in a Set — used later to apply the +0.05 favourite boost in final scoring
         if (restaurantId) {
             favouriteRestaurantIds.add(String(restaurantId));
         }
     });
 
+    // loop browsing interactions — base weight multiplied by event type multiplier before recency decay is applied
     interactions.forEach((interaction, index) => {
         let baseWeight = Number(interaction.weight) || 1;
-
         if (interaction.eventType === "SEARCH_PERFORMED") {
             baseWeight *= 1.8;
         } else if (interaction.eventType === "FILTER_APPLIED") {
@@ -115,9 +128,11 @@ function scoreRecommendations({
             baseWeight *= 2;
         }
 
+        // recency decay applied after the event multiplier — e.g. RESTAURANT_VIEW = 1 × 1.15 × max(0.55, 1 − index × 0.05)
         const weightedAmount = getWeightedAmount(baseWeight, index);
         const interactionSignals = extractSignalsFromInteraction(interaction);
 
+        // signals from interactions feed tag, menu and search buckets — browsing has no area signal
         interactionSignals.forEach((signal) => {
             if (signal.startsWith("tag:")) {
                 addWeight(tagWeights, signal.replace(/^tag:/, ""), weightedAmount);
@@ -136,6 +151,8 @@ function scoreRecommendations({
             }
         });
 
+        // double boost — restaurant ID added to interaction boost map (feeds the 8% direct interaction score)
+        // AND visit count incremented for the repeat visit penalty calculation
         if (interaction.restaurantId) {
             addWeight(
                 interactionRestaurantBoosts,
@@ -146,6 +163,7 @@ function scoreRecommendations({
         }
     });
 
+    // cold start check — if all buckets are empty the user has no history, skip to popularity-based scoring
     const coldStart =
         tagWeights.size === 0 &&
         locationWeights.size === 0 &&
@@ -153,6 +171,7 @@ function scoreRecommendations({
         accessibilityWeights.size === 0 &&
         searchWeights.size === 0;
 
+    // score every candidate restaurant (up to 200) against the preference profile built above
     const enriched = restaurants.map((restaurant) => {
         const tagNames = restaurant.tags.map((item) => item.tag.name);
         const menuSignals = extractMenuSignalsFromRestaurant(restaurant);
@@ -170,14 +189,17 @@ function scoreRecommendations({
 
         const favouritesCount = restaurant.favorites.length;
         const availabilityRaw = restaurant.tables.length;
+        // popularity = favourites × 2 + review count — favourites weighted double as stronger signal of genuine interest
         const popularityRaw = favouritesCount * 2 + reviewCount;
         const isOpenNow = isRestaurantOpenNow(restaurant.openingHours);
 
+        // area match is a plain text lookup — restaurant's location string must exactly match a key in locationWeights
         const locationMatchScore =
             locationWeights.get(
                 String(restaurant.location || "").trim().toLowerCase()
             ) || 0;
 
+        // retrieve this restaurant's direct interaction boost accumulated from browsing events
         const interactionRestaurantBoost =
             interactionRestaurantBoosts.get(String(restaurant.id)) || 0;
 
@@ -223,6 +245,7 @@ function scoreRecommendations({
         const isPreviouslyVisited = visitedCount > 0;
         const isUserFavourite = favouriteRestaurantIds.has(String(restaurant.id));
 
+        // strong signal = any match on tag, menu, search or accessibility — area and interaction alone do not count
         const hasStrongSignal =
             tagMatchRaw > 0 ||
             menuMatchRaw > 0 ||
@@ -253,6 +276,7 @@ function scoreRecommendations({
         };
     });
 
+    // find the highest raw score for each signal type across all restaurants — used to normalise everything to 0-1
     const maxTag = Math.max(...enriched.map((item) => item.tagMatchRaw), 0);
     const maxMenu = Math.max(...enriched.map((item) => item.menuMatchRaw), 0);
     const maxAccessibility = Math.max(
@@ -278,6 +302,7 @@ function scoreRecommendations({
     );
 
     const scored = enriched.map((item) => {
+        // normalise each raw score: score ÷ max across all restaurants = 0-1 scale so signals can be fairly combined
         const tagScore = normalise(item.tagMatchRaw, maxTag);
         const menuScore = normalise(item.menuMatchRaw, maxMenu);
         const accessibilityScore = normalise(
@@ -296,13 +321,16 @@ function scoreRecommendations({
             maxInteractionRestaurantBoost
         );
 
+        // repeat visit penalty — reduces score the more times visited, floor at 0.72 so familiar restaurants still appear occasionally
         const repeatPenalty = item.isPreviouslyVisited
             ? Math.max(0.72, 1 - item.visitedCount * 0.1)
             : 1;
 
+        // flat adjustments applied after the formula — based on relationship with this specific restaurant
         const discoveryBoost = !item.isPreviouslyVisited ? 0.04 : 0;
         const favouriteBoost = item.isUserFavourite ? 0.05 : 0;
         const strongSignalBoost = item.hasStrongSignal ? 0.08 : 0;
+        // -0.12 if no match on any signal at all — prevents irrelevant restaurants appearing in personalised results
         const weakSignalPenalty =
             !coldStart &&
             !item.hasStrongSignal &&
@@ -311,6 +339,8 @@ function scoreRecommendations({
                 ? 0.12
                 : 0;
 
+        // personalised formula: weighted sum of all normalised scores (weights reflect how strongly each signal indicates genuine preference)
+        // cold start skips this and uses popularity, rating and availability instead
         const personalisedBaseScore = coldStart
             ? popularityScore * 0.5 +
             item.ratingNorm * 0.22 +
@@ -325,6 +355,7 @@ function scoreRecommendations({
             popularityScore * 0.04 +
             availabilityScore * 0.03;
 
+        // final score: base × repeat penalty then add/subtract flat adjustments
         const personalisedScore = coldStart
             ? personalisedBaseScore
             : personalisedBaseScore * repeatPenalty +
@@ -333,6 +364,7 @@ function scoreRecommendations({
             strongSignalBoost -
             weakSignalPenalty;
 
+        // separate popular score — same for every user, based purely on favourites, rating and availability
         const popularScore =
             popularityScore * 0.62 +
             item.ratingNorm * 0.2 +
@@ -357,6 +389,7 @@ function scoreRecommendations({
         };
     });
 
+    // filter to restaurants with at least one genuine signal — removes restaurants with no connection to the user's taste
     const strongPersonalisedCandidates = scored.filter(
         (item) =>
             coldStart ||
@@ -369,11 +402,13 @@ function scoreRecommendations({
             (item.locationMatchScore > 0 && item.isOpenNow)
     );
 
+    // fallback — if the filter is too strict and nothing passes, use all scored restaurants rather than returning empty
     const personalisedPool =
         strongPersonalisedCandidates.length > 0
             ? strongPersonalisedCandidates
             : scored;
 
+    // sort by personalised score and take top 3
     const personalised = [...personalisedPool]
         .sort((a, b) => b.personalisedScore - a.personalisedScore)
         .slice(0, 3)
@@ -384,8 +419,10 @@ function scoreRecommendations({
             })
         );
 
+    // store personalised IDs to prevent the same restaurant appearing in both lists
     const personalisedIds = new Set(personalised.map((item) => item.id));
 
+    // sort remaining restaurants by popular score and take top 3 — excludes anything already in personalised
     const popular = [...scored]
         .filter((item) => !personalisedIds.has(item.restaurant.id))
         .sort((a, b) => b.popularScore - a.popularScore)

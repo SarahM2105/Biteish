@@ -10,6 +10,7 @@ function incrementCount(map, value, amount = 1) {
     map.set(key, (map.get(key) || 0) + amount);
 }
 
+//functuon with recency decay
 function getWeightedAmount(baseWeight, index) {
     const recencyMultiplier = Math.max(0.55, 1 - index * 0.05);
     return baseWeight * recencyMultiplier;
@@ -45,6 +46,7 @@ function isRestaurantOpenNow(openingHours = [], now = new Date()) {
 
     const today = days[now.getDay()];
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
 
     return openingHours
         .filter((slot) => slot.day === today)
